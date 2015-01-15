@@ -1,0 +1,1 @@
+Simulus is a university group project, aimed towards building a Java-based traffic simulation software.
