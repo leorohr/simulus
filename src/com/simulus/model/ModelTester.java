@@ -12,8 +12,10 @@ public class ModelTester {
 		
 		final Map map = new Map(10);
 		
+		map.printGrid();
+		
 		Runnable spinner = new Runnable() {
-
+			
 			@Override
 			public void run() {
 				

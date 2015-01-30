@@ -1,6 +1,7 @@
 package com.simulus.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.simulus.model.enums.Orientation;
 
@@ -48,7 +49,7 @@ public class Map {
 	 * Initialises the map to a basic intersection; roads crossing in the center of the map.
 	 */
 	private void initBasicIntersection() {
-		int mid = grid.length/2;
+		int mid = grid.length/2-1;
 		
 		for(int i=0; i<grid.length; i++) {
 			
@@ -64,8 +65,8 @@ public class Map {
 		//TODO Should entrypoints also specify the direction a car enters with, e.g. as property in Tile?
 		entryPoints.add((Road) grid[0][mid]);
 		entryPoints.add((Road) grid[mid][0]);
-		entryPoints.add((Road) grid[grid.length][mid]);
-		entryPoints.add((Road) grid[mid][grid.length]);		
+		entryPoints.add((Road) grid[grid.length-1][mid]);
+		entryPoints.add((Road) grid[mid][grid.length-1]);		
 	}
 	
 	/**
@@ -91,5 +92,18 @@ public class Map {
 	
 	public int getVehicleCount() {
 		return this.vehicles.size();
+	}
+	
+	/*
+	 * For dev. only; could be a bit prettier though.
+	 */
+	public void printGrid() {
+		for(int i=0; i<grid.length-1; i++) {
+			for(int j=0; j<grid.length-1; j++) {
+				System.out.print(grid[i][j] + " ");
+			}
+			System.out.print("\n");
+		}
+		
 	}
 }
