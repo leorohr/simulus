@@ -42,7 +42,7 @@ import javafx.util.Duration;
 public class FXMovingCar extends Application {
  
 	//Initialise translation
-    private TranslateTransition translateTransition;
+    private TranslateTransition translateTransition; 
     
     //The node to translate
     Rectangle car;
