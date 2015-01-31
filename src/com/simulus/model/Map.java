@@ -1,7 +1,6 @@
 package com.simulus.model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.simulus.model.enums.Orientation;
 
@@ -27,7 +26,7 @@ public class Map {
 		
 		Road ep;
 		do {
-			int epIdx = (int) Math.round(Math.random()*entryPoints.size());
+			int epIdx = (int) Math.round(Math.random()*(entryPoints.size()-1));
 			ep = entryPoints.get(epIdx);
 		} while(ep.getVehicle() != null);
 		
@@ -76,6 +75,7 @@ public class Map {
 
 		for(Vehicle v : vehicles) {
 			//TODO move all vehicles in the list.
+			//TODO fire model update event that is listened to by a controller class
 		}
 		
 	}
@@ -87,7 +87,7 @@ public class Map {
 	 * not contain a road or intersection at that position.
 	 */
 	public Tile getTile(int x, int y) {
-		return (grid[x][y] instanceof Tile ? grid[x][y] : null);
+		return grid[x][y];
 	}
 	
 	public int getVehicleCount() {
@@ -98,12 +98,21 @@ public class Map {
 	 * For dev. only; could be a bit prettier though.
 	 */
 	public void printGrid() {
-		for(int i=0; i<grid.length-1; i++) {
-			for(int j=0; j<grid.length-1; j++) {
-				System.out.print(grid[i][j] + " ");
+		for(int i=0; i<grid.length; i++) {
+			for(int j=0; j<grid.length; j++) {
+				if(grid[i][j] != null) {
+					if(grid[i][j].getVehicle() != null)
+						System.out.print(grid[i][j].getVehicle().getId() + " ");
+					else 
+						System.out.print(grid[i][j] instanceof Road ?
+										((Road)grid[i][j]).getOrientation() + " "
+										: "IS ");
+				}
+				else System.out.print("null ");
 			}
 			System.out.print("\n");
 		}
 		
+		System.out.print("\n");
 	}
 }

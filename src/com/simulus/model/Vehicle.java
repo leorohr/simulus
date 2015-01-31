@@ -7,13 +7,16 @@ import com.simulus.model.enums.Direction;
  */
 public abstract class Vehicle {
 	
+	private static int count = 0; 
 	//TODO in what unit is speed meausured? tiles/tick?
 	protected int maxSpeed;
 	protected Direction dir;
 	protected Tile currentTile;
+	protected int id;
 	
 	public Vehicle(Tile tile) {
 		this.currentTile = tile;
+		this.id = count++;
 	}
 	
 	public Direction getDirection() {
@@ -32,6 +35,10 @@ public abstract class Vehicle {
 	
 	public int getMaxSpeed() {
 		return this.maxSpeed;
+	}
+	
+	public int getId() {
+		return this.id;
 	}
 }
 
