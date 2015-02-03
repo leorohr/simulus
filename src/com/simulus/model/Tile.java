@@ -3,18 +3,40 @@ package com.simulus.model;
 /**
  * The superclass for all kinds of tiles in the grid.
  */
-public abstract class Tile {
+public class Tile {
 	
-	private Vehicle vehicle = null;
+	public Road content;
+	private int xPos;
+	private int yPos;
+
+	/**
+	 * Create a tile with <code>content</code> in it at position (xPos,yPos)
+	 * @param xPos
+	 * @param yPos
+	 * @param content
+	 */
+	public Tile(int xPos, int yPos, Road content) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.content = content;
+	}
 	
 	/**
-	 * The vehicle that currently occupies this tile.
-	 * @return the occupying vehicle, <code>null</code> if the tile is unoccupied. 
+	 * Create an empty tile at position (xPos,yPos)
+	 * @param xPos
+	 * @param yPos
 	 */
-	public Vehicle getVehicle() {
-		return this.vehicle;
+	public Tile(int xPos, int yPos) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.content = null;
 	}
-	public void setVehicle(Vehicle v) {
-		this.vehicle = v;
+	
+	public int getxPos() {
+		return xPos;
+	}
+
+	public int getyPos() {
+		return yPos;
 	}
 }

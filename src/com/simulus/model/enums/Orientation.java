@@ -2,23 +2,24 @@ package com.simulus.model.enums;
 
 public enum Orientation {
 	
-	NORTHSOUTH, EASTWEST;
+	NORTHSOUTH, WESTEAST, INTERSECTION;
 	
 	/**
-	 * @return Randomly returns one of the two direction included by the orientation.
+	 * @return Randomly returns one of the two direction included by the orientation or <code>null</code>
+	 * if it is called on an intersection.
 	 */
 	public Direction randomDirection() {
 		if(this == NORTHSOUTH) {
 			if(Math.random() > 0.5)
 				return Direction.NORTH;
 			else return Direction.SOUTH;
-		} else {
+		} else if(this == WESTEAST) {
 			if(Math.random() > 0.5)
 				return Direction.EAST;
 			else return Direction.WEST;
 		}
 		
-		
+		return null;
 	}
 
 }
