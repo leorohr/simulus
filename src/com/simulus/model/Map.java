@@ -17,22 +17,28 @@ public class Map {
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 
 	/** A list of tiles that serve as spawnpoints for the vehicles. */
-	private ArrayList<Road> entryPoints = new ArrayList<Road>();
+	private ArrayList<Tile> entryPoints = new ArrayList<Tile>();
 	
 	/**
 	 * Spawns a car at a random entrypoint, facing a random direction (based on the tile's orientation).
 	 */
 	public void spawnRandomCar() {
 		
-		Road ep;
+		Tile ep;
+		Lane lane = null;
 		do {
-			int epIdx = (int) Math.round(Math.random()*(entryPoints.size()-1));
+			//Select random entrypoint
+			int epIdx = (int)Math.round((Math.random() * (entryPoints.size()-1)));
 			ep = entryPoints.get(epIdx);
-		} while(ep.getVehicle() != null);
-		
-		Car c = new Car(ep, ep.getOrientation().randomDirection());
-		ep.setVehicle(c);
+			
+			lane = ep.content.getEmptyLane();
+			
+		} while(lane == null);
+			
+		Car c = new Car(grid, ep.getxPos(), ep.getyPos(), lane.getDirection(), lane);
+		lane.setVehicle(c);
 		vehicles.add(c);
+				
 	}
 
 	/**
@@ -40,6 +46,11 @@ public class Map {
 	 */
 	public Map(int gridSize) {
 		this.grid = new Tile[gridSize][gridSize];
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+			grid[i][j] = new Tile(i,j);
+			}
+		}
 		
 		initBasicIntersection();
 	}
@@ -53,19 +64,19 @@ public class Map {
 		for(int i=0; i<grid.length; i++) {
 			
 			if(i==mid) {
-				grid[i][i] = new Intersection();
+				grid[i][i].content = new Intersection();
 			} else {
-				grid[i][mid] = new Road(Orientation.NORTHSOUTH);
-				grid[mid][i] = new Road(Orientation.EASTWEST);
+				grid[i][mid].content = new Road(Orientation.NORTHSOUTH);
+				grid[mid][i].content = new Road(Orientation.WESTEAST);
 			}
 		}
 		
 		//Add entrypoints at each side.
 		//TODO Should entrypoints also specify the direction a car enters with, e.g. as property in Tile?
-		entryPoints.add((Road) grid[0][mid]);
-		entryPoints.add((Road) grid[mid][0]);
-		entryPoints.add((Road) grid[grid.length-1][mid]);
-		entryPoints.add((Road) grid[mid][grid.length-1]);		
+		entryPoints.add(grid[0][mid]);
+		entryPoints.add(grid[mid][0]);
+		entryPoints.add(grid[grid.length-1][mid]);
+		entryPoints.add(grid[mid][grid.length-1]);		
 	}
 	
 	/**
@@ -74,8 +85,7 @@ public class Map {
 	public void update() {
 
 		for(Vehicle v : vehicles) {
-			//TODO move all vehicles in the list.
-			//TODO fire model update event that is listened to by a controller class
+			v.move();
 		}
 		
 	}
@@ -92,27 +102,5 @@ public class Map {
 	
 	public int getVehicleCount() {
 		return this.vehicles.size();
-	}
-	
-	/*
-	 * For dev. only; could be a bit prettier though.
-	 */
-	public void printGrid() {
-		for(int i=0; i<grid.length; i++) {
-			for(int j=0; j<grid.length; j++) {
-				if(grid[i][j] != null) {
-					if(grid[i][j].getVehicle() != null)
-						System.out.print(grid[i][j].getVehicle().getId() + " ");
-					else 
-						System.out.print(grid[i][j] instanceof Road ?
-										((Road)grid[i][j]).getOrientation() + " "
-										: "IS ");
-				}
-				else System.out.print("null ");
-			}
-			System.out.print("\n");
-		}
-		
-		System.out.print("\n");
 	}
 }

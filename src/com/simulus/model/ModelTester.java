@@ -1,6 +1,5 @@
 package com.simulus.model;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 /*
  * For development purposes only.
@@ -21,10 +20,9 @@ public class ModelTester {
 				
 				while(!isInterrupted()) {
 					
-					map.printGrid();
-					
 					if(map.getVehicleCount() < MAXCARS) {
 						map.spawnRandomCar();
+						map.update();
 					}
 				
 					try {
