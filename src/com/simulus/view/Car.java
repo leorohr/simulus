@@ -1,6 +1,8 @@
 package com.simulus.view;
 
+import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransitionBuilder;
 import javafx.animation.TranslateTransition;

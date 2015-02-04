@@ -18,6 +18,7 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import com.simulus.view.Car;
+import com.simulus.view.TrafficLight;
 
 public class MainApp extends Application {
 
@@ -27,13 +28,13 @@ public class MainApp extends Application {
 	private ArrayList<Car> cars;
 	private Car car = null;
 	private AnchorPane overview;
-
+	private TrafficLight lights;
 	@Override
 	public void start(final Stage primaryStage) {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-
+		lights = new TrafficLight(100, 100, 50, 50);
 		initRootLayout();
 		showMainView();
 
@@ -62,26 +63,26 @@ public class MainApp extends Application {
 					cars.get(i).moveVehicle();
 					
 					//Change the car's direction at specified frame numbers
-					if(frameNo == 50){
+					if(frameNo == 100){
 						cars.get(i).setDirection(Direction.SOUTH);
 					}
-					if(frameNo == 150){
+					if(frameNo == 200){
 						cars.get(i).setDirection(Direction.EAST);
 					}
-					if(frameNo == 250){
+					if(frameNo == 350){
 						cars.get(i).setDirection(Direction.WEST);
 					}
-					if(frameNo == 300){
+					if(frameNo == 400){
 						cars.get(i).setDirection(Direction.NORTH);
 					}
 					
 					//Stop the car ie. at a traffic light
-					if(frameNo == 400){
+					if(frameNo == 500){
 						cars.get(i).setDirection(Direction.NONE);
 					}	
 					
 					//TO DO simulate a car curving across a junction
-					if(frameNo == 410){
+					if(frameNo == 510){
 						//rootLayout.getChildren().add(cars.get(i).curveNorthWest().getPath());
 						//cars.get(i).curveNorthWest().play();
 					}	
@@ -127,6 +128,7 @@ public class MainApp extends Application {
 			overview = (AnchorPane) loader.load();
 			// Set overview as center widget of the pane
 			rootLayout.setCenter(overview);
+			rootLayout.getChildren().add(lights);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
