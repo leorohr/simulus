@@ -21,10 +21,10 @@ public class TrafficLight extends Group{
 	private int width;
 	private int height;
 	
-	private long greenTime = 6000;
-	private long redTime = 6000;
-	private long amberTime = 1500;
-	private long offTime = 1000;
+	private long greenTime = 4000;
+	private long redTime = 4000;
+	private long amberTime = 1250;
+	private long offTime = 500;
 	/**
 	 * Creates a traffic light at posX/Y and of specified width and height. 
 	 * The traffic light will automatically change state.
