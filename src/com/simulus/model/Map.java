@@ -2,6 +2,7 @@ package com.simulus.model;
 
 import java.util.ArrayList;
 
+import com.simulus.model.listeners.MapUpdateListener;
 import com.simulus.util.enums.Orientation;
 
 /**
@@ -18,6 +19,9 @@ public class Map {
 
 	/** A list of tiles that serve as spawnpoints for the vehicles. */
 	private ArrayList<Tile> entryPoints = new ArrayList<Tile>();
+	
+	/** A list of all listener that want to be notified when the map is updated */
+	private ArrayList<MapUpdateListener> listeners = new ArrayList<MapUpdateListener>();
 	
 	/**
 	 * Spawns a car at a random entrypoint, facing a random direction (based on the tile's orientation).
@@ -86,10 +90,22 @@ public class Map {
 
 		for(Vehicle v : vehicles) {
 			v.move();
+			notifyMapUpdateListeners();
 		}
 		
 	}
 	
+	/**
+	 * Passes the current state of the grid to all listeners.
+	 */
+	private void notifyMapUpdateListeners() {
+		
+		for(MapUpdateListener l : listeners) {
+			l.mapUpdated(grid);
+		}
+		
+	}
+
 	/**
 	 * @param x
 	 * @param y
