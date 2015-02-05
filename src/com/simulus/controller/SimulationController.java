@@ -26,6 +26,10 @@ public class SimulationController implements MapUpdateListener {
 	
 	private SimulationController() {
 		
+		//Subscribe to map updates
+		map.addMapUpdateListener(this);
+		
+		//Define the simulation
 		spinner = new Thread() {
 			
 			@Override
@@ -35,21 +39,18 @@ public class SimulationController implements MapUpdateListener {
 					
 					if(map.getVehicleCount() < MAXCARS) {
 						map.spawnRandomCar();
-						map.update();
-						
-						System.out.println("Tick");
 					}
 				
+					map.update();
+					System.out.println("Tick");
+					
 					try {
 						Thread.sleep(TICKRATE);
 					} catch (InterruptedException e) {e.printStackTrace();}
 					
-					map.update();
 				}
 			}
-		};
-		
-		
+		};		
 	}
 
 	@Override
