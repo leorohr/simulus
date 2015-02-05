@@ -1,6 +1,6 @@
 package com.simulus.model;
 
-import com.simulus.model.enums.Direction;
+import com.simulus.util.enums.Direction;
 
 /**
  * The base class for all kinds of vehicles.

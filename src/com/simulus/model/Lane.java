@@ -1,6 +1,6 @@
 package com.simulus.model;
 
-import com.simulus.model.enums.Direction;
+import com.simulus.util.enums.Direction;
 
 public class Lane {
 	private final Direction direction;

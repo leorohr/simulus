@@ -2,7 +2,7 @@ package com.simulus.model;
 
 import java.util.ArrayList;
 
-import com.simulus.model.enums.Orientation;
+import com.simulus.util.enums.Orientation;
 
 /**
  * Represents the street map through a grid of tiles. 

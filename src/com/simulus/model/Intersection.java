@@ -1,6 +1,6 @@
 package com.simulus.model;
 
-import com.simulus.model.enums.Orientation;
+import com.simulus.util.enums.Orientation;
 
 /**
  * Models and intersection of either three or four roads.

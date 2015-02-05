@@ -2,9 +2,8 @@ package com.simulus.view;
 
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
-import javafx.animation.PathTransitionBuilder;
-import javafx.animation.TranslateTransition;
 import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.PathTransitionBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
@@ -13,7 +12,7 @@ import javafx.scene.shape.PathBuilder;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import com.simulus.model.enums.Direction;
+import com.simulus.util.enums.Direction;
 
 /**
  * Describes a car object on the GUI

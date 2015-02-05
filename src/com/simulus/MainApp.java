@@ -1,10 +1,6 @@
 package com.simulus;
 
 import java.io.IOException;
-
-import com.simulus.model.enums.Direction;
-
-import java.nio.channels.OverlappingFileLockException;
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -13,10 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
+import com.simulus.util.enums.Direction;
 import com.simulus.view.Car;
 
 public class MainApp extends Application {
