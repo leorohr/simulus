@@ -14,7 +14,7 @@ public abstract class Vehicle {
 	protected int xPos;
 	protected int yPos;
 	protected Lane lane;
-	protected Tile[][] map;
+	protected Tile[][] grid;
 	
 	/**
 	 * 
@@ -24,11 +24,11 @@ public abstract class Vehicle {
 	 * @param dir The vehicle's initial direction.
 	 * @param lane The number of the lane (from left to right) the vehicle is set in.
 	 */
-	public Vehicle(Tile[][] map, int xPos, int yPos, Direction dir, Lane lane) {
+	public Vehicle(Tile[][] grid, int xPos, int yPos, Direction dir, Lane lane) {
 		
 		this.id = count++;
 		
-		this.map = map;
+		this.grid = grid;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.lane = lane;
@@ -40,39 +40,39 @@ public abstract class Vehicle {
 	 */
 	public void move() {
 		
-		//TODO collision avoidance, turning at intersection, fire modelChangedEvent
+		//TODO turning at intersection
 		switch(dir) {		
 		case NONE : {
 			break;
 		}
 		case NORTH : {
-			if(yPos-1 >= 0 && map[xPos][yPos-1].content != null) {
-				map[xPos][yPos-1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
-				map[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+			if(yPos-1 >= 0 && grid[xPos][yPos-1].content != null) {
+				grid[xPos][yPos-1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
 				yPos--;
 			}
 			break;
 		}
 		case SOUTH : {
-			if(yPos+1 >= 0 && map[xPos][yPos+1].content != null) {
-				map[xPos][yPos+1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
-				map[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+			if(yPos+1 >= 0 && grid[xPos][yPos+1].content != null) {
+				grid[xPos][yPos+1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
 				yPos++;
 			}
 			break;
 		}
 		case EAST : {
-			if(xPos+1 >= 0 && map[xPos+1][yPos].content != null) {
-				map[xPos+1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
-				map[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+			if(xPos+1 >= 0 && grid[xPos+1][yPos].content != null) {
+				grid[xPos+1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
 				xPos++;
 			}
 			break;
 		}
 		case WEST : { 
-			if(xPos-1 >= 0 && map[xPos-1][yPos].content != null) {
-				map[xPos-1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);
-				map[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+			if(xPos-1 >= 0 && grid[xPos-1][yPos].content != null) {
+				grid[xPos-1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
 				xPos--;
 			}	
 			break;
