@@ -42,6 +42,9 @@ public abstract class Vehicle {
 		
 		//TODO collision avoidance, turning at intersection, fire modelChangedEvent
 		switch(dir) {		
+		case NONE : {
+			break;
+		}
 		case NORTH : {
 			if(yPos-1 >= 0 && map[xPos][yPos-1].content != null) {
 				map[xPos][yPos-1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
