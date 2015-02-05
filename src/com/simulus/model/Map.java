@@ -12,6 +12,8 @@ import com.simulus.util.enums.Orientation;
  */
 public class Map {
 	
+	private static final int DEFAULT_GRIDSIZE = 10;
+	
 	private Tile[][] grid = null;
 	
 	/** Store all vehicles currently on the map */
@@ -22,6 +24,51 @@ public class Map {
 	
 	/** A list of all listener that want to be notified when the map is updated */
 	private ArrayList<MapUpdateListener> listeners = new ArrayList<MapUpdateListener>();
+	
+	//Singleton pattern
+	private static Map instance;
+	/**
+	 * @return 	The Map instance. If the map has not been initialised earlier, it return a map with size
+	 * 			<code>DEFAULT_GRIDSIZE</code>. If a different mapsize is desired, it can be adjusted by 
+	 * 			<code>setMapSize(int)</code>. 
+	 */
+	public static Map getInstance(){
+		if(instance == null)
+			instance = new Map(DEFAULT_GRIDSIZE);
+		
+		return instance;
+	}
+	
+
+	/**
+	 * @param gridSize The map's edge length. 
+	 */
+	private Map(int gridSize) {
+		this.grid = new Tile[gridSize][gridSize];
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+			grid[i][j] = new Tile(i,j);
+			}
+		}
+		
+		initBasicIntersection();
+	}
+	
+	/**
+	 * Resizes the map to <code>size</code>. The map is reallocated, i.e. calling this will reset the map
+	 * to its initial state!
+	 * @param size The size of the new map
+	 */
+	public void setMapSize(int size) {
+		grid = new Tile[size][size];
+		for(int i=0; i<size; i++) {
+			for(int j=0; j<size; j++) {
+			grid[i][j] = new Tile(i,j);
+			}
+		}
+		
+		initBasicIntersection();
+	}
 	
 	/**
 	 * Spawns a car at a random entrypoint, facing a random direction (based on the tile's orientation).
@@ -43,20 +90,6 @@ public class Map {
 		lane.setVehicle(c);
 		vehicles.add(c);
 				
-	}
-
-	/**
-	 * @param gridSize The map's edge length. 
-	 */
-	public Map(int gridSize) {
-		this.grid = new Tile[gridSize][gridSize];
-		for(int i=0; i<gridSize; i++) {
-			for(int j=0; j<gridSize; j++) {
-			grid[i][j] = new Tile(i,j);
-			}
-		}
-		
-		initBasicIntersection();
 	}
 	
 	/**

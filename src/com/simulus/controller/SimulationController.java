@@ -10,7 +10,7 @@ public class SimulationController implements MapUpdateListener {
 	public static int TICKRATE = 1000; //tickrate in ms
 	
 	private Thread spinner;
-	private Map map; //TODO maybe Map should be a singleton?
+	private Map map = Map.getInstance(); 
 	
 	// Singleton pattern
 	private static SimulationController instance;
@@ -36,6 +36,8 @@ public class SimulationController implements MapUpdateListener {
 					if(map.getVehicleCount() < MAXCARS) {
 						map.spawnRandomCar();
 						map.update();
+						
+						System.out.println("Tick");
 					}
 				
 					try {
