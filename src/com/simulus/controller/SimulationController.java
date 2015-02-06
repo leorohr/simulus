@@ -1,7 +1,6 @@
 package com.simulus.controller;
 
 import com.simulus.model.Map;
-import com.simulus.model.Tile;
 import com.simulus.model.listeners.MapUpdateListener;
 
 public class SimulationController implements MapUpdateListener {
@@ -54,7 +53,7 @@ public class SimulationController implements MapUpdateListener {
 	}
 
 	@Override
-	public void mapUpdated(Tile[][] currentMap) {
+	public void mapUpdated() {
 		//TODO call the ui to execute all the changes.
 
 	}
@@ -68,6 +67,12 @@ public class SimulationController implements MapUpdateListener {
 	public void stopSimulation() {
 		
 		spinner.interrupt();
+	}
+
+
+	@Override
+	public void carSpawned(int x, int y, int laneId, int carId) {
+		//TODO spawn car in ui
 	}
 
 }
