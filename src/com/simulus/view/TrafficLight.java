@@ -1,7 +1,8 @@
 package com.simulus.view;
 
 
-import com.simulus.model.enums.Light;
+import com.simulus.util.enums.Light;
+
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
 import javafx.scene.Group;
