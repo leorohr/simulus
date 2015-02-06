@@ -6,9 +6,15 @@ import java.util.ArrayList;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import com.simulus.util.enums.Direction;
@@ -24,12 +30,38 @@ public class MainApp extends Application {
 	private Car car = null;
 	private AnchorPane overview;
 	private TrafficLight lights;
+	private Rectangle rect;
+	private int gridSize;
+	private int windowWidth;
+	private int windowHeight;
+	private static MainApp instance;
+	
+	
+	
+	public static MainApp getInstance(){
+		return instance;
+	}
+	
+	public MainApp(){
+		super();
+		synchronized(MainApp.class){
+			if(instance != null) throw new UnsupportedOperationException(
+					getClass()+" ");
+			instance = this;
+		}
+	}
 	@Override
 	public void start(final Stage primaryStage) {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		lights = new TrafficLight(100, 100, 50, 50);
+		lights = new TrafficLight(100, 100, 20, 60);
+		rect = new Rectangle(600, 600, Color.BLACK);
+		rect.setFill(Color.TRANSPARENT);
+		rect.setStrokeWidth(10);
+		rect.setStroke(Color.BLACK);
+		
+		
 		initRootLayout();
 		showMainView();
 
@@ -97,20 +129,32 @@ public class MainApp extends Application {
 
 		try {
 
-			FXMLLoader loader = new FXMLLoader();
+			/*FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
 					.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
+			*/
+			rootLayout = new BorderPane();
+			//rootLayout.setBorder(new Border());
+			Scene scene = new Scene(rootLayout, 600, 600);
 
-			Scene scene = new Scene(rootLayout);
+	        rootLayout.prefHeightProperty().bind(scene.heightProperty());
+	        rootLayout.prefWidthProperty().bind(scene.widthProperty());
+			Screen screen = Screen.getPrimary();
+	        Rectangle2D bounds = screen.getVisualBounds();
 			primaryStage.setScene(scene);
-
+			//primaryStage.setWidth(bounds.getHeight()/2);
+			//primaryStage.setHeight(bounds.getWidth()/2);
 			primaryStage.show();
 
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+	
+	public void setGridSize(int size){
+		gridSize = size;
 	}
 
 	/**
@@ -118,13 +162,14 @@ public class MainApp extends Application {
 	 */
 	private void showMainView() {
 		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
-			overview = (AnchorPane) loader.load();
+			//FXMLLoader loader = new FXMLLoader();
+			//loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
+			//overview = (AnchorPane) loader.load();
 			// Set overview as center widget of the pane
-			rootLayout.setCenter(overview);
+			//rootLayout.setCenter(overview);
 			rootLayout.getChildren().add(lights);
-		} catch (IOException e) {
+			rootLayout.getChildren().add(rect);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
