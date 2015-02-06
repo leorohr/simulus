@@ -1,5 +1,6 @@
 package com.simulus.controller;
 
+import com.simulus.MainApp;
 import com.simulus.model.Map;
 import com.simulus.model.listeners.MapUpdateListener;
 
@@ -9,7 +10,9 @@ public class SimulationController implements MapUpdateListener {
 	public static int TICKRATE = 1000; //tickrate in ms
 	
 	private Thread spinner;
-	private Map map = Map.getInstance(); 
+	private Map map = Map.getInstance();
+	
+	private MainApp app = MainApp.getInstance();
 	
 	// Singleton pattern
 	private static SimulationController instance;
@@ -27,6 +30,9 @@ public class SimulationController implements MapUpdateListener {
 		
 		//Subscribe to map updates
 		map.addMapUpdateListener(this);
+		
+		app.setGridSize(map.getMapSize());
+		
 		
 		//Define the simulation
 		spinner = new Thread() {

@@ -143,6 +143,10 @@ public class Map {
 		return this.vehicles.size();
 	}
 	
+	
+	public int getMapSize() {
+		return this.grid.length;
+	}
 
 	/**
 	 * Passes the current state of the grid to all listeners.
