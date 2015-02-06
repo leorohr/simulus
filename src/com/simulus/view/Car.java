@@ -21,15 +21,15 @@ import com.simulus.util.enums.Direction;
  */
 public class Car extends Vehicle {
 
-	private static final int WIDTH = 40;
-	private static final int HEIGHT = 40;
-	private static final int ARCHEIGHT = 20;
-	private static final int ARCWIDTH = 50;
+	private static final int WIDTH = 10;
+	private static final int HEIGHT = 20;
+	private static final int ARCHEIGHT = 0;
+	private static final int ARCWIDTH = 0;
 
 	/**
 	 * Amount of pixel movements per tick
 	 */
-	private int speed = 1;
+	private int distance = 1;
 	
 
 	private static final Color COLOUR = Color.GRAY;
@@ -60,7 +60,7 @@ public class Car extends Vehicle {
 		case NORTH:
 			
 			dx = 0;
-			dy = -speed;
+			dy = -distance;
 			
 			trans.setX(dx);
 			trans.setY(dy);
@@ -69,7 +69,7 @@ public class Car extends Vehicle {
 			break;
 		case SOUTH:
 			dx = 0;
-			dy = speed;
+			dy = distance;
 			
 			trans.setX(dx);
 			trans.setY(dy);
@@ -77,7 +77,7 @@ public class Car extends Vehicle {
 			
 			break;
 		case EAST:
-			dx = speed;
+			dx = distance;
 			dy = 0;
 			
 			trans.setX(dx);
@@ -85,7 +85,7 @@ public class Car extends Vehicle {
 			getTransforms().add(trans);
 			break;
 		case WEST:
-			dx = -speed;
+			dx = -distance;
 			dy = 0;
 			
 			trans.setX(dx);
@@ -104,7 +104,7 @@ public class Car extends Vehicle {
 		}
 	}
 	
-	//TO DO Curve the car to the northwest
+	//TODO Curve the car to the northwest
 	public PathTransition curveNorthWest() {
 		PathTransition pathTransition;
 		switch (getDirection()) {
