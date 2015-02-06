@@ -1,6 +1,6 @@
 package com.simulus.model;
 
-import com.simulus.util.enums.Orientation;
+import com.simulus.util.enums.Seed;
 
 /**
  * Models and intersection of either three or four roads.
@@ -8,7 +8,7 @@ import com.simulus.util.enums.Orientation;
 public class Intersection extends Road{
 
 	public Intersection() {
-		super(Orientation.INTERSECTION);
+		super(Seed.INTERSECTION);
 		
 	}
 

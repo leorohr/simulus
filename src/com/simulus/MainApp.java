@@ -32,7 +32,7 @@ public class MainApp extends Application {
 		initRootLayout();
 		showMainView();
 
-		cars = new ArrayList<>();
+		cars = new ArrayList<Car>();
 
 		/**
 		 * Ticking loop

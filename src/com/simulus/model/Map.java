@@ -3,7 +3,7 @@ package com.simulus.model;
 import java.util.ArrayList;
 
 import com.simulus.model.listeners.MapUpdateListener;
-import com.simulus.util.enums.Orientation;
+import com.simulus.util.enums.Seed;
 
 /**
  * Represents the street map through a grid of tiles. 
@@ -86,7 +86,7 @@ public class Map {
 			
 		} while(lane == null);
 			
-		Car c = new Car(grid, ep.getxPos(), ep.getyPos(), lane.getDirection(), lane);
+		Car c = new Car(grid, ep.getxPos(), ep.getyPos(), lane);
 		lane.setVehicle(c);
 		vehicles.add(c);
 				
@@ -103,17 +103,17 @@ public class Map {
 			if(i==mid) {
 				grid[i][i].content = new Intersection();
 			} else {
-				grid[i][mid].content = new Road(Orientation.NORTHSOUTH);
-				grid[mid][i].content = new Road(Orientation.WESTEAST);
+				grid[i][mid].content = new Road(Seed.NORTHSOUTH);
+				grid[mid][i].content = new Road(Seed.WESTEAST);
 			}
 		}
 		
 		//Add entrypoints at each side.
 		//TODO Should entrypoints also specify the direction a car enters with, e.g. as property in Tile?
-		entryPoints.add(grid[0][mid]);
-		entryPoints.add(grid[mid][0]);
-		entryPoints.add(grid[grid.length-1][mid]);
-		entryPoints.add(grid[mid][grid.length-1]);		
+		entryPoints.add(grid[0][mid]);  //North entry
+		entryPoints.add(grid[mid][0]);  //West entry 
+		entryPoints.add(grid[grid.length-1][mid]); //South entry
+		entryPoints.add(grid[mid][grid.length-1]);	//East entry 
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class Map {
 	public void update() {
 
 		for(Vehicle v : vehicles) {
-			v.move();
+			v.moveForward(); // Need to implement a move method
 			notifyMapUpdateListeners();
 		}
 		

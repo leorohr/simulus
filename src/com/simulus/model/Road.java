@@ -1,7 +1,7 @@
 package com.simulus.model;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Orientation;
+import com.simulus.util.enums.Seed;
 
 public class Road {
 	
@@ -10,13 +10,13 @@ public class Road {
 	private Lane[] lanes1 = new Lane[LANECOUNT]; 	
 	//East-/Southbound, depending on the orientation of the road
 	private Lane[] lanes2 = new Lane[LANECOUNT];	
-	private final Orientation orientation;
+	private final Seed seed;
 	
-	public Road(Orientation orientation) {
-		this.orientation = orientation;
+	public Road(Seed orientation) {
+		this.seed = orientation;
 		
 		for(int i=0; i<LANECOUNT; i++) {
-			if(orientation == Orientation.NORTHSOUTH) {
+			if(orientation == Seed.NORTHSOUTH) {
 				lanes1[i] = new Lane(Direction.NORTH, i);
 				lanes2[i] = new Lane(Direction.SOUTH, i);
 			} else {
@@ -52,8 +52,8 @@ public class Road {
 		return lanes2;
 	}
 
-	public Orientation getOrientation() {
-		return orientation;
+	public Seed getSeed() {
+		return seed;
 	}
 	
 }
