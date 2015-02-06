@@ -1,9 +1,9 @@
 package com.simulus.model.listeners;
 
-import com.simulus.model.Tile;
 
 public interface MapUpdateListener {
 	
-	public void mapUpdated(Tile[][] currentMap);
+	public void mapUpdated();
+	public void carSpawned(int x, int y, int laneId, int carId);
 
 }
