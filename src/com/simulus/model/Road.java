@@ -10,21 +10,22 @@ public class Road {
 	private Lane[] lanes1 = new Lane[LANECOUNT]; 	
 	//East-/Southbound, depending on the orientation of the road
 	private Lane[] lanes2 = new Lane[LANECOUNT];	
+	
 	private final Seed seed;
+	
 	
 	public Road(Seed orientation) {
 		this.seed = orientation;
 		
 		for(int i=0; i<LANECOUNT; i++) {
 			if(orientation == Seed.NORTHSOUTH) {
-				lanes1[i] = new Lane(Direction.NORTH, i);
-				lanes2[i] = new Lane(Direction.SOUTH, i);
+				lanes1[i] = new Lane(Direction.NORTH, i, this);
+				lanes2[i] = new Lane(Direction.SOUTH, i, this);
 			} else {
-				lanes1[i] = new Lane(Direction.WEST, i);
-				lanes2[i] = new Lane(Direction.EAST, i);
+				lanes1[i] = new Lane(Direction.WEST, i, this);
+				lanes2[i] = new Lane(Direction.EAST, i, this);
 			}
 		}
-			
 	}
 	
 	/**
