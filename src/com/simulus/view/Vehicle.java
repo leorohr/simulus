@@ -1,8 +1,7 @@
 package com.simulus.view;
-import com.simulus.model.enums.Direction;
-
-import javafx.animation.TranslateTransition;
 import javafx.scene.shape.Rectangle;
+
+import com.simulus.util.enums.Direction;
 
 /**
  * Describes a vehicle on the GUI

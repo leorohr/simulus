@@ -1,7 +1,7 @@
 package com.simulus.model;
 
-import com.simulus.model.enums.Direction;
-import com.simulus.model.enums.Orientation;
+import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Orientation;
 
 public class Road {
 	

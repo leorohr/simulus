@@ -1,4 +1,4 @@
-package com.simulus.controller;
+package com.simulus.controller.ui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
