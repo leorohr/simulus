@@ -46,6 +46,9 @@ public class Lane {
 		return laneId;
 	}
 	
+	/**
+	 * @return The <code>Road</code>-object that this lane is contained by.
+	 */
 	public Road getRoad() {
 		return road;
 	}
