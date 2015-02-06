@@ -38,6 +38,7 @@ public abstract class Vehicle {
 	protected Direction nextDir;
 	protected int id;
 	protected Lane lane;
+<<<<<<< HEAD
 	protected Tile[][] map;
 	protected int currentXPos;
 	protected int currentYPos;
@@ -50,6 +51,10 @@ public abstract class Vehicle {
 
 
 
+=======
+	protected Tile[][] grid;
+	
+>>>>>>> branch 'master' of https://github.com/leorohr/simulus.git
 	/**
 	 * 
 	 * @param map The map, 2D-array of tiles the vehicle is moving on.
@@ -58,13 +63,25 @@ public abstract class Vehicle {
 	 * @param currentDir The vehicle's initial direction.
 	 * @param lane The number of the lane (from left to right) the vehicle is set in.
 	 */
+<<<<<<< HEAD
 	public Vehicle(Tile[][] map, int xPos, int yPos, Lane lane) {
 
+=======
+	public Vehicle(Tile[][] grid, int xPos, int yPos, Direction dir, Lane lane) {
+		
+>>>>>>> branch 'master' of https://github.com/leorohr/simulus.git
 		this.id = count++;
+<<<<<<< HEAD
 
 		this.map = map;
 		this.currentXPos = xPos;
 		this.currentYPos = yPos;
+=======
+		
+		this.grid = grid;
+		this.xPos = xPos;
+		this.yPos = yPos;
+>>>>>>> branch 'master' of https://github.com/leorohr/simulus.git
 		this.lane = lane;
 		this.currentDir = lane.getDirection();
 
@@ -75,6 +92,7 @@ public abstract class Vehicle {
 	/**
 	 * Calculate the position for next movement based on current position and current direction
 	 */
+<<<<<<< HEAD
 	private void CalculateNextForwardMovement(){
 
 		switch(currentDir){
@@ -94,8 +112,52 @@ public abstract class Vehicle {
 		case NONE:
 			break;
 		default:
+=======
+	public void move() {
+		
+		//TODO turning at intersection
+		switch(dir) {		
+		case NONE : {
+>>>>>>> branch 'master' of https://github.com/leorohr/simulus.git
 			break;
 		}
+<<<<<<< HEAD
+=======
+		case NORTH : {
+			if(yPos-1 >= 0 && grid[xPos][yPos-1].content != null) {
+				grid[xPos][yPos-1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+				yPos--;
+			}
+			break;
+		}
+		case SOUTH : {
+			if(yPos+1 >= 0 && grid[xPos][yPos+1].content != null) {
+				grid[xPos][yPos+1].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+				yPos++;
+			}
+			break;
+		}
+		case EAST : {
+			if(xPos+1 >= 0 && grid[xPos+1][yPos].content != null) {
+				grid[xPos+1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+				xPos++;
+			}
+			break;
+		}
+		case WEST : { 
+			if(xPos-1 >= 0 && grid[xPos-1][yPos].content != null) {
+				grid[xPos-1][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);
+				grid[xPos][yPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		
+				xPos--;
+			}	
+			break;
+		}
+		}
+		
+>>>>>>> branch 'master' of https://github.com/leorohr/simulus.git
 	}
 
 	/**

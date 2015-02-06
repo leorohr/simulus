@@ -127,17 +127,6 @@ public class Map {
 		}
 		
 	}
-	
-	/**
-	 * Passes the current state of the grid to all listeners.
-	 */
-	private void notifyMapUpdateListeners() {
-		
-		for(MapUpdateListener l : listeners) {
-			l.mapUpdated(grid);
-		}
-		
-	}
 
 	/**
 	 * @param x
@@ -151,5 +140,21 @@ public class Map {
 	
 	public int getVehicleCount() {
 		return this.vehicles.size();
+	}
+	
+
+	/**
+	 * Passes the current state of the grid to all listeners.
+	 */
+	private void notifyMapUpdateListeners() {
+		
+		for(MapUpdateListener l : listeners) {
+			l.mapUpdated(grid);
+		}
+		
+	}
+	
+	public void addMapUpdateListener(MapUpdateListener listener) {
+		listeners.add(listener);
 	}
 }
