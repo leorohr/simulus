@@ -56,7 +56,7 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
 		lights = new TrafficLight(100, 100, 20, 60);
-		rect = new Rectangle(600, 600, Color.BLACK);
+		rect = new Rectangle(800, 800, Color.BLACK);
 		rect.setFill(Color.TRANSPARENT);
 		rect.setStrokeWidth(10);
 		rect.setStroke(Color.BLACK);
