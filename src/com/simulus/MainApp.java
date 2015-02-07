@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +18,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Seed;
 import com.simulus.view.Car;
+import com.simulus.view.Road;
 import com.simulus.view.TrafficLight;
 
 public class MainApp extends Application {
@@ -30,12 +33,14 @@ public class MainApp extends Application {
 	private AnchorPane overview;
 	private TrafficLight lights;
 	private Rectangle rect;
+	private ArrayList<Road> roads = new ArrayList<>();
+	private Group tile;
 	private int gridSize;
 	private int windowWidth;
 	private int windowHeight;
 	private static MainApp instance;
 	
-	private Rectangle[][] tiles = new Rectangle[10][10];
+	private Rectangle[][] tiles = new Rectangle[30][30];
 	
 	
 	public static MainApp getInstance(){
@@ -56,8 +61,22 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
 		lights = new TrafficLight(100, 100, 20, 60);
-		rect = new Rectangle(800, 800, Color.BLACK);
-		rect.setFill(Color.TRANSPARENT);
+		for(int i = 0; i < 30; i++){
+			if(i == 14)
+				roads.add(new Road(14*30, i*30, 30,30));
+			else
+				roads.add(new Road(14*30,i*30,30,30, Seed.NORTHSOUTH) );
+			//rootLayout.getChildren().add(roads.get(i));
+		}
+		
+		for(int i = 0; i < 30; i++){
+			if(i == 14)
+				roads.add(new Road(14*30, i*30, 30,30));
+			else
+				roads.add(new Road(i*30,14*30,30,30, Seed.WESTEAST) );
+			//rootLayout.getChildren().add(roads.get(i));
+		}
+		
 		
 		
 		
@@ -77,12 +96,16 @@ public class MainApp extends Application {
 				//Spawn a car at frame 1
 				System.out.println(frameNo);
 				if (frameNo == 1) {
-					cars.add(new Car(500, 800, Direction.NORTH));
+					cars.add(new Car(500, 900, Direction.NORTH));
+					cars.add(new Car(500, 800+(90/3), Direction.NORTH));
+					cars.add(new Car(500, 800+(90/3)+(90/3), Direction.NORTH));
 					System.out.println("Start X Position: "+cars.get(cars.size()-1).getX()+"\nStart Y Position: "+ cars.get(cars.size()-1).getY());
-					rootLayout.getChildren().add(cars.get(cars.size() - 1));
+					for(int i = 0; i < cars.size(); i++)
+						rootLayout.getChildren().add(cars.get(i));
 				}
 				if(frameNo%8 == 0){
-					cars.get(cars.size()-1).moveVehicle();
+					for(int i = 0; i < cars.size(); i++);
+						//cars.get(i).moveVehicle();
 				}
 			}
 		};
@@ -103,7 +126,7 @@ public class MainApp extends Application {
 			*/
 			rootLayout = new BorderPane();
 			//rootLayout.setBorder(new Border());
-			Scene scene = new Scene(rootLayout, 800, 800);
+			Scene scene = new Scene(rootLayout, 900, 900);
 
 	        rootLayout.prefHeightProperty().bind(scene.heightProperty());
 	        rootLayout.prefWidthProperty().bind(scene.widthProperty());
@@ -142,22 +165,23 @@ public class MainApp extends Application {
 			//overview = (AnchorPane) loader.load();
 			// Set overview as center widget of the pane
 			//rootLayout.setCenter(overview);
-			rootLayout.getChildren().add(lights);
-			rootLayout.getChildren().add(rect);
-			int count = 80;
+			//rootLayout.getChildren().add(lights);
+			//rootLayout.getChildren().add(tile);
+			int count = 90/3;
 			
-			for(int i = 0; i < 10; i ++){
-				for(int p = 0; p <10; p++){
+			for(int i = 0; i < 30; i ++){
+				for(int p = 0; p <30; p++){
 					
 					tiles[i][p] = new Rectangle(count*p, count*i, count, count);
 					tiles[i][p].setFill(Color.TRANSPARENT);
 					tiles[i][p].setStroke(Color.BLACK);
 					rootLayout.getChildren().add(tiles[i][p]);
 					
-					
-					
 				}
 			}
+			for(int i = 0; i < roads.size(); i++)
+				rootLayout.getChildren().add(roads.get(i));
+			//rootLayout.getChildren().add(tile);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

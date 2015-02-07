@@ -21,15 +21,15 @@ import com.simulus.util.enums.Direction;
  */
 public class Car extends Vehicle {
 
-	private static final int WIDTH = 10;
-	private static final int HEIGHT = 20;
+	private static final int WIDTH = 10/3;
+	private static final int HEIGHT = 20/3;
 	private static final int ARCHEIGHT = 0;
 	private static final int ARCWIDTH = 0;
 
 	/**
 	 * Amount of pixel movements per tick
 	 */
-	private int distance = 1;
+	private int distance = 90/3;
 	
 
 	private static final Color COLOUR = Color.GRAY;
