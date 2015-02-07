@@ -2,24 +2,19 @@ package com.simulus;
 /**
  * @author Ebrahim K1463831
  */
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
-import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.animation.TranslateTransitionBuilder;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
  
 /**
@@ -137,5 +132,5 @@ public class FXMovingCar extends Application {
         //Starts the animation loop
         timer.start();	
     }
-    public static void main(String[] args) { launch(args); }
+//    public static void main(String[] args) { launch(args); }
 }

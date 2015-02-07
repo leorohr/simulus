@@ -20,7 +20,6 @@ import com.simulus.controller.SimulationController;
 import com.simulus.model.Intersection;
 import com.simulus.model.Map;
 import com.simulus.model.Vehicle;
-import com.simulus.util.enums.Seed;
 import com.simulus.view.Road;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
