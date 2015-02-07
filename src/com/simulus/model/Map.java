@@ -12,7 +12,7 @@ import com.simulus.util.enums.Seed;
  */
 public class Map {
 	
-	private static final int DEFAULT_GRIDSIZE = 10;
+	private static final int DEFAULT_GRIDSIZE = 30;
 	
 	private Tile[][] grid = null;
 	
@@ -104,8 +104,8 @@ public class Map {
 			if(i==mid) {
 				grid[i][i].content = new Intersection();
 			} else {
-				grid[i][mid].content = new Road(Seed.NORTHSOUTH);
-				grid[mid][i].content = new Road(Seed.WESTEAST);
+				grid[i][mid].content = new Road(Seed.WESTEAST);
+				grid[mid][i].content = new Road(Seed.NORTHSOUTH);
 			}
 		}
 		

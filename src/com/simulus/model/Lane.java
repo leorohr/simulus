@@ -9,7 +9,6 @@ public class Lane {
 	private int laneId; 
 	private Road road; //the Road object that stores this lance instance
 	
-	boolean occupied;
 	
 	/**
 	 * 
@@ -22,8 +21,6 @@ public class Lane {
 		this.direction = direction;
 		this.laneId = laneId;
 		this.road = road;
-		
-		this.occupied = false;
 	}
 	
 	public Vehicle getVehicle() {
@@ -51,6 +48,12 @@ public class Lane {
 	 */
 	public Road getRoad() {
 		return road;
+	}
+	
+	public boolean isOccupied() {
+		if(vehicle != null)
+			return true;
+		return false;
 	}
 
 }

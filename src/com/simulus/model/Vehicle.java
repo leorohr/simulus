@@ -39,7 +39,7 @@ public abstract class Vehicle {
 	protected int id;
 	protected Lane lane;
 
-	protected Tile[][] map;
+	protected Tile[][] grid;
 	protected int currentXPos;
 	protected int currentYPos;
 	protected int nextMoveXPos;
@@ -50,7 +50,7 @@ public abstract class Vehicle {
 	boolean intersectionDetected;
 
 
-	protected Tile[][] grid;
+
 	
 	
 	/**
@@ -64,7 +64,7 @@ public abstract class Vehicle {
 	public Vehicle(Tile[][] grid, int xPos, int yPos, Lane lane) {
 
 		this.id = count++;
-		this.grid = map;
+		this.grid = grid;
 		this.currentXPos = xPos;
 		this.currentYPos = yPos;
 		this.lane = lane;
@@ -83,15 +83,19 @@ public abstract class Vehicle {
 
 		case NORTH:
 			nextMoveYPos = currentYPos-1;
+			nextMoveXPos = currentXPos;
 			break;
 		case SOUTH:
 			nextMoveYPos = currentYPos+1;
+			nextMoveXPos = currentXPos;
 			break;
 		case EAST:
 			nextMoveXPos = currentXPos+1;
+			nextMoveYPos = currentYPos;
 			break;
 		case WEST:
 			nextMoveXPos = currentXPos-1;
+			nextMoveYPos = currentYPos;
 			break;
 		case NONE:
 			break;
@@ -167,27 +171,27 @@ public abstract class Vehicle {
 	public void moveForward(){
 		
 		//Scan the tile ahead
-		checkBlockage();
-		checkIntersection();
-		
+//		checkBlockage();
+//		checkIntersection();
+		CalculateNextForwardMovement();
 		//Get the lane object that will store the car if moving in the current direction.
 		Lane nextLane;
 		if(currentDir == Direction.NORTH || currentDir == Direction.WEST) {
-			nextLane = map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()];
+			nextLane = grid[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()];
 		} else {
-			nextLane = map[nextMoveXPos][nextMoveYPos].content.getLanes2()[lane.getLaneId()];
+			nextLane = grid[nextMoveXPos][nextMoveYPos].content.getLanes2()[lane.getLaneId()];
 		}
 		
 		//Check if intersection, and if so, whether we can move through
 		if(intersectionDetected) {
-			Intersection is = (Intersection) map[nextMoveXPos][nextMoveYPos].content;
+			Intersection is = (Intersection) grid[nextMoveXPos][nextMoveYPos].content;
 			if(!is.isGreen(currentDir)) {
 				return;
 			}
 		}
 			
 		//Only move car if next lane object is free
-		if(nextLane.occupied)
+		if(nextLane.isOccupied())
 			return;
 				
 		
@@ -209,8 +213,8 @@ public abstract class Vehicle {
 	//Might consider to merge this method into one with <method>moveForward</method>,<method>turnLeft</method>,<method>turnRight</method>
 	public void turnLeft(){
 
-		map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
-		map[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+		grid[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+		grid[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
 
 		currentDir = nextDir; // Set new current Direction of the vehicle 
 
@@ -225,8 +229,8 @@ public abstract class Vehicle {
 	//Might consider to merge this method into one with <method>moveForward</method>,<method>turnLeft</method>,<method>turnRight</method>
 	public void turnRight(){
 
-		map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
-		map[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+		grid[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+		grid[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
 
 		currentDir = nextDir; // Set new current Direction of the vehicle 
 
@@ -245,7 +249,7 @@ public abstract class Vehicle {
 		//TODO Check if next Move is blocked, any tile in front the car is occupied, i.e. is not EMPTY
 
 		//Need to add Seed content 
-		if (map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].occupied == true){ 
+		if (grid[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].isOccupied() == true){ 
 			blockageDectected = true;
 		}
 		else {
@@ -255,7 +259,7 @@ public abstract class Vehicle {
 	}
 
 	private void checkIntersection() {
-		if (map[nextMoveXPos][nextMoveYPos].content.getSeed() == Seed.INTERSECTION){
+		if (grid[nextMoveXPos][nextMoveYPos].content.getSeed() == Seed.INTERSECTION){
 			intersectionDetected = true;
 		}
 		else{
@@ -278,6 +282,12 @@ public abstract class Vehicle {
 
 	public int getId() {
 		return this.id;
+	}
+	public int getX(){
+		return currentXPos;
+	}
+	public int getY(){
+		return currentYPos;
 	}
 
 

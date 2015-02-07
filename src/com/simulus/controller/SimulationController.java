@@ -1,5 +1,7 @@
 package com.simulus.controller;
 
+import javafx.application.Platform;
+
 import com.simulus.MainApp;
 import com.simulus.model.Map;
 import com.simulus.model.listeners.MapUpdateListener;
@@ -54,16 +56,20 @@ public class SimulationController implements MapUpdateListener {
 					
 				}
 			}
-		};		
+		};	
+		spinner.start();
 	}
 
 	@Override
 	public void mapUpdated() {
-		//TODO call the ui to execute all the changes.
-
-		
-//		app.redrawCars(map.getVehicleList());
-		
+		//TODO call the ui to execute all the changes.		
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				app.redrawCars(map.getVehicleList());
+			}
+		});
 		
 	}
 

@@ -19,7 +19,7 @@ import com.simulus.util.enums.Direction;
 /**
  * Describes a car object on the GUI
  */
-public class Car extends Vehicle {
+public class VCar extends VVehicle {
 
 	private static final int WIDTH = 10/3;
 	private static final int HEIGHT = 20/3;
@@ -40,10 +40,21 @@ public class Car extends Vehicle {
 	 * @param posY the Y position of the car on the scene
 	 * @param dir the direction the car should start moving in
 	 */
-	public Car(double posX, double posY, Direction dir) {
+	public VCar(double posX, double posY, Direction dir) {
 		super(posX, posY, WIDTH, HEIGHT, dir);
-		setWidth(WIDTH);
-		setHeight(HEIGHT);
+		switch(dir){
+		case NORTH:
+		case SOUTH:
+			setWidth(WIDTH);
+			setHeight(HEIGHT);
+			break;
+		case EAST:
+		case WEST:
+			setWidth(HEIGHT);
+			setHeight(WIDTH);
+			break;
+		}
+		
 		setArcHeight(ARCHEIGHT);
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);

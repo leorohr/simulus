@@ -17,9 +17,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.controller.SimulationController;
+import com.simulus.model.Vehicle;
+import com.simulus.view.VVehicle;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
-import com.simulus.view.Car;
+import com.simulus.view.VCar;
 import com.simulus.view.Road;
 import com.simulus.view.TrafficLight;
 
@@ -28,8 +31,8 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private int frameNo = 0;
-	private ArrayList<Car> cars;
-	private Car car = null;
+	private ArrayList<VVehicle> cars;
+	private VCar car = null;
 	private AnchorPane overview;
 	private TrafficLight lights;
 	private Rectangle rect;
@@ -39,6 +42,7 @@ public class MainApp extends Application {
 	private int windowWidth;
 	private int windowHeight;
 	private static MainApp instance;
+	private SimulationController controller;
 	
 	private Rectangle[][] tiles = new Rectangle[30][30];
 	
@@ -77,17 +81,17 @@ public class MainApp extends Application {
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		
-		
+		cars = new ArrayList<VVehicle>();
 		
 		
 		initRootLayout();
 		showMainView();
-		cars = new ArrayList<Car>();
 		
+		controller = SimulationController.getInstance();
 		/**
 		 * Ticking loop
 		 */
-		AnimationTimer timer = new AnimationTimer() {
+/*		AnimationTimer timer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
 			@Override
 			public void handle(long now) {
@@ -96,9 +100,9 @@ public class MainApp extends Application {
 				//Spawn a car at frame 1
 				System.out.println(frameNo);
 				if (frameNo == 1) {
-					cars.add(new Car(500, 900, Direction.NORTH));
-					cars.add(new Car(500, 800+(90/3), Direction.NORTH));
-					cars.add(new Car(500, 800+(90/3)+(90/3), Direction.NORTH));
+					cars.add(new VCar(500, 900, Direction.NORTH));
+					cars.add(new VCar(500, 800+(90/3), Direction.NORTH));
+					cars.add(new VCar(500, 800+(90/3)+(90/3), Direction.NORTH));
 					System.out.println("Start X Position: "+cars.get(cars.size()-1).getX()+"\nStart Y Position: "+ cars.get(cars.size()-1).getY());
 					for(int i = 0; i < cars.size(); i++)
 						rootLayout.getChildren().add(cars.get(i));
@@ -109,7 +113,7 @@ public class MainApp extends Application {
 				}
 			}
 		};
-		timer.start();
+		timer.start();*/
 	}
 
 	/**
@@ -185,6 +189,13 @@ public class MainApp extends Application {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+	public void redrawCars(ArrayList<Vehicle> vehicles){
+		for(Vehicle v:vehicles){
+			VCar car = new VCar(v.getX()*30, v.getY()*30,v.getDirection());
+			cars.add(car);
+			rootLayout.getChildren().add(car);
 		}
 	}
 	

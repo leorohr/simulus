@@ -6,7 +6,7 @@ import com.simulus.util.enums.Direction;
 /**
  * Describes a vehicle on the GUI
  */
-public abstract class Vehicle extends Rectangle{
+public abstract class VVehicle extends Rectangle{
 	
 	protected Direction dir;
 	
@@ -18,7 +18,7 @@ public abstract class Vehicle extends Rectangle{
 	 * @param width The width of the vehicle
 	 * @param height The height of the vehicle
 	 */
-	public Vehicle(double posX, double posY, double width, double height, Direction dir){
+	public VVehicle(double posX, double posY, double width, double height, Direction dir){
 		super(posX, posY, width, height);
 		this.dir = dir;
 	}
