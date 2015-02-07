@@ -8,12 +8,12 @@ import com.simulus.model.listeners.MapUpdateListener;
 
 public class SimulationController implements MapUpdateListener {
 	
-	public static int MAXCARS = 200;
-	public static int TICKRATE = 100; //tickrate in ms
+	public static int MAXCARS = 400;
+	public static int TICKRATE = 50; //tickrate in ms
 	
 	private Thread spinner;
-	private Map map = Map.getInstance();
-	private MainApp app = MainApp.getInstance();
+	private Map map;
+	private MainApp app;
 	
 	// Singleton pattern
 	private static SimulationController instance;
@@ -28,6 +28,8 @@ public class SimulationController implements MapUpdateListener {
 	
 	
 	private SimulationController() {
+		 map = Map.getInstance();
+		 app = MainApp.getInstance();
 		
 		//Subscribe to map updates
 		map.addMapUpdateListener(this);
@@ -49,7 +51,6 @@ public class SimulationController implements MapUpdateListener {
 					}
 				
 					map.update();
-					System.out.println("Tick");
 					
 					try {
 						Thread.sleep(TICKRATE);

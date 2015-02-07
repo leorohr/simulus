@@ -8,18 +8,24 @@ import com.simulus.util.enums.Seed;
  */
 public class Intersection extends Road {
 
-	private static int TICKRATE = 5000;
+	private int tickrate = 5000;
 	private boolean northGreen, southGreen, westGreen, eastGreen;
+	private static int count = 0;
+	private int id;
 	
 	public Intersection() {
 		super(Seed.INTERSECTION);
+		this.id = count++;
+	
+		//Randomize tickrate [1000,10000)
+		tickrate = (int) ((Math.random()*9000) + 1000);
 		
 		northGreen = true;
 		southGreen = true;
 		westGreen = false;
 		eastGreen = false;
 		
-		Thread lightThread = new Thread() {
+		Thread lightThread = new Thread("Intersection-"+id) {
 			
 			@Override
 			public void run() {
@@ -33,7 +39,7 @@ public class Intersection extends Road {
 
 						Map.getInstance().notifyLightSwitched();
 						
-						Thread.sleep(TICKRATE);
+						Thread.sleep(tickrate);
 					}
 					
 				} catch(InterruptedException e) {

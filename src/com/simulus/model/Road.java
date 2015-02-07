@@ -17,13 +17,18 @@ public class Road {
 	public Road(Seed orientation) {
 		this.seed = orientation;
 		
+		
+		
 		for(int i=0; i<LANECOUNT; i++) {
 			if(orientation == Seed.NORTHSOUTH) {
 				lanes1[i] = new Lane(Direction.NORTH, i, this);
 				lanes2[i] = new Lane(Direction.SOUTH, i, this);
-			} else {
+			} else if(orientation == Seed.WESTEAST) {
 				lanes1[i] = new Lane(Direction.WEST, i, this);
 				lanes2[i] = new Lane(Direction.EAST, i, this);
+			} else if(orientation == Seed.INTERSECTION) {
+				lanes1[i] = new Lane(Direction.NONE, i, this);
+				lanes2[i] = new Lane(Direction.NONE, i, this);
 			}
 		}
 	}

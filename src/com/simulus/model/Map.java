@@ -30,13 +30,13 @@ public class Map {
 	private ArrayList<MapUpdateListener> listeners = new ArrayList<MapUpdateListener>();
 	
 	//Singleton pattern
-	private static Map instance;
+	private static Map instance = null;
 	/**
 	 * @return 	The Map instance. If the map has not been initialised earlier, it return a map with size
 	 * 			<code>DEFAULT_GRIDSIZE</code>. If a different mapsize is desired, it can be adjusted by 
 	 * 			<code>setMapSize(int)</code>. 
 	 */
-	public static Map getInstance(){
+	public static synchronized Map getInstance() {
 		if(instance == null)
 			instance = new Map(DEFAULT_GRIDSIZE);
 		
@@ -50,7 +50,7 @@ public class Map {
 		this.grid = new Tile[gridSize][gridSize];
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {
-			grid[i][j] = new Tile(i,j);
+				grid[i][j] = new Tile(i,j);
 			}
 		}
 		
