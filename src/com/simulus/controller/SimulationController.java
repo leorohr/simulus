@@ -9,7 +9,7 @@ import com.simulus.model.listeners.MapUpdateListener;
 public class SimulationController implements MapUpdateListener {
 	
 	public static int MAXCARS = 20;
-	public static int TICKRATE = 1000; //tickrate in ms
+	public static int TICKRATE = 250; //tickrate in ms
 	
 	private Thread spinner;
 	private Map map = Map.getInstance();

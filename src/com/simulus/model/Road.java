@@ -34,6 +34,12 @@ public class Road {
 	 */
 	public Lane getEmptyLane() {
 		
+		int rnd = (int)Math.round(Math.random());
+		if(lanes1[rnd].getVehicle() == null)
+			return lanes1[rnd];
+		if(lanes2[rnd].getVehicle() == null)
+			return lanes2[rnd];
+	
 		for(int i=0; i<lanes1.length; i++)
 			if(lanes1[i].getVehicle() == null)
 				return lanes1[i];

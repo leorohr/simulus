@@ -294,6 +294,9 @@ public abstract class Vehicle {
 	public int getY(){
 		return currentYPos;
 	}
+	public int getLaneID(){
+		return lane.getLaneId();
+	}
 
 
 }

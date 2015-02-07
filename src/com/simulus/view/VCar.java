@@ -32,7 +32,7 @@ public class VCar extends VVehicle {
 	private int distance = 90/3;
 	
 
-	private static final Color COLOUR = Color.GRAY;
+	private static final Color COLOUR = Color.PINK;
 
 	/**
 	 * Sets the appearance, position and direction of the car.
