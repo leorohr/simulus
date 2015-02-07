@@ -32,6 +32,7 @@ public class Intersection extends Road{
 						eastGreen = !eastGreen;
 						
 						
+						
 						Thread.sleep(TICKRATE);
 					}
 					
