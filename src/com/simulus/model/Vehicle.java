@@ -167,9 +167,19 @@ public abstract class Vehicle {
 	public void moveForward(){
 		//TODO before calling this method, there should be a method call to check the validity 
 		// of the next movement 
+		
+//		if(map[nextMoveXPos][nextMoveYPos].content.getL)
 
-		map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
-		map[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+		Tile nextTile = map[nextMoveXPos][nextMoveYPos];
+		if(currentDir == Direction.NORTH || currentDir == Direction.WEST) {
+			nextTile.content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+			lane.setVehicle(null);												//remove car from old cell
+			lane = nextTile.content.getLanes1()[lane.getLaneId()];				//update lane variable
+		} else {
+			nextTile.content.getLanes2()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
+			lane.setVehicle(null);												//remove car from old cell
+			lane = nextTile.content.getLanes2()[lane.getLaneId()];				//update lane variable
+		}
 
 		// The new location is now set as the currentLocation
 		currentXPos = nextMoveXPos;
