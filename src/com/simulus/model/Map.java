@@ -155,7 +155,7 @@ public class Map {
 		return this.vehicles.size();
 	}
 	
-	public ArrayList<Vehicle> getVehicleList() {
+	public synchronized ArrayList<Vehicle> getVehicleList() {
 		return this.vehicles;
 	}
 	
