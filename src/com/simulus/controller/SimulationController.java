@@ -78,6 +78,13 @@ public class SimulationController implements MapUpdateListener {
 		
 		spinner.interrupt();
 	}
+
+
+	@Override
+	public void lightSwitched() {
+		app.switchLights();
+		
+	}
 	
 
 

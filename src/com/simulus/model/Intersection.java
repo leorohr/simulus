@@ -1,6 +1,5 @@
 package com.simulus.model;
 
-import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 
@@ -9,7 +8,7 @@ import com.simulus.util.enums.Seed;
  */
 public class Intersection extends Road{
 
-	private static int TICKRATE = 4000;
+	private static int TICKRATE = 5000;
 	private boolean northGreen, southGreen, westGreen, eastGreen;
 	
 	public Intersection() {
@@ -31,6 +30,7 @@ public class Intersection extends Road{
 						southGreen = !southGreen;
 						westGreen = !westGreen;
 						eastGreen = !eastGreen;
+						
 						
 						Thread.sleep(TICKRATE);
 					}

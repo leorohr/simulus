@@ -250,6 +250,9 @@ public class MainApp extends Application {
 		}
 	}
 	
+	public void switchLights() {
+		
+	}
 
 	public static void main(String[] args) {
 		launch(args);
