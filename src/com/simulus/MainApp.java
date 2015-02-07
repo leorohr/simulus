@@ -39,10 +39,11 @@ public class MainApp extends Application {
 	private ArrayList<Road> roads = new ArrayList<>();
 	private Group tile;
 	private int gridSize;
-	private int windowWidth;
-	private int windowHeight;
+	private int windowWidth = 900;
+	private int windowHeight = 900;
 	private static MainApp instance;
 	private SimulationController controller;
+	private int tileWidth;
 	
 	private Rectangle[][] tiles = new Rectangle[30][30];
 	
@@ -65,19 +66,19 @@ public class MainApp extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
 		lights = new TrafficLight(100, 100, 20, 60);
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < tileWidth; i++){
 			if(i == 14)
-				roads.add(new Road(14*30, i*30, 30,30));
+				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else
-				roads.add(new Road(14*30,i*30,30,30, Seed.NORTHSOUTH) );
+				roads.add(new Road(14*tileWidth,i*tileWidth,tileWidth,tileWidth, Seed.NORTHSOUTH) );
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < tileWidth; i++){
 			if(i == 14)
-				roads.add(new Road(14*30, i*30, 30,30));
+				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else
-				roads.add(new Road(i*30,14*30,30,30, Seed.WESTEAST) );
+				roads.add(new Road(i*tileWidth,14*tileWidth,tileWidth,tileWidth, Seed.WESTEAST) );
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		
@@ -130,7 +131,7 @@ public class MainApp extends Application {
 			*/
 			rootLayout = new BorderPane();
 			//rootLayout.setBorder(new Border());
-			Scene scene = new Scene(rootLayout, 900, 900);
+			Scene scene = new Scene(rootLayout, windowWidth, windowHeight);
 
 	        rootLayout.prefHeightProperty().bind(scene.heightProperty());
 	        rootLayout.prefWidthProperty().bind(scene.widthProperty());
@@ -157,6 +158,7 @@ public class MainApp extends Application {
 	
 	public void setGridSize(int size){
 		gridSize = size;
+		tileWidth = windowWidth/gridSize;
 	}
 
 	/**
@@ -191,27 +193,58 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	//TODO replace fixed numbers
 	public void redrawCars(ArrayList<Vehicle> vehicles){
 		rootLayout.getChildren().clear();
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < tileWidth; i++){
 			if(i == 14)
-				roads.add(new Road(14*30, i*30, 30,30));
+				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else
-				roads.add(new Road(14*30,i*30,30,30, Seed.NORTHSOUTH) );
+				roads.add(new Road(14*tileWidth,i*tileWidth,tileWidth,tileWidth, Seed.NORTHSOUTH) );
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		
-		for(int i = 0; i < 30; i++){
+		for(int i = 0; i < tileWidth; i++){
 			if(i == 14)
-				roads.add(new Road(14*30, i*30, 30,30));
+				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else
-				roads.add(new Road(i*30,14*30,30,30, Seed.WESTEAST) );
+				roads.add(new Road(i*tileWidth,14*tileWidth,tileWidth,tileWidth, Seed.WESTEAST) );
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		for(int i = 0; i < roads.size(); i++)
 			rootLayout.getChildren().add(roads.get(i));
 		for(Vehicle v:vehicles){
-			VCar car = new VCar(v.getX()*30, v.getY()*30,v.getDirection());
+			VCar car = new VCar(v.getX()*tileWidth, v.getY()*tileWidth,v.getDirection());
+			switch(car.getDirection()){
+			case NORTH:
+				car.setY((v.getY()*tileWidth)+(tileWidth/2)-(car.getHeight()/2));
+				if(v.getLaneID() == 1)
+					car.setX((v.getX()*tileWidth)+(tileWidth/2)-(tileWidth/8)-(car.getWidth()/2));
+				if(v.getLaneID() == 0)
+					car.setX((v.getX()*tileWidth)+(tileWidth/8)-(car.getWidth()/2));
+				break;
+			case WEST:
+				car.setX((v.getX()*tileWidth)+(tileWidth/2)-(car.getWidth()/2));
+				if(v.getLaneID() == 1)
+					car.setY((v.getY()*tileWidth)+tileWidth-(tileWidth/8)-(car.getHeight()/2));
+				if(v.getLaneID() == 0)
+					car.setY((v.getY()*tileWidth)+((tileWidth*3)/4)-(tileWidth/8)-(car.getHeight()/2));
+				break;
+			case SOUTH:
+				car.setY((v.getY()*tileWidth)+(tileWidth/2)-(car.getHeight()/2));
+				if(v.getLaneID() == 1)
+					car.setX((v.getX()*tileWidth)+tileWidth-(tileWidth/8)-(car.getWidth()/2));
+				if(v.getLaneID() == 0)
+					car.setX((v.getX()*tileWidth)+((tileWidth*3)/4)-(tileWidth/8)-(car.getWidth()/2));
+				break;
+			case EAST:
+				car.setX((v.getX()*tileWidth)+(tileWidth/2)-(car.getWidth()/2));
+				if(v.getLaneID() == 1)
+					car.setY((v.getY()*tileWidth)+(tileWidth/2)-(tileWidth/8)-(car.getHeight()/2));
+				if(v.getLaneID() == 0)
+					car.setY((v.getY()*tileWidth)+(tileWidth/8)-(car.getHeight()/2));
+				break;
+			}
 			cars.add(car);
 			rootLayout.getChildren().add(car);
 		}
