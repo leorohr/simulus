@@ -43,7 +43,6 @@ public class Map {
 		return instance;
 	}
 	
-
 	/**
 	 * @param gridSize The map's edge length. 
 	 */
@@ -83,25 +82,46 @@ public class Map {
 	 * Initialises the map to a basic intersection; roads crossing in the center of the map.
 	 */
 	private void initBasicIntersection() {
-		int mid = grid.length/2-1;
 		
 		for(int i=0; i<grid.length; i++) {
 			
-			if(i==mid) {
-				grid[i][i].content = new Intersection();
-				intersections.add((Intersection) grid[i][i].content);
-			} else {
-				grid[i][mid].content = new Road(Seed.WESTEAST);
-				grid[mid][i].content = new Road(Seed.NORTHSOUTH);
+			if(i==6 || i==14 || i==23) {
+				grid[i][6].content = new Intersection();
+				grid[i][14].content = new Intersection();
+				grid[i][23].content = new Intersection();
+				
+				intersections.add((Intersection) grid[i][6].content);
+				intersections.add((Intersection) grid[i][14].content);
+				intersections.add((Intersection) grid[i][23].content);
+				continue;
 			}
+			
+			grid[6][i].content = new Road(Seed.NORTHSOUTH);
+			grid[i][6].content = new Road(Seed.WESTEAST);
+			
+			grid[14][i].content = new Road(Seed.NORTHSOUTH);
+			grid[i][14].content = new Road(Seed.WESTEAST);
+			
+			grid[23][i].content = new Road(Seed.NORTHSOUTH);
+			grid[i][23].content = new Road(Seed.WESTEAST);
 		}
 		
-		//Add entrypoints at each side.
 		//TODO Should entrypoints also specify the direction a car enters with, e.g. as property in Tile?
-		entryPoints.add(grid[0][mid]);  //North entry
-		entryPoints.add(grid[mid][0]);  //West entry 
-		entryPoints.add(grid[grid.length-1][mid]); //South entry
-		entryPoints.add(grid[mid][grid.length-1]);	//East entry 
+		entryPoints.add(grid[6][0]);	//Top
+		entryPoints.add(grid[14][0]);
+		entryPoints.add(grid[23][0]);
+		
+		entryPoints.add(grid[6][29]);	//Bottom
+		entryPoints.add(grid[14][29]);
+		entryPoints.add(grid[23][29]);
+
+		entryPoints.add(grid[0][6]);	//Left
+		entryPoints.add(grid[0][14]);
+		entryPoints.add(grid[0][23]);
+		
+		entryPoints.add(grid[29][6]);	//Right
+		entryPoints.add(grid[29][14]);
+		entryPoints.add(grid[29][23]);
 	}
 	
 	/**

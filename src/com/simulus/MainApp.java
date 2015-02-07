@@ -150,7 +150,7 @@ public class MainApp extends Application {
 	}
 
 	/**
-	 * Shows the cashflow overview interface
+	 * TODO
 	 */
 	private void showMainView() {
 		try {
@@ -173,9 +173,6 @@ public class MainApp extends Application {
 					
 				}
 			}
-			for(int i = 0; i < roads.size(); i++)
-				rootLayout.getChildren().add(roads.get(i));
-			//rootLayout.getChildren().add(tile);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,27 +180,16 @@ public class MainApp extends Application {
 	}
 
 	public void redrawCars(ArrayList<Vehicle> vehicles){
+		
+		//Clear Screen
 		rootLayout.getChildren().clear();
-		for(int i = 0; i < gridSize; i++){
-			if(i == 14)
-				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
-			else
-				roads.add(new Road(14*tileWidth,i*tileWidth,tileWidth,tileWidth, Seed.NORTHSOUTH) );
-			//rootLayout.getChildren().add(roads.get(i));
-		}
 		
-		for(int i = 0; i < gridSize; i++){
-			if(i == 14)
-				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
-			else
-				roads.add(new Road(i*tileWidth,14*tileWidth,tileWidth,tileWidth, Seed.WESTEAST) );
-			//rootLayout.getChildren().add(roads.get(i));
-		}
-		
+		//Draw Roads
 		for(int i = 0; i < roads.size(); i++)
 			rootLayout.getChildren().add(roads.get(i));
 		
-		for(Vehicle v:vehicles) {
+		//Draw cars
+		for(Vehicle v : vehicles) {
 			VCar car = new VCar(v.getX()*tileWidth, v.getY()*tileWidth,v.getDirection());
 			switch(car.getDirection()){
 			case NORTH:
@@ -237,7 +223,11 @@ public class MainApp extends Application {
 				if(v.getLaneID() == 0)
 					car.setY((v.getY()*tileWidth)+(tileWidth/8)-(car.getHeight()/2));
 				break;
+				
+			default:
+				break;
 			}
+			
 			cars.add(car);
 			rootLayout.getChildren().add(car);
 		}
@@ -247,7 +237,7 @@ public class MainApp extends Application {
 		
 	}
 	
-	public void drawMap() {
+	public void readMap() {
 		Map map = Map.getInstance();
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {

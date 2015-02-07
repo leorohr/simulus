@@ -8,8 +8,8 @@ import com.simulus.model.listeners.MapUpdateListener;
 
 public class SimulationController implements MapUpdateListener {
 	
-	public static int MAXCARS = 20;
-	public static int TICKRATE = 250; //tickrate in ms
+	public static int MAXCARS = 200;
+	public static int TICKRATE = 100; //tickrate in ms
 	
 	private Thread spinner;
 	private Map map = Map.getInstance();
@@ -34,7 +34,7 @@ public class SimulationController implements MapUpdateListener {
 		
 		//Initialise UI
 		app.setGridSize(map.getMapSize());
-		Platform.runLater(() -> app.drawMap());
+		Platform.runLater(() -> app.readMap());
 		
 		//Define the simulation
 		spinner = new Thread() {
@@ -69,9 +69,8 @@ public class SimulationController implements MapUpdateListener {
 	}
 	
 	public void startSimulation() {
-			
+		
 		spinner.start();
-
 	}
 	
 	public void stopSimulation() {
