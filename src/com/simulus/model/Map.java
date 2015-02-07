@@ -2,6 +2,7 @@ package com.simulus.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import com.simulus.model.listeners.MapUpdateListener;
@@ -124,13 +125,13 @@ public class Map {
 	 */
 	public void update() {
 
-		for(Vehicle v : vehicles) {
-			if(!v.moveForward()) {
-				vehicles.remove(v);
-			}
-			
-			notifyMapUpdateListeners();
+		for (Iterator<Vehicle> it = vehicles.iterator(); it.hasNext(); ) {
+		    Vehicle v = it.next();
+		    if (!v.moveForward()) {
+		        it.remove();
+		    }
 		}
+		notifyMapUpdateListeners();
 		
 	}
 
