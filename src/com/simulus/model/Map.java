@@ -2,6 +2,7 @@ package com.simulus.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.simulus.model.listeners.MapUpdateListener;
 import com.simulus.util.enums.Seed;
@@ -19,6 +20,7 @@ public class Map {
 	
 	/** Store all vehicles currently on the map */
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	private Object listMutex = new Object();
 
 	/** A list of tiles that serve as spawnpoints for the vehicles. */
 	private ArrayList<Tile> entryPoints = new ArrayList<Tile>();
@@ -129,13 +131,15 @@ public class Map {
 	 */
 	public void update() {
 
-		for (Iterator<Vehicle> it = vehicles.iterator(); it.hasNext(); ) {
-		    Vehicle v = it.next();
-		    //If the car moves out of the grid, remove it from the map.
-		    if (!v.moveForward()) {
-		        it.remove();
-		        v.getLane().setVehicle(null); //remove the vehicle from its current lane
-		    }
+		synchronized(listMutex) {
+			for (Iterator<Vehicle> it = vehicles.iterator(); it.hasNext(); ) {
+			    Vehicle v = it.next();
+			    //If the car moves out of the grid, remove it from the map.
+			    if (!v.moveForward()) {
+			        it.remove();
+			        v.getLane().setVehicle(null); //remove the vehicle from its current lane
+			    }
+			}
 		}
 		notifyMapUpdateListeners();
 	}
@@ -155,8 +159,10 @@ public class Map {
 		return this.vehicles.size();
 	}
 	
-	public synchronized ArrayList<Vehicle> getVehicleList() {
-		return this.vehicles;
+	public List<Vehicle> getVehicleList() {
+		synchronized (listMutex) {
+			return this.vehicles;
+		}
 	}
 	
 	public int getMapSize() {

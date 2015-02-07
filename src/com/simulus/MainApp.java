@@ -1,6 +1,7 @@
 package com.simulus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -35,7 +36,6 @@ public class MainApp extends Application {
 	private AnchorPane overview;
 	private TrafficLight lights;
 	private Rectangle rect;
-	private ArrayList<Road> roads = new ArrayList<>();
 	private Group tile;
 	private int gridSize;
 	private int windowWidth = 900;
@@ -44,8 +44,8 @@ public class MainApp extends Application {
 	private SimulationController controller;
 	private int tileWidth;
 	
+	private ArrayList<Road> roads = new ArrayList<>();
 	private Rectangle[][] tiles = new Rectangle[30][30];
-	
 	
 	public static MainApp getInstance(){
 		return instance;
@@ -178,7 +178,7 @@ public class MainApp extends Application {
 		}
 	}
 
-	public void redrawCars(ArrayList<Vehicle> vehicles){
+	public void redrawCars(List<Vehicle> vehicles){
 		
 		//Clear Screen
 		rootLayout.getChildren().clear();

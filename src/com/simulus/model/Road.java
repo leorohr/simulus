@@ -17,8 +17,6 @@ public class Road {
 	public Road(Seed orientation) {
 		this.seed = orientation;
 		
-		
-		
 		for(int i=0; i<LANECOUNT; i++) {
 			if(orientation == Seed.NORTHSOUTH) {
 				lanes1[i] = new Lane(Direction.NORTH, i, this);
