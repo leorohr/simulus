@@ -1,9 +1,7 @@
 package com.simulus.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import com.simulus.model.listeners.MapUpdateListener;
 import com.simulus.util.enums.Seed;
@@ -24,6 +22,9 @@ public class Map {
 
 	/** A list of tiles that serve as spawnpoints for the vehicles. */
 	private ArrayList<Tile> entryPoints = new ArrayList<Tile>();
+	
+	/** A list of all intersections in the current map. */
+	private ArrayList<Intersection> intersections = new ArrayList<Intersection>(); 
 	
 	/** A list of all listener that want to be notified when the map is updated */
 	private ArrayList<MapUpdateListener> listeners = new ArrayList<MapUpdateListener>();
@@ -50,22 +51,6 @@ public class Map {
 		this.grid = new Tile[gridSize][gridSize];
 		for(int i=0; i<gridSize; i++) {
 			for(int j=0; j<gridSize; j++) {
-			grid[i][j] = new Tile(i,j);
-			}
-		}
-		
-		initBasicIntersection();
-	}
-	
-	/**
-	 * Resizes the map to <code>size</code>. The map is reallocated, i.e. calling this will reset the map
-	 * to its initial state!
-	 * @param size The size of the new map
-	 */
-	public void setMapSize(int size) {
-		grid = new Tile[size][size];
-		for(int i=0; i<size; i++) {
-			for(int j=0; j<size; j++) {
 			grid[i][j] = new Tile(i,j);
 			}
 		}
@@ -104,6 +89,7 @@ public class Map {
 			
 			if(i==mid) {
 				grid[i][i].content = new Intersection();
+				intersections.add((Intersection) grid[i][i].content);
 			} else {
 				grid[i][mid].content = new Road(Seed.WESTEAST);
 				grid[mid][i].content = new Road(Seed.NORTHSOUTH);
@@ -125,12 +111,13 @@ public class Map {
 
 		for (Iterator<Vehicle> it = vehicles.iterator(); it.hasNext(); ) {
 		    Vehicle v = it.next();
+		    //If the car moves out of the grid, remove it from the map.
 		    if (!v.moveForward()) {
 		        it.remove();
+		        v.getLane().setVehicle(null); //remove the vehicle from its current lane
 		    }
 		}
 		notifyMapUpdateListeners();
-		
 	}
 
 	/**
@@ -156,14 +143,24 @@ public class Map {
 	}
 
 	/**
-	 * Passes the current state of the grid to all listeners.
+	 * Notifies all listeners that the map has been updated, i.e. the cars have been moved.
 	 */
 	private void notifyMapUpdateListeners() {
 		
 		for(MapUpdateListener l : listeners) {
 			l.mapUpdated();
 		}
+	}
+	
+	/**
+	 * Notifies all listeners that a traffic light has changed.
+	 * <code>Synchronized</code> because every traffic light thread calls this method.
+	 */
+	public synchronized void notifyLightSwitched() {
 		
+		for(MapUpdateListener l : listeners) {
+			l.lightSwitched();
+		}
 	}
 	
 	public void addMapUpdateListener(MapUpdateListener listener) {

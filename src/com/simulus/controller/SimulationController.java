@@ -62,7 +62,6 @@ public class SimulationController implements MapUpdateListener {
 
 	@Override
 	public void mapUpdated() {
-		//TODO call the ui to execute all the changes.		
 		Platform.runLater(() -> {
 				app.redrawCars(map.getVehicleList());
 			});
@@ -83,7 +82,6 @@ public class SimulationController implements MapUpdateListener {
 	@Override
 	public void lightSwitched() {
 		app.switchLights();
-		
 	}
 	
 

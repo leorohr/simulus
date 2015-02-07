@@ -6,7 +6,7 @@ import com.simulus.util.enums.Seed;
 /**
  * Models and intersection of either three or four roads.
  */
-public class Intersection extends Road{
+public class Intersection extends Road {
 
 	private static int TICKRATE = 5000;
 	private boolean northGreen, southGreen, westGreen, eastGreen;
@@ -30,8 +30,8 @@ public class Intersection extends Road{
 						southGreen = !southGreen;
 						westGreen = !westGreen;
 						eastGreen = !eastGreen;
-						
-						
+
+						Map.getInstance().notifyLightSwitched();
 						
 						Thread.sleep(TICKRATE);
 					}
@@ -61,7 +61,6 @@ public class Intersection extends Road{
 			return eastGreen;	
 		default:
 			return true;
-		
 		}
 	}
 

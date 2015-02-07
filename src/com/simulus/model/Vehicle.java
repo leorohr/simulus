@@ -20,7 +20,6 @@
 
 package com.simulus.model;
 
-import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 
@@ -127,6 +126,8 @@ public abstract class Vehicle {
 			nextMoveYPos = currentYPos-1;
 			nextDir = Direction.NORTH;
 			break;
+		default:
+			break;
 		}
 
 
@@ -158,6 +159,8 @@ public abstract class Vehicle {
 			nextMoveYPos = currentYPos-1;
 			nextDir = Direction.NORTH;
 			break;
+		default:
+			break;
 		}
 
 
@@ -172,12 +175,9 @@ public abstract class Vehicle {
 
 		CalculateNextForwardMovement();
 				
-		//Remove car if out of grid.
+		//If the car moves out of the grid return false
 		if(	nextMoveXPos < 0 || nextMoveYPos < 0 ||
-			nextMoveXPos > grid.length-1 || nextMoveYPos > grid.length-1) {
-			
-			lane.setVehicle(null); //clear up lane
-			
+			nextMoveXPos > grid.length-1 || nextMoveYPos > grid.length-1) {			
 			return false;
 		}
 
@@ -280,18 +280,16 @@ public abstract class Vehicle {
 
 
 	public Direction getDirection() {
-		return this.currentDir;
+		return currentDir;
 	}
 	public void setDirection(Direction dir) {
-		this.currentDir = dir;
+		currentDir = dir;
 	}
-
 	public int getMaxSpeed() {
-		return this.maxSpeed;
+		return maxSpeed;
 	}
-
 	public int getId() {
-		return this.id;
+		return id;
 	}
 	public int getX(){
 		return currentXPos;
@@ -301,6 +299,9 @@ public abstract class Vehicle {
 	}
 	public int getLaneID(){
 		return lane.getLaneId();
+	}
+	public Lane getLane() {
+		return lane;
 	}
 
 
