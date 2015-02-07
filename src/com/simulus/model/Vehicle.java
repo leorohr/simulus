@@ -165,15 +165,42 @@ public abstract class Vehicle {
 	 * Move the vehicle one step in its current direction.
 	 */
 	public void moveForward(){
-		//TODO before calling this method, there should be a method call to check the validity 
-		// of the next movement 
-
-		map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()].setVehicle(this);	//copy car to next cell
-		map[currentXPos][currentYPos].content.getLanes1()[lane.getLaneId()].setVehicle(null);		//remove from old cell
+		
+		//Scan the tile ahead
+		checkBlockage();
+		checkIntersection();
+		
+		//Get the lane object that will store the car if moving in the current direction.
+		Lane nextLane;
+		if(currentDir == Direction.NORTH || currentDir == Direction.WEST) {
+			nextLane = map[nextMoveXPos][nextMoveYPos].content.getLanes1()[lane.getLaneId()];
+		} else {
+			nextLane = map[nextMoveXPos][nextMoveYPos].content.getLanes2()[lane.getLaneId()];
+		}
+		
+		//Check if intersection, and if so, whether we can move through
+		if(intersectionDetected) {
+			Intersection is = (Intersection) map[nextMoveXPos][nextMoveYPos].content;
+			if(!is.isGreen(currentDir)) {
+				return;
+			}
+		}
+			
+		//Only move car if next lane object is free
+		if(nextLane.occupied)
+			return;
+				
+		
+		nextLane.setVehicle(this);	//copy car to next cell
+		lane.setVehicle(null);		//remove car from old cell
+		lane = nextLane;			//update lane variable
 
 		// The new location is now set as the currentLocation
 		currentXPos = nextMoveXPos;
 		currentYPos = nextMoveYPos;
+		
+		//TODO remove vehicle if out of map
+	
 	}
 
 	/**
@@ -227,9 +254,7 @@ public abstract class Vehicle {
 
 	}
 
-	private void checkInterSection(){
-		//TODO Check if any tile in front the car is content Intersection
-		//return true;
+	private void checkIntersection() {
 		if (map[nextMoveXPos][nextMoveYPos].content.getSeed() == Seed.INTERSECTION){
 			intersectionDetected = true;
 		}
