@@ -67,11 +67,6 @@ public class SimulationController implements MapUpdateListener {
 				app.redrawCars(map.getVehicleList());
 			});
 	}
-
-	@Override
-	public void carSpawned(int x, int y, int laneId, int carId) {
-		//TODO spawn car in ui
-	}
 	
 	public void startSimulation() {
 			

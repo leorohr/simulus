@@ -92,8 +92,6 @@ public class Map {
 		Car c = new Car(grid, ep.getxPos(), ep.getyPos(), lane);
 		lane.setVehicle(c);
 		vehicles.add(c);
-		
-		notifyCarSpawned(ep.getxPos(), ep.getyPos(), lane.getLaneId(), c.getId());
 	}
 	
 	/**
@@ -166,17 +164,6 @@ public class Map {
 			l.mapUpdated();
 		}
 		
-	}
-	
-	/**
-	 * Notify listeners of spawned car
-	 */
-	private void notifyCarSpawned(int x, int y, int laneId, int carId){
-		
-		for(MapUpdateListener l : listeners) {
-			l.carSpawned(x, y, laneId, carId);
-		}
-				
 	}
 	
 	public void addMapUpdateListener(MapUpdateListener listener) {
