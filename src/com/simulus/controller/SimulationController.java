@@ -39,27 +39,7 @@ public class SimulationController implements MapUpdateListener {
 		Platform.runLater(() -> app.readMap());
 		
 		//Define the simulation
-		spinner = new Thread() {
-			
-			@Override
-			public void run() {
-				
-				while(!isInterrupted()) {
-					
-					if(map.getVehicleCount() < MAXCARS) {
-						map.spawnRandomCar();
-					}
-				
-					map.update();
-					
-					try {
-						Thread.sleep(TICKRATE);
-					} catch (InterruptedException e) {e.printStackTrace();}
-					
-				}
-			}
-		};	
-		spinner.start();
+		spinner = new SimulationThread();
 	}
 
 	@Override
@@ -70,21 +50,45 @@ public class SimulationController implements MapUpdateListener {
 	}
 	
 	public void startSimulation() {
+		if(!spinner.isInterrupted()) {
+			spinner = new SimulationThread();
+			spinner.start();
 		
-		spinner.start();
+		if(!spinner.isAlive())
+			spinner.start();
+		}
 	}
 	
 	public void stopSimulation() {
 		
 		spinner.interrupt();
 	}
-
-
+	
 	@Override
 	public void lightSwitched() {
 		app.switchLights();
 	}
 	
-
-
+	private class SimulationThread extends Thread {
+		@Override
+		public void run() {
+			
+			while(!this.isInterrupted()) {
+				
+				if(map.getVehicleCount() < MAXCARS) {
+					map.spawnRandomCar();
+				}
+			
+				map.update();
+				
+				try {
+					Thread.sleep(TICKRATE);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					this.interrupt();
+				}
+				
+			}
+		}
+	}
 }

@@ -15,7 +15,7 @@ public class RootLayoutController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		//for mac menubar
+		//native menubar
 		menuBar.setUseSystemMenuBar(true); 
 	}
 

@@ -20,7 +20,7 @@ public class Map {
 	
 	/** Store all vehicles currently on the map */
 	private ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-	private Object listMutex = new Object();
+	private Object listMutex = new Object(); //TODO does this list really have to be blocked?
 
 	/** A list of tiles that serve as spawnpoints for the vehicles. */
 	private ArrayList<Tile> entryPoints = new ArrayList<Tile>();

@@ -6,14 +6,16 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.geometry.Rectangle2D;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -30,6 +32,7 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	private Pane canvas;
 	private int frameNo = 0;
 	private ArrayList<VVehicle> cars;
 	private VCar car = null;
@@ -38,8 +41,8 @@ public class MainApp extends Application {
 	private Rectangle rect;
 	private Group tile;
 	private int gridSize;
-	private int windowWidth = 900;
-	private int windowHeight = 900;
+	private int canvasWidth = 900;
+	private int canvasHeight = 900;
 	private static MainApp instance;
 	private SimulationController controller;
 	private int tileWidth;
@@ -66,12 +69,10 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		lights = new TrafficLight(100, 100, 20, 60);		
 		cars = new ArrayList<VVehicle>();
 		
-		
 		initRootLayout();
-		showMainView();
+		showControls();
 		
 		//Get SimulationController; initialises controller on first call.
 		controller = SimulationController.getInstance();
@@ -110,32 +111,27 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-
-			/*FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class
-					.getResource("view/RootLayout.fxml"));
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
-			*/
-			rootLayout = new BorderPane();
-			//rootLayout.setBorder(new Border());
-			Scene scene = new Scene(rootLayout, windowWidth, windowHeight);
 
-	        rootLayout.prefHeightProperty().bind(scene.heightProperty());
-	        rootLayout.prefWidthProperty().bind(scene.widthProperty());
-			Screen screen = Screen.getPrimary();
-	        Rectangle2D bounds = screen.getVisualBounds();
+			canvas = new Pane();
+			canvas.setMinSize(canvasWidth, canvasHeight);
+			canvas.setPrefSize(canvasWidth, canvasHeight);
+			canvas.setMaxSize(canvasWidth, canvasHeight);
+			rootLayout.setCenter(canvas);
+			
+			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
-			//primaryStage.setWidth(bounds.getHeight()/2);
-			//primaryStage.setHeight(bounds.getWidth()/2);
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				@Override
+				public void handle(WindowEvent t) {
+					Platform.exit();
+					System.exit(0);
+				}
+			});
 			
 			primaryStage.show();
-			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-	            @Override
-	            public void handle(WindowEvent t) {
-	                Platform.exit();
-	                System.exit(0);
-	            }
-	        });
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,47 +141,56 @@ public class MainApp extends Application {
 	
 	public void setGridSize(int size){
 		gridSize = size;
-		tileWidth = windowWidth/gridSize;
+		tileWidth = canvasWidth/gridSize;
 	}
 
-	/**
-	 * TODO
-	 */
-	private void showMainView() {
+	private void showControls() {
 		try {
-			//FXMLLoader loader = new FXMLLoader();
-			//loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
-			//overview = (AnchorPane) loader.load();
-			// Set overview as center widget of the pane
-			//rootLayout.setCenter(overview);
-			//rootLayout.getChildren().add(lights);
-			//rootLayout.getChildren().add(tile);
-			int count = 90/3;
-			
-			for(int i = 0; i < 30; i ++){
-				for(int p = 0; p <30; p++){
-					
-					tiles[i][p] = new Rectangle(count*p, count*i, count, count);
-					tiles[i][p].setFill(Color.TRANSPARENT);
-					tiles[i][p].setStroke(Color.BLACK);
-					rootLayout.getChildren().add(tiles[i][p]);
-					
-				}
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/Controls.fxml"));
+			AnchorPane controls = (AnchorPane) loader.load();
+			rootLayout.setRight(controls);
+		} catch(Exception e) {
+				e.printStackTrace();
 			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
+	
+	 // TODO remove?
+//	private void showMainView() {
+//		try {
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
+//			overview = (AnchorPane) loader.load();
+////			 Set mainView as center widget of the pane
+//			rootLayout.setCenter(overview);
+//			//rootLayout.getChildren().add(lights);
+//			//rootLayout.getChildren().add(tile);
+//			int count = 90/3;
+//			
+//			for(int i = 0; i < 30; i ++){
+//				for(int p = 0; p <30; p++){
+//					
+//					tiles[i][p] = new Rectangle(count*p, count*i, count, count);
+//					tiles[i][p].setFill(Color.TRANSPARENT);
+//					tiles[i][p].setStroke(Color.BLACK);
+//					rootLayout.getChildren().add(tiles[i][p]);
+//					
+//				}
+//			}
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
-	public void redrawCars(List<Vehicle> vehicles){
+	public synchronized void redrawCars(List<Vehicle> vehicles){
 		
 		//Clear Screen
-		rootLayout.getChildren().clear();
+		canvas.getChildren().clear();
 		
 		//Draw Roads
 		for(int i = 0; i < roads.size(); i++)
-			rootLayout.getChildren().add(roads.get(i));
+			canvas.getChildren().add(roads.get(i));
 		
 		//Draw cars
 		for(Vehicle v : vehicles) {
@@ -228,7 +233,7 @@ public class MainApp extends Application {
 			}
 			
 			cars.add(car);
-			rootLayout.getChildren().add(car);
+			canvas.getChildren().add(car);
 		}
 	}
 	
