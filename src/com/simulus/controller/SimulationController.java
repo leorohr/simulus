@@ -11,7 +11,6 @@ public class SimulationController implements MapUpdateListener {
 	
 	private Thread spinner;
 	private Map map = Map.getInstance();
-	
 	private MainApp app = MainApp.getInstance();
 	
 	// Singleton pattern
@@ -62,6 +61,15 @@ public class SimulationController implements MapUpdateListener {
 	public void mapUpdated() {
 		//TODO call the ui to execute all the changes.
 
+		
+//		app.redrawCars(map.getVehicleList());
+		
+		
+	}
+
+	@Override
+	public void carSpawned(int x, int y, int laneId, int carId) {
+		//TODO spawn car in ui
 	}
 	
 	public void startSimulation() {
@@ -74,11 +82,7 @@ public class SimulationController implements MapUpdateListener {
 		
 		spinner.interrupt();
 	}
+	
 
-
-	@Override
-	public void carSpawned(int x, int y, int laneId, int carId) {
-		//TODO spawn car in ui
-	}
 
 }
