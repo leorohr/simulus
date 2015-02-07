@@ -169,12 +169,9 @@ public abstract class Vehicle {
 	 * 			<code>false</code> if the car moves out of the map and should be removed
 	 */
 	public boolean moveForward(){
-		
-		//Scan the tile ahead
-//		checkBlockage();
-//		checkIntersection();
+
 		CalculateNextForwardMovement();
-		
+				
 		//Remove car if out of grid.
 		if(	nextMoveXPos < 0 || nextMoveYPos < 0 ||
 			nextMoveXPos > grid.length-1 || nextMoveYPos > grid.length-1) {
@@ -183,6 +180,10 @@ public abstract class Vehicle {
 			
 			return false;
 		}
+
+		//Scan the tile ahead
+		checkIntersection();
+
 		
 		//Get the lane object that will store the car if moving in the current direction.
 		Lane nextLane;
@@ -275,7 +276,6 @@ public abstract class Vehicle {
 		else{
 			intersectionDetected = false;
 		}
-
 	}
 
 
