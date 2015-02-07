@@ -48,9 +48,6 @@ public abstract class Vehicle {
 
 	boolean blockageDectected;
 	boolean intersectionDetected;
-
-
-
 	
 	
 	/**
@@ -167,13 +164,21 @@ public abstract class Vehicle {
 
 	/**
 	 * Move the vehicle one step in its current direction.
+	 * @return <code>true</code> if move is valid (even if road is blocked
+	 * 			<code>false</code> if the car moves out of the map and should be removed
 	 */
-	public void moveForward(){
+	public boolean moveForward(){
 		
 		//Scan the tile ahead
 //		checkBlockage();
 //		checkIntersection();
 		CalculateNextForwardMovement();
+		
+		//Remove car if out of grid.
+		if(nextMoveXPos < 0 || nextMoveYPos < 0) {
+			return false;
+		}
+		
 		//Get the lane object that will store the car if moving in the current direction.
 		Lane nextLane;
 		if(currentDir == Direction.NORTH || currentDir == Direction.WEST) {
@@ -186,13 +191,13 @@ public abstract class Vehicle {
 		if(intersectionDetected) {
 			Intersection is = (Intersection) grid[nextMoveXPos][nextMoveYPos].content;
 			if(!is.isGreen(currentDir)) {
-				return;
+				return true;
 			}
 		}
 			
 		//Only move car if next lane object is free
 		if(nextLane.isOccupied())
-			return;
+			return true;
 				
 		
 		nextLane.setVehicle(this);	//copy car to next cell
@@ -202,9 +207,9 @@ public abstract class Vehicle {
 		// The new location is now set as the currentLocation
 		currentXPos = nextMoveXPos;
 		currentYPos = nextMoveYPos;
+
 		
-		//TODO remove vehicle if out of map
-	
+		return true;
 	}
 
 	/**

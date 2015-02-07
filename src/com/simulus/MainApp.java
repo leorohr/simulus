@@ -191,7 +191,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	public void redrawCars(ArrayList<Vehicle> vehicles){
+	public synchronized void redrawCars(ArrayList<Vehicle> vehicles){
 		for(Vehicle v:vehicles){
 			VCar car = new VCar(v.getX()*30, v.getY()*30,v.getDirection());
 			cars.add(car);

@@ -1,6 +1,8 @@
 package com.simulus.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import com.simulus.model.listeners.MapUpdateListener;
 import com.simulus.util.enums.Seed;
@@ -123,7 +125,10 @@ public class Map {
 	public void update() {
 
 		for(Vehicle v : vehicles) {
-			v.moveForward(); // Need to implement a move method
+			if(!v.moveForward()) {
+				vehicles.remove(v);
+			}
+			
 			notifyMapUpdateListeners();
 		}
 		
@@ -170,8 +175,7 @@ public class Map {
 		for(MapUpdateListener l : listeners) {
 			l.carSpawned(x, y, laneId, carId);
 		}
-			
-			
+				
 	}
 	
 	public void addMapUpdateListener(MapUpdateListener listener) {
