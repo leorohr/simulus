@@ -196,7 +196,7 @@ public class MainApp extends Application {
 	//TODO replace fixed numbers
 	public void redrawCars(ArrayList<Vehicle> vehicles){
 		rootLayout.getChildren().clear();
-		for(int i = 0; i < tileWidth; i++){
+		for(int i = 0; i < gridSize; i++){
 			if(i == 14)
 				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else
@@ -204,7 +204,7 @@ public class MainApp extends Application {
 			//rootLayout.getChildren().add(roads.get(i));
 		}
 		
-		for(int i = 0; i < tileWidth; i++){
+		for(int i = 0; i < gridSize; i++){
 			if(i == 14)
 				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
 			else

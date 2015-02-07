@@ -178,6 +178,9 @@ public abstract class Vehicle {
 		//Remove car if out of grid.
 		if(	nextMoveXPos < 0 || nextMoveYPos < 0 ||
 			nextMoveXPos > grid.length-1 || nextMoveYPos > grid.length-1) {
+			
+			lane.setVehicle(null); //clear up lane
+			
 			return false;
 		}
 		
