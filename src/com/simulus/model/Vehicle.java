@@ -20,6 +20,7 @@
 
 package com.simulus.model;
 
+import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 
@@ -175,7 +176,8 @@ public abstract class Vehicle {
 		CalculateNextForwardMovement();
 		
 		//Remove car if out of grid.
-		if(nextMoveXPos < 0 || nextMoveYPos < 0) {
+		if(	nextMoveXPos < 0 || nextMoveYPos < 0 ||
+			nextMoveXPos > grid.length-1 || nextMoveYPos > grid.length-1) {
 			return false;
 		}
 		
