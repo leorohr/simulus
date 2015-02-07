@@ -1,3 +1,6 @@
+\author{Team Simulus}
+\title{7CCSMGPR Initial Report}
+\date{06/02/2015}
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -8,7 +11,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[R]{Team Simulus}
-\fancyfoot[R]{r03}
+\fancyfoot[R]{r04}
 
 \begin{document}
 
@@ -29,15 +32,17 @@ The aim of this project is to develop Traffic Simulation software as a team that
 We developed a hierarchy of aims that highlight the level of importance of each goal by using MoSCoW analysis. Naturally, aims with a higher level of importance should be wholly completed before work towards the other goals has begun. In this way, the chance of producing a complete and well-functioning software artefact is maximised. The produced aims are listed below by order of importance:
 
 \subsection{Must}
+\label{section:must}
 \begin{enumerate}
   \item The system must simulate individual vehicles operating in different parts of a road network.
   \item The system must deal with vehicle entrance and exit points in a way that simulates a real world environment.
   \item The system must allow for the individual behaviour of vehicles.
+  \item The system must compute statistics of interest such as Vehicle Miles Travelled (VMT), mean system speed, total system delay, etc. 
+  \item The system must allow different traffic management policies to be plugged in and compared.
 \end{enumerate}
 
 \subsection{Should}
 \begin{enumerate}
-  \item The system must allow different traffic management policies to be plugged in and compared.
   \item The system should have support for emergency services.
   \item The system should allow the user to create the map in which to simulate traffic.
 \end{enumerate}
@@ -55,7 +60,9 @@ We developed a hierarchy of aims that highlight the level of importance of each 
 
 \section{Progress}
 \paragraph{}
-
+Although the planning phase took longer than anticipated, ultimately it has been a fruitful exercise with very little deviation from the project milestones.  We have successfully selected a microscopic discrete simulation model for it's relative simplicity.  Using a Model-View-Controller(MVC) pattern a prototype has been developed with working visualiser.  At present we have met the first two requirements of \ref{section:must} by representing, in the model and visualiser, an intersection with two opposing roads each containing two lanes.  Vehicles are spawned from a designated entrance point once another leaves from the exist.    
+\paragraph{}
+The feedback from this discrete prototype has lead to us entertaining a continuous model approach.  Although the discreet approach has the added advantage of being efficient for larger map representations, further research has shown we can achieve more realistic vehicle behaviour using a continuous model.
 
 \pagebreak
 
