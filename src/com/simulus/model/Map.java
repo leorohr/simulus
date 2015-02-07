@@ -121,12 +121,13 @@ public class Map {
 	}
 
 	/**
+	 * <code>Synchronized</code> because it is accessed by multiple threads, including the UI.
 	 * @param x
 	 * @param y
 	 * @return the <code>Tile</code> at position (x,y), <code>null</code> if the grid does
 	 * not contain a road or intersection at that position.
 	 */
-	public Tile getTile(int x, int y) {
+	public synchronized Tile getTile(int x, int y) {
 		return grid[x][y];
 	}
 	

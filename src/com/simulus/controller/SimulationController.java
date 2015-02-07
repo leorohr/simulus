@@ -32,8 +32,9 @@ public class SimulationController implements MapUpdateListener {
 		//Subscribe to map updates
 		map.addMapUpdateListener(this);
 		
+		//Initialise UI
 		app.setGridSize(map.getMapSize());
-		
+		Platform.runLater(() -> app.drawMap());
 		
 		//Define the simulation
 		spinner = new Thread() {

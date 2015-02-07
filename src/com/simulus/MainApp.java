@@ -2,7 +2,6 @@ package com.simulus;
 
 import java.util.ArrayList;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -18,13 +17,14 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.model.Intersection;
+import com.simulus.model.Map;
 import com.simulus.model.Vehicle;
-import com.simulus.view.VVehicle;
-import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
-import com.simulus.view.VCar;
 import com.simulus.view.Road;
 import com.simulus.view.TrafficLight;
+import com.simulus.view.VCar;
+import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
 
@@ -54,6 +54,8 @@ public class MainApp extends Application {
 	
 	public MainApp(){
 		super();
+		
+		//Synchronized call to access the application's instance
 		synchronized(MainApp.class){
 			if(instance != null) throw new UnsupportedOperationException(
 					getClass()+" ");
@@ -65,30 +67,16 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		lights = new TrafficLight(100, 100, 20, 60);
-		for(int i = 0; i < tileWidth; i++){
-			if(i == 14)
-				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
-			else
-				roads.add(new Road(14*tileWidth,i*tileWidth,tileWidth,tileWidth, Seed.NORTHSOUTH) );
-			//rootLayout.getChildren().add(roads.get(i));
-		}
-		
-		for(int i = 0; i < tileWidth; i++){
-			if(i == 14)
-				roads.add(new Road(14*tileWidth, i*tileWidth, tileWidth,tileWidth));
-			else
-				roads.add(new Road(i*tileWidth,14*tileWidth,tileWidth,tileWidth, Seed.WESTEAST) );
-			//rootLayout.getChildren().add(roads.get(i));
-		}
-		
+		lights = new TrafficLight(100, 100, 20, 60);		
 		cars = new ArrayList<VVehicle>();
 		
 		
 		initRootLayout();
 		showMainView();
 		
+		//Get SimulationController; initialises controller on first call.
 		controller = SimulationController.getInstance();
+		
 		/**
 		 * Ticking loop
 		 */
@@ -193,7 +181,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	//TODO replace fixed numbers
+
 	public void redrawCars(ArrayList<Vehicle> vehicles){
 		rootLayout.getChildren().clear();
 		for(int i = 0; i < gridSize; i++){
@@ -211,9 +199,11 @@ public class MainApp extends Application {
 				roads.add(new Road(i*tileWidth,14*tileWidth,tileWidth,tileWidth, Seed.WESTEAST) );
 			//rootLayout.getChildren().add(roads.get(i));
 		}
+		
 		for(int i = 0; i < roads.size(); i++)
 			rootLayout.getChildren().add(roads.get(i));
-		for(Vehicle v:vehicles){
+		
+		for(Vehicle v:vehicles) {
 			VCar car = new VCar(v.getX()*tileWidth, v.getY()*tileWidth,v.getDirection());
 			switch(car.getDirection()){
 			case NORTH:
@@ -223,6 +213,7 @@ public class MainApp extends Application {
 				if(v.getLaneID() == 0)
 					car.setX((v.getX()*tileWidth)+(tileWidth/8)-(car.getWidth()/2));
 				break;
+				
 			case WEST:
 				car.setX((v.getX()*tileWidth)+(tileWidth/2)-(car.getWidth()/2));
 				if(v.getLaneID() == 1)
@@ -230,6 +221,7 @@ public class MainApp extends Application {
 				if(v.getLaneID() == 0)
 					car.setY((v.getY()*tileWidth)+((tileWidth*3)/4)-(tileWidth/8)-(car.getHeight()/2));
 				break;
+				
 			case SOUTH:
 				car.setY((v.getY()*tileWidth)+(tileWidth/2)-(car.getHeight()/2));
 				if(v.getLaneID() == 1)
@@ -237,6 +229,7 @@ public class MainApp extends Application {
 				if(v.getLaneID() == 0)
 					car.setX((v.getX()*tileWidth)+((tileWidth*3)/4)-(tileWidth/8)-(car.getWidth()/2));
 				break;
+				
 			case EAST:
 				car.setX((v.getX()*tileWidth)+(tileWidth/2)-(car.getWidth()/2));
 				if(v.getLaneID() == 1)
@@ -252,6 +245,22 @@ public class MainApp extends Application {
 	
 	public void switchLights() {
 		
+	}
+	
+	public void drawMap() {
+		Map map = Map.getInstance();
+		for(int i=0; i<gridSize; i++) {
+			for(int j=0; j<gridSize; j++) {
+				com.simulus.model.Road r = map.getTile(i, j).content;
+				if(r == null)
+					continue;
+				if(r instanceof Intersection) {
+					roads.add(new Road(i*tileWidth, j*tileWidth, tileWidth, tileWidth));
+				} else if(r instanceof com.simulus.model.Road) {
+					roads.add(new Road(i*tileWidth, j*tileWidth, tileWidth, tileWidth, r.getSeed()));
+				}
+			}
+		}
 	}
 
 	public static void main(String[] args) {
