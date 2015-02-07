@@ -165,8 +165,10 @@ public abstract class Vehicle {
 	 * Move the vehicle one step in its current direction.
 	 */
 	public void moveForward(){
-		//TODO before calling this method, there should be a method call to check the validity 
-		// of the next movement 
+		
+		//Scan the tile ahead
+		checkBlockage();
+		checkIntersection();
 		
 		//Get the lane object that will store the car if moving in the current direction.
 		Lane nextLane;
@@ -196,6 +198,9 @@ public abstract class Vehicle {
 		// The new location is now set as the currentLocation
 		currentXPos = nextMoveXPos;
 		currentYPos = nextMoveYPos;
+		
+		//TODO remove vehicle if out of map
+	
 	}
 
 	/**
@@ -249,9 +254,7 @@ public abstract class Vehicle {
 
 	}
 
-	private void checkInterSection(){
-		//TODO Check if any tile in front the car is content Intersection
-		//return true;
+	private void checkIntersection() {
 		if (map[nextMoveXPos][nextMoveYPos].content.getSeed() == Seed.INTERSECTION){
 			intersectionDetected = true;
 		}
