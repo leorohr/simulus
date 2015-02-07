@@ -192,15 +192,6 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void redrawCars(ArrayList<Vehicle> vehicles){
-		rootLayout.getChildren().clear();
-		for(Vehicle v:vehicles){
-			VCar car = new VCar(v.getX()*30, v.getY()*30,v.getDirection());
-			//cars.add(car);
-			rootLayout.getChildren().add(car);
-		}
-	}
-	
 
 	public static void main(String[] args) {
 		launch(args);
