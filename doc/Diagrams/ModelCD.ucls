@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" name="com.simulus.model.Lane" project="Simulus" 
     file="/Simulus/src/com/simulus/model/Lane.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="174" y="840"/>    
+    <position height="-1" width="-1" x="214" y="816"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="com.simulus.model.Car" project="Simulus" 
     file="/Simulus/src/com/simulus/model/Car.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="123" y="460"/>    
+    <position height="-1" width="-1" x="65" y="427"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="com.simulus.model.Map" project="Simulus" 
     file="/Simulus/src/com/simulus/model/Map.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="632" y="306"/>    
+    <position height="-1" width="-1" x="685" y="228"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -65,95 +65,113 @@
     </display>  
   </class>  
   <association id="8">    
-    <bendpoint x="240" y="582"/>    
-    <bendpoint x="130" y="689"/>    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="9" name="lane"/>      
-      <multiplicity id="10" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="9" name="lanes2">        
+        <position height="0" width="0" x="40" y="-24"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="40" y="-24"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
-    <bendpoint x="821" y="363"/>    
-    <bendpoint x="792" y="523"/>    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="12" name="entryPoints">        
-        <position height="18" width="69" x="700" y="464"/>      
-      </attribute>      
-      <multiplicity id="13" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="14">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="15">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="16" name="vehicles"/>      
-      <multiplicity id="17" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="18">    
     <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="19" name="content"/>      
-      <multiplicity id="20" minimum="0" maximum="1"/>    
+      <attribute id="12" name="content">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="22" name="grid"/>      
-      <multiplicity id="23" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="24">    
+  <association id="14">    
+    <bendpoint x="434" y="909"/>    
+    <bendpoint x="391" y="927"/>    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="25" name="lanes2"/>      
-      <multiplicity id="26" minimum="0" maximum="2147483647"/>    
+      <attribute id="15" name="lanes1">        
+        <position height="0" width="0" x="40" y="-24"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="40" y="-24"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="27">    
-    <bendpoint x="373" y="750"/>    
-    <bendpoint x="373" y="540"/>    
+  <association id="17">    
+    <bendpoint x="797" y="514"/>    
+    <bendpoint x="792" y="523"/>    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="18" name="entryPoints">        
+        <position height="18" width="69" x="700" y="464"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <bendpoint x="287" y="630"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="28" name="vehicle"/>      
-      <multiplicity id="29" minimum="0" maximum="1"/>    
+      <attribute id="21" name="vehicle">        
+        <position height="18" width="47" x="238" y="526"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="30">    
-    <bendpoint x="434" y="909"/>    
-    <bendpoint x="391" y="927"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="31" name="lanes1"/>      
-      <multiplicity id="32" minimum="0" maximum="2147483647"/>    
+  <association id="23">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="24" name="grid">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="25" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="33">    
+  <association id="26">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="27" name="vehicles">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="29">    
     <end type="SOURCE" refId="7"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <association id="34">    
+  <generalization id="30">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="31">    
+    <bendpoint x="240" y="582"/>    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="35" name="map">        
-        <position height="18" width="35" x="527" y="474"/>      
+      <attribute id="32" name="lane">        
+        <position height="0" width="0" x="40" y="-24"/>      
       </attribute>      
-      <multiplicity id="36" minimum="0" maximum="2147483647"/>    
+      <multiplicity id="33" minimum="0" maximum="1">        
+        <position height="0" width="0" x="40" y="-24"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
