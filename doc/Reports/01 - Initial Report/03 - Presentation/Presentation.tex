@@ -20,7 +20,9 @@
 \usetheme{PaloAlto}}
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{color, colortbl}
 \graphicspath{{images/}}
+
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -135,8 +137,26 @@ King's College London \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Progress}
-\includegraphics[scale=0.35]{gantt01}
-\includegraphics[scale=0.35]{gantt02}
+%\includegraphics[scale=0.35]{gantt01}
+%\includegraphics[scale=0.35]{gantt02}
+
+\definecolor{LightCyan}{rgb}{0.88,1,1}
+
+	\begin{tabular}{|c|l|}
+	\hline
+	\textbf{Date} & \textbf{Phase} \\ \hline
+	15/01/15 & Formation \& Research \\ \hline
+	23/01/15 & Research \\ \hline
+	30/01/15 & Development Cycle 1 \\ \hline
+	\rowcolor{LightCyan}
+	06/02/15 & Development Cycle 2 \\ \hline
+	13/02/15 & Development Cycle 3 \\ \hline
+	20/02/15 & Development Cycle 4 \\ \hline
+	27/02/15 & \textbf{Buffer (Development or Report)} \\ \hline
+	06/03/15 & Report \\ \hline
+	27/03/15 & Submission \\ \hline
+	\end{tabular}
+	
 \end{frame}
 
 %------------------------------------------------
