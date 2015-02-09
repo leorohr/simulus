@@ -13,13 +13,15 @@ public class VIntersection extends Group{
 	Line l;
 	Path path1, path2, path3, path4;
 	boolean isSwitched = false;
+	private int id;
 
-	public VIntersection(int posX, int posY, int width, int height){
+	public VIntersection(int posX, int posY, int width, int height, int id){
+		this.id = id;
 		frame = new Road(posX, posY, width, height);
 		path1 = PathBuilder.create()
                 .elements( 
-                    new MoveTo(posX,posY+height/4),
-                    new LineTo(posX+width, posY+height/4)
+                    new MoveTo(posX,posY),
+                    new LineTo(posX+width, posY)
                 )
                 .build();
         path1.setStroke(Color.RED);
@@ -27,8 +29,8 @@ public class VIntersection extends Group{
         
         path2 = PathBuilder.create()
                 .elements( 
-                    new MoveTo(posX,posY+(height*3)/4),
-                    new LineTo(posX+width, posY+(height)*3/4)
+                    new MoveTo(posX,posY+height),
+                    new LineTo(posX+width, posY+height)
                 )
                 .build();
         path2.setStroke(Color.RED);
@@ -36,8 +38,8 @@ public class VIntersection extends Group{
         
         path3 = PathBuilder.create()
                 .elements( 
-                    new MoveTo(posX+(width/4),posY),
-                    new LineTo(posX+(width/4), posY+height)
+                    new MoveTo(posX+width,posY),
+                    new LineTo(posX+width, posY+height)
                 )
                 .build();
         path3.setStroke(Color.RED);
@@ -45,38 +47,29 @@ public class VIntersection extends Group{
         
         path4 = PathBuilder.create()
                 .elements( 
-                		new MoveTo(posX+((width*3)/4),posY),
-                        new LineTo(posX+((width*3)/4), posY+height)
+                		new MoveTo(posX,posY),
+                        new LineTo(posX, posY+height)
                 )
                 .build();
         path4.setStroke(Color.RED);
         path4.getStrokeDashArray().setAll(5d,5d);
 
 		this.getChildren().addAll(frame, path1, path2);
-		Thread t = new Thread(){
-			public void run(){
-				try{
-					sleep(2000);
-					switchLights();
-					sleep(2000);
-					switchLights();
-				}catch(Exception e){
-					
-				}
-			}
-		};
-		t.start();
+		switchLights();
+		
 	}
 	
 	public void switchLights(){
-		this.getChildren().remove(1);
-		this.getChildren().remove(2);
+		this.getChildren().clear();
 		if(!isSwitched){
-			this.getChildren().addAll(path3, path4);
+			this.getChildren().addAll(frame, path3, path4);
 			isSwitched = true;
 		}else{
-			this.getChildren().addAll(path1, path2);
+			this.getChildren().addAll(frame, path1, path2);
 			isSwitched = false;
 		}
+	}
+	public int getIntersectionId(){
+		return id;
 	}
 }

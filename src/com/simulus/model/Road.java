@@ -13,8 +13,14 @@ public class Road {
 	
 	private final Seed seed;
 	
+	private static int roadCount = 0;
+	private int id;
+	
 	
 	public Road(Seed orientation) {
+		roadCount++;
+		id = roadCount;
+		
 		this.seed = orientation;
 		
 		for(int i=0; i<LANECOUNT; i++) {
@@ -65,5 +71,7 @@ public class Road {
 	public Seed getSeed() {
 		return seed;
 	}
-	
+	public int getId(){
+		return id;
+	}
 }
