@@ -1,6 +1,7 @@
 package com.simulus;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.application.Application;
@@ -165,7 +166,8 @@ public class MainApp extends Application {
 			canvas.getChildren().add(i);
 
 		// Draw cars
-		for (Vehicle v : vehicles) {
+		for (Iterator<Vehicle> it = vehicles.iterator(); it.hasNext();) {
+			Vehicle v = it.next();
 			VCar car = new VCar(v.getX() * tileWidth, v.getY() * tileWidth,
 					v.getDirection());
 			switch (car.getDirection()) {
@@ -226,7 +228,7 @@ public class MainApp extends Application {
 		Platform.runLater(new Runnable() {
 			public void run() {
 				for (VIntersection vI : intersections)
-					if(is.getId()==vI.getIntersectionId())
+					if (is.getId() == vI.getIntersectionId())
 						vI.switchLights();
 			}
 		});
