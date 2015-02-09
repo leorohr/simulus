@@ -37,7 +37,7 @@ public class Intersection extends Road {
 						westGreen = !westGreen;
 						eastGreen = !eastGreen;
 
-						Map.getInstance().notifyLightSwitched();
+						Map.getInstance().notifyLightSwitched(Intersection.this);
 						
 						Thread.sleep(tickrate);
 					}

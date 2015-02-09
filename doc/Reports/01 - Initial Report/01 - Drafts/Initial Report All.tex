@@ -1,6 +1,6 @@
 \author{Team Simulus}
-\title{7CCSMGPR Initial Report}
-\date{06/02/2015}
+\title{7CCSMGPR Intermediate Report}
+\date{09/02/2015}
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -8,10 +8,14 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+\usepackage{wrapfig}
+\usepackage{enumitem}
 \pagestyle{fancy}
 \fancyhf{}
+\fancyhead[L]{7CCSMGPR Intermediate Report}
 \fancyhead[R]{Team Simulus}
-\fancyfoot[R]{r06}
+\fancyfoot[C]{\thepage}
+
 
 \begin{document}
 
@@ -33,7 +37,7 @@ We developed a hierarchy of aims that highlight the level of importance of each 
 
 \subsection{Must}
 \label{section:must}
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item The system must simulate individual vehicles operating in different parts of a road network.
   \item The system must deal with vehicle entrance and exit points in a way that simulates a real world environment.
   \item The system must allow for the individual behaviour of vehicles.
@@ -42,29 +46,43 @@ We developed a hierarchy of aims that highlight the level of importance of each 
 \end{enumerate}
 
 \subsection{Should}
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item The system should have support for emergency services.
   \item The system should allow the user to create the map in which to simulate traffic.
 \end{enumerate}
 
 \subsection{Could}
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item The system could save and load maps from a file.
   \item The system could use data from an external source such as Google Maps to generate the area in which to simulate traffic.
 \end{enumerate}
 
 \subsection{Won't}
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item The system will not be rely on any existing traffic simulation platforms, engines or modelling frameworks.  We restrict our efforts to the use of APIs of our development language and toolset.
 \end{enumerate}
 
 \section{Progress}
 \paragraph{}
-Although the planning phase took longer than anticipated, ultimately it has been a fruitful exercise with little deviation from the project milestones.  We have successfully selected a microscopic discrete simulation model for it's relative simplicity.  Using a Model-View-Controller(MVC) pattern a prototype has been developed with a working visualiser.  At present we have met the first two requirements of \ref{section:must} by representing, in the model and visualiser, numerous intersections with opposing roads each containing two lanes.  Vehicles are spawned from designated entrance points once another leaves from the exits.  Vehicle flow is successfully controlled by traffic lights and basic policy management functionality such as the number of cars or simulation tickrate are operational. 
-\paragraph{}
+Although the planning phase took longer than anticipated, ultimately it has been a fruitful exercise with little deviation from the project milestones.  We have successfully selected a microscopic discrete simulation model for it's relative simplicity.  Using a Model-View-Controller(MVC) design pattern a prototype has been developed with a working visualiser.  At present we have met the first two requirements of \ref{section:must} by representing, in the model and visualiser, numerous intersections with opposing roads each containing two lanes.  Vehicles are spawned from designated entrance points once another leaves from the exits.  Vehicle flow is successfully controlled by traffic lights and basic policy management functionality such as the number of cars or simulation tickrate are operational.
+ 
+\begin{wraptable}{r}{6cm}
+	\begin{tabular}{|c|l|}
+	\hline
+	Date & Phase \\ \hline
+	23/01/15 & Research \\ \hline
+	30/01/15 & Development Cycle 1 \\ \hline
+	06/02/15 & Development Cycle 2 \\ \hline
+	13/02/15 & Development Cycle 3 \\ \hline
+	20/02/15 & Development Cycle 4 \\ \hline
+	27/02/15 & Report \\
+	\hline
+	\end{tabular}
+	\caption{Timetable}
+\end{wraptable}
+
 The feedback from this discrete prototype has lead to us entertaining a continuous model approach.  Although the discreet method has the added advantage of being efficient for larger map representations, further research has shown we can achieve more realistic vehicle behaviour using a continuous model in combination with discrete time.
 
-\pagebreak
 
 \part{Project Organisation}
 
@@ -80,7 +98,7 @@ Considering the particular challenges we presumed to encounter, specifically tim
 \paragraph{}
 Having identified the major phases of the project and critical tasks, we agreed the following role definitions:
 
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item \textbf{Research \& Designer} - responsible for delving into the literature and suggesting solutions to our challenges.
   \item \textbf{Developer (Graphics \& GUI)} - responsible for translating functional graphical requirements into deliverables.
   \item \textbf{2 x Developer (Model Implementation)} - responsible for translating functional requirements of the model and back-end into deliverables.
@@ -102,7 +120,7 @@ Although the state of collaborative platforms are feature-rich we have found fac
 As a direct result of our working policy encouraging a proactive mindset, we have opted to award all team members equal weighting of the final result.  At the point prior to submission we will meet to ratify equal contribution and if there are any concerns, a majority vote will be issued.
 This majority vote strategy is being used for wider issues of contention.  Conflicts are resolved using the following rules:
 
-\begin{enumerate}
+\begin{enumerate}[itemsep=-1ex]
   \item Each individual has the opportunity to voice their concerns.
   \item Each individual has an equal vote on an issue.
   \item The majority vote is the deciding vote.

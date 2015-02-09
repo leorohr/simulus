@@ -215,7 +215,7 @@ public class MainApp extends Application {
 		}
 	}
 	
-	public void switchLights() {
+	public void switchLights(Intersection is) {
 		
 	}
 	

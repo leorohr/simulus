@@ -183,10 +183,10 @@ public class Map {
 	 * Notifies all listeners that a traffic light has changed.
 	 * <code>Synchronized</code> because every traffic light thread calls this method.
 	 */
-	public synchronized void notifyLightSwitched() {
+	public synchronized void notifyLightSwitched(Intersection is) {
 		
 		for(MapUpdateListener l : listeners) {
-			l.lightSwitched();
+			l.lightSwitched(is);
 		}
 	}
 	

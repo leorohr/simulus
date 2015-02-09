@@ -3,6 +3,7 @@ package com.simulus.controller;
 import javafx.application.Platform;
 
 import com.simulus.MainApp;
+import com.simulus.model.Intersection;
 import com.simulus.model.Map;
 import com.simulus.model.listeners.MapUpdateListener;
 
@@ -65,8 +66,8 @@ public class SimulationController implements MapUpdateListener {
 	}
 	
 	@Override
-	public void lightSwitched() {
-		app.switchLights();
+	public void lightSwitched(Intersection is) {
+		app.switchLights(is);
 	}
 	
 	private class SimulationThread extends Thread {
