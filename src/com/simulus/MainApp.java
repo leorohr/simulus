@@ -26,6 +26,7 @@ import com.simulus.model.Vehicle;
 import com.simulus.view.Road;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
+import com.simulus.view.VIntersection;
 import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
@@ -48,6 +49,7 @@ public class MainApp extends Application {
 	private int tileWidth;
 	
 	private ArrayList<Road> roads = new ArrayList<>();
+	private ArrayList<VIntersection> intersections = new ArrayList<>();
 	private Rectangle[][] tiles = new Rectangle[30][30];
 	
 	public static MainApp getInstance(){
@@ -155,33 +157,6 @@ public class MainApp extends Application {
 			}
 	}
 	
-	 // TODO remove?
-//	private void showMainView() {
-//		try {
-//			FXMLLoader loader = new FXMLLoader();
-//			loader.setLocation(MainApp.class.getResource("view/MainView.fxml"));
-//			overview = (AnchorPane) loader.load();
-////			 Set mainView as center widget of the pane
-//			rootLayout.setCenter(overview);
-//			//rootLayout.getChildren().add(lights);
-//			//rootLayout.getChildren().add(tile);
-//			int count = 90/3;
-//			
-//			for(int i = 0; i < 30; i ++){
-//				for(int p = 0; p <30; p++){
-//					
-//					tiles[i][p] = new Rectangle(count*p, count*i, count, count);
-//					tiles[i][p].setFill(Color.TRANSPARENT);
-//					tiles[i][p].setStroke(Color.BLACK);
-//					rootLayout.getChildren().add(tiles[i][p]);
-//					
-//				}
-//			}
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	public synchronized void redrawCars(List<Vehicle> vehicles){
 		
@@ -191,6 +166,9 @@ public class MainApp extends Application {
 		//Draw Roads
 		for(int i = 0; i < roads.size(); i++)
 			canvas.getChildren().add(roads.get(i));
+		//Draw Intersections
+		for(VIntersection i: intersections)
+			canvas.getChildren().add(i);
 		
 		//Draw cars
 		for(Vehicle v : vehicles) {
@@ -249,7 +227,7 @@ public class MainApp extends Application {
 				if(r == null)
 					continue;
 				if(r instanceof Intersection) {
-					roads.add(new Road(i*tileWidth, j*tileWidth, tileWidth, tileWidth));
+					intersections.add(new VIntersection(i*tileWidth, j*tileWidth, tileWidth, tileWidth));
 				} else if(r instanceof com.simulus.model.Road) {
 					roads.add(new Road(i*tileWidth, j*tileWidth, tileWidth, tileWidth, r.getSeed()));
 				}
