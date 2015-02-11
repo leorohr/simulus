@@ -21,6 +21,7 @@
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{color, colortbl}
+%\usepackage{enumitem}
 \graphicspath{{images/}}
 
 
@@ -72,7 +73,8 @@ King's College London \\ % Your institution for the title page
 		\item Vehicle Behaviour
 		\item Statistics - Delay, Average Speed, Distance Travelled
 		\item Traffic Management Policies - traffic signal timing, speed limit, etc
-	\end{itemize}
+\end{itemize}
+
 \item \textbf{Should}
 	\begin{itemize}
 		\item Emergency Services
@@ -101,14 +103,12 @@ King's College London \\ % Your institution for the title page
 \begin{itemize}
 \item \textbf{Working Policy}
 	\begin{itemize}
-		\item Cooperation
-		\item Equality
+		\item Cooperation and Equality
 		\item Responsibility
 		\item Self-Organisation
 	\end{itemize}
 \item \textbf{Methodology}
 	\begin{itemize}
-		\item Constraint - Time Pressure
 		\item Iterative and Incremental
 		\item Emphasis on Feedback
 	\end{itemize}
@@ -142,6 +142,7 @@ King's College London \\ % Your institution for the title page
 
 \definecolor{LightCyan}{rgb}{0.88,1,1}
 
+\resizebox{6cm}{!}{
 	\begin{tabular}{|c|l|}
 	\hline
 	\textbf{Date} & \textbf{Phase} \\ \hline
@@ -156,7 +157,26 @@ King's College London \\ % Your institution for the title page
 	06/03/15 & Report \\ \hline
 	27/03/15 & Submission \\ \hline
 	\end{tabular}
+}
+
+\begin{itemize}
+		\item Roads, Lanes, Intersections and Traffic Signals Modelled	
+		\item Individual Vehicles Modelled
+		\item Vehicle Entrance and Exit 
+		\item Vehicle Behaviour (single at present)
+		\item Model-View-Controller(MVC) Skeleton Implemented
+\end{itemize}	
 	
+\end{frame}
+
+%------------------------------------------------
+\section{Progress}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Progress}
+\includegraphics[scale=0.29]{gantt}
+
 \end{frame}
 
 %------------------------------------------------
