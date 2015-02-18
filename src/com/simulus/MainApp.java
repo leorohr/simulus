@@ -1,8 +1,6 @@
 package com.simulus;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -13,17 +11,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.view.Road;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
@@ -72,7 +66,6 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		cars = new ArrayList<VVehicle>();
 
 		initRootLayout();
 		showControls();
@@ -84,11 +77,10 @@ public class MainApp extends Application {
 				canvas.getChildren().add(tiles[i][p]);
 			}
 		}
+		
+		cars = new ArrayList<VVehicle>();
 		cars.add(new VCar(15 * tileWidth + VCar.CARWIDTH / 4, 29 * tileWidth
 				+ VCar.CARHEIGHT / 8, Direction.NORTH, instance));
-
-		// remove car
-		// canvas.getChildren().remove(car);
 
 		/**
 		 * Ticking loop
@@ -96,7 +88,6 @@ public class MainApp extends Application {
 		AnimationTimer timer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
 			int frameNo = 0;
-			Random rand = new Random();
 			
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
@@ -159,6 +150,8 @@ public class MainApp extends Application {
 				tiles[v.getCurrentTile().getGridPosX() + 1][v.getCurrentTile()
 						.getGridPosY()].setOccupied(false);
 				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -198,14 +191,11 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-			/*
-			 * FXMLLoader loader = new FXMLLoader();
-			 * loader.setLocation(MainApp.class
-			 * .getResource("view/RootLayout.fxml")); rootLayout = (BorderPane)
-			 * loader.load();
-			 */
-
-			rootLayout = new BorderPane();
+			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+			rootLayout = (BorderPane) loader.load();
+			
 			canvas = new Pane();
 			canvas.setMinSize(canvasWidth, canvasHeight);
 			canvas.setPrefSize(canvasWidth, canvasHeight);
