@@ -25,7 +25,7 @@
  *@since 1.00
  *@version 1.00 06/02/2015
  */
-package com.continous.util.enums;
+package com.simulus.util.enums;
 
 public enum Movement {
 	FORWARD, LEFT, RIGHT

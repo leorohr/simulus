@@ -1,6 +1,6 @@
-package com.continuous.view;
+package com.simulus.view;
 
-import com.continous.util.enums.Seed;
+import com.simulus.util.enums.Seed;
 import com.sun.org.apache.xml.internal.serialize.LineSeparator;
 
 import javafx.scene.Group;

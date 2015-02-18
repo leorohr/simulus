@@ -1,4 +1,4 @@
-package com.continuous.view;
+package com.simulus.view;
 
 import java.util.Random;
 
@@ -17,8 +17,8 @@ import javafx.scene.shape.PathBuilder;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import com.continous.util.enums.Direction;
-import com.continuous.MainApp;
+import com.simulus.MainApp;
+import com.simulus.util.enums.Direction;
 
 /**
  * Describes a car object on the GUI

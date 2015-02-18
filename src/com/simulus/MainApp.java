@@ -1,4 +1,4 @@
-package com.continuous;
+package com.simulus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,14 +22,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-
-import com.continous.util.enums.Direction;
-import com.continuous.view.Road;
-import com.continuous.view.Tile;
-import com.continuous.view.TrafficLight;
-import com.continuous.view.VCar;
-import com.continuous.view.VIntersection;
-import com.continuous.view.VVehicle;
+import com.simulus.util.enums.Direction;
+import com.simulus.view.Road;
+import com.simulus.view.Tile;
+import com.simulus.view.TrafficLight;
+import com.simulus.view.VCar;
+import com.simulus.view.VIntersection;
+import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
 

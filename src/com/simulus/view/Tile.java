@@ -1,4 +1,4 @@
-package com.continuous.view;
+package com.simulus.view;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;

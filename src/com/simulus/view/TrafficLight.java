@@ -1,7 +1,7 @@
-package com.continuous.view;
+package com.simulus.view;
 
 
-import com.continous.util.enums.Light;
+import com.simulus.util.enums.Light;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
