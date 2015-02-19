@@ -18,7 +18,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import com.simulus.util.enums.Direction;
 import com.simulus.view.Map;
 import com.simulus.view.Tile;
 import com.simulus.view.VVehicle;
@@ -28,11 +27,6 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Pane canvas;
-	private int frameNo = 0;
-	private ArrayList<VVehicle> cars;
-	private AnchorPane overview;
-	private Rectangle rect;
-	private Group tile;
 	private Map map;
 	private int gridSize;
 	private int canvasWidth = 900;
@@ -63,7 +57,6 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		this.cars = new ArrayList<VVehicle>();
 		this.map = new Map();
 
 		initRootLayout();
@@ -86,10 +79,6 @@ public class MainApp extends Application {
 		};
 		timer.start();
 	}
-	
-	
-
-	
 
 	/**
 	 * Initialise the root layout
