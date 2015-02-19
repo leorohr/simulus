@@ -10,7 +10,7 @@ import com.simulus.util.enums.Direction;
 /**
  * Describes a vehicle on the GUI
  */
-public abstract class VVehicle extends Rectangle {
+public abstract class Vehicle extends Rectangle {
 
 	protected Direction dir;
 	protected int mapSize;
@@ -31,14 +31,13 @@ public abstract class VVehicle extends Rectangle {
 	 *            The width of the vehicle
 	 * @param height
 	 *            The height of the vehicle
-	 */
-	public VVehicle(double posX, double posY, double width, double height,
-			Direction dir, MainApp gui) {
+	 */	
+	public Vehicle(double posX, double posY, double width, double height, Direction dir) {
 		super(posX, posY, width, height);
-		parent = gui;
+		this.parent = MainApp.getInstance();
 		this.dir = dir;
-		mapSize = gui.getGridSize();
-		map = gui.getMap().getTiles();
+		map = parent.getMap().getTiles();
+		mapSize = map.length;
 		occupiedTiles = new ArrayList<Tile>();
 		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
@@ -107,6 +106,8 @@ public abstract class VVehicle extends Rectangle {
 					return;
 			} else
 				currentTile = t;
+			break;
+		default:
 			break;
 		}
 

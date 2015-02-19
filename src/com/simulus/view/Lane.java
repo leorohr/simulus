@@ -6,7 +6,7 @@ import com.simulus.util.enums.Direction;
 
 public class Lane extends Tile{
 	
-	Direction dir;
+	private Direction dir;
 
 	public Lane(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY, Direction dir) {
@@ -15,4 +15,8 @@ public class Lane extends Tile{
 		getFrame().setFill(Color.BLACK);
 	}
 	
+	
+	public Direction getDirection() {
+		return this.dir;
+	}
 }

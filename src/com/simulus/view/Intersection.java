@@ -20,7 +20,7 @@ public class Intersection extends Group implements TileGroup {
 	 * @param yPos y coordinate of the top left tile of the intersection in the grid
 	 */
 	public Intersection(int xPos, int yPos) {
-		int tileSize = MainApp.getInstance().getTileSize();
+		int tileSize = Map.TILESIZE;
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {

@@ -20,7 +20,8 @@ import com.simulus.util.enums.Direction;
 /**
  * Describes a car object on the GUI
  */
-public class VCar extends VVehicle {
+@SuppressWarnings("deprecation")
+public class Car extends Vehicle {
 
 	public static final int CARWIDTH = 20;
 	public static final int CARHEIGHT = 25;
@@ -47,8 +48,8 @@ public class VCar extends VVehicle {
 	 * @param dir
 	 *            the direction the car should start moving in
 	 */
-	public VCar(double posX, double posY, Direction dir, MainApp gui) {
-		super(posX, posY, CARWIDTH, CARHEIGHT, dir, gui);
+	public Car(double posX, double posY, Direction dir) {
+		super(posX, posY, CARWIDTH, CARHEIGHT, dir);
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
@@ -60,6 +61,8 @@ public class VCar extends VVehicle {
 			setWidth(CARHEIGHT);
 			setHeight(CARWIDTH);
 			break;
+		default:
+			break;
 		}
 		setArcHeight(ARCHEIGHT);
 		setArcWidth(ARCWIDTH);
@@ -67,6 +70,8 @@ public class VCar extends VVehicle {
 		Random rand = new Random();
 		speed = rand.nextInt(5)+1;
 		addToCanvas();
+		
+		MainApp.getInstance().getVehicles().add(this);
 	}
 	
 	
@@ -117,6 +122,8 @@ public class VCar extends VVehicle {
 				} else
 					temp = getDirection();
 				setOnScreen(true);
+				break;
+			default:
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -195,6 +202,8 @@ public class VCar extends VVehicle {
 			if (parent.getCanvas().getChildren().contains(this)) {
 				parent.getCanvas().getChildren().remove(this);
 			}
+			break;
+		default:
 			break;
 		}
 	}
