@@ -38,7 +38,7 @@ public abstract class VVehicle extends Rectangle {
 		parent = gui;
 		this.dir = dir;
 		mapSize = gui.getGridSize();
-		map = gui.getMap();
+		map = gui.getMap().getTiles();
 		occupiedTiles = new ArrayList<Tile>();
 		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
@@ -66,7 +66,7 @@ public abstract class VVehicle extends Rectangle {
 		this.map = map;
 	}
 
-	public void setCurentTile(Tile t) {
+	public void setCurrentTile(Tile t) {
 		switch (getDirection()) {
 		case NORTH:
 			if (getCurrentTile() != null) {

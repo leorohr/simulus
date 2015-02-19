@@ -1,15 +1,11 @@
 package com.simulus.view;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.animation.FillTransition;
 import javafx.animation.Interpolator;
-import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
-import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;

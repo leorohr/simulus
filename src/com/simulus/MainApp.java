@@ -1,8 +1,6 @@
 package com.simulus;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -13,21 +11,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Intersection;
+import com.simulus.view.Map;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
-import com.simulus.view.Intersection;
 import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
@@ -41,12 +36,13 @@ public class MainApp extends Application {
 	private TrafficLight lights;
 	private Rectangle rect;
 	private Group tile;
+	private Map map;
 	private int gridSize;
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
-	private static MainApp instance;
 	private int tileWidth;
-	VVehicle car;
+	
+	private static MainApp instance;
 
 	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private Tile[][] tiles = new Tile[30][30];
@@ -65,29 +61,17 @@ public class MainApp extends Application {
 			instance = this;
 		}
 	}
-
+	
 	@Override
 	public void start(final Stage primaryStage) {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		cars = new ArrayList<VVehicle>();
+		this.cars = new ArrayList<VVehicle>();
+		this.map = new Map();
 
 		initRootLayout();
 		showControls();
-
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
-				tiles[i][p] = new Tile(i * tileWidth, p * tileWidth, tileWidth,
-						tileWidth, i, p);
-				canvas.getChildren().add(tiles[i][p]);
-			}
-		}
-		cars.add(new VCar(15 * tileWidth + VCar.CARWIDTH / 4, 29 * tileWidth
-				+ VCar.CARHEIGHT / 8, Direction.NORTH, instance));
-
-		// remove car
-		// canvas.getChildren().remove(car);
 
 		/**
 		 * Ticking loop
@@ -111,12 +95,12 @@ public class MainApp extends Application {
 								Direction.WEST, instance));
 				}
 
-				createBlockage(frameNo, 300, 15, 15);
-				createBlockage(frameNo, 300, 16, 15);
-				createBlockage(frameNo, 300, 14, 15);
+				map.createBlockage(frameNo, 300, 15, 15);
+				map.createBlockage(frameNo, 300, 16, 15);
+				map.createBlockage(frameNo, 300, 14, 15);
 
 				for (VVehicle c : cars) {
-					updateMap(c);
+					map.updateMap(c);
 
 					if (c.getOnScreen())
 						c.moveVehicle();
@@ -129,7 +113,7 @@ public class MainApp extends Application {
 		};
 		timer.start();
 	}
-
+	
 	/**
 	 * Removes a vehicle from the screen
 	 * 
@@ -144,39 +128,7 @@ public class MainApp extends Application {
 			t.setOccupied(false, v);
 	}
 
-	/**
-	 * Used only for testing purposes Simulates the effect of traffic lights on
-	 * cars
-	 */
-	public void createBlockage(int frameNo, int length, int tileX, int tileY) {
-		if (frameNo < length)
-			tiles[tileX][tileY].setOccupied(true);
-		else
-			tiles[tileX][tileY].setOccupied(false);
-	}
-
-	/**
-	 * Updates the map according to the vehicle passed in. Gives the vehicle a
-	 * copy of the updated map
-	 * 
-	 * @param c
-	 *            Vehicle
-	 */
-	public void updateMap(VVehicle c) {
-
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
-				if (tiles[i][p].intersects(c.getBoundsInParent())) {
-					tiles[i][p].setOccupied(true, c);
-					c.setCurentTile(tiles[i][p]);
-					c.addTile(tiles[i][p]);
-				} else {
-					tiles[i][p].setOccupied(false, c);
-				}
-			}
-			c.setMap(tiles);
-		}
-	}
+	
 
 	/**
 	 * Initialise the root layout
@@ -244,8 +196,8 @@ public class MainApp extends Application {
 		return canvas;
 	}
 
-	public Tile[][] getMap() {
-		return tiles;
+	public Map getMap() {
+		return map;
 	}
 
 	public ArrayList<VVehicle> getVehicles() {
