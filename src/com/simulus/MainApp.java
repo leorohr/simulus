@@ -1,7 +1,6 @@
 package com.simulus;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -18,10 +17,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Intersection;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
-import com.simulus.view.VIntersection;
 import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
@@ -43,7 +42,7 @@ public class MainApp extends Application {
 	VVehicle car;
 
 
-	private ArrayList<VIntersection> intersections = new ArrayList<>();
+	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private Tile[][] tiles = new Tile[30][30];
 
 	public static MainApp getInstance() {
