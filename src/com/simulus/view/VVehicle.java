@@ -35,7 +35,7 @@ public abstract class VVehicle extends Rectangle {
 		parent = gui;
 		this.dir = dir;
 		mapSize = gui.getGridSize();
-		map = gui.getMap();
+		map = gui.getMap().getTiles();
 		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
 			onScreen = true;

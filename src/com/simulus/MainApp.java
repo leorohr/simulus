@@ -1,6 +1,8 @@
 package com.simulus;
 
+
 import java.util.ArrayList;
+import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -16,6 +18,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.util.enums.Direction;
+import com.simulus.view.Map;
 import com.simulus.view.Tile;
 import com.simulus.view.VVehicle;
 
@@ -29,12 +33,13 @@ public class MainApp extends Application {
 	private AnchorPane overview;
 	private Rectangle rect;
 	private Group tile;
+	private Map map;
 	private int gridSize;
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
-	private static MainApp instance;
 	private int tileWidth;
-	VVehicle car;
+	
+	private static MainApp instance;
 
 	private Tile[][] tiles = new Tile[30][30];
 
@@ -52,36 +57,39 @@ public class MainApp extends Application {
 			instance = this;
 		}
 	}
-
+	
 	@Override
 	public void start(final Stage primaryStage) {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		cars = new ArrayList<VVehicle>();
+		this.cars = new ArrayList<VVehicle>();
+		this.map = new Map();
 
 		initRootLayout();
 		showControls();
-
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
-				tiles[i][p] = new Tile(i * tileWidth, p * tileWidth, tileWidth,
-						tileWidth, i, p);
-				canvas.getChildren().add(tiles[i][p]);
-			}
-		}
+		
+		map.addMap();
 
 		/**
 		 * Ticking loop
 		 */
 		AnimationTimer timer = new AnimationTimer() {
-			
+			// When the timer is started, this method loops endlessly
+			int frameNo = 0;
+			Random rand = new Random();
+
 			public void handle(long now) { // Increment the frame number
-				
+				frameNo++;
+
 			}
 		};
 		timer.start();
 	}
+	
+	
+
+	
 
 	/**
 	 * Initialise the root layout
@@ -89,14 +97,12 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-			/*
-			 * FXMLLoader loader = new FXMLLoader();
-			 * loader.setLocation(MainApp.class
-			 * .getResource("view/RootLayout.fxml")); rootLayout = (BorderPane)
-			 * loader.load();
-			 */
 
-			rootLayout = new BorderPane();
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class
+					.getResource("view/RootLayout.fxml"));
+			rootLayout = (BorderPane) loader.load();
+
 			canvas = new Pane();
 			canvas.setMinSize(canvasWidth, canvasHeight);
 			canvas.setPrefSize(canvasWidth, canvasHeight);
@@ -122,16 +128,7 @@ public class MainApp extends Application {
 		}
 
 	}
-
-	public void setGridSize(int size) {
-		gridSize = size;
-		tileWidth = canvasWidth / gridSize;
-	}
-
-	public int getGridSize() {
-		return gridSize;
-	}
-
+	
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -142,15 +139,27 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	public void setGridSize(int size) {
+		gridSize = size;
+		tileWidth = canvasWidth / gridSize;
+	}
+
+	public int getGridSize() {
+		return gridSize;
+	}
+	
+	public int getTileSize() {
+		return (int)canvasWidth / gridSize;
+	}
 
 	public Pane getCanvas() {
 		return canvas;
 	}
 
-	public Tile[][] getMap() {
-		return tiles;
+	public Map getMap() {
+		return map;
 	}
-
 
 	public static void main(String[] args) {
 		launch(args);
