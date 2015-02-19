@@ -69,7 +69,7 @@ public class Map extends Group{
 	 * @param c
 	 *            Vehicle
 	 */
-	public void updateMap(VVehicle c) {
+	/*public void updateMap(VVehicle c) {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
@@ -83,7 +83,7 @@ public class Map extends Group{
 			}
 			c.setMap(tiles);
 		}
-	}
+	}*/
 	
 
 	public Tile[][] getTiles() {

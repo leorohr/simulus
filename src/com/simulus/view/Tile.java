@@ -1,24 +1,29 @@
 package com.simulus.view;
 
+
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class Tile extends Rectangle {
+public class Tile extends Group {
 
 	private int gridPosX;
 	private int gridPosY;
 	private boolean isOccupied;
 	private VVehicle occupier;
+	private Rectangle frame;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
-		super(posX, posY, width, height);
+		//super(posX, posY, width, height);
+		frame = new Rectangle(posX, posY, width, height);
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		setFill(Color.TRANSPARENT);
-		setStroke(Color.BLACK);
+		frame.setFill(Color.TRANSPARENT);
+		frame.setStroke(Color.BLACK);
+		this.getChildren().add(frame);
 	}
 
 	public void setOccupied(boolean isOccupied, VVehicle occupier) {
@@ -64,10 +69,30 @@ public class Tile extends Rectangle {
 
 	public void redrawTile() {
 		if (isOccupied()) {
-			setFill(Color.GREEN);
+			frame.setFill(Color.GREEN);
 		} else {
-			setFill(Color.TRANSPARENT);
+			frame.setFill(Color.TRANSPARENT);
 		}
+	}
+	
+	public double getX(){
+		return frame.getX();
+	}
+	
+	public double getY(){
+		return frame.getY();
+	}
+	
+	public double getWidth(){
+		return frame.getWidth();
+	}
+	
+	public double getHeight(){
+		return frame.getHeight();
+	}
+	
+	public Rectangle getFrame(){
+		return frame;
 	}
 
 	public double getCenterX() {
