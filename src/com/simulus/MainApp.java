@@ -23,9 +23,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
-import com.simulus.view.Lane;
-import com.simulus.view.Road;
+import com.simulus.view.Intersection;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
@@ -51,7 +49,7 @@ public class MainApp extends Application {
 	VVehicle car;
 
 
-	private ArrayList<VIntersection> intersections = new ArrayList<>();
+	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private Tile[][] tiles = new Tile[30][30];
 
 	public static MainApp getInstance() {
@@ -81,8 +79,8 @@ public class MainApp extends Application {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
-				tiles[i][p] = new Lane(i * tileWidth, p * tileWidth, tileWidth,
-						tileWidth, i, p, Direction.NORTH);
+				tiles[i][p] = new Tile(i * tileWidth, p * tileWidth, tileWidth,
+						tileWidth, i, p);
 				canvas.getChildren().add(tiles[i][p]);
 			}
 		}
@@ -171,8 +169,6 @@ public class MainApp extends Application {
 					c.addTile(tiles[i][p]);
 				} else{
 					tiles[i][p].setOccupied(false, c);
-					c.removeTile(tiles[i][p]);
-				}
 			}
 		}
 		c.setMap(tiles);
@@ -184,14 +180,11 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-			/*
-			 * FXMLLoader loader = new FXMLLoader();
-			 * loader.setLocation(MainApp.class
-			 * .getResource("view/RootLayout.fxml")); rootLayout = (BorderPane)
-			 * loader.load();
-			 */
-
-			rootLayout = new BorderPane();
+			
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+			rootLayout = (BorderPane) loader.load();
+			
 			canvas = new Pane();
 			canvas.setMinSize(canvasWidth, canvasHeight);
 			canvas.setPrefSize(canvasWidth, canvasHeight);
