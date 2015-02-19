@@ -220,16 +220,7 @@ public class MainApp extends Application {
 		}
 
 	}
-
-	public void setGridSize(int size) {
-		gridSize = size;
-		tileWidth = canvasWidth / gridSize;
-	}
-
-	public int getGridSize() {
-		return gridSize;
-	}
-
+	
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -239,6 +230,19 @@ public class MainApp extends Application {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void setGridSize(int size) {
+		gridSize = size;
+		tileWidth = canvasWidth / gridSize;
+	}
+
+	public int getGridSize() {
+		return gridSize;
+	}
+	
+	public int getTileSize() {
+		return (int)canvasWidth / gridSize;
 	}
 
 	public Pane getCanvas() {
