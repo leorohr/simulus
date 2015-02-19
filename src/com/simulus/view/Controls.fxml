@@ -10,7 +10,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="Num. of Cars" />
+                  <Label text="Land" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Slider id="numCars" fx:id="numCarSlider" max="1000.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="200.0" />
@@ -21,7 +21,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Label text="Tickrate (ms)" />
+                  <Label text="Intersection" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
                         <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="50.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
@@ -38,5 +38,9 @@
             </HBox>
          </children>
       </VBox>
+      <Label layoutX="58.0" layoutY="127.0" text="Road Builder" />
+      <Button id="landButton" fx:id="landButton" layoutX="78.0" layoutY="178.0" mnemonicParsing="false" text="Land" />
+      <Button id="roadButton" fx:id="roadButton" layoutX="75.0" layoutY="257.0" mnemonicParsing="false" text="Road" />
+      <Button id="interButton" fx:id="interButton" layoutX="55.0" layoutY="348.0" mnemonicParsing="false" text="Intersection" />
    </children>
 </AnchorPane>

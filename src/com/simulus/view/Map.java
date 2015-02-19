@@ -62,6 +62,7 @@ public class Map extends Group{
 			tiles[tileX][tileY].setOccupied(false);
 	}
 
+	
 	/**
 	 * Updates the map according to the vehicle passed in. Gives the vehicle a
 	 * copy of the updated map

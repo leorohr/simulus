@@ -102,4 +102,5 @@ public class Tile extends Group {
 	public double getCenterY() {
 		return getY() + (getHeight() / 2);
 	}
+	
 }

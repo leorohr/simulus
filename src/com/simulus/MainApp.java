@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -32,6 +33,10 @@ public class MainApp extends Application {
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
 	private int tileWidth;
+	
+	private boolean landSelected = false;
+	private boolean roadSelected = false;
+	private boolean interSelected = false;
 	
 	private static MainApp instance;
 
@@ -148,6 +153,29 @@ public class MainApp extends Application {
 
 	public Map getMap() {
 		return map;
+	}
+	
+	public void selectButton(Button b){
+		switch(b.getId()){
+		case "landButton":
+			System.out.println("Clicked Land Button");
+			landSelected = true;
+			roadSelected = false;
+			interSelected = false;
+			break;
+		case "roadButton":
+			System.out.println("Clicked Road Button");
+			landSelected = false;
+			roadSelected = true;
+			interSelected = false;
+			break;
+		case "interButton":
+			System.out.println("Clicked Intersection Button");
+			landSelected = false;
+			roadSelected = false;
+			interSelected = true;
+			break;
+		}
 	}
 
 	public static void main(String[] args) {
