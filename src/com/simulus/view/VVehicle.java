@@ -1,5 +1,7 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
+
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.MainApp;
@@ -16,6 +18,7 @@ public abstract class VVehicle extends Rectangle {
 	protected MainApp parent;
 	protected Tile currentTile;
 	protected boolean onScreen;
+	protected ArrayList<Tile> occupiedTiles;
 
 	/**
 	 * Initialises the position and size of the vehicle
@@ -36,6 +39,7 @@ public abstract class VVehicle extends Rectangle {
 		this.dir = dir;
 		mapSize = gui.getGridSize();
 		map = gui.getMap();
+		occupiedTiles = new ArrayList<Tile>();
 		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
 			onScreen = true;
@@ -129,5 +133,18 @@ public abstract class VVehicle extends Rectangle {
 	public void setOnScreen(boolean b) {
 		onScreen = b;
 	}
+	
+	public void addTile(Tile t){
+		if(!occupiedTiles.contains(t))
+			occupiedTiles.add(t);
+	}
+	
+	public void removeTile(Tile t){
+		if(occupiedTiles.contains(t))
+			occupiedTiles.remove(t);
+	}
 
+	public ArrayList<Tile> getOccupiedTiles(){
+		return occupiedTiles;
+	}
 }

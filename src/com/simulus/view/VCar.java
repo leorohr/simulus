@@ -1,5 +1,6 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.animation.FillTransition;
@@ -30,6 +31,8 @@ public class VCar extends VVehicle {
 
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 30;
+	
+
 
 	/**
 	 * Amount of pixel movements per tick
@@ -69,12 +72,15 @@ public class VCar extends VVehicle {
 		speed = rand.nextInt(5)+1;
 		addToCanvas();
 	}
+	
+	
 
 	/**
 	 * Translates the vehicle according to the current direction
 	 */
 	public void moveVehicle() {
 		Translate trans = new Translate();
+		
 		
 		final double dx;
 		final double dy;
@@ -177,19 +183,22 @@ public class VCar extends VVehicle {
 		case NORTH:
 			if (parent.getCanvas().getChildren().contains(this)) {
 				parent.getCanvas().getChildren().remove(this);
-				// getCurrentTile().setOccupied(false, this);
-				// parent.getMap()[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()+1].setOccupied(false,
-				// this);
 			}
 			break;
 		case SOUTH:
-			parent.getCanvas().getChildren().remove(this);
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
 			break;
 		case EAST:
-			parent.getCanvas().getChildren().remove(this);
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
 			break;
 		case WEST:
-			parent.getCanvas().getChildren().remove(this);
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
 			break;
 		}
 	}
