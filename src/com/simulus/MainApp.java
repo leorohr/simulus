@@ -72,6 +72,8 @@ public class MainApp extends Application {
 
 		initRootLayout();
 		showControls();
+		
+		map.addMap();
 
 		/**
 		 * Ticking loop

@@ -13,12 +13,25 @@ public class Map extends Group{
 	private static final int CANVAS_SIZE_PX = 900;
 	
 	private int tileWidth = CANVAS_SIZE_PX/NUM_TILES;
-	private Tile[][] tiles;
+	private Tile[][] tiles = new Tile[NUM_TILES][NUM_TILES];
 	
 	public Map() {
 		
 		createBasicMap();
 		
+		
+	}
+	
+	public void readMap(){
+		//Read map from XML
+	}
+	
+	public void addMap(){
+		for (int i = 0; i < tiles.length; i++) {
+			for (int p = 0; p < tiles.length; p++) {
+				MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+			}
+		}
 	}
 	
 	private void createBasicMap() {
@@ -35,7 +48,6 @@ public class Map extends Group{
 	
 	private void addGroup(TileGroup g) {
 		Tile[][] t = g.getTiles();
-	
 	}
 	
 	/**
@@ -71,6 +83,7 @@ public class Map extends Group{
 			c.setMap(tiles);
 		}
 	}
+	
 
 	public Tile[][] getTiles() {
 		return tiles;
