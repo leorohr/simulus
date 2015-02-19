@@ -23,6 +23,8 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Seed;
+import com.simulus.view.Lane;
 import com.simulus.view.Road;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
@@ -79,8 +81,8 @@ public class MainApp extends Application {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
-				tiles[i][p] = new Tile(i * tileWidth, p * tileWidth, tileWidth,
-						tileWidth, i, p);
+				tiles[i][p] = new Lane(i * tileWidth, p * tileWidth, tileWidth,
+						tileWidth, i, p, Direction.NORTH);
 				canvas.getChildren().add(tiles[i][p]);
 			}
 		}
@@ -140,27 +142,8 @@ public class MainApp extends Application {
 		v.removeFromCanvas();
 		v.getCurrentTile().setOccupied(false, v);
 		
-		//Releases the current tile and the tile before it (a car occupies 2 tiles as it moves)
-		if (v instanceof VCar) {
-			switch (v.getDirection()) {
-			case NORTH:
-				tiles[v.getCurrentTile().getGridPosX()][v.getCurrentTile()
-						.getGridPosY() + 1].setOccupied(false);
-				break;
-			case SOUTH:
-				tiles[v.getCurrentTile().getGridPosX()][v.getCurrentTile()
-						.getGridPosY() - 1].setOccupied(false);
-				break;
-			case EAST:
-				tiles[v.getCurrentTile().getGridPosX() - 1][v.getCurrentTile()
-						.getGridPosY()].setOccupied(false);
-				break;
-			case WEST:
-				tiles[v.getCurrentTile().getGridPosX() + 1][v.getCurrentTile()
-						.getGridPosY()].setOccupied(false);
-				break;
-			}
-		}
+		for(Tile t: v.getOccupiedTiles())
+			t.setOccupied(false, v);
 	}
 	
 	/**
@@ -185,8 +168,11 @@ public class MainApp extends Application {
 				if (tiles[i][p].intersects(c.getBoundsInParent())) {
 					tiles[i][p].setOccupied(true, c);
 					c.setCurentTile(tiles[i][p]);
-				} else
+					c.addTile(tiles[i][p]);
+				} else{
 					tiles[i][p].setOccupied(false, c);
+					c.removeTile(tiles[i][p]);
+				}
 			}
 		}
 		c.setMap(tiles);
