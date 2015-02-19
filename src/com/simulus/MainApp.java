@@ -27,7 +27,7 @@ import com.simulus.view.Intersection;
 import com.simulus.view.Tile;
 import com.simulus.view.TrafficLight;
 import com.simulus.view.VCar;
-import com.simulus.view.VIntersection;
+import com.simulus.view.Intersection;
 import com.simulus.view.VVehicle;
 
 public class MainApp extends Application {
@@ -47,7 +47,6 @@ public class MainApp extends Application {
 	private static MainApp instance;
 	private int tileWidth;
 	VVehicle car;
-
 
 	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private Tile[][] tiles = new Tile[30][30];
@@ -97,35 +96,34 @@ public class MainApp extends Application {
 			// When the timer is started, this method loops endlessly
 			int frameNo = 0;
 			Random rand = new Random();
-			
+
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
-				
+
 				if (frameNo % 60 == 0) {
-					if(Math.random()>0.5)
-					cars.add(new VCar(15 * tileWidth + VCar.CARWIDTH / 4, 29
-							* tileWidth + VCar.CARHEIGHT / 8, Direction.NORTH,
-							instance));
+					if (Math.random() > 0.5)
+						cars.add(new VCar(15 * tileWidth + VCar.CARWIDTH / 4,
+								29 * tileWidth + VCar.CARHEIGHT / 8,
+								Direction.NORTH, instance));
 					else
-					cars.add(new VCar(29 * tileWidth + VCar.CARWIDTH / 4, 15
-							* tileWidth + VCar.CARHEIGHT / 8, Direction.WEST,
-							instance));
+						cars.add(new VCar(29 * tileWidth + VCar.CARWIDTH / 4,
+								15 * tileWidth + VCar.CARHEIGHT / 8,
+								Direction.WEST, instance));
 				}
-				
-				
+
 				createBlockage(frameNo, 300, 15, 15);
 				createBlockage(frameNo, 300, 16, 15);
 				createBlockage(frameNo, 300, 14, 15);
-				
+
 				for (VVehicle c : cars) {
 					updateMap(c);
-					
+
 					if (c.getOnScreen())
 						c.moveVehicle();
 					else {
 						removeVehicle(c);
 					}
-					
+
 				}
 			}
 		};
@@ -134,32 +132,37 @@ public class MainApp extends Application {
 
 	/**
 	 * Removes a vehicle from the screen
-	 * @param v Vehicle to be removed
+	 * 
+	 * @param v
+	 *            Vehicle to be removed
 	 */
 	public void removeVehicle(VVehicle v) {
 		v.removeFromCanvas();
 		v.getCurrentTile().setOccupied(false, v);
-		
-		for(Tile t: v.getOccupiedTiles())
+
+		for (Tile t : v.getOccupiedTiles())
 			t.setOccupied(false, v);
 	}
-	
+
 	/**
-	 * Used only for testing purposes
-	 * Simulates the effect of traffic lights on cars
+	 * Used only for testing purposes Simulates the effect of traffic lights on
+	 * cars
 	 */
-	public void createBlockage(int frameNo, int length, int tileX, int tileY){
+	public void createBlockage(int frameNo, int length, int tileX, int tileY) {
 		if (frameNo < length)
 			tiles[tileX][tileY].setOccupied(true);
 		else
 			tiles[tileX][tileY].setOccupied(false);
 	}
-	
+
 	/**
-	 * Updates the map according to the vehicle passed in. Gives the vehicle a copy of the updated map
-	 * @param c Vehicle 
+	 * Updates the map according to the vehicle passed in. Gives the vehicle a
+	 * copy of the updated map
+	 * 
+	 * @param c
+	 *            Vehicle
 	 */
-	public void updateMap(VVehicle c){
+	public void updateMap(VVehicle c) {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
@@ -167,11 +170,12 @@ public class MainApp extends Application {
 					tiles[i][p].setOccupied(true, c);
 					c.setCurentTile(tiles[i][p]);
 					c.addTile(tiles[i][p]);
-				} else{
+				} else {
 					tiles[i][p].setOccupied(false, c);
+				}
 			}
+			c.setMap(tiles);
 		}
-		c.setMap(tiles);
 	}
 
 	/**
@@ -180,11 +184,12 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-			
+
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/RootLayout.fxml"));
+			loader.setLocation(MainApp.class
+					.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
-			
+
 			canvas = new Pane();
 			canvas.setMinSize(canvasWidth, canvasHeight);
 			canvas.setPrefSize(canvasWidth, canvasHeight);
