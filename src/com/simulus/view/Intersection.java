@@ -1,5 +1,8 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -45,8 +48,15 @@ public class Intersection extends Group implements TileGroup {
 	}
 
 	@Override
-	public Tile[][] getTiles() {
-		return tiles;
+	public List<Tile> getTiles() {
+		
+		List<Tile> l = new ArrayList<Tile>();
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[i].length; j++) {
+				l.add(tiles[i][j]);
+			}
+		}
+		return l;
 	}
 	
 	

@@ -1,9 +1,9 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 
 import com.simulus.MainApp;
 
@@ -43,11 +43,17 @@ public class Map extends Group{
 										i, p);
 			}
 		}
+		
+		this.addGroup(new Intersection(12, 12));
 
 	}
 	
 	private void addGroup(TileGroup g) {
-		Tile[][] t = g.getTiles();
+		
+		List<Tile> l = g.getTiles();
+		for(Tile t : l) {
+			tiles[t.getGridPosX()][t.getGridPosY()] = t;
+		}
 	}
 	
 	/**

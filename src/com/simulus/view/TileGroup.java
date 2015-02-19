@@ -1,6 +1,8 @@
 package com.simulus.view;
 
+import java.util.List;
+
 public interface TileGroup {
 
-	public Tile[][] getTiles();
+	public List<Tile> getTiles();
 }
