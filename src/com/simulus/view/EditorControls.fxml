@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.EditorControlsController">
+   <children>
+      <Label layoutX="58.0" layoutY="127.0" text="Road Builder" />
+      <Button id="landButton" fx:id="landButton" layoutX="78.0" layoutY="178.0" mnemonicParsing="false" text="Land" />
+      <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="45.0" layoutY="257.0" mnemonicParsing="false" text="Horizontal Road" />
+      <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="55.0" layoutY="300.0" mnemonicParsing="false" text="Vertical Road" />
+      <Button id="interButton" fx:id="interButton" layoutX="55.0" layoutY="348.0" mnemonicParsing="false" text="Intersection" />
+   </children>
+</AnchorPane>

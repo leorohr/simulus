@@ -27,7 +27,7 @@ public class Intersection extends Group implements TileGroup {
 			for (int j = 0; j < tiles[0].length; j++) {
 				tiles[i][j] = new Tile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
 				tiles[i][j].getFrame().setFill(Color.BLACK);
-				MainApp.getInstance().getCanvas().getChildren().add(tiles[i][j]);
+				//MainApp.getInstance().getCanvas().getChildren().add(tiles[i][j]);
 				this.getChildren().add(tiles[i][j]);
 			}
 		}

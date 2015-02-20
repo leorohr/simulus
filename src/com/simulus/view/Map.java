@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javafx.scene.Group;
 
+import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
@@ -33,7 +34,14 @@ public class Map extends Group{
 	public void drawMap(){
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
-				MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+				
+				if(MainApp.getInstance() != null) {
+					MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+				} else if(EditorApp.getInstance() != null) {
+					EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+				} else {
+					System.out.println("Such Fail. Wow!");
+				}
 			}
 		}
 	}
