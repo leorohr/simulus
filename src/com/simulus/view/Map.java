@@ -27,7 +27,7 @@ public class Map extends Group{
 		//Read map from XML
 	}
 	
-	public void addMap(){
+	public void drawMap(){
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
 				MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);

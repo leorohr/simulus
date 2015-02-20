@@ -103,4 +103,8 @@ public class Tile extends Group {
 		return getY() + (getHeight() / 2);
 	}
 	
+	public String toString(){
+		return "X: " + getX() + " Y:" + getY();
+	}
+	
 }

@@ -1,6 +1,5 @@
 package com.simulus;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -33,11 +33,12 @@ public class MainApp extends Application {
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
 	private int tileWidth;
-	
+	private Scene scene;
+
 	private boolean landSelected = false;
 	private boolean roadSelected = false;
 	private boolean interSelected = false;
-	
+
 	private static MainApp instance;
 
 	private Tile[][] tiles = new Tile[30][30];
@@ -56,7 +57,7 @@ public class MainApp extends Application {
 			instance = this;
 		}
 	}
-	
+
 	@Override
 	public void start(final Stage primaryStage) {
 
@@ -66,8 +67,39 @@ public class MainApp extends Application {
 
 		initRootLayout();
 		showControls();
-		
-		map.addMap();
+
+		map.drawMap();
+
+		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				for (int i = 0; i < map.getTiles().length; i++)
+					for (int p = 0; p < map.getTiles()[0].length; p++) {
+						if (event.getSceneX() > map.getTiles()[i][p]
+								.getBoundsInParent().getMinX()
+								&& event.getSceneX() < map.getTiles()[i][p]
+										.getBoundsInParent().getMaxX()
+								&& event.getSceneY() > map.getTiles()[i][p]
+										.getBoundsInParent().getMinY()
+								&& event.getSceneY() < map.getTiles()[i][p]
+										.getBoundsInParent().getMaxY())
+							if (landSelected) {
+								System.out.println("Adding land at "
+										+ map.getTiles()[i][p].toString());
+								map.getTiles()[i][p].setOccupied(true);
+							} else if (interSelected) {
+								System.out.println("Adding intersection at "
+										+ map.getTiles()[i][p].toString());
+								//Add intersection
+							} else if (roadSelected) {
+								System.out.println("Adding road at "
+										+ map.getTiles()[i][p].toString());
+								//Add road
+							}
+					}
+
+			}
+		});
 
 		/**
 		 * Ticking loop
@@ -78,8 +110,9 @@ public class MainApp extends Application {
 			Random rand = new Random();
 
 			public void handle(long now) { // Increment the frame number
-				frameNo++;
-
+				/*
+				 * getCanvas().getChildren().clear(); map.drawMap();
+				 */
 			}
 		};
 		timer.start();
@@ -105,7 +138,7 @@ public class MainApp extends Application {
 
 			setGridSize(30);
 
-			Scene scene = new Scene(rootLayout);
+			scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
@@ -114,7 +147,6 @@ public class MainApp extends Application {
 					System.exit(0);
 				}
 			});
-
 			primaryStage.show();
 
 		} catch (Exception e) {
@@ -122,7 +154,7 @@ public class MainApp extends Application {
 		}
 
 	}
-	
+
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -133,7 +165,7 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void setGridSize(int size) {
 		gridSize = size;
 		tileWidth = canvasWidth / gridSize;
@@ -142,9 +174,9 @@ public class MainApp extends Application {
 	public int getGridSize() {
 		return gridSize;
 	}
-	
+
 	public int getTileSize() {
-		return (int)canvasWidth / gridSize;
+		return (int) canvasWidth / gridSize;
 	}
 
 	public Pane getCanvas() {
@@ -154,9 +186,9 @@ public class MainApp extends Application {
 	public Map getMap() {
 		return map;
 	}
-	
-	public void selectButton(Button b){
-		switch(b.getId()){
+
+	public void selectButton(Button b) {
+		switch (b.getId()) {
 		case "landButton":
 			System.out.println("Clicked Land Button");
 			landSelected = true;
