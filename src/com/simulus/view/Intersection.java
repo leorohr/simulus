@@ -1,6 +1,9 @@
 package com.simulus.view;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -18,7 +21,7 @@ public class Intersection extends Group implements TileGroup {
 	 * @param yPos y coordinate of the top left tile of the intersection in the grid
 	 */
 	public Intersection(int xPos, int yPos) {
-		int tileSize = MainApp.getInstance().getTileSize();
+		int tileSize = Map.TILESIZE;
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
@@ -46,8 +49,15 @@ public class Intersection extends Group implements TileGroup {
 	}
 
 	@Override
-	public Tile[][] getTiles() {
-		return tiles;
+	public List<Tile> getTiles() {
+		
+		List<Tile> l = new ArrayList<Tile>();
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[i].length; j++) {
+				l.add(tiles[i][j]);
+			}
+		}
+		return l;
 	}
 	
 	

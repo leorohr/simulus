@@ -10,7 +10,7 @@ public class Tile extends Group {
 	private int gridPosX;
 	private int gridPosY;
 	private boolean isOccupied;
-	private VVehicle occupier;
+	private Vehicle occupier;
 	private Rectangle frame;
 
 	public Tile(double posX, double posY, double width, double height,
@@ -26,7 +26,7 @@ public class Tile extends Group {
 		this.getChildren().add(frame);
 	}
 
-	public void setOccupied(boolean isOccupied, VVehicle occupier) {
+	public void setOccupied(boolean isOccupied, Vehicle occupier) {
 		if (isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
@@ -43,7 +43,7 @@ public class Tile extends Group {
 		redrawTile();
 	}
 
-	public VVehicle getOccupier() {
+	public Vehicle getOccupier() {
 		return occupier;
 	}
 

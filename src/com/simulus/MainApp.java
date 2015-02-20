@@ -19,9 +19,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.util.enums.Seed;
+import com.simulus.view.Intersection;
 import com.simulus.view.Map;
+import com.simulus.view.Road;
 import com.simulus.view.Tile;
-import com.simulus.view.VVehicle;
+import com.simulus.view.Vehicle;
 
 public class MainApp extends Application {
 
@@ -63,12 +66,11 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
-		this.map = new Map();
 
 		initRootLayout();
 		showControls();
 
-		map.drawMap();
+		this.map = new Map();
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -90,11 +92,15 @@ public class MainApp extends Application {
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
 										+ map.getTiles()[i][p].toString());
-								//Add intersection
+								map.addGroup(new Intersection(
+										map.getTiles()[i][p].getGridPosX(), map
+												.getTiles()[i][p].getGridPosY()));
 							} else if (roadSelected) {
 								System.out.println("Adding road at "
 										+ map.getTiles()[i][p].toString());
-								//Add road
+								map.addGroup(new Road(
+										map.getTiles()[i][p].getGridPosX(), map
+												.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
 							}
 					}
 
@@ -110,9 +116,8 @@ public class MainApp extends Application {
 			Random rand = new Random();
 
 			public void handle(long now) { // Increment the frame number
-				/*
-				 * getCanvas().getChildren().clear(); map.drawMap();
-				 */
+				getCanvas().getChildren().clear();
+				map.drawMap();
 			}
 		};
 		timer.start();
