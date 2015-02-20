@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 	
 		MapXML m1 = new MapXML();
-		Tile[][] t;
+		TileXML[][] t;
 		
 		t = m1.readXML("C:\\Users\\Administrator\\Desktop\\map.xml");
 		

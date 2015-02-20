@@ -1,10 +1,10 @@
 package com.simulus.mapping;
-public class Tile {
+public class TileXML {
 	
 	public String type;
 	public String direction;
 	
-	public Tile(String typeIn, String directionIn){
+	public TileXML(String typeIn, String directionIn){
 			
 		type = typeIn;
 		direction = directionIn;

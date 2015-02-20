@@ -41,14 +41,14 @@ public class MapXML {
 	private String type;
 	private String direction;
 
-	Tile[][] fullGrid;
+	TileXML[][] fullGrid;
 
 	public MapXML() {
 
 	}
 
 	//reads XML file and returns 2D array of type tile.  Error thrown if <tile> nodes do not match metadata i.e. grid size matching height x width
-	public Tile[][] readXML(String inputFile) {
+	public TileXML[][] readXML(String inputFile) {
 
 		try {
 
@@ -92,7 +92,7 @@ public class MapXML {
 					.getElementsByTagName("tile_size_width").item(0)
 					.getTextContent());
 
-			fullGrid = new Tile[mapWidth / mapTileWidth][mapHeight / mapTileHeight];
+			fullGrid = new TileXML[mapWidth / mapTileWidth][mapHeight / mapTileHeight];
 			
 			nList = doc.getElementsByTagName("tile");
 
@@ -113,7 +113,7 @@ public class MapXML {
 					direction = eElement.getElementsByTagName("direction")
 							.item(0).getTextContent();
 
-					fullGrid[xPos][yPos] = new Tile(type, direction);
+					fullGrid[xPos][yPos] = new TileXML(type, direction);
 
 				}
 				
@@ -123,7 +123,7 @@ public class MapXML {
 
 
 		} catch (Exception e) {
-			System.out.println("Incorrect grid specification based on provided map schema.  Check map XML.");
+			System.out.println("Check that the input file exisits and that it matches XML map schema.");
 			System.out.println("Error reported:");
 			e.printStackTrace();
 		}
@@ -133,7 +133,7 @@ public class MapXML {
 	}
 
 	//outputs XML file based on given 2D array of type tile plus metadata
-	public void writeXML(Tile[][] gridIn, String outputFile, String nameIn, String dateIn, String descIn, String authIn,
+	public void writeXML(TileXML[][] gridIn, String outputFile, String nameIn, String dateIn, String descIn, String authIn,
 			int mHeightIn, int mWidthIn, int tHeightIn, int tWidthIn) {
 
 		try {
@@ -259,7 +259,7 @@ public class MapXML {
 
 	}
 
-	public Tile[][] getGrid() {
+	public TileXML[][] getGrid() {
 	
 		return fullGrid;
 	}
