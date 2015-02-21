@@ -25,6 +25,7 @@ public class MainApp extends Application {
 	private Pane canvas;
 	private ArrayList<Vehicle> cars;
 	private Map map;
+	private AnimationTimer animationTimer;
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
 	
@@ -60,7 +61,7 @@ public class MainApp extends Application {
 		/**
 		 * Ticking loop
 		 */
-		AnimationTimer timer = new AnimationTimer() {
+		animationTimer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
 			int frameNo = 0;
 
@@ -91,7 +92,7 @@ public class MainApp extends Application {
 				}
 			}
 		};
-		timer.start();
+		animationTimer.start();
 	}
 	
 	/**
@@ -167,6 +168,18 @@ public class MainApp extends Application {
 
 	public ArrayList<Vehicle> getVehicles() {
 		return cars;
+	}
+	
+	public void setTickrate(int tickrate) {
+		//TODO
+	}
+	
+	public void startSimulation() {
+		animationTimer.start();
+	}
+	
+	public void stopSimulation() {
+		animationTimer.stop();
 	}
 
 	public static void main(String[] args) {
