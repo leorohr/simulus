@@ -127,7 +127,7 @@ public class Car extends Vehicle {
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("out of screen");
+//			System.out.println("out of screen");
 			setOnScreen(false);
 		}
 

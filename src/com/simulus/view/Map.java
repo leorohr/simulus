@@ -55,6 +55,9 @@ public class Map extends Group{
 		addGroup(new Intersection(13, 13));
 	}
 	
+	/**
+	 * Spawns a car at a randomly selected entrypoint of the map.
+	 */
 	public void spawnRandomCar() {
 		Random rand = new Random();
 		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
@@ -65,7 +68,7 @@ public class Map extends Group{
 				l.getDirection());	
 	}
 	
-	private void addGroup(TileGroup g) {
+	public void addGroup(TileGroup g) {
 		
 		List<Tile> l = g.getTiles();
 		for(Tile t : l) {

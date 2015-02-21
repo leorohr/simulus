@@ -38,10 +38,10 @@ public class Road extends Group implements TileGroup{
 			for (int i = 0; i < lanes.length; i++) {
 				if(i<2) 
 					lanes[i] = new Lane(gridPosX*tileSize, (gridPosY + i)*tileSize,
-										tileSize, tileSize, gridPosX, gridPosY+i, Direction.WEST);
+										tileSize, tileSize, gridPosX, gridPosY+i, Direction.EAST);
 				else
 					lanes[i] = new Lane(gridPosX*tileSize, (gridPosY + i)*tileSize,
-										tileSize, tileSize, gridPosX, gridPosY+i, Direction.EAST);
+										tileSize, tileSize, gridPosX, gridPosY+i, Direction.WEST);
 			}
 			break;
 		default:

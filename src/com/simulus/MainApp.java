@@ -14,10 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import com.simulus.util.enums.Direction;
 import com.simulus.view.Map;
 import com.simulus.view.Tile;
-import com.simulus.view.Car;
 import com.simulus.view.Vehicle;
 
 public class MainApp extends Application {
@@ -69,16 +67,6 @@ public class MainApp extends Application {
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
 
-//				if (frameNo % 60 == 0) {
-//					if (Math.random() > 0.5)
-//						cars.add(new VCar(15 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								29 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.NORTH, instance));
-//					else
-//						cars.add(new VCar(29 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								15 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.WEST, instance));
-//				}
 				
 				if (frameNo % 60 == 0) {
 					map.spawnRandomCar();
@@ -93,6 +81,13 @@ public class MainApp extends Application {
 						removeVehicle(c);
 					}
 
+				}
+				
+				//Ensures a fixed tickrate
+				//TODO change 100000000 to tickrate taken from slider
+				long end = System.nanoTime();
+				while(System.nanoTime() - now < (100000000 - (end - now))){
+					
 				}
 			}
 		};
