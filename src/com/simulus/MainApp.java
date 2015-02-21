@@ -27,11 +27,10 @@ public class MainApp extends Application {
 	private Pane canvas;
 	private ArrayList<Vehicle> cars;
 	private Map map;
-	private int canvasWidth = 900;
-	private int canvasHeight = 900;
-	public double tickTime = 20;
-	private int spawnTimer = 30;
-	
+	private AnimationTimer animationTimer;
+	private int canvasWidth = 800;
+	private int canvasHeight = 800;
+	private int tickTime = 50;
 	private static MainApp instance;
 
 	public static MainApp getInstance() {
@@ -64,24 +63,32 @@ public class MainApp extends Application {
 		/**
 		 * Ticking loop
 		 */
-		AnimationTimer timer = new AnimationTimer() {
+		animationTimer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
 			int frameNo = 0;
 			
 
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
-				
-				long startTime = System.currentTimeMillis();
 
+//				if (frameNo % 60 == 0) {
+//					if (Math.random() > 0.5)
+//						cars.add(new VCar(15 * Map.TILESIZE + VCar.CARWIDTH / 4,
+//								29 * Map.TILESIZE + VCar.CARHEIGHT / 8,
+//								Direction.NORTH, instance));
+//					else
+//						cars.add(new VCar(29 * Map.TILESIZE + VCar.CARWIDTH / 4,
+//								15 * Map.TILESIZE + VCar.CARHEIGHT / 8,
+//								Direction.WEST, instance));
+//				}
 				
-				if (frameNo % spawnTimer == 0) {
-					map.spawnTesterCar();
+				if (frameNo % 30 == 0) {
+					map.spawnRandomCar();
 				}
 				
 				for (Vehicle c : cars) {
 					map.updateMap(c);
-					
+
 					if (c.getOnScreen())
 						c.moveVehicle();
 					else {
@@ -89,14 +96,16 @@ public class MainApp extends Application {
 					}
 					
 				}
-				//Ensures a fixed Tickrate
+				
+				//Ensures a fixed tickrate
+				//TODO change 100000000 to tickrate taken from slider
 				long end = System.nanoTime();
-				while(System.nanoTime() - now < ((tickTime*1000000)- (end-now))){
-					//sleep
+				while(System.nanoTime() - now < (tickTime * 1000000 - (end - now))){
+					
 				}
 			}
 		};
-		timer.start();
+		animationTimer.start();
 	}
 	
 	/**
@@ -173,7 +182,11 @@ public class MainApp extends Application {
 	public ArrayList<Vehicle> getVehicles() {
 		return cars;
 	}
-
+	
+	public int getTickTime() {
+		return tickTime;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}

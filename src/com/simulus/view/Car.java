@@ -2,13 +2,10 @@ package com.simulus.view;
 
 import java.util.Random;
 
-import com.simulus.util.enums.Behavior;
-
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
-import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
@@ -21,6 +18,7 @@ import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import com.simulus.MainApp;
+import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 
 /**
@@ -29,8 +27,8 @@ import com.simulus.util.enums.Direction;
 @SuppressWarnings("deprecation")
 public class Car extends Vehicle {
 
-	public static final int CARWIDTH = 20;
-	public static final int CARHEIGHT = 25;
+	public static final int CARWIDTH = 10;
+	public static final int CARHEIGHT = 15;	
 
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 10;
@@ -43,8 +41,9 @@ public class Car extends Vehicle {
 	/**
 	 * Amount of pixel movements per tick
 	 */
+	private double speed = 2;
 
-	private static final Color COLOUR = Color.PINK;
+	private static final Color COLOUR = Color.LIGHTSEAGREEN;
 
 	/**
 	 * Sets the appearance, position and direction of the car.
@@ -220,7 +219,7 @@ public class Car extends Vehicle {
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			//System.out.println("out of screen");
+//			System.out.println("out of screen");
 			setOnScreen(false);
 		}
 
@@ -318,7 +317,7 @@ public class Car extends Vehicle {
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
         		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
-        double carSpeed = (getVehicleSpeed()/MainApp.getInstance().tickTime);
+        double carSpeed = (getVehicleSpeed()/MainApp.getInstance().getTickTime());
         		
         double pathTime = pathDistance/carSpeed;
         
@@ -380,5 +379,4 @@ public class Car extends Vehicle {
 			return null;
 		}
 	}
-
 }

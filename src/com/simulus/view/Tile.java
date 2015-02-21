@@ -1,7 +1,11 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
 public class Tile extends Group {
@@ -11,6 +15,8 @@ public class Tile extends Group {
 	private boolean isOccupied;
 	private Vehicle occupier;
 	private Rectangle frame;
+	private ArrayList<Path> turningPaths;
+	private Paint paint = Color.GREY;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -20,8 +26,10 @@ public class Tile extends Group {
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		frame.setFill(Color.TRANSPARENT);
+		turningPaths = new ArrayList<Path>();
+		frame.setFill(Color.LIGHTGOLDENRODYELLOW);
 		frame.setStroke(Color.BLACK);
+		frame.setStrokeWidth(0.2d);
 		this.getChildren().add(frame);
 	}
 
@@ -70,14 +78,20 @@ public class Tile extends Group {
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
 		} else {
-			frame.setFill(Color.BLACK);
+			frame.setFill(paint);
 		}
 	}
 	
+	/**
+	 * @return The x-coordinate of the top left corner of the tile.
+	 */
 	public double getX(){
 		return frame.getX();
 	}
 	
+	/**
+	 * @return The y-coordinate of the top left corner of the tile.
+	 */
 	public double getY(){
 		return frame.getY();
 	}
@@ -100,5 +114,13 @@ public class Tile extends Group {
 
 	public double getCenterY() {
 		return getY() + (getHeight() / 2);
+	}
+	
+	/**
+	 * @return The list of available paths for cars to take when they face this tile in an intersection.
+	 */
+	public ArrayList<Path> getTurningPaths() {
+		return turningPaths;
+				
 	}
 }
