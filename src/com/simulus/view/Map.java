@@ -65,6 +65,25 @@ public class Map extends Group{
 				l.getDirection());	
 	}
 	
+	public void spawnTesterCar() {
+		
+		Lane l = entryPoints.get(4);
+		
+		//Car adds itself to the canvas
+		new Car(l.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
+				l.getGridPosY() * Map.TILESIZE + Car.CARHEIGHT / 8,
+				l.getDirection());	
+		
+		Lane a = entryPoints.get(0);
+		
+		//Car adds itself to the canvas
+		new Car(a.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
+				a.getGridPosY() * Map.TILESIZE + Car.CARHEIGHT / 8,
+				a.getDirection());	
+	}
+	
+	
+	
 	private void addGroup(TileGroup g) {
 		
 		List<Tile> l = g.getTiles();
@@ -96,11 +115,8 @@ public class Map extends Group{
 	 * Used only for testing purposes Simulates the effect of traffic lights on
 	 * cars
 	 */
-	public void createBlockage(int frameNo, int length, int tileX, int tileY) {
-		if (frameNo < length)
+	public void createBlockage(int tileX, int tileY) {
 			tiles[tileX][tileY].setOccupied(true);
-		else
-			tiles[tileX][tileY].setOccupied(false);
 	}
 
 	/**

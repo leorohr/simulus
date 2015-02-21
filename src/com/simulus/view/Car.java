@@ -2,12 +2,18 @@ package com.simulus.view;
 
 import java.util.Random;
 
+import com.simulus.util.enums.Behavior;
+
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
+import javafx.animation.RotateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathBuilder;
@@ -27,14 +33,16 @@ public class Car extends Vehicle {
 	public static final int CARHEIGHT = 25;
 
 	private static final int ARCHEIGHT = 10;
-	private static final int ARCWIDTH = 30;
+	private static final int ARCWIDTH = 10;
 	
-
+	private PathTransition pathTransition;
+	private boolean isOvertaking = false;
+	
+	private Behavior behavior = Behavior.getRandomBehavior();
 
 	/**
 	 * Amount of pixel movements per tick
 	 */
-	private double speed = 2;
 
 	private static final Color COLOUR = Color.PINK;
 
@@ -68,7 +76,7 @@ public class Car extends Vehicle {
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		Random rand = new Random();
-		speed = rand.nextInt(5)+1;
+		vehicleSpeed = rand.nextInt(3)+2;
 		addToCanvas();
 		
 		MainApp.getInstance().getVehicles().add(this);
@@ -80,6 +88,11 @@ public class Car extends Vehicle {
 	 * Translates the vehicle according to the current direction
 	 */
 	public void moveVehicle() {
+		
+		if(isOvertaking){
+			return;
+		}
+		
 		Translate trans = new Translate();
 		
 		
@@ -87,14 +100,94 @@ public class Car extends Vehicle {
 		final double dy;
 
 		Direction temp = getDirection();
+		Behavior tempBehavior = behavior;
+		
+		if(tempBehavior == Behavior.SEMI)
+			if(Math.random()>0.5)
+				tempBehavior = Behavior.RECKLESS;
+			else tempBehavior = Behavior.CAUTIOUS;
 
-		//Checks if the tile ahead of the car is taken.
+		//Checks if the tile 2 tiles ahead of the car is taken for overtaking.
+		if(tempBehavior == Behavior.RECKLESS){
+			try {
+				switch(getDirection()){
+				case NORTH:
+					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+					                						.getGridPosY() - 2].isOccupied()) {
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 0){
+								//Overtake RIGHT
+								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
+								//Overtake LEFT
+								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;
+								}
+							}
+						}
+					}
+					break;
+				case SOUTH:
+					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+					                						.getGridPosY() + 2].isOccupied()) {
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 2){
+								//Overtake RIGHT
+								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
+								//Overtake LEFT
+								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}
+						}
+					}
+					break;
+				case EAST:
+					if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
+					                    						.getGridPosY()].isOccupied()) {
+						
+					}
+					break;
+				case WEST:
+					if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
+					                    						.getGridPosY()].isOccupied()) {
+						
+					}
+					break;
+				default:break;
+				}
+			}catch(ArrayIndexOutOfBoundsException e){
+				
+			}
+		}
 		try {
 			switch (getDirection()) {
 			case NORTH:
 				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
 						.getGridPosY() - 1].isOccupied()) {
 					temp = Direction.NONE;
+					if(tempBehavior == Behavior.CAUTIOUS)
+						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
+						                         						.getGridPosY() - 1].getOccupier()!=null)
+						setVehicleSpeed(map[getCurrentTile().getGridPosX()][getCurrentTile()
+						                         						.getGridPosY() - 1].getOccupier().getVehicleSpeed());
 				} else
 					temp = getDirection();
 				setOnScreen(true);
@@ -127,7 +220,7 @@ public class Car extends Vehicle {
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println("out of screen");
+			//System.out.println("out of screen");
 			setOnScreen(false);
 		}
 
@@ -136,7 +229,7 @@ public class Car extends Vehicle {
 		case NORTH:
 
 			dx = 0;
-			dy = -speed;
+			dy = -getVehicleSpeed();
 
 			trans.setX(dx);
 			trans.setY(dy);
@@ -145,7 +238,7 @@ public class Car extends Vehicle {
 			break;
 		case SOUTH:
 			dx = 0;
-			dy = speed;
+			dy = getVehicleSpeed();
 
 			trans.setX(dx);
 			trans.setY(dy);
@@ -153,7 +246,7 @@ public class Car extends Vehicle {
 
 			break;
 		case EAST:
-			dx = speed;
+			dx = getVehicleSpeed();
 			dy = 0;
 
 			trans.setX(dx);
@@ -161,7 +254,7 @@ public class Car extends Vehicle {
 			getTransforms().add(trans);
 			break;
 		case WEST:
-			dx = -speed;
+			dx = -getVehicleSpeed();
 			dy = 0;
 
 			trans.setX(dx);
@@ -207,6 +300,57 @@ public class Car extends Vehicle {
 			break;
 		}
 	}
+	
+	public void overtake(Tile moveToTile){
+		getTransforms().clear();
+		
+		Path path = new Path(
+                		//from 
+                		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
+                        		
+                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY())
+                    
+                );
+               
+        path.setStroke(Color.DODGERBLUE);
+        path.getStrokeDashArray().setAll(5d,5d);
+        MainApp.getInstance().getCanvas().getChildren().add(path);
+       
+        double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
+        		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
+        double carSpeed = (getVehicleSpeed()/MainApp.getInstance().tickTime);
+        		
+        double pathTime = pathDistance/carSpeed;
+        
+        
+        
+        pathTransition = PathTransitionBuilder.create()
+                .duration(Duration.millis(pathTime))
+                .path(path)
+                .node(this)
+                .interpolator(Interpolator.LINEAR)
+                .orientation(OrientationType.NONE)
+                .build();
+        
+        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
+ 
+            @Override
+            public void handle(ActionEvent arg0) {
+            	MainApp.getInstance().getCanvas().getChildren().remove(path);
+                isOvertaking = false;
+            }
+        });
+        
+        pathTransition.play();
+	}
+	
+	public void setBehavior(Behavior b){
+		behavior = b;
+	}
+	
+	public Behavior getBehavior(){
+		return behavior;
+	}
 
 	// TODO Curve the car to the northwest
 	public PathTransition curveNorthWest() {
@@ -236,4 +380,5 @@ public class Car extends Vehicle {
 			return null;
 		}
 	}
+
 }

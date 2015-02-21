@@ -28,20 +28,20 @@ public class Road extends Group implements TileGroup{
 			for (int i = 0; i < lanes.length; i++) {
 				if(i<2) 
 					lanes[i] = new Lane((gridPosX + i)*tileSize, gridPosY*tileSize,
-										tileSize, tileSize, gridPosX+i, gridPosY, Direction.NORTH);
+										tileSize, tileSize, gridPosX+i, gridPosY, Direction.NORTH, i);
 				else
 					lanes[i] = new Lane((gridPosX + i)*tileSize, gridPosY * tileSize,
-										tileSize, tileSize, gridPosX+i, gridPosY, Direction.SOUTH);
+										tileSize, tileSize, gridPosX+i, gridPosY, Direction.SOUTH, i);
 			}
 			break;
 		case WESTEAST:
 			for (int i = 0; i < lanes.length; i++) {
 				if(i<2) 
 					lanes[i] = new Lane(gridPosX*tileSize, (gridPosY + i)*tileSize,
-										tileSize, tileSize, gridPosX, gridPosY+i, Direction.WEST);
+										tileSize, tileSize, gridPosX, gridPosY+i, Direction.EAST, i);
 				else
 					lanes[i] = new Lane(gridPosX*tileSize, (gridPosY + i)*tileSize,
-										tileSize, tileSize, gridPosX, gridPosY+i, Direction.EAST);
+										tileSize, tileSize, gridPosX, gridPosY+i, Direction.WEST, i);
 			}
 			break;
 		default:

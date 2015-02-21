@@ -2,6 +2,7 @@ package com.simulus.view;
 
 import java.util.ArrayList;
 
+import javafx.animation.PathTransition;
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.MainApp;
@@ -19,6 +20,8 @@ public abstract class Vehicle extends Rectangle {
 	protected Tile currentTile;
 	protected boolean onScreen;
 	protected ArrayList<Tile> occupiedTiles;
+	
+	protected double vehicleSpeed;
 
 	/**
 	 * Initialises the position and size of the vehicle
@@ -52,6 +55,8 @@ public abstract class Vehicle extends Rectangle {
 	 * Describes a vehicle translation
 	 */
 	public abstract void moveVehicle();
+	
+	public abstract void overtake(Tile t);
 
 	public Direction getDirection() {
 		return dir;
@@ -147,5 +152,13 @@ public abstract class Vehicle extends Rectangle {
 
 	public ArrayList<Tile> getOccupiedTiles(){
 		return occupiedTiles;
+	}
+	
+	public double getVehicleSpeed(){
+		return vehicleSpeed;
+	}
+	
+	public void setVehicleSpeed(double d){
+		vehicleSpeed = d;
 	}
 }

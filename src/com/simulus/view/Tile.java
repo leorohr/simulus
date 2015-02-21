@@ -29,14 +29,17 @@ public class Tile extends Group {
 		if (isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
+			redrawTile();
 		}else if(occupier.equals(getOccupier())){
 			this.occupier = null;
 			this.isOccupied = false;
+			redrawTile();
 		}
 	}
 	
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
+		redrawTile();
 	}
 
 	public Vehicle getOccupier() {
@@ -67,7 +70,7 @@ public class Tile extends Group {
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
 		} else {
-			frame.setFill(Color.TRANSPARENT);
+			frame.setFill(Color.BLACK);
 		}
 	}
 	

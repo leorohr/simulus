@@ -29,6 +29,8 @@ public class MainApp extends Application {
 	private Map map;
 	private int canvasWidth = 900;
 	private int canvasHeight = 900;
+	public double tickTime = 20;
+	private int spawnTimer = 30;
 	
 	private static MainApp instance;
 
@@ -65,34 +67,32 @@ public class MainApp extends Application {
 		AnimationTimer timer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
 			int frameNo = 0;
+			
 
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
-
-//				if (frameNo % 60 == 0) {
-//					if (Math.random() > 0.5)
-//						cars.add(new VCar(15 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								29 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.NORTH, instance));
-//					else
-//						cars.add(new VCar(29 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								15 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.WEST, instance));
-//				}
 				
-				if (frameNo % 60 == 0) {
-					map.spawnRandomCar();
+				long startTime = System.currentTimeMillis();
+
+				
+				if (frameNo % spawnTimer == 0) {
+					map.spawnTesterCar();
 				}
 				
 				for (Vehicle c : cars) {
 					map.updateMap(c);
-
+					
 					if (c.getOnScreen())
 						c.moveVehicle();
 					else {
 						removeVehicle(c);
 					}
-
+					
+				}
+				//Ensures a fixed Tickrate
+				long end = System.nanoTime();
+				while(System.nanoTime() - now < ((tickTime*1000000)- (end-now))){
+					//sleep
 				}
 			}
 		};

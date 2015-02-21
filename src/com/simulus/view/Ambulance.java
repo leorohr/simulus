@@ -15,4 +15,10 @@ public class Ambulance extends Vehicle {
 		
 	}
 
+	@Override
+	public void overtake(Tile t) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
