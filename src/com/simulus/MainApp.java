@@ -26,8 +26,8 @@ public class MainApp extends Application {
 	private ArrayList<Vehicle> cars;
 	private Map map;
 	private AnimationTimer animationTimer;
-	private int canvasWidth = 900;
-	private int canvasHeight = 900;
+	private int canvasWidth = 800;
+	private int canvasHeight = 800;
 	
 	private static MainApp instance;
 
@@ -131,6 +131,7 @@ public class MainApp extends Application {
 
 			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent t) {
