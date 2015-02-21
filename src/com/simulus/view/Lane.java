@@ -14,7 +14,7 @@ public class Lane extends Tile{
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
 		this.laneNo = laneNo;
-		getFrame().setFill(Color.BLACK);
+		getFrame().setFill(Color.GREY);
 	}
 	
 	

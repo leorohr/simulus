@@ -10,7 +10,7 @@ import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 
-public class Map extends Group{
+public class Map extends Group {
 	
 	private static final int NUM_ROWS = 40;
 	private static final int NUM_COLUMNS = 40;
@@ -40,6 +40,7 @@ public class Map extends Group{
 	}
 	
 	//Hardcoded map for testing
+	@SuppressWarnings("unused")
 	private void createBasicMap() {
 			
 		for (int i = 0; i < tiles.length; i++) {
@@ -100,14 +101,31 @@ public class Map extends Group{
 		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
 		
 		//Car adds itself to the canvas
-		//TODO move to car constructor; car constructor should then just take Lane l
 		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH)			
 			new Car(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
-					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Car.CARHEIGHT,
+					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Car.CARLENGTH,
 					l.getDirection());
 		if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST)			
 			new Car(l.getGridPosX() * Map.TILESIZE,
 					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
+					l.getDirection());	
+	}
+	
+	/**
+	 * Spawns a truck at a randomly selected entrypoint of the map.
+	 */
+	public void spawnRandomTruck() {
+		Random rand = new Random();
+		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
+		
+		//Truck adds itself to the canvas
+		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH)			
+			new Truck(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE/2 - Truck.TRUCKWIDTH/2,
+					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Truck.TRUCKLENGTH,
+					l.getDirection());
+		if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST)			
+			new Truck(l.getGridPosX() * Map.TILESIZE,
+					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE/2 - Truck.TRUCKWIDTH/2,
 					l.getDirection());	
 	}
 	
@@ -117,14 +135,14 @@ public class Map extends Group{
 		
 		//Car adds itself to the canvas
 		new Car(l.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
-				l.getGridPosY() * Map.TILESIZE + Car.CARHEIGHT / 8,
+				l.getGridPosY() * Map.TILESIZE + Car.CARLENGTH / 8,
 				l.getDirection());	
 		
 		Lane a = entryPoints.get(0);
 		
 		//Car adds itself to the canvas
 		new Car(a.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
-				a.getGridPosY() * Map.TILESIZE + Car.CARHEIGHT / 8,
+				a.getGridPosY() * Map.TILESIZE + Car.CARLENGTH / 8,
 				a.getDirection());	
 	}
 	

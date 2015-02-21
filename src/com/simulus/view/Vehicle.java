@@ -2,10 +2,10 @@ package com.simulus.view;
 
 import java.util.ArrayList;
 
-import javafx.animation.PathTransition;
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.MainApp;
+import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 
 /**
@@ -20,6 +20,8 @@ public abstract class Vehicle extends Rectangle {
 	protected Tile currentTile;
 	protected boolean onScreen;
 	protected ArrayList<Tile> occupiedTiles;
+	protected boolean isOvertaking = false;
+	protected Behavior behavior;
 	
 	protected double vehicleSpeed;
 
@@ -117,6 +119,35 @@ public abstract class Vehicle extends Rectangle {
 		}
 
 	}
+	
+	
+
+	public void removeFromCanvas() {
+		switch (getDirection()) {
+		case NORTH:
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
+			break;
+		case SOUTH:
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
+			break;
+		case EAST:
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
+			break;
+		case WEST:
+			if (parent.getCanvas().getChildren().contains(this)) {
+				parent.getCanvas().getChildren().remove(this);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 
 	public Tile getCurrentTile() {
 		return currentTile;
@@ -125,11 +156,6 @@ public abstract class Vehicle extends Rectangle {
 	public void addToCanvas() {
 		if (!parent.getCanvas().getChildren().contains(this))
 			parent.getCanvas().getChildren().add(this);
-	}
-
-	public void removeFromCanvas() {
-		if (parent.getCanvas().getChildren().contains(this))
-			parent.getCanvas().getChildren().remove(this);
 	}
 
 	public boolean getOnScreen() {

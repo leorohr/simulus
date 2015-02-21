@@ -14,10 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import com.simulus.util.enums.Direction;
 import com.simulus.view.Map;
 import com.simulus.view.Tile;
-import com.simulus.view.Car;
 import com.simulus.view.Vehicle;
 
 public class MainApp extends Application {
@@ -25,12 +23,18 @@ public class MainApp extends Application {
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 	private Pane canvas;
-	private ArrayList<Vehicle> cars;
+	private ArrayList<Vehicle> vehicles;
 	private Map map;
 	private AnimationTimer animationTimer;
+	private boolean debugFlag = false;
 	private int canvasWidth = 800;
 	private int canvasHeight = 800;
-	private int tickTime = 50;
+	private int tickTime = 50; //in ms
+	private int spawnRate = 5; //a new car spawns every spawnRate'th frame
+	private int maxCars = 50;
+	private int maxCarSpeed = 10;
+	private double carTruckRatio = 0.7d;
+	private int truckCount = 0;
 	private static MainApp instance;
 
 	public static MainApp getInstance() {
@@ -53,11 +57,12 @@ public class MainApp extends Application {
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
+		this.primaryStage.setResizable(false);
 		
 		initRootLayout();
 		showControls();
 		
-		this.cars = new ArrayList<Vehicle>();
+		this.vehicles = new ArrayList<Vehicle>();
 		this.map = new Map();
 
 		/**
@@ -71,34 +76,29 @@ public class MainApp extends Application {
 			public void handle(long now) { // Increment the frame number
 				frameNo++;
 
-//				if (frameNo % 60 == 0) {
-//					if (Math.random() > 0.5)
-//						cars.add(new VCar(15 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								29 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.NORTH, instance));
-//					else
-//						cars.add(new VCar(29 * Map.TILESIZE + VCar.CARWIDTH / 4,
-//								15 * Map.TILESIZE + VCar.CARHEIGHT / 8,
-//								Direction.WEST, instance));
-//				}
-				
-				if (frameNo % 30 == 0) {
-					map.spawnRandomCar();
+				if (frameNo % spawnRate == 0 && vehicles.size() < maxCars) {
+					//If the car-truck ratio is not correct, spawn a truck, otherwise a car.
+					if(truckCount < (1-carTruckRatio) * vehicles.size()) {
+						map.spawnRandomTruck();
+						truckCount++;
+					}
+					else {
+						map.spawnRandomCar(); 
+					}
 				}
 				
-				for (Vehicle c : cars) {
-					map.updateMap(c);
+				for (Vehicle v : vehicles) {
+					map.updateMap(v);
 
-					if (c.getOnScreen())
-						c.moveVehicle();
+					if (v.getOnScreen())
+						v.moveVehicle();
 					else {
-						removeVehicle(c);
+						removeVehicle(v);
 					}
 					
 				}
 				
 				//Ensures a fixed tickrate
-				//TODO change 100000000 to tickrate taken from slider
 				long end = System.nanoTime();
 				while(System.nanoTime() - now < (tickTime * 1000000 - (end - now))){
 					
@@ -121,8 +121,6 @@ public class MainApp extends Application {
 		for (Tile t : v.getOccupiedTiles())
 			t.setOccupied(false, v);
 	}
-
-	
 
 	/**
 	 * Initialise the root layout
@@ -170,6 +168,14 @@ public class MainApp extends Application {
 			e.printStackTrace();
 		}
 	}
+	
+	public void startSimulation() {
+		animationTimer.start();
+	}
+	
+	public void stopSimulation() {
+		animationTimer.stop();
+	}
 
 	public Pane getCanvas() {
 		return canvas;
@@ -180,11 +186,39 @@ public class MainApp extends Application {
 	}
 
 	public ArrayList<Vehicle> getVehicles() {
-		return cars;
+		return vehicles;
 	}
-	
+
 	public int getTickTime() {
 		return tickTime;
+	}
+	
+	public void setTickTime(int tickTime) {
+		this.tickTime = tickTime;
+	}
+	
+	public void setSpawnrate(int spawnRate) {
+		this.spawnRate = spawnRate;
+	}
+	
+	public boolean isDebug() {
+		return debugFlag;
+	}
+	
+	public void setDebug(boolean debugFlag) {
+		this.debugFlag = debugFlag;
+	}
+	
+	public int getMaxCarSpeed() {
+		return maxCarSpeed;
+	}
+	
+	public void setMaxCarSpeed(int maxSpeed) {
+		this.maxCarSpeed = maxSpeed;
+	}
+	
+	public void setMaxCars(int maxCars) {
+		this.maxCars = maxCars;
 	}
 	
 	public static void main(String[] args) {

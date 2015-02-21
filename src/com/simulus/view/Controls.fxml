@@ -6,7 +6,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.ControlsController">
    <children>
-      <VBox prefHeight="110.0" spacing="10.0">
+      <VBox prefHeight="110.0" spacing="10.0" AnchorPane.leftAnchor="5.0">
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -19,13 +19,46 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="33.0" prefWidth="176.0">
                <children>
                   <Label text="Tickrate (ms)" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="50.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
+                        <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="20.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
                         <Label fx:id="tickrateLabel" text="50" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Spawnrate" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="1.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
+                        <Label fx:id="spawnrateLabel" text="25" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Max. Car Speed" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="maxcarspeedSlider" blockIncrement="1.0" max="15.0" min="3.0" prefHeight="16.0" prefWidth="160.0" value="5.0" />
+                        <Label fx:id="maxcarspeedLabel" text="5" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Label text="Car/Truck Ratio" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Slider fx:id="cartruckratioSlider" blockIncrement="0.1" max="1.0" prefHeight="16.0" prefWidth="160.0" value="0.7" />
+                        <Label fx:id="cartruckratioLabel" text="0.7" />
                      </children>
                   </HBox>
                </children>
@@ -36,6 +69,7 @@
                   <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" />
                </children>
             </HBox>
+            <CheckBox fx:id="debugCheckbox" mnemonicParsing="false" text="Debug" />
          </children>
       </VBox>
    </children>

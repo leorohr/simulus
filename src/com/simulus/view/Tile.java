@@ -2,6 +2,8 @@ package com.simulus.view;
 
 import java.util.ArrayList;
 
+import com.simulus.MainApp;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -74,7 +76,14 @@ public class Tile extends Group {
 		gridPosY = y;
 	}
 
+	/**
+	 * If the app is currenty in debug mode, this method draws
+	 * the tiles occupied by vehicles in green.
+	 */
 	public void redrawTile() {
+		if(!MainApp.getInstance().isDebug())
+			return;
+		
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
 		} else {
