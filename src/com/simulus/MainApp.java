@@ -81,7 +81,7 @@ public class MainApp extends Application {
 					else {
 						removeVehicle(c);
 					}
-
+					
 				}
 				
 				//Ensures a fixed tickrate

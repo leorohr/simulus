@@ -23,8 +23,8 @@ import com.simulus.util.enums.Direction;
 @SuppressWarnings("deprecation")
 public class Car extends Vehicle {
 
-	public static final int CARWIDTH = 20;
-	public static final int CARHEIGHT = 25;
+	public static final int CARWIDTH = 10;
+	public static final int CARHEIGHT = 15;
 
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 30;
@@ -36,7 +36,7 @@ public class Car extends Vehicle {
 	 */
 	private double speed = 2;
 
-	private static final Color COLOUR = Color.PINK;
+	private static final Color COLOUR = Color.LIGHTSEAGREEN;
 
 	/**
 	 * Sets the appearance, position and direction of the car.

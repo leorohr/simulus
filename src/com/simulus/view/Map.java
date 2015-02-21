@@ -12,21 +12,23 @@ import com.simulus.util.enums.Seed;
 
 public class Map extends Group{
 	
-	private static final int NUM_TILES = 30;
-	private static final int CANVAS_SIZE_PX = 900;
-	public static final int TILESIZE = CANVAS_SIZE_PX/NUM_TILES;
+	private static final int NUM_ROWS = 40;
+	private static final int NUM_COLUMNS = 40;
+	public static final int TILESIZE = (int) (MainApp.getInstance().getCanvas().getWidth()/NUM_ROWS);
 	
-	private Tile[][] tiles = new Tile[NUM_TILES][NUM_TILES];
+	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<Intersection>();
 	private ArrayList<Lane> entryPoints = new ArrayList<Lane>();
 	
 	public Map() {		
 		
-		createBasicMap();
+//		createBasicMap();
+		createHashStyleMap();
+		
 		
 		//Add map to canvas
 		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
+			for (int p = 0; p < tiles[0].length; p++) {
 				MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
 		}
@@ -41,18 +43,53 @@ public class Map extends Group{
 	private void createBasicMap() {
 			
 		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
+			for (int p = 0; p < tiles[0].length; p++) {
 				tiles[i][p] = new Tile(	i * TILESIZE, p * TILESIZE,
 										TILESIZE, TILESIZE,
 										i, p);
 			}
 		}
 		
-		for(int i=0; i<30; i++) {
-			addGroup(new Road(13, i, Seed.NORTHSOUTH));
-			addGroup(new Road(i, 13, Seed.WESTEAST));
+		for(int i=0; i<tiles.length; i++) {
+			addGroup(new Road(18, i, Seed.NORTHSOUTH));
+			addGroup(new Road(i, 18, Seed.WESTEAST));
 		}
-		addGroup(new Intersection(13, 13));
+		addGroup(new Intersection(18, 18));
+	}
+	
+	private void createHashStyleMap() {
+		//init all tiles
+		for (int i = 0; i < tiles.length; i++) {
+			for (int p = 0; p < tiles[0].length; p++) {
+				tiles[i][p] = new Tile(	i * TILESIZE, p * TILESIZE,
+										TILESIZE, TILESIZE,
+										i, p);
+			}
+		}
+		
+		for(int i=0; i<tiles.length; i++) {
+			addGroup(new Road(i, 7, Seed.WESTEAST));
+			addGroup(new Road(7, i, Seed.NORTHSOUTH));
+			
+			addGroup(new Road(i, 18, Seed.WESTEAST));
+			addGroup(new Road(18, i, Seed.NORTHSOUTH));
+			
+			addGroup(new Road(i, 29, Seed.WESTEAST));
+			addGroup(new Road(29, i, Seed.NORTHSOUTH));
+		}
+		
+		addGroup(new Intersection(7, 7));
+		addGroup(new Intersection(7, 18));
+		addGroup(new Intersection(7, 29));
+		
+		addGroup(new Intersection(18, 7));
+		addGroup(new Intersection(18, 18));
+		addGroup(new Intersection(18, 29));
+		
+		addGroup(new Intersection(29, 7));
+		addGroup(new Intersection(29, 18));
+		addGroup(new Intersection(29, 29));		
+		
 	}
 	
 	/**
@@ -115,7 +152,7 @@ public class Map extends Group{
 	public void updateMap(Vehicle c) {
 
 		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
+			for (int p = 0; p < tiles[0].length; p++) {
 				if (tiles[i][p].intersects(c.getBoundsInParent())) {
 					tiles[i][p].setOccupied(true, c);
 					c.setCurrentTile(tiles[i][p]);

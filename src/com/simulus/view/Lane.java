@@ -12,7 +12,7 @@ public class Lane extends Tile{
 			int gridPosX, int gridPosY, Direction dir) {
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
-		getFrame().setFill(Color.BLACK);
+		getFrame().setFill(Color.GREY);
 	}
 	
 	

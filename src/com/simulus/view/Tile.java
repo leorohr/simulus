@@ -25,8 +25,9 @@ public class Tile extends Group {
 		occupier = null;
 		isOccupied = false;
 		turningPaths = new ArrayList<Path>();
-		frame.setFill(Color.TRANSPARENT);
+		frame.setFill(Color.LIGHTGOLDENRODYELLOW);
 		frame.setStroke(Color.BLACK);
+		frame.setStrokeWidth(0.2d);
 		this.getChildren().add(frame);
 	}
 
@@ -34,17 +35,14 @@ public class Tile extends Group {
 		if (isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
-			redrawTile();
 		}else if(occupier.equals(getOccupier())){
 			this.occupier = null;
 			this.isOccupied = false;
-			redrawTile();
 		}
 	}
 	
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
-		redrawTile();
 	}
 
 	public Vehicle getOccupier() {

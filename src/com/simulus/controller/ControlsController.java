@@ -28,7 +28,7 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label tickrateLabel;
 	
-	//TODO
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -58,6 +58,7 @@ public class ControlsController implements Initializable {
 			mainApp.stopSimulation();
 		});
 		
+		//TODO add carspawnrate slider
 		
 	}
 
