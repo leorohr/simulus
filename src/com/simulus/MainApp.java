@@ -69,7 +69,7 @@ public class MainApp extends Application {
 				frameNo++;
 
 				
-				if (frameNo % 60 == 0) {
+				if (frameNo % 30 == 0) {
 					map.spawnRandomCar();
 				}
 				
@@ -87,7 +87,7 @@ public class MainApp extends Application {
 				//Ensures a fixed tickrate
 				//TODO change 100000000 to tickrate taken from slider
 				long end = System.nanoTime();
-				while(System.nanoTime() - now < (100000000 - (end - now))){
+				while(System.nanoTime() - now < (10000000 - (end - now))){
 					
 				}
 			}

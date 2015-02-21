@@ -100,9 +100,15 @@ public class Map extends Group{
 		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
 		
 		//Car adds itself to the canvas
-		new Car(l.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
-				l.getGridPosY() * Map.TILESIZE + Car.CARHEIGHT / 8,
-				l.getDirection());	
+		//TODO move to car constructor; car constructor should then just take Lane l
+		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH)			
+			new Car(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
+					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Car.CARHEIGHT,
+					l.getDirection());
+		if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST)			
+			new Car(l.getGridPosX() * Map.TILESIZE,
+					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
+					l.getDirection());	
 	}
 	
 	public void addGroup(TileGroup g) {

@@ -24,11 +24,7 @@ import com.simulus.util.enums.Direction;
 public class Car extends Vehicle {
 
 	public static final int CARWIDTH = 10;
-	public static final int CARHEIGHT = 15;
-
-	private static final int ARCHEIGHT = 10;
-	private static final int ARCWIDTH = 30;
-	
+	public static final int CARHEIGHT = 15;	
 
 
 	/**
@@ -64,8 +60,6 @@ public class Car extends Vehicle {
 		default:
 			break;
 		}
-		setArcHeight(ARCHEIGHT);
-		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		Random rand = new Random();
 		speed = rand.nextInt(5)+1;

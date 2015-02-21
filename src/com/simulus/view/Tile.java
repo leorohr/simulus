@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
@@ -15,6 +16,7 @@ public class Tile extends Group {
 	private Vehicle occupier;
 	private Rectangle frame;
 	private ArrayList<Path> turningPaths;
+	private Paint paint = Color.GREY;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -35,14 +37,17 @@ public class Tile extends Group {
 		if (isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
+			redrawTile();
 		}else if(occupier.equals(getOccupier())){
 			this.occupier = null;
 			this.isOccupied = false;
+			redrawTile();
 		}
 	}
 	
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
+		redrawTile();
 	}
 
 	public Vehicle getOccupier() {
@@ -70,10 +75,11 @@ public class Tile extends Group {
 	}
 
 	public void redrawTile() {
+		
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
 		} else {
-			frame.setFill(Color.BLACK);
+			frame.setFill(paint);
 		}
 	}
 	
