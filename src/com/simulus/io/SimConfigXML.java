@@ -43,7 +43,7 @@ public class SimConfigXML {
 
 	}
 
-	//reads XML file and returns 2D array of type tile.  Error thrown if <tile> nodes do not match metadata i.e. grid size matching height x width
+	//reads XML file to get simulation setting parameters
 	public void readXML(String inputFile) {
 
 		try {
@@ -98,7 +98,7 @@ public class SimConfigXML {
 
 	}
 
-	//outputs XML file based on given 2D array of type tile plus metadata
+	//outputs XML file based on simulation parameters
 	public void writeXML(String outputFile, String nameIn, String dateIn, String descIn, String authIn,
 			int noCarsIn, int tickRateIn, int spawnRateIn, int maxSpeedIn, int carTruckRatioIn, boolean debugIn) {
 
@@ -132,7 +132,7 @@ public class SimConfigXML {
 			Comment comment = doc.createComment("Team Simulus Traffic Simulator Simulation File");
 			doc.insertBefore(comment, rootElement);
 
-			// map_details
+			// sim_details
 			Element simDetails = doc.createElement("sim_details");
 			rootElement.appendChild(simDetails);
 
@@ -152,7 +152,7 @@ public class SimConfigXML {
 			author.appendChild(doc.createTextNode(simAuthor));
 			simDetails.appendChild(author);
 
-			// map_specs
+			// sim_specs
 			Element simSpecs = doc.createElement("sim_specs");
 			rootElement.appendChild(simSpecs);
 
