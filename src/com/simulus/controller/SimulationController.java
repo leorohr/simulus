@@ -1,6 +1,8 @@
 package com.simulus.controller;
 
+import com.simulus.view.Lane;
 import com.simulus.view.Map;
+import com.simulus.view.Tile;
 import com.simulus.view.Vehicle;
 import javafx.application.Platform;
 
@@ -10,7 +12,7 @@ import javafx.application.Platform;
 public class SimulationController {
 
     //Simulation Parameters
-    private int tickTime = 200; //in ms
+    private int tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th frame
     private int maxCars = 25;
     private int maxCarSpeed = 10;
@@ -78,9 +80,9 @@ public class SimulationController {
 
             while(!isInterrupted()) {
 
-                if (map.getVehicles().size() < maxCars) {
+                if (map.getVehicleCount() < maxCars) {
                     //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
-                    if (truckCount < (1 - carTruckRatio) * map.getVehicles().size()) {
+                    if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
                         Platform.runLater(() -> map.spawnRandomTruck());
                         truckCount++;
                     } else {
@@ -121,6 +123,15 @@ public class SimulationController {
 
     public void setDebugFlag(boolean debugFlag) {
         this.debugFlag = debugFlag;
+        if(!debugFlag) {
+            //Clear debuginformation from canvas
+            for(Tile[] t : map.getTiles()) {
+                for (int i = 0; i < t.length; i++) {
+                    if(t[i] instanceof Lane)
+                        t[i].getFrame().setFill(Lane.COLOR);
+                }
+            }
+        }
     }
 
     public int getTickTime() {

@@ -6,6 +6,7 @@ import com.simulus.util.enums.Seed;
 import javafx.scene.Group;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -18,7 +19,8 @@ public class Map extends Group {
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
-    private volatile ArrayList<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Vehicle> vehicles = new ArrayList<>();
+    private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
 
 	public Map() {		
 		
@@ -117,7 +119,7 @@ public class Map extends Group {
         c.setCurrentTile(l);
         c.setMap(tiles);
         l.setOccupied(true, c);
-        synchronized (Map.class) {
+        synchronized (vehicles) {
             vehicles.add(c);
         }
 	}
@@ -145,7 +147,7 @@ public class Map extends Group {
         t.setCurrentTile(l);
         t.setMap(tiles);
         l.setOccupied(true, t);
-        synchronized (Map.class) {
+        synchronized (vehicles) {
             vehicles.add(t);
         }
 	}
@@ -209,12 +211,22 @@ public class Map extends Group {
 	 */
 	public void updateMap() {
 
-        synchronized (Map.class) {
-            for (Vehicle v : vehicles) {
+        synchronized (vehicles) {
+            Vehicle v;
+            Iterator<Vehicle> iter = vehicles.iterator();
+            while(iter.hasNext()) {
 
+                v = iter.next();
                 int vX = v.getCurrentTile().getGridPosX();
                 int vY = v.getCurrentTile().getGridPosY();
                 Tile nextTile = null;
+
+                //In order to prevent ConcurrentModificationExceptions
+                //vehicles have to be removed in this loop.
+                if(toBeRemoved.contains(v)) {
+                    iter.remove();
+                    continue;
+                }
 
                 switch (v.getDirection()) {
                     case NORTH:
@@ -241,49 +253,49 @@ public class Map extends Group {
                         break;
                 }
 
-                //Set tiles to not-occupied when the car leaves them
-                if (!tiles[vX][vY].intersects(v.getBoundsInParent())) {
-                    tiles[vX][vY].setOccupied(false, v);
-                    v.removeTile(tiles[vX][vY]);
-                }
+               if (nextTile != null) {
+                   //Free tiles
+                   Iterator i = v.getOccupiedTiles().iterator();
+                   while(i.hasNext()) {
+                       Tile t = (Tile)i.next();
+                       if(!v.intersects(t.getBoundsInParent())) {
+                           t.setOccupied(false, v);
+                           i.remove();
+                       }
+                   }
 
-                if (nextTile != null) {
-                    nextTile.setOccupied(true, v);
-                    v.setCurrentTile(nextTile);
-                    v.setMap(tiles);
-                }
+                   nextTile.setOccupied(true, v);
+                   v.setCurrentTile(nextTile);
+                   v.setMap(tiles);
+               }
 
                 v.moveVehicle();
+
+
             }
         }
     }
 
     /**
      * Removes a vehicle from the screen
-     *
      * @param v Vehicle to be removed
      */
     public void removeVehicle(Vehicle v) {
-        synchronized (Map.class) {
             v.removeFromCanvas();
             v.getCurrentTile().setOccupied(false, v);
 
             for (Tile t : v.getOccupiedTiles())
                 t.setOccupied(false, v);
 
-            vehicles.remove(v);
-        }
+            toBeRemoved.add(v);
     }
-	
 
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-    public ArrayList<Vehicle> getVehicles() {
-        synchronized (Map.class) {
-            return vehicles;
-        }
+    public int getVehicleCount() {
+        return vehicles.size();
     }
 
 }

@@ -6,6 +6,7 @@ import com.simulus.util.enums.Direction;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Describes a vehicle on the GUI
@@ -17,7 +18,7 @@ public abstract class Vehicle extends Rectangle {
 	protected Tile[][] map;
 	protected MainApp parent;
 	protected Tile currentTile;
-	protected ArrayList<Tile> occupiedTiles;
+	protected List<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
 	
@@ -75,13 +76,13 @@ public abstract class Vehicle extends Rectangle {
 
 //		switch (getDirection()) {
 //		case NORTH:
-////			if (getCurrentTile() != null) {
-////				Tile oldTile = getCurrentTile();
-////				if (oldTile.getGridPosY() > t.getGridPosY())
-////					currentTile = t;
-////				else
-////					return;
-////			} else
+//			if (getCurrentTile() != null) {
+//				Tile oldTile = getCurrentTile();
+//				if (oldTile.getGridPosY() > t.getGridPosY())
+//					currentTile = t;
+//				else
+//					return;
+//			} else
 //				currentTile = t;
 //			break;
 //		case SOUTH:
@@ -135,19 +136,24 @@ public abstract class Vehicle extends Rectangle {
 	}
 
 	private void addTile(Tile t){
-		if(!occupiedTiles.contains(t))
-			occupiedTiles.add(t);
+        synchronized(this) {
+            if (!occupiedTiles.contains(t))
+                occupiedTiles.add(t);
+        }
 	}
 	
 	public void removeTile(Tile t){
-		if(occupiedTiles.contains(t))
-			occupiedTiles.remove(t);
+        synchronized (this) {
+            if (occupiedTiles.contains(t))
+                occupiedTiles.remove(t);
+        }
 	}
 
-    //TODO maybe occupiedTiles can be removed altogether?
-	public ArrayList<Tile> getOccupiedTiles(){
-		return occupiedTiles;
-	}
+	public List<Tile> getOccupiedTiles(){
+        synchronized (this) {
+            return occupiedTiles;
+        }
+    }
 	
 	public double getVehicleSpeed(){
 		return vehicleSpeed;

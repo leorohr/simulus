@@ -168,49 +168,68 @@ public class Car extends Vehicle {
             Tile nextTile = null;
 			switch (getDirection()) {
 			case NORTH:
+                if(currentTile.getGridPosY()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    break;
+                }
+
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
-
                 if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
 				break;
+
 			case SOUTH:
-                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
+                if(currentTile.getGridPosY()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    break;
+                }
 
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
                 if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
 				break;
+
 			case EAST:
+                if(currentTile.getGridPosX()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    break;
+                }
+
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
-
 				if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
 				break;
+
 			case WEST:
-                nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
+                if(currentTile.getGridPosX()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    break;
+                }
 
+                nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
 				if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
 				break;
+
 			default:
 				break;
 			}
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
-                if(nextTile.getOccupier()!=null)
+                if(nextTile != null && nextTile.getOccupier()!=null)
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("car rem2");
-            SimulationController.getInstance().removeVehicle(this);
+            e.printStackTrace();
 		}
 
 		//Moves the car in the direction it should go.
