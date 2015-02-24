@@ -1,4 +1,4 @@
-package com.simulus.mapping;
+package com.simulus.io;
 public class TileXML {
 	
 	public String type;

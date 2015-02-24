@@ -1,4 +1,4 @@
-package com.simulus.mapping;
+package com.simulus.io;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
