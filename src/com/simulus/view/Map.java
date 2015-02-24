@@ -1,14 +1,15 @@
 package com.simulus.view;
 
+import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Seed;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import javafx.scene.Group;
-
-import com.simulus.MainApp;
-import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
 
 public class Map extends Group {
 	
@@ -17,9 +18,10 @@ public class Map extends Group {
 	public static final int TILESIZE = (int) (MainApp.getInstance().getCanvas().getWidth()/NUM_ROWS);
 	
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
-	private ArrayList<Intersection> intersections = new ArrayList<Intersection>();
-	private ArrayList<Lane> entryPoints = new ArrayList<Lane>();
-	
+	private ArrayList<Intersection> intersections = new ArrayList<>();
+	private ArrayList<Lane> entryPoints = new ArrayList<>();
+    private volatile ArrayList<Vehicle> vehicles = new ArrayList<>();
+
 	public Map() {		
 		
 //		createBasicMap();
@@ -101,14 +103,22 @@ public class Map extends Group {
 		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
 		
 		//Car adds itself to the canvas
-		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH)			
-			new Car(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
-					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Car.CARLENGTH,
-					l.getDirection());
-		if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST)			
-			new Car(l.getGridPosX() * Map.TILESIZE,
-					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE/2 - Car.CARWIDTH/2,
-					l.getDirection());	
+        Car c = null;
+		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH) {
+            c = new Car(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
+                    l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Car.CARLENGTH,
+                    l.getDirection());
+        } else if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST) {
+            c = new Car(l.getGridPosX() * Map.TILESIZE,
+                    l.getGridPosY() * Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
+                    l.getDirection());
+        }
+
+        c.setCurrentTile(l);
+        l.setOccupied(true, c);
+        synchronized (Map.class) {
+            vehicles.add(c);
+        }
 	}
 	
 	/**
@@ -119,17 +129,27 @@ public class Map extends Group {
 		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
 		
 		//Truck adds itself to the canvas
-		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH)			
-			new Truck(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE/2 - Truck.TRUCKWIDTH/2,
-					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Truck.TRUCKLENGTH,
-					l.getDirection());
-		if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST)			
-			new Truck(l.getGridPosX() * Map.TILESIZE,
-					l.getGridPosY() * Map.TILESIZE + Map.TILESIZE/2 - Truck.TRUCKWIDTH/2,
-					l.getDirection());	
+        Truck t = null;
+		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH) {
+            t = new Truck(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2 - Truck.TRUCKWIDTH / 2,
+                    l.getGridPosY() * Map.TILESIZE + Map.TILESIZE - Truck.TRUCKLENGTH,
+                    l.getDirection());
+        }
+		else if(l.getDirection() == Direction.WEST || l.getDirection() == Direction.EAST) {
+            t = new Truck(l.getGridPosX() * Map.TILESIZE,
+                    l.getGridPosY() * Map.TILESIZE + Map.TILESIZE / 2 - Truck.TRUCKWIDTH / 2,
+                    l.getDirection());
+        }
+
+        t.setCurrentTile(l);
+        l.setOccupied(true, t);
+        synchronized (Map.class) {
+            vehicles.add(t);
+        }
 	}
-	
-	public void spawnTesterCar() {
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void spawnTesterCar() {
 		
 		Lane l = entryPoints.get(4);
 		
@@ -145,9 +165,7 @@ public class Map extends Group {
 				a.getGridPosY() * Map.TILESIZE + Car.CARLENGTH / 8,
 				a.getDirection());	
 	}
-	
-	
-	
+
 	private void addGroup(TileGroup g) {
 		
 		List<Tile> l = g.getTiles();
@@ -179,39 +197,102 @@ public class Map extends Group {
 	 * Used only for testing purposes Simulates the effect of traffic lights on
 	 * cars
 	 */
+    @SuppressWarnings("UnusedDeclaration")
 	public void createBlockage(int tileX, int tileY) {
 			tiles[tileX][tileY].setOccupied(true);
-		
 	}
 
 	/**
-	 * Updates the map according to the vehicle passed in. Gives the vehicle a
-	 * copy of the updated map
-	 * 
-	 * @param c Vehicle
+	 * Computes one simulation step.
 	 */
-	public void updateMap(Vehicle c) {
+	public void updateMap() {
 
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles[0].length; p++) {
-				if (tiles[i][p].intersects(c.getBoundsInParent())) {
-					tiles[i][p].setOccupied(true, c);
-					c.setCurrentTile(tiles[i][p]);
-					c.addTile(tiles[i][p]);
-				} else {
-					tiles[i][p].setOccupied(false, c);
-				}
-			}
-			c.setMap(tiles);
-		}
-	}
+        if(SimulationController.getInstance().isDebug()) {
+            for(Tile[] t : tiles) {
+                for (int i=0; i<t.length; i++) {
+                    if(t[i].isOccupied())
+                        t[i].getFrame().setFill(Color.ALICEBLUE);
+                }
+            }
+        }
+
+        synchronized (Map.class) {
+            for (Vehicle v : vehicles) {
+
+                int vX = v.getCurrentTile().getGridPosX();
+                int vY = v.getCurrentTile().getGridPosY();
+                Tile nextTile = null;
+
+                switch (v.getDirection()) {
+                    case NORTH:
+                        if (tiles[vX][vY - 1].intersects(v.getBoundsInParent())) {
+                            nextTile = tiles[vX][vY - 1];
+                        }
+                        break;
+                    case EAST:
+                        if (tiles[vX + 1][vY].intersects(v.getBoundsInParent())) {
+                            nextTile = tiles[vX + 1][vY];
+                        }
+                        break;
+                    case SOUTH:
+                        if (tiles[vX][vY + 1].intersects(v.getBoundsInParent())) {
+                            nextTile = tiles[vX][vY + 1];
+                        }
+                        break;
+                    case WEST:
+                        if (tiles[vX - 1][vY].intersects(v.getBoundsInParent())) {
+                            nextTile = tiles[vX - 1][vY];
+                        }
+                        break;
+                    case NONE:
+                        break;
+                }
+
+                //Set tiles to not-occupied when the car leaves them
+                if (!tiles[vX][vY].intersects(v.getBoundsInParent())) {
+                    tiles[vX][vY].setOccupied(false);
+                    v.removeTile(tiles[vX][vY]);
+                }
+
+                if (nextTile == null)
+                    nextTile = v.getCurrentTile();
+
+                nextTile.setOccupied(true, v);
+                v.setCurrentTile(nextTile);
+                v.setMap(tiles);
+                v.addTile(nextTile); //TODO necessary?
+
+                v.moveVehicle();
+            }
+        }
+    }
+
+    /**
+     * Removes a vehicle from the screen
+     *
+     * @param v Vehicle to be removed
+     */
+    public void removeVehicle(Vehicle v) {
+        synchronized (Map.class) {
+            v.removeFromCanvas();
+            v.getCurrentTile().setOccupied(false, v);
+
+            for (Tile t : v.getOccupiedTiles())
+                t.setOccupied(false, v);
+
+            vehicles.remove(v);
+        }
+    }
 	
 
 	public Tile[][] getTiles() {
 		return tiles;
 	}
 
-	public void setTiles(Tile[][] tiles) {
-		this.tiles = tiles;
-	}
+    public ArrayList<Vehicle> getVehicles() {
+        synchronized (Map.class) {
+            return vehicles;
+        }
+    }
+
 }

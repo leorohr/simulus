@@ -1,13 +1,12 @@
 package com.simulus.view;
 
-import java.util.Random;
-
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Direction;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Translate;
 
-import com.simulus.MainApp;
-import com.simulus.util.enums.Behavior;
-import com.simulus.util.enums.Direction;
+import java.util.Random;
 
 public class Truck extends Vehicle {
 
@@ -40,8 +39,6 @@ public class Truck extends Vehicle {
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(2)+2;
 		addToCanvas();
-		
-		MainApp.getInstance().getVehicles().add(this);
 	}
 
 	@Override
@@ -131,7 +128,7 @@ public class Truck extends Vehicle {
 				default:break;
 				}
 			}catch(ArrayIndexOutOfBoundsException e){
-				
+                SimulationController.getInstance().removeVehicle(this);
 			}
 		}
 		try {
@@ -147,7 +144,6 @@ public class Truck extends Vehicle {
 						                         						.getGridPosY() - 1].getOccupier().getVehicleSpeed());
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case SOUTH:
 				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
@@ -155,7 +151,6 @@ public class Truck extends Vehicle {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case EAST:
 				if (map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
@@ -163,7 +158,6 @@ public class Truck extends Vehicle {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case WEST:
 				if (map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
@@ -171,14 +165,12 @@ public class Truck extends Vehicle {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			default:
 				break;
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-//			System.out.println("out of screen");
-			setOnScreen(false);
+            SimulationController.getInstance().removeVehicle(this);
 		}
 
 		//Moves the car in the direction it should go.

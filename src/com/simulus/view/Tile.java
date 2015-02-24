@@ -1,14 +1,13 @@
 package com.simulus.view;
 
-import java.util.ArrayList;
-
-import com.simulus.MainApp;
-
+import com.simulus.controller.SimulationController;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
 
 public class Tile extends Group {
 
@@ -28,7 +27,7 @@ public class Tile extends Group {
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		turningPaths = new ArrayList<Path>();
+		turningPaths = new ArrayList<>();
 		frame.setFill(Color.LIGHTGOLDENRODYELLOW);
 		frame.setStroke(Color.BLACK);
 		frame.setStrokeWidth(0.2d);
@@ -68,20 +67,12 @@ public class Tile extends Group {
 		return gridPosY;
 	}
 
-	public void setGridPosX(int x) {
-		gridPosX = x;
-	}
-
-	public void setGridPosY(int y) {
-		gridPosY = y;
-	}
-
 	/**
-	 * If the app is currenty in debug mode, this method draws
+	 * If the app is currently in debug mode, this method draws
 	 * the tiles occupied by vehicles in green.
 	 */
 	public void redrawTile() {
-		if(!MainApp.getInstance().isDebug())
+		if(!SimulationController.getInstance().isDebug())
 			return;
 		
 		if (isOccupied()) {

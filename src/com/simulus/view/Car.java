@@ -1,7 +1,9 @@
 package com.simulus.view;
 
-import java.util.Random;
-
+import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Direction;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
@@ -9,17 +11,11 @@ import javafx.animation.PathTransitionBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.PathBuilder;
+import javafx.scene.shape.*;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import com.simulus.MainApp;
-import com.simulus.util.enums.Behavior;
-import com.simulus.util.enums.Direction;
+import java.util.Random;
 
 /**
  * Describes a car object on the GUI
@@ -70,10 +66,8 @@ public class Car extends Vehicle {
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(MainApp.getInstance().getMaxCarSpeed()-3)+3;
+		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
 		addToCanvas();
-		
-		MainApp.getInstance().getVehicles().add(this);
 	}
 	
 	/**
@@ -166,54 +160,57 @@ public class Car extends Vehicle {
 				default:break;
 				}
 			}catch(ArrayIndexOutOfBoundsException e){
-				
+                System.out.println("car rem1");
+				SimulationController.getInstance().removeVehicle(this);
 			}
 		}
 		try {
+            Tile nextTile = null;
 			switch (getDirection()) {
 			case NORTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() - 1].isOccupied()) {
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
+
+                if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
-					if(tempBehavior == Behavior.CAUTIOUS)
-						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier()!=null)
-						setVehicleSpeed(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier().getVehicleSpeed());
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case SOUTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() + 1].isOccupied()) {
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
+
+                if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case EAST:
-				if (map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
+                nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
+
+				if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			case WEST:
-				if (map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
+                nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
+
+				if (nextTile.isOccupied()) {
 					temp = Direction.NONE;
 				} else
 					temp = getDirection();
-				setOnScreen(true);
 				break;
 			default:
 				break;
 			}
+
+            //Slow the car down if cautious and slow car in front
+            if(tempBehavior == Behavior.CAUTIOUS)
+                if(nextTile.getOccupier()!=null)
+                    setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
+
 		} catch (ArrayIndexOutOfBoundsException e) {
-//			System.out.println("out of screen");
-			setOnScreen(false);
+            System.out.println("car rem2");
+            SimulationController.getInstance().removeVehicle(this);
 		}
 
 		//Moves the car in the direction it should go.
@@ -284,7 +281,7 @@ public class Car extends Vehicle {
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
         		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
-        double carSpeed = (getVehicleSpeed()/MainApp.getInstance().getTickTime());
+        double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
         		
         double pathTime = pathDistance/carSpeed;
         

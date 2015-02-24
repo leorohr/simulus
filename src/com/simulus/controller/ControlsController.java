@@ -1,10 +1,5 @@
 package com.simulus.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,7 +7,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
-import com.simulus.MainApp;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class ControlsController implements Initializable {
 
@@ -47,33 +43,27 @@ public class ControlsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		MainApp mainApp = MainApp.getInstance();
+		SimulationController simulationController = SimulationController.getInstance();
 	
-		tickrateSlider.valueProperty().addListener(new ChangeListener<Number>() {
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable,
-					Number oldValue, Number newValue) {
-				
-				tickrateLabel.setText(String.valueOf(newValue.intValue()));
-				mainApp.setTickTime(newValue.intValue());
-			}
-		});
+		tickrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            tickrateLabel.setText(String.valueOf(newValue.intValue()));
+            simulationController.setTickTime(newValue.intValue());
+        });
 		
 		numCarSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			numCarLabel.setText(String.valueOf(newValue.intValue()));
-			mainApp.setMaxCars(newValue.intValue());
+			simulationController.setMaxCars(newValue.intValue());
 		});
 		
 		spawnrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			spawnrateLabel.setText(String.valueOf(newValue.intValue()));
-			mainApp.setSpawnrate(newValue.intValue());
+			simulationController.setSpawnRate(newValue.intValue());
 			System.out.println(newValue);
 		});
 		
 		maxcarspeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			maxcarspeedLabel.setText(String.valueOf(newValue.intValue()));
-			mainApp.setMaxCarSpeed(newValue.intValue());
+			simulationController.setMaxCarSpeed(newValue.intValue());
 		});
 		
 		cartruckratioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -82,15 +72,15 @@ public class ControlsController implements Initializable {
 		});
 	
 		startButton.setOnAction((event) -> {
-			mainApp.startSimulation();
+			simulationController.startSimulation();
 		});
 		
 		stopButton.setOnAction((event) -> {
-			mainApp.stopSimulation();
+			simulationController.stopSimulation();
 		});
 		
 		debugCheckbox.setOnAction((event) -> {
-			mainApp.setDebug(debugCheckbox.isSelected());
+			simulationController.setDebugFlag(debugCheckbox.isSelected());
 		});
 		
 	}

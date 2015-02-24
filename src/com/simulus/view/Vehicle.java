@@ -1,12 +1,11 @@
 package com.simulus.view;
 
-import java.util.ArrayList;
-
-import javafx.scene.shape.Rectangle;
-
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import javafx.scene.shape.Rectangle;
+
+import java.util.ArrayList;
 
 /**
  * Describes a vehicle on the GUI
@@ -18,7 +17,6 @@ public abstract class Vehicle extends Rectangle {
 	protected Tile[][] map;
 	protected MainApp parent;
 	protected Tile currentTile;
-	protected boolean onScreen;
 	protected ArrayList<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
@@ -43,13 +41,11 @@ public abstract class Vehicle extends Rectangle {
 		this.dir = dir;
 		map = parent.getMap().getTiles();
 		mapSize = map.length;
-		occupiedTiles = new ArrayList<Tile>();
+		occupiedTiles = new ArrayList<>();
 		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
-			onScreen = true;
 		} catch (ArrayIndexOutOfBoundsException e) {
 			currentTile = null;
-			onScreen = false;
 		}
 	}
 
@@ -73,80 +69,59 @@ public abstract class Vehicle extends Rectangle {
 	}
 
 	public void setCurrentTile(Tile t) {
-		switch (getDirection()) {
-		case NORTH:
-			if (getCurrentTile() != null) {
-				Tile oldTile = getCurrentTile();
-				if (oldTile.getGridPosY() > t.getGridPosY())
-					currentTile = t;
-				else
-					return;
-			} else
-				currentTile = t;
-			break;
-		case SOUTH:
-			if (getCurrentTile() != null) {
-				Tile oldTile = getCurrentTile();
-				if (oldTile.getGridPosY() < t.getGridPosY())
-					currentTile = t;
-				else
-					return;
-			} else
-				currentTile = t;
-			break;
-		case EAST:
-			if (getCurrentTile() != null) {
-				Tile oldTile = getCurrentTile();
-				if (oldTile.getGridPosX() < t.getGridPosX())
-					currentTile = t;
-				else
-					return;
-			} else
-				currentTile = t;
-			break;
-		case WEST:
-			if (getCurrentTile() != null) {
-				Tile oldTile = getCurrentTile();
-				if (oldTile.getGridPosX() > t.getGridPosX())
-					currentTile = t;
-				else
-					return;
-			} else
-				currentTile = t;
-			break;
-		default:
-			break;
-		}
+
+        currentTile = t;
+
+//		switch (getDirection()) {
+//		case NORTH:
+////			if (getCurrentTile() != null) {
+////				Tile oldTile = getCurrentTile();
+////				if (oldTile.getGridPosY() > t.getGridPosY())
+////					currentTile = t;
+////				else
+////					return;
+////			} else
+//				currentTile = t;
+//			break;
+//		case SOUTH:
+//			if (getCurrentTile() != null) {
+//				Tile oldTile = getCurrentTile();
+//				if (oldTile.getGridPosY() < t.getGridPosY())
+//					currentTile = t;
+//				else
+//					return;
+//			} else
+//				currentTile = t;
+//			break;
+//		case EAST:
+//			if (getCurrentTile() != null) {
+//				Tile oldTile = getCurrentTile();
+//				if (oldTile.getGridPosX() < t.getGridPosX())
+//					currentTile = t;
+//				else
+//					return;
+//			} else
+//				currentTile = t;
+//			break;
+//		case WEST:
+//			if (getCurrentTile() != null) {
+//				Tile oldTile = getCurrentTile();
+//				if (oldTile.getGridPosX() > t.getGridPosX())
+//					currentTile = t;
+//				else
+//					return;
+//			} else
+//				currentTile = t;
+//			break;
+//		default:
+//			break;
+//		}
 
 	}
-	
-	
 
 	public void removeFromCanvas() {
-		switch (getDirection()) {
-		case NORTH:
-			if (parent.getCanvas().getChildren().contains(this)) {
-				parent.getCanvas().getChildren().remove(this);
-			}
-			break;
-		case SOUTH:
-			if (parent.getCanvas().getChildren().contains(this)) {
-				parent.getCanvas().getChildren().remove(this);
-			}
-			break;
-		case EAST:
-			if (parent.getCanvas().getChildren().contains(this)) {
-				parent.getCanvas().getChildren().remove(this);
-			}
-			break;
-		case WEST:
-			if (parent.getCanvas().getChildren().contains(this)) {
-				parent.getCanvas().getChildren().remove(this);
-			}
-			break;
-		default:
-			break;
-		}
+        if (parent.getCanvas().getChildren().contains(this))
+            parent.getCanvas().getChildren().remove(this);
 	}
 
 	public Tile getCurrentTile() {
@@ -158,14 +133,6 @@ public abstract class Vehicle extends Rectangle {
 			parent.getCanvas().getChildren().add(this);
 	}
 
-	public boolean getOnScreen() {
-		return onScreen;
-	}
-
-	public void setOnScreen(boolean b) {
-		onScreen = b;
-	}
-	
 	public void addTile(Tile t){
 		if(!occupiedTiles.contains(t))
 			occupiedTiles.add(t);
@@ -176,6 +143,7 @@ public abstract class Vehicle extends Rectangle {
 			occupiedTiles.remove(t);
 	}
 
+    //TODO maybe occupiedTiles can be removed altogether?
 	public ArrayList<Tile> getOccupiedTiles(){
 		return occupiedTiles;
 	}
