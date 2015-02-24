@@ -36,6 +36,28 @@ public class SimulationController {
 
         //TODO ensure fixed tickrate
         animationThread = new AnimationThread();
+
+//        AnimationTimer animationTimer = new AnimationTimer() {
+//            // When the timer is started, this method loops endlessly
+//            private int frameNo = 0;
+//
+//            @Override
+//            public void handle(long now) { // Increment the frame number
+//                frameNo++;
+//
+//                if (frameNo % spawnRate == 0 && map.getVehicles().size() < maxCars) {
+//                    //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
+//                    if (truckCount < (1 - carTruckRatio) * map.getVehicles().size()) {
+//                        Platform.runLater(() -> map.spawnRandomTruck());
+//                        truckCount++;
+//                    } else {
+//                        Platform.runLater(() -> map.spawnRandomCar());
+//                    }
+//                }
+//                Platform.runLater(() -> map.updateMap());
+//            }
+//        };
+//        animationTimer.start();
     }
 
     public void startSimulation() {
@@ -50,27 +72,6 @@ public class SimulationController {
     }
 
     private class AnimationThread extends Thread {
-
-//        // When the timer is started, this method loops endlessly
-//        int frameNo = 0;
-//
-//        AnimationTimer animationTimer = new AnimationTimer() {
-//            @Override
-//            public void handle(long now) { // Increment the frame number
-//                frameNo++;
-//
-//                if (frameNo % spawnRate == 0 && map.getVehicles().size() < maxCars) {
-//                    //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
-//                    if (truckCount < (1 - carTruckRatio) * map.getVehicles().size()) {
-//                        map.spawnRandomTruck();
-//                        truckCount++;
-//                    } else {
-//                        map.spawnRandomCar();
-//                    }
-//                }
-//                map.updateMap();
-//            }
-//        };
 
         @Override
         public void run() {
@@ -99,6 +100,14 @@ public class SimulationController {
         public AnimationThread() {
             super("AnimationThread");
         }
+    }
+
+    /**
+     * Offers a clean way to initialise the controller without calling getInstance()
+     */
+    public static void init() {
+        if(instance == null)
+            instance = new SimulationController();
     }
 
     public void removeVehicle(Vehicle v) {
@@ -152,6 +161,10 @@ public class SimulationController {
 
     public void setCarTruckRatio(double carTruckRatio) {
         this.carTruckRatio = carTruckRatio;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }
 

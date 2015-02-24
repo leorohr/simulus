@@ -89,8 +89,7 @@ public class Map extends Group {
 		
 		addGroup(new Intersection(29, 7));
 		addGroup(new Intersection(29, 18));
-		addGroup(new Intersection(29, 29));		
-		
+		addGroup(new Intersection(29, 29));
 	}
 	
 	/**
@@ -98,7 +97,10 @@ public class Map extends Group {
 	 */
 	public void spawnRandomCar() {
 		Random rand = new Random();
-		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
+		Lane l;
+        do {
+            l = entryPoints.get(rand.nextInt(entryPoints.size()));
+        } while(l.isOccupied());
 		
 		//Car adds itself to the canvas
         Car c = null;

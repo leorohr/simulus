@@ -48,10 +48,10 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 
-        this.map = new Map();
+        //Setup simulation
+        SimulationController.init();
 
-        SimulationController simulationController = SimulationController.getInstance();
-        simulationController.startSimulation();
+        this.map = SimulationController.getInstance().getMap();
 	}
 
 	/**
