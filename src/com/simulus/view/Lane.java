@@ -1,11 +1,12 @@
 package com.simulus.view;
 
+import com.simulus.util.enums.Direction;
 import javafx.scene.paint.Color;
 
-import com.simulus.util.enums.Direction;
-
 public class Lane extends Tile{
-	
+
+    public static final Color COLOR = Color.GREY;
+
 	private Direction dir;
 	private int laneNo;
 
@@ -14,7 +15,7 @@ public class Lane extends Tile{
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
 		this.laneNo = laneNo;
-		getFrame().setFill(Color.GREY);
+		getFrame().setFill(COLOR);
 	}
 	
 	

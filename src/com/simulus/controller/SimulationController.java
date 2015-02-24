@@ -10,9 +10,9 @@ import javafx.application.Platform;
 public class SimulationController {
 
     //Simulation Parameters
-    private int tickTime = 50; //in ms
+    private int tickTime = 200; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th frame
-    private int maxCars = 50;
+    private int maxCars = 25;
     private int maxCarSpeed = 10;
     private double carTruckRatio = 0.7d;
     private int truckCount = 0;

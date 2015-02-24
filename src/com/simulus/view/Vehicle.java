@@ -71,6 +71,7 @@ public abstract class Vehicle extends Rectangle {
 	public void setCurrentTile(Tile t) {
 
         currentTile = t;
+        addTile(t);
 
 //		switch (getDirection()) {
 //		case NORTH:
@@ -133,7 +134,7 @@ public abstract class Vehicle extends Rectangle {
 			parent.getCanvas().getChildren().add(this);
 	}
 
-	public void addTile(Tile t){
+	private void addTile(Tile t){
 		if(!occupiedTiles.contains(t))
 			occupiedTiles.add(t);
 	}

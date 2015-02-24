@@ -1,11 +1,9 @@
 package com.simulus.view;
 
 import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +113,7 @@ public class Map extends Group {
         }
 
         c.setCurrentTile(l);
+        c.setMap(tiles);
         l.setOccupied(true, c);
         synchronized (Map.class) {
             vehicles.add(c);
@@ -142,6 +141,7 @@ public class Map extends Group {
         }
 
         t.setCurrentTile(l);
+        t.setMap(tiles);
         l.setOccupied(true, t);
         synchronized (Map.class) {
             vehicles.add(t);
@@ -207,15 +207,6 @@ public class Map extends Group {
 	 */
 	public void updateMap() {
 
-        if(SimulationController.getInstance().isDebug()) {
-            for(Tile[] t : tiles) {
-                for (int i=0; i<t.length; i++) {
-                    if(t[i].isOccupied())
-                        t[i].getFrame().setFill(Color.ALICEBLUE);
-                }
-            }
-        }
-
         synchronized (Map.class) {
             for (Vehicle v : vehicles) {
 
@@ -250,17 +241,15 @@ public class Map extends Group {
 
                 //Set tiles to not-occupied when the car leaves them
                 if (!tiles[vX][vY].intersects(v.getBoundsInParent())) {
-                    tiles[vX][vY].setOccupied(false);
+                    tiles[vX][vY].setOccupied(false, v);
                     v.removeTile(tiles[vX][vY]);
                 }
 
-                if (nextTile == null)
-                    nextTile = v.getCurrentTile();
-
-                nextTile.setOccupied(true, v);
-                v.setCurrentTile(nextTile);
-                v.setMap(tiles);
-                v.addTile(nextTile); //TODO necessary?
+                if (nextTile != null) {
+                    nextTile.setOccupied(true, v);
+                    v.setCurrentTile(nextTile);
+                    v.setMap(tiles);
+                }
 
                 v.moveVehicle();
             }

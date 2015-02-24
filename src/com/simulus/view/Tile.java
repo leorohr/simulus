@@ -3,7 +3,6 @@ package com.simulus.view;
 import com.simulus.controller.SimulationController;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
@@ -17,7 +16,6 @@ public class Tile extends Group {
 	private Vehicle occupier;
 	private Rectangle frame;
 	private ArrayList<Path> turningPaths;
-	private Paint paint = Color.GREY;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -34,6 +32,7 @@ public class Tile extends Group {
 		this.getChildren().add(frame);
 	}
 
+    //Makes sure that only the current occupier can set the tile's occupation status
 	public void setOccupied(boolean isOccupied, Vehicle occupier) {
 		if (isOccupied) {
 			this.occupier = occupier;
@@ -76,9 +75,9 @@ public class Tile extends Group {
 			return;
 		
 		if (isOccupied()) {
-			frame.setFill(Color.GREEN);
+            frame.setFill(Color.ALICEBLUE);
 		} else {
-			frame.setFill(paint);
+			frame.setFill(Lane.COLOR);
 		}
 	}
 	
