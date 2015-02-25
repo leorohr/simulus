@@ -77,7 +77,9 @@ public class Tile extends Group {
 		if (isOccupied()) {
             frame.setFill(Color.GREEN);
 		} else {
-			frame.setFill(Lane.COLOR);
+            if(this instanceof Lane)
+			    frame.setFill(Lane.COLOR);
+            else frame.setFill(Color.TRANSPARENT);
 		}
 	}
 	
