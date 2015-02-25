@@ -211,68 +211,66 @@ public class Map extends Group {
 	 */
 	public void updateMap() {
 
-        synchronized (vehicles) {
-            Vehicle v;
-            Iterator<Vehicle> iter = vehicles.iterator();
-            while(iter.hasNext()) {
+        Vehicle v;
+        Iterator<Vehicle> iter = vehicles.iterator();
+        while(iter.hasNext()) {
 
-                v = iter.next();
-                int vX = v.getCurrentTile().getGridPosX();
-                int vY = v.getCurrentTile().getGridPosY();
-                Tile nextTile = null;
+            v = iter.next();
+            int vX = v.getCurrentTile().getGridPosX();
+            int vY = v.getCurrentTile().getGridPosY();
+            Tile nextTile = null;
 
-                //In order to prevent ConcurrentModificationExceptions
-                //vehicles have to be removed in this loop.
-                if(toBeRemoved.contains(v)) {
-                    iter.remove();
-                    continue;
-                }
+            //In order to prevent ConcurrentModificationExceptions
+            //vehicles have to be removed in this loop.
+            if(toBeRemoved.contains(v)) {
+                iter.remove();
+                continue;
+            }
 
-                switch (v.getDirection()) {
-                    case NORTH:
-                        if (tiles[vX][vY - 1].intersects(v.getBoundsInParent())) {
-                            nextTile = tiles[vX][vY - 1];
-                        }
-                        break;
-                    case EAST:
-                        if (tiles[vX + 1][vY].intersects(v.getBoundsInParent())) {
-                            nextTile = tiles[vX + 1][vY];
-                        }
-                        break;
-                    case SOUTH:
-                        if (tiles[vX][vY + 1].intersects(v.getBoundsInParent())) {
-                            nextTile = tiles[vX][vY + 1];
-                        }
-                        break;
-                    case WEST:
-                        if (tiles[vX - 1][vY].intersects(v.getBoundsInParent())) {
-                            nextTile = tiles[vX - 1][vY];
-                        }
-                        break;
-                    case NONE:
-                        break;
-                }
+            switch (v.getDirection()) {
+                case NORTH:
+                    if (tiles[vX][vY - 1].intersects(v.getBoundsInParent())) {
+                        nextTile = tiles[vX][vY - 1];
+                    }
+                    break;
+                case EAST:
+                    if (tiles[vX + 1][vY].intersects(v.getBoundsInParent())) {
+                        nextTile = tiles[vX + 1][vY];
+                    }
+                    break;
+                case SOUTH:
+                    if (tiles[vX][vY + 1].intersects(v.getBoundsInParent())) {
+                        nextTile = tiles[vX][vY + 1];
+                    }
+                    break;
+                case WEST:
+                    if (tiles[vX - 1][vY].intersects(v.getBoundsInParent())) {
+                        nextTile = tiles[vX - 1][vY];
+                    }
+                    break;
+                case NONE:
+                    break;
+            }
 
-               if (nextTile != null) {
-                   //Free tiles
-                   Iterator i = v.getOccupiedTiles().iterator();
-                   while(i.hasNext()) {
-                       Tile t = (Tile)i.next();
-                       if(!v.intersects(t.getBoundsInParent())) {
-                           t.setOccupied(false, v);
-                           i.remove();
-                       }
+           if (nextTile != null) {
+               //Free tiles
+               Iterator i = v.getOccupiedTiles().iterator();
+               while(i.hasNext()) {
+                   Tile t = (Tile)i.next();
+                   if(!v.intersects(t.getBoundsInParent())) {
+                       t.setOccupied(false, v);
+                       i.remove();
                    }
-
-                   nextTile.setOccupied(true, v);
-                   v.setCurrentTile(nextTile);
-                   v.setMap(tiles);
                }
 
-                v.moveVehicle();
+               nextTile.setOccupied(true, v);
+               v.setCurrentTile(nextTile);
+               v.setMap(tiles);
+           }
+
+            v.moveVehicle();
 
 
-            }
         }
     }
 
@@ -281,13 +279,25 @@ public class Map extends Group {
      * @param v Vehicle to be removed
      */
     public void removeVehicle(Vehicle v) {
-            v.removeFromCanvas();
-            v.getCurrentTile().setOccupied(false, v);
 
-            for (Tile t : v.getOccupiedTiles())
-                t.setOccupied(false, v);
+        v.removeFromCanvas();
+        v.getCurrentTile().setOccupied(false, v);
 
-            toBeRemoved.add(v);
+        for (Tile t : v.getOccupiedTiles())
+            t.setOccupied(false, v);
+
+        toBeRemoved.add(v);
+    }
+
+    public void showAllIntersectionPaths() {
+        for(Intersection is : intersections)
+            is.showAllPaths();
+    }
+
+    public void hideAllIntersectionsPaths() {
+        for(Intersection is : intersections) {
+            is.hideAllPaths();
+        }
     }
 
 	public Tile[][] getTiles() {

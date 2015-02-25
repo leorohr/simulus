@@ -123,7 +123,12 @@ public class SimulationController {
 
     public void setDebugFlag(boolean debugFlag) {
         this.debugFlag = debugFlag;
-        if(!debugFlag) {
+        if(debugFlag) {
+            map.showAllIntersectionPaths();
+        }
+        else {
+            map.hideAllIntersectionsPaths();
+
             //Clear debuginformation from canvas
             for(Tile[] t : map.getTiles()) {
                 for (int i = 0; i < t.length; i++) {

@@ -127,20 +127,14 @@ public class Intersection extends Group implements TileGroup {
 		//Straight
 		t.getTurningPaths().add(new Path(	new MoveTo(t.getCenterX(), t.getY()),				
 											new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));
-		
-		
-		
-		
-		
-//		showAllPaths();
-		
 	}
 	
-	//debugging
-	private void showAllPaths() {
+	//Display all paths - used in debug mode
+	public void showAllPaths() {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
 				Tile t = tiles[i][j];
+                t.getFrame().setFill(Color.TRANSPARENT);
 				for(Path p : t.getTurningPaths()) {
 					p.setStroke(Color.GREEN);
 					p.setFill(Color.TRANSPARENT);
@@ -150,6 +144,19 @@ public class Intersection extends Group implements TileGroup {
 			
 		}
 	}
+
+    public void hideAllPaths() {
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles.length; j++) {
+                Tile t = tiles[i][j];
+                t.getFrame().setFill(Lane.COLOR);
+                for(Path p : t.getTurningPaths()) {
+                    t.getChildren().remove(p);
+                }
+            }
+
+        }
+    }
 
 	@Override
 	public List<Tile> getTiles() {
