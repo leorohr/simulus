@@ -4,7 +4,6 @@ import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import javafx.scene.Group;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -93,8 +92,6 @@ public class Map extends Group {
 		addGroup(new Intersection(29, 7));
 		addGroup(new Intersection(29, 18));
 		addGroup(new Intersection(29, 29));
-
-        tiles[29][10].getFrame().setFill(Color.ALICEBLUE);
 	}
 	
 	/**

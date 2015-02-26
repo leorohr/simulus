@@ -13,7 +13,7 @@ public class SimulationController {
 
     //Simulation Parameters
     private int tickTime = 50; //in ms
-    private int spawnRate = 5; //a new car spawns every spawnRate'th frame
+    private int spawnRate = 5; //a new car spawns every spawnRate'th tick
     private int maxCars = 50;
     private int maxCarSpeed = 10;
     private double carTruckRatio = 0.7d;
@@ -40,7 +40,7 @@ public class SimulationController {
     }
 
     public void startSimulation() {
-        if(!animationThread.isAlive())
+        if(!animationThread.isInterrupted())
             animationThread = new AnimationThread();
 
         animationThread.start();
@@ -50,28 +50,38 @@ public class SimulationController {
         animationThread.interrupt();
     }
 
+    public void resetSimulation() {
+        animationThread.interrupt();
+        map = new Map();
+        truckCount = 0;
+        animationThread = new AnimationThread();
+    }
+
     private class AnimationThread extends Thread {
 
         @Override
         public void run() {
-
+            long tickCount = 0;
             while(!isInterrupted()) {
 
-                if (map.getVehicleCount() < maxCars) {
-                    //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
-                    if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
-                        Platform.runLater(() -> map.spawnRandomTruck());
-                        truckCount++;
-                    } else {
-                        Platform.runLater(() -> map.spawnRandomCar());
+                if(tickCount++ % spawnRate == 0) {
+                    if (map.getVehicleCount() < maxCars) {
+                        //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
+                        if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
+                            Platform.runLater(() -> map.spawnRandomTruck());
+                            truckCount++;
+                        } else {
+                            Platform.runLater(() -> map.spawnRandomCar());
+                        }
                     }
                 }
+
                 Platform.runLater(() -> map.updateMap());
 
                 try {
                     Thread.sleep(tickTime);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
         }
