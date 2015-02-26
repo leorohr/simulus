@@ -1,10 +1,7 @@
 package com.simulus.controller;
 
 import com.simulus.MainApp;
-import com.simulus.view.Lane;
-import com.simulus.view.Map;
-import com.simulus.view.Tile;
-import com.simulus.view.Vehicle;
+import com.simulus.view.*;
 import javafx.application.Platform;
 
 /**
@@ -103,6 +100,8 @@ public class SimulationController {
 
     public void removeVehicle(Vehicle v) {
         map.removeVehicle(v);
+        if(v instanceof Truck)
+            truckCount--;
     }
 
     /* Getter & Setter */
