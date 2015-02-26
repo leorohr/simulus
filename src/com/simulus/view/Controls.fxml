@@ -11,8 +11,8 @@
                   <Label text="Num. of Cars" />
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <Slider id="numCars" fx:id="numCarSlider" max="1000.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="200.0" />
-                        <Label fx:id="numCarLabel" text="200" />
+                        <Slider id="numCars" fx:id="numCarSlider" max="200.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
+                        <Label fx:id="numCarLabel" text="50" />
                      </children>
                   </HBox>
                </children>
