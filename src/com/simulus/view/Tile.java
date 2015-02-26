@@ -124,4 +124,7 @@ public class Tile extends Group {
 		return turningPaths;
 				
 	}
+	public String toString(){
+		return "X: " + gridPosX + " Y: " + gridPosY;
+	}
 }
