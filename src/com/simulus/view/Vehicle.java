@@ -70,56 +70,9 @@ public abstract class Vehicle extends Rectangle {
 	}
 
 	public void setCurrentTile(Tile t) {
-
         currentTile = t;
-        addTile(t);
-
-//		switch (getDirection()) {
-//		case NORTH:
-//			if (getCurrentTile() != null) {
-//				Tile oldTile = getCurrentTile();
-//				if (oldTile.getGridPosY() > t.getGridPosY())
-//					currentTile = t;
-//				else
-//					return;
-//			} else
-//				currentTile = t;
-//			break;
-//		case SOUTH:
-//			if (getCurrentTile() != null) {
-//				Tile oldTile = getCurrentTile();
-//				if (oldTile.getGridPosY() < t.getGridPosY())
-//					currentTile = t;
-//				else
-//					return;
-//			} else
-//				currentTile = t;
-//			break;
-//		case EAST:
-//			if (getCurrentTile() != null) {
-//				Tile oldTile = getCurrentTile();
-//				if (oldTile.getGridPosX() < t.getGridPosX())
-//					currentTile = t;
-//				else
-//					return;
-//			} else
-//				currentTile = t;
-//			break;
-//		case WEST:
-//			if (getCurrentTile() != null) {
-//				Tile oldTile = getCurrentTile();
-//				if (oldTile.getGridPosX() > t.getGridPosX())
-//					currentTile = t;
-//				else
-//					return;
-//			} else
-//				currentTile = t;
-//			break;
-//		default:
-//			break;
-//		}
-
-	}
+        addTile(t); //add current tile to list of occupied tiles
+    }
 
 	public void removeFromCanvas() {
         if (parent.getCanvas().getChildren().contains(this))

@@ -161,7 +161,7 @@ public class Intersection extends Group implements TileGroup {
 	@Override
 	public List<Tile> getTiles() {
 		
-		List<Tile> l = new ArrayList<Tile>();
+		List<Tile> l = new ArrayList<>();
 		for (int i = 0; i < tiles.length; i++) {
             Collections.addAll(l, tiles[i]);
 		}

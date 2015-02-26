@@ -14,7 +14,7 @@ public class SimulationController {
     //Simulation Parameters
     private int tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th frame
-    private int maxCars = 25;
+    private int maxCars = 50;
     private int maxCarSpeed = 10;
     private double carTruckRatio = 0.7d;
     private int truckCount = 0;
@@ -36,30 +36,7 @@ public class SimulationController {
 
     private SimulationController() {
 
-        //TODO ensure fixed tickrate
         animationThread = new AnimationThread();
-
-//        AnimationTimer animationTimer = new AnimationTimer() {
-//            // When the timer is started, this method loops endlessly
-//            private int frameNo = 0;
-//
-//            @Override
-//            public void handle(long now) { // Increment the frame number
-//                frameNo++;
-//
-//                if (frameNo % spawnRate == 0 && map.getVehicles().size() < maxCars) {
-//                    //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
-//                    if (truckCount < (1 - carTruckRatio) * map.getVehicles().size()) {
-//                        Platform.runLater(() -> map.spawnRandomTruck());
-//                        truckCount++;
-//                    } else {
-//                        Platform.runLater(() -> map.spawnRandomCar());
-//                    }
-//                }
-//                Platform.runLater(() -> map.updateMap());
-//            }
-//        };
-//        animationTimer.start();
     }
 
     public void startSimulation() {

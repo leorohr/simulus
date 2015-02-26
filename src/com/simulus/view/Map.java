@@ -4,6 +4,7 @@ import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ public class Map extends Group {
 	
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
-	private ArrayList<Lane> entryPoints = new ArrayList<>();
+	private ArrayList<Lane> entryPoints = new ArrayList<>(); //TODO no object copies but rather coordinates in tiles[][]
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
 
@@ -92,17 +93,17 @@ public class Map extends Group {
 		addGroup(new Intersection(29, 7));
 		addGroup(new Intersection(29, 18));
 		addGroup(new Intersection(29, 29));
+
+        tiles[29][10].getFrame().setFill(Color.ALICEBLUE);
 	}
 	
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
 	 */
 	public void spawnRandomCar() {
-		Random rand = new Random();
-		Lane l;
-        do {
-            l = entryPoints.get(rand.nextInt(entryPoints.size()));
-        } while(l.isOccupied());
+        Lane l;
+        if( (l = selectRandomEntryPoint()) == null)
+            return;
 		
 		//Car adds itself to the canvas
         Car c = null;
@@ -128,9 +129,10 @@ public class Map extends Group {
 	 * Spawns a truck at a randomly selected entrypoint of the map.
 	 */
 	public void spawnRandomTruck() {
-		Random rand = new Random();
-		Lane l = entryPoints.get(rand.nextInt(entryPoints.size()));
-		
+        Lane l;
+        if( (l = selectRandomEntryPoint()) == null)
+            return;
+
 		//Truck adds itself to the canvas
         Truck t = null;
 		if(l.getDirection() == Direction.NORTH || l.getDirection() == Direction.SOUTH) {
@@ -151,6 +153,24 @@ public class Map extends Group {
             vehicles.add(t);
         }
 	}
+
+    /**
+     * @return  A random entrypoint (Lane) or <code>null</code> if no free entrypoint has been found after a certain
+     *          number of tries.
+     */
+    public Lane selectRandomEntryPoint() {
+        Random rand = new Random();
+        Lane l;
+        int tries = 0;
+        do {
+            if(++tries > entryPoints.size()) //break if 70% of the entrypoints were tried unsuccessfully
+                return null;
+
+            l = entryPoints.get(rand.nextInt(entryPoints.size()));
+        } while(l.isOccupied());
+
+        return l;
+    }
 
     @SuppressWarnings("UnusedDeclaration")
     public void spawnTesterCar() {
@@ -192,7 +212,6 @@ public class Map extends Group {
 			}	
 		}
 		
-		
 		if(g instanceof Intersection)
 			intersections.add((Intersection)g);
 	}
@@ -229,22 +248,22 @@ public class Map extends Group {
 
             switch (v.getDirection()) {
                 case NORTH:
-                    if (tiles[vX][vY - 1].intersects(v.getBoundsInParent())) {
+                    if (tiles[vX][vY - 1].getFrame().intersects(v.getBoundsInParent())) {
                         nextTile = tiles[vX][vY - 1];
                     }
                     break;
                 case EAST:
-                    if (tiles[vX + 1][vY].intersects(v.getBoundsInParent())) {
+                    if (tiles[vX + 1][vY].getFrame().intersects(v.getBoundsInParent())) {
                         nextTile = tiles[vX + 1][vY];
                     }
                     break;
                 case SOUTH:
-                    if (tiles[vX][vY + 1].intersects(v.getBoundsInParent())) {
+                    if (tiles[vX][vY + 1].getFrame().intersects(v.getBoundsInParent())) {
                         nextTile = tiles[vX][vY + 1];
                     }
                     break;
                 case WEST:
-                    if (tiles[vX - 1][vY].intersects(v.getBoundsInParent())) {
+                    if (tiles[vX - 1][vY].getFrame().intersects(v.getBoundsInParent())) {
                         nextTile = tiles[vX - 1][vY];
                     }
                     break;
@@ -252,12 +271,12 @@ public class Map extends Group {
                     break;
             }
 
-           if (nextTile != null) {
+           if (nextTile != null) { //if the car is intersecting its front tile
                //Free tiles
                Iterator i = v.getOccupiedTiles().iterator();
                while(i.hasNext()) {
                    Tile t = (Tile)i.next();
-                   if(!v.intersects(t.getBoundsInParent())) {
+                   if(!v.getBoundsInParent().intersects(t.getFrame().getBoundsInParent())) {
                        t.setOccupied(false, v);
                        i.remove();
                    }
@@ -266,11 +285,10 @@ public class Map extends Group {
                nextTile.setOccupied(true, v);
                v.setCurrentTile(nextTile);
                v.setMap(tiles);
+
            }
 
             v.moveVehicle();
-
-
         }
     }
 

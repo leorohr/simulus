@@ -94,76 +94,75 @@ public class Car extends Vehicle {
 			else tempBehavior = Behavior.CAUTIOUS;
 
 		//Checks if the tile 2 tiles ahead of the car is taken for overtaking.
-		if(tempBehavior == Behavior.RECKLESS){
-			try {
-				switch(getDirection()){
-				case NORTH:
-					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						.getGridPosY() - 2].isOccupied()) {
-						if(getCurrentTile() instanceof Lane){
-							if(((Lane)getCurrentTile()).getLaneNo() == 0){
-								//Overtake RIGHT
-								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;
-								}
-							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
-								//Overtake LEFT
-								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;
-								}
-							}
-						}
-					}
-					break;
-				case SOUTH:
-					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						.getGridPosY() + 2].isOccupied()) {
-						if(getCurrentTile() instanceof Lane){
-							if(((Lane)getCurrentTile()).getLaneNo() == 2){
-								//Overtake RIGHT
-								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
-								}
-							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
-								//Overtake LEFT
-								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
-								}
-							}
-						}
-					}
-					break;
-				case EAST:
-					if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
-					                    						.getGridPosY()].isOccupied()) {
-						
-					}
-					break;
-				case WEST:
-					if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
-					                    						.getGridPosY()].isOccupied()) {
-						
-					}
-					break;
-				default:break;
-				}
-			}catch(ArrayIndexOutOfBoundsException e){
-                System.out.println("car rem1");
-				SimulationController.getInstance().removeVehicle(this);
-			}
-		}
+//		if(tempBehavior == Behavior.RECKLESS){
+//			try {
+//				switch(getDirection()){
+//				case NORTH:
+//					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+//					                						.getGridPosY() - 2].isOccupied()) {
+//						if(getCurrentTile() instanceof Lane){
+//							if(((Lane)getCurrentTile()).getLaneNo() == 0){
+//								//Overtake RIGHT
+//								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+//									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
+//									isOvertaking = true;
+//								}
+//							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
+//								//Overtake LEFT
+//								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+//									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
+//									isOvertaking = true;
+//								}
+//							}
+//						}
+//					}
+//					break;
+//				case SOUTH:
+//					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+//					                						.getGridPosY() + 2].isOccupied()) {
+//						if(getCurrentTile() instanceof Lane){
+//							if(((Lane)getCurrentTile()).getLaneNo() == 2){
+//								//Overtake RIGHT
+//								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+//									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
+//									isOvertaking = true;
+//								}
+//							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
+//								//Overtake LEFT
+//								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+//									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
+//									isOvertaking = true;
+//								}
+//							}
+//						}
+//					}
+//					break;
+//				case EAST:
+//					if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
+//					                    						.getGridPosY()].isOccupied()) {
+//
+//					}
+//					break;
+//				case WEST:
+//					if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
+//					                    						.getGridPosY()].isOccupied()) {
+//
+//					}
+//					break;
+//				default:break;
+//				}
+//			}catch(ArrayIndexOutOfBoundsException e){
+//				SimulationController.getInstance().removeVehicle(this);
+//			}
+//		}
 		try {
             Tile nextTile = null;
 			switch (getDirection()) {
