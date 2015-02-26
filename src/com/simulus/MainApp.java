@@ -1,5 +1,6 @@
 package com.simulus;
 
+import com.simulus.controller.ControlsController;
 import com.simulus.controller.SimulationController;
 import com.simulus.view.Map;
 import javafx.application.Application;
@@ -17,6 +18,7 @@ public class MainApp extends Application {
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+    private ControlsController controlsController;
 	private Pane canvas;
 	private Map map;
 	private int canvasWidth = 800;
@@ -50,7 +52,6 @@ public class MainApp extends Application {
 
         //Setup simulation
         SimulationController.init();
-
         this.map = SimulationController.getInstance().getMap();
 	}
 
@@ -96,6 +97,7 @@ public class MainApp extends Application {
 			loader.setLocation(MainApp.class.getResource("view/Controls.fxml"));
 			AnchorPane controls = loader.load();
 			rootLayout.setRight(controls);
+            controlsController = loader.getController();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -108,6 +110,10 @@ public class MainApp extends Application {
 	public Map getMap() {
 		return map;
 	}
+
+    public ControlsController getControlsController() {
+        return controlsController;
+    }
 
 	public static void main(String[] args) {
 		launch(args);

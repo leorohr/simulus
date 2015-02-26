@@ -2,6 +2,9 @@ package com.simulus.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -16,6 +19,8 @@ public class ControlsController implements Initializable {
 	Button startButton;
 	@FXML
 	Button stopButton;
+    @FXML
+    Button resetButton;
 	@FXML
 	Slider numCarSlider;
 	@FXML
@@ -38,12 +43,22 @@ public class ControlsController implements Initializable {
 	Label cartruckratioLabel;
 	@FXML
 	CheckBox debugCheckbox;
-	
+
+    @FXML
+    LineChart<Number, Number> numCarsChart;
+
+    private static int MAX_DATA_POINTS = 100;
+
+    private int dataCount = 0;
+    private LineChart.Series numCarsSeries;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		SimulationController simulationController = SimulationController.getInstance();
+		numCarsSeries = new XYChart.Series<Number, Number>();
+        numCarsChart.getData().addAll(numCarsSeries);
+
+        SimulationController simulationController = SimulationController.getInstance();
 	
 		tickrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             tickrateLabel.setText(String.valueOf(newValue.intValue()));
@@ -58,7 +73,6 @@ public class ControlsController implements Initializable {
 		spawnrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			spawnrateLabel.setText(String.valueOf(newValue.intValue()));
 			simulationController.setSpawnRate(newValue.intValue());
-			System.out.println(newValue);
 		});
 		
 		maxcarspeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -68,7 +82,7 @@ public class ControlsController implements Initializable {
 		
 		cartruckratioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
 			cartruckratioLabel.setText(String.valueOf((double) ((int)(newValue.doubleValue()*10))/10));
-			//TODO make something happen
+			simulationController.setCarTruckRatio((double) ((int)(newValue.doubleValue()*10))/10);
 		});
 	
 		startButton.setOnAction((event) -> {
@@ -78,11 +92,25 @@ public class ControlsController implements Initializable {
 		stopButton.setOnAction((event) -> {
 			simulationController.stopSimulation();
 		});
+
+        resetButton.setOnAction((event) -> {
+           simulationController.resetSimulation();
+        });
 		
 		debugCheckbox.setOnAction((event) -> {
 			simulationController.setDebugFlag(debugCheckbox.isSelected());
 		});
-		
 	}
+
+    void addNumCarData(int num) {
+
+        numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
+        ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+        ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
+
+        if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
+            numCarsSeries.getData().remove(0);
+        }
+    }
 
 }
