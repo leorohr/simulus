@@ -2,7 +2,6 @@ package com.simulus;
 
 import com.simulus.controller.ControlsController;
 import com.simulus.controller.SimulationController;
-import com.simulus.view.Map;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -20,7 +19,6 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
     private ControlsController controlsController;
 	private Pane canvas;
-	private Map map;
 	private int canvasWidth = 800;
 	private int canvasHeight = 800;
 	private static MainApp instance;
@@ -52,7 +50,6 @@ public class MainApp extends Application {
 
         //Setup simulation
         SimulationController.init();
-        this.map = SimulationController.getInstance().getMap();
 	}
 
 	/**
@@ -103,12 +100,16 @@ public class MainApp extends Application {
 		}
 	}
 
+    public void resetCanvas() {
+        canvas = new Pane();
+        canvas.setMinSize(canvasWidth, canvasHeight);
+        canvas.setPrefSize(canvasWidth, canvasHeight);
+        canvas.setMaxSize(canvasWidth, canvasHeight);
+        rootLayout.setCenter(canvas);
+    }
+
 	public Pane getCanvas() {
 		return canvas;
-	}
-
-	public Map getMap() {
-		return map;
 	}
 
     public ControlsController getControlsController() {

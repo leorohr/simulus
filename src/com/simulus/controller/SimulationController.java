@@ -48,6 +48,7 @@ public class SimulationController {
 
     public void resetSimulation() {
         animationThread.interrupt();
+        MainApp.getInstance().resetCanvas();
         map = new Map();
         truckCount = 0;
         animationThread = new AnimationThread();
@@ -58,7 +59,7 @@ public class SimulationController {
         @Override
         public void run() {
             long tickCount = 0;
-            while(!isInterrupted()) {
+            while(!Thread.currentThread().isInterrupted()) {
 
                 Platform.runLater(() ->
                         MainApp.getInstance().getControlsController().addNumCarData(map.getVehicleCount()));

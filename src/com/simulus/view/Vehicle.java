@@ -1,6 +1,7 @@
 package com.simulus.view;
 
 import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import javafx.scene.shape.Rectangle;
@@ -40,7 +41,7 @@ public abstract class Vehicle extends Rectangle {
 		super(posX, posY, width, height);
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
-		map = parent.getMap().getTiles();
+		map = SimulationController.getInstance().getMap().getTiles();
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		try {
