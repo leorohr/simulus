@@ -1,9 +1,7 @@
 package com.simulus.controller;
 
-import com.simulus.view.Lane;
-import com.simulus.view.Map;
-import com.simulus.view.Tile;
-import com.simulus.view.Vehicle;
+import com.simulus.MainApp;
+import com.simulus.view.*;
 import javafx.application.Platform;
 
 /**
@@ -14,15 +12,13 @@ public class SimulationController {
     //Simulation Parameters
     private int tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th tick
-    private int maxCars = 50;
+    private int maxCars = 25;
     private int maxCarSpeed = 10;
     private double carTruckRatio = 0.7d;
     private int truckCount = 0;
     private boolean debugFlag = false;
 
-
     private Map map = new Map();
-
     private AnimationThread animationThread;
 
     /* Singleton */
@@ -52,6 +48,7 @@ public class SimulationController {
 
     public void resetSimulation() {
         animationThread.interrupt();
+        MainApp.getInstance().resetCanvas();
         map = new Map();
         truckCount = 0;
         animationThread = new AnimationThread();
@@ -62,7 +59,10 @@ public class SimulationController {
         @Override
         public void run() {
             long tickCount = 0;
-            while(!isInterrupted()) {
+            while(!Thread.currentThread().isInterrupted()) {
+
+                Platform.runLater(() ->
+                        MainApp.getInstance().getControlsController().addNumCarData(map.getVehicleCount()));
 
                 if(tickCount++ % spawnRate == 0) {
                     if (map.getVehicleCount() < maxCars) {
@@ -102,6 +102,8 @@ public class SimulationController {
 
     public void removeVehicle(Vehicle v) {
         map.removeVehicle(v);
+        if(v instanceof Truck)
+            truckCount--;
     }
 
     /* Getter & Setter */
