@@ -42,8 +42,10 @@ public class Map extends Group {
 			}
 		}
 		
-		LightsThread t = new LightsThread();
-		//t.start();
+		for(Intersection i: intersections){
+			Thread t = new Thread(i, "Intersection " + i);
+			t.start();
+		}
 
 	}
 
@@ -309,8 +311,10 @@ public class Map extends Group {
 					Tile t = (Tile) i.next();
 					if (!v.getBoundsInParent().intersects(
 							t.getFrame().getBoundsInParent())) {
-						t.setOccupied(false, v);
-						i.remove();
+						if(!t.getRedLight()){
+							t.setOccupied(false, v);
+							i.remove();
+						}
 					}
 				}
 
@@ -359,53 +363,5 @@ public class Map extends Group {
 	public int getVehicleCount() {
 		return vehicles.size();
 	}
-	
-	private class LightsThread extends Thread {
-
-        @Override
-        public void run() {
-        	while(true){
-	            for(Intersection i: intersections){
-	            	Platform.runLater(() -> removeBlockage(i.tiles[0][3].getGridPosX(), i.tiles[0][3].getGridPosY()+1));
-	            	Platform.runLater(() -> removeBlockage(i.tiles[1][3].getGridPosX(), i.tiles[1][3].getGridPosY()+1));
-	            	
-	            	Platform.runLater(() -> removeBlockage(i.tiles[2][0].getGridPosX(), i.tiles[2][0].getGridPosY()-1));
-	            	Platform.runLater(() -> removeBlockage(i.tiles[3][0].getGridPosX(), i.tiles[3][0].getGridPosY()-1));
-	            	
-	            	Platform.runLater(() -> createBlockage(i.tiles[0][0].getGridPosX()-1, i.tiles[0][0].getGridPosY()));
-	            	Platform.runLater(() -> createBlockage(i.tiles[0][0].getGridPosX()-1, i.tiles[0][1].getGridPosY()));
-	            	
-	            	Platform.runLater(() -> createBlockage(i.tiles[3][2].getGridPosX()+1, i.tiles[3][2].getGridPosY()));
-	            	Platform.runLater(() -> createBlockage(i.tiles[3][3].getGridPosX()+1, i.tiles[3][3].getGridPosY()));
-	            	//Every intersection needs a seperate thread... This doesnt work broo!
-	            	try {
-						sleep(i.getSwitchTime());
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-	            	
-	            	Platform.runLater(() -> removeBlockage(i.tiles[0][0].getGridPosX()-1, i.tiles[0][0].getGridPosY()));
-	            	Platform.runLater(() -> removeBlockage(i.tiles[0][0].getGridPosX()-1, i.tiles[0][1].getGridPosY()));
-	            	
-	            	Platform.runLater(() -> removeBlockage(i.tiles[3][2].getGridPosX()+1, i.tiles[3][2].getGridPosY()));
-	            	Platform.runLater(() -> removeBlockage(i.tiles[3][3].getGridPosX()+1, i.tiles[3][3].getGridPosY()));
-	            	
-	            	Platform.runLater(() -> createBlockage(i.tiles[0][3].getGridPosX(), i.tiles[0][3].getGridPosY()+1));
-	            	Platform.runLater(() -> createBlockage(i.tiles[1][3].getGridPosX(), i.tiles[1][3].getGridPosY()+1));
-	            	
-	            	Platform.runLater(() -> createBlockage(i.tiles[2][0].getGridPosX(), i.tiles[2][0].getGridPosY()-1));
-	            	Platform.runLater(() -> createBlockage(i.tiles[3][0].getGridPosX(), i.tiles[3][0].getGridPosY()-1));
-	            }
-        	}
-            
-            
-            
-            
-        }
-
-        public LightsThread() {
-            super("LightsThread");
-        }
-    }
 
 }
