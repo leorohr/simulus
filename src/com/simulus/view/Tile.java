@@ -16,6 +16,7 @@ public class Tile extends Group {
 	private Vehicle occupier;
 	private Rectangle frame;
 	private ArrayList<Path> turningPaths;
+	private boolean isRedLight = false;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -47,6 +48,9 @@ public class Tile extends Group {
 	
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
+		if(isOccupied)
+			isRedLight = true;
+		else isRedLight = false;
 		redrawTile();
 	}
 
@@ -65,6 +69,10 @@ public class Tile extends Group {
 	public int getGridPosY() {
 		return gridPosY;
 	}
+	
+	public boolean getRedLight(){
+		return isRedLight;
+	}
 
 	/**
 	 * If the app is currently in debug mode, this method draws
@@ -76,10 +84,14 @@ public class Tile extends Group {
 		
 		if (isOccupied()) {
             frame.setFill(Color.GREEN);
+            if(isRedLight)
+            	frame.setFill(Color.RED);
 		} else {
             if(this instanceof Lane)
 			    frame.setFill(Lane.COLOR);
             else frame.setFill(Color.TRANSPARENT);
+            if(isRedLight)
+            	frame.setFill(Color.RED);
 		}
 	}
 	

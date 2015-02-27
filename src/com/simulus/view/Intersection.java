@@ -1,5 +1,6 @@
 package com.simulus.view;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
@@ -12,11 +13,13 @@ import java.util.Collections;
 import java.util.List;
 
 import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
 
-public class Intersection extends Group implements TileGroup {
+public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public Tile[][] tiles = new Tile[4][4];
 	private long switchTime;
+	private boolean switchingLight = false;
 	
 	/**
 	 * @param xPos x coordinate of the top left tile of the intersection in the grid
@@ -24,7 +27,7 @@ public class Intersection extends Group implements TileGroup {
 	 */
 	public Intersection(int xPos, int yPos) {
 		int tileSize = Map.TILESIZE;
-		switchTime = 5000;
+		switchTime = (long) (2000 + Math.random()*3000);
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
@@ -181,6 +184,57 @@ public class Intersection extends Group implements TileGroup {
 	
 	public long getSwitchTime(){
 		return switchTime;
+	}
+	
+	public boolean getLightSwitching(){
+		return switchingLight;
+	}
+	
+
+	@Override
+	public void run() {
+		switchingLight = true;
+		while(!Thread.currentThread().isInterrupted()){
+			Platform.runLater(() ->{ 
+			SimulationController.getInstance().getMap().removeBlockage( tiles[0][3].getGridPosX(),  tiles[0][3].getGridPosY()+1);
+			SimulationController.getInstance().getMap().removeBlockage( tiles[1][3].getGridPosX(),  tiles[1][3].getGridPosY()+1);
+			
+			SimulationController.getInstance().getMap().removeBlockage( tiles[2][0].getGridPosX(),  tiles[2][0].getGridPosY()-1);
+	  	  	SimulationController.getInstance().getMap().removeBlockage( tiles[3][0].getGridPosX(),  tiles[3][0].getGridPosY()-1);
+	  	
+	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX()-1,  tiles[0][0].getGridPosY());
+	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX()-1,  tiles[0][1].getGridPosY());
+	  	
+	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[3][2].getGridPosX()+1,  tiles[3][2].getGridPosY());
+	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[3][3].getGridPosX()+1,  tiles[3][3].getGridPosY());
+			});
+	    	
+	    	try {
+				Thread.sleep( getSwitchTime());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+	    		
+	    	Platform.runLater(() ->{
+	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[0][0].getGridPosX()-1,  tiles[0][0].getGridPosY());
+	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[0][0].getGridPosX()-1,  tiles[0][1].getGridPosY());
+	    	
+	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[3][2].getGridPosX()+1,  tiles[3][2].getGridPosY());
+	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[3][3].getGridPosX()+1,  tiles[3][3].getGridPosY());
+	    	
+	    	  SimulationController.getInstance().getMap().createBlockage( tiles[0][3].getGridPosX(),  tiles[0][3].getGridPosY()+1);
+	    	  SimulationController.getInstance().getMap().createBlockage( tiles[1][3].getGridPosX(),  tiles[1][3].getGridPosY()+1);
+	    	
+	    	  SimulationController.getInstance().getMap().createBlockage( tiles[2][0].getGridPosX(),  tiles[2][0].getGridPosY()-1);
+	    	  SimulationController.getInstance().getMap().createBlockage( tiles[3][0].getGridPosX(),  tiles[3][0].getGridPosY()-1);
+	    	});
+	    	try {
+				Thread.sleep( getSwitchTime());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+    	switchingLight = false;
 	}
 	
 }
