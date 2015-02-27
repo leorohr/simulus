@@ -208,7 +208,7 @@ public class Car extends Vehicle {
 				default:break;
 				}
 			}catch(ArrayIndexOutOfBoundsException e){
-				SimulationController.getInstance().removeVehicle(this);
+
 			}
 		}
 		try {

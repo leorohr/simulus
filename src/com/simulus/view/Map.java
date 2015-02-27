@@ -3,7 +3,6 @@ package com.simulus.view;
 import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
-
 import javafx.application.Platform;
 import javafx.scene.Group;
 
@@ -270,6 +269,7 @@ public class Map extends Group {
 			// vehicles have to be removed in this loop.
 			if (toBeRemoved.contains(v)) {
 				iter.remove();
+                toBeRemoved.remove(v);
 				continue;
 			}
 
