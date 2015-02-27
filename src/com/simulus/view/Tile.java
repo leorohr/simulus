@@ -1,8 +1,10 @@
 package com.simulus.view;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.ResourceBuilder;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
@@ -14,9 +16,9 @@ public class Tile extends Group {
 	private int gridPosY;
 	private boolean isOccupied;
 	private Vehicle occupier;
-	private Rectangle frame;
 	private ArrayList<Path> turningPaths;
-	private boolean isRedLight = false;
+    protected Rectangle frame;
+    protected boolean isRedLight = false;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -27,9 +29,9 @@ public class Tile extends Group {
 		occupier = null;
 		isOccupied = false;
 		turningPaths = new ArrayList<>();
-		frame.setFill(Color.LIGHTGOLDENRODYELLOW);
-		frame.setStroke(Color.BLACK);
-		frame.setStrokeWidth(0.2d);
+		frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
+//		frame.setStroke(Color.BLACK);
+//		frame.setStrokeWidth(0.2d);
 		this.getChildren().add(frame);
 	}
 
@@ -79,7 +81,7 @@ public class Tile extends Group {
 	 * the tiles occupied by vehicles in green.
 	 */
 	public void redrawTile() {
-		if(!SimulationController.getInstance().isDebug())
+        if(!SimulationController.getInstance().isDebug())
 			return;
 		
 		if (isOccupied()) {

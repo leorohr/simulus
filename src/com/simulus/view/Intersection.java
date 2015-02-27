@@ -1,5 +1,6 @@
 package com.simulus.view;
 
+import com.simulus.controller.SimulationController;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -11,9 +12,6 @@ import javafx.scene.shape.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
 
 public class Intersection extends Group implements TileGroup, Runnable {
 	
@@ -32,7 +30,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				tiles[i][j] = new Tile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
-				tiles[i][j].getFrame().setFill(Color.GREY);
+				tiles[i][j].getFrame().setFill(Color.BLACK);
 				this.getChildren().add(tiles[i][j]);
 			}
 		}
@@ -134,13 +132,6 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		//Straight
 		t.getTurningPaths().add(new Path(	new MoveTo(t.getCenterX(), t.getY()),				
 											new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));
-//		Thread lights = new Thread(){
-//			public void run(){
-//				MainApp.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX(), tiles[0][0].getGridPosY());
-//			}
-//		};
-//		lights.start();
-		
 	}
 	
 	//Display all paths - used in debug mode
@@ -185,28 +176,24 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	public long getSwitchTime(){
 		return switchTime;
 	}
-	
-	public boolean getLightSwitching(){
-		return switchingLight;
-	}
-	
 
 	@Override
 	public void run() {
-		switchingLight = true;
 		while(!Thread.currentThread().isInterrupted()){
-			Platform.runLater(() ->{ 
-			SimulationController.getInstance().getMap().removeBlockage( tiles[0][3].getGridPosX(),  tiles[0][3].getGridPosY()+1);
-			SimulationController.getInstance().getMap().removeBlockage( tiles[1][3].getGridPosX(),  tiles[1][3].getGridPosY()+1);
-			
-			SimulationController.getInstance().getMap().removeBlockage( tiles[2][0].getGridPosX(),  tiles[2][0].getGridPosY()-1);
-	  	  	SimulationController.getInstance().getMap().removeBlockage( tiles[3][0].getGridPosX(),  tiles[3][0].getGridPosY()-1);
-	  	
-	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX()-1,  tiles[0][0].getGridPosY());
-	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX()-1,  tiles[0][1].getGridPosY());
-	  	
-	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[3][2].getGridPosX()+1,  tiles[3][2].getGridPosY());
-	  	  	SimulationController.getInstance().getMap().createBlockage(tiles[3][3].getGridPosX()+1,  tiles[3][3].getGridPosY());
+			Platform.runLater(() ->{
+                Map map = SimulationController.getInstance().getMap();
+
+                map.setGreenTrafficLight(tiles[0][3].getGridPosX(), tiles[0][3].getGridPosY() + 1);
+                map.setGreenTrafficLight(tiles[1][3].getGridPosX(), tiles[1][3].getGridPosY() + 1);
+
+                map.setGreenTrafficLight(tiles[2][0].getGridPosX(), tiles[2][0].getGridPosY() - 1);
+                map.setGreenTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
+
+                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][0].getGridPosY());
+                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][1].getGridPosY());
+
+                map.setRedTrafficLight(tiles[3][2].getGridPosX() + 1, tiles[3][2].getGridPosY());
+                map.setRedTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY());
 			});
 	    	
 	    	try {
@@ -216,17 +203,19 @@ public class Intersection extends Group implements TileGroup, Runnable {
 			}
 	    		
 	    	Platform.runLater(() ->{
-	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[0][0].getGridPosX()-1,  tiles[0][0].getGridPosY());
-	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[0][0].getGridPosX()-1,  tiles[0][1].getGridPosY());
-	    	
-	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[3][2].getGridPosX()+1,  tiles[3][2].getGridPosY());
-	    	  SimulationController.getInstance().getMap().removeBlockage( tiles[3][3].getGridPosX()+1,  tiles[3][3].getGridPosY());
-	    	
-	    	  SimulationController.getInstance().getMap().createBlockage( tiles[0][3].getGridPosX(),  tiles[0][3].getGridPosY()+1);
-	    	  SimulationController.getInstance().getMap().createBlockage( tiles[1][3].getGridPosX(),  tiles[1][3].getGridPosY()+1);
-	    	
-	    	  SimulationController.getInstance().getMap().createBlockage( tiles[2][0].getGridPosX(),  tiles[2][0].getGridPosY()-1);
-	    	  SimulationController.getInstance().getMap().createBlockage( tiles[3][0].getGridPosX(),  tiles[3][0].getGridPosY()-1);
+                  Map map = SimulationController.getInstance().getMap();
+
+                  map.setGreenTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][0].getGridPosY());
+                  map.setGreenTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][1].getGridPosY());
+
+                  map.setGreenTrafficLight(tiles[3][2].getGridPosX() + 1, tiles[3][2].getGridPosY());
+                  map.setGreenTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY());
+
+                  map.setRedTrafficLight(tiles[0][3].getGridPosX(), tiles[0][3].getGridPosY() + 1);
+                  map.setRedTrafficLight(tiles[1][3].getGridPosX(), tiles[1][3].getGridPosY() + 1);
+
+                  map.setRedTrafficLight(tiles[2][0].getGridPosX(), tiles[2][0].getGridPosY() - 1);
+                  map.setRedTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
 	    	});
 	    	try {
 				Thread.sleep( getSwitchTime());
@@ -234,7 +223,6 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				e.printStackTrace();
 			}
 		}
-    	switchingLight = false;
 	}
 	
 }

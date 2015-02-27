@@ -1,10 +1,12 @@
 package com.simulus.view;
 
 import com.simulus.MainApp;
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
-import javafx.application.Platform;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -38,7 +40,7 @@ public class Map extends Group {
 		}
 		
 		for(Intersection i: intersections){
-			Thread t = new Thread(i, "Intersection " + i);
+			Thread t = new Thread(i, "Intersection " + i.getId());
 			t.start();
 		}
 
@@ -237,16 +239,17 @@ public class Map extends Group {
 			intersections.add((Intersection) g);
 	}
 
-	/**
-	 * Used only for testing purposes Simulates the effect of traffic lights on
-	 * cars
-	 */
-	public void createBlockage(int tileX, int tileY) {
+
+	public void setRedTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(true);
+        tiles[tileX][tileY].getFrame().setFill(Color.RED);
 	}
 	
-	public void removeBlockage(int tileX, int tileY){
+	public void setGreenTrafficLight(int tileX, int tileY){
 		tiles[tileX][tileY].setOccupied(false);
+        tiles[tileX][tileY].getFrame().setFill(
+                new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?
+                ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
 	}
 
 	/**
