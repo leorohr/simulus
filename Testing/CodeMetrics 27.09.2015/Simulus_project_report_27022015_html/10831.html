@@ -1,0 +1,127 @@
+<html><head><title>ControlsController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: /Users/Jerry/Documents/EclipseWorkspace/Copy of Simulus/src/com/simulus/controller/ControlsController.java</h3>
+<SCRIPT>
+defaultStatus = "File: /Users/Jerry/Documents/EclipseWorkspace/Copy of Simulus/src/com/simulus/controller/ControlsController.java";
+top.document.title  = "ControlsController.java";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default"></span><span class="keyword">package </span><span class="default">com.simulus.<a href="dictionary_C.html#926">controller</a>;</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#4684">fxml</a>.<a href="dictionary_J.html#4677">FXML</a>;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#4684">fxml</a>.<a href="dictionary_J.html#4678">Initializable</a>;</span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#10906">chart</a>.<a href="dictionary_J.html#10901">LineChart</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#10906">chart</a>.<a href="dictionary_J.html#10902">NumberAxis</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#10906">chart</a>.<a href="dictionary_J.html#10904">XYChart</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#4645">Button</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#10832">CheckBox</a>;</span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#4679">Label</a>;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#4681">Slider</a>;</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">java.net.URL;</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">java.util.ResourceBundle;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">public class <a href="dictionary_C.html#10833">ControlsController</a> implements <a href="dictionary_J.html#4678">Initializable</a> </span><span class="default">{</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span>
+<a name="18"><font size=-1>18     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="19"><font size=-1>19     </font></a><span class="default">	<a href="dictionary_J.html#4645">Button</a> <a href="dictionary_C.html#10896">startButton</a>;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="21"><font size=-1>21     </font></a><span class="default">	<a href="dictionary_J.html#4645">Button</a> <a href="dictionary_C.html#10897">stopButton</a>;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="23"><font size=-1>23     </font></a><span class="default">    <a href="dictionary_J.html#4645">Button</a> <a href="dictionary_C.html#10893">resetButton</a>;</span>
+<a name="24"><font size=-1>24     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="25"><font size=-1>25     </font></a><span class="default">	<a href="dictionary_J.html#4681">Slider</a> <a href="dictionary_C.html#10890">numCarSlider</a>;</span>
+<a name="26"><font size=-1>26     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="27"><font size=-1>27     </font></a><span class="default">	<a href="dictionary_J.html#4681">Slider</a> <a href="dictionary_C.html#10899">tickrateSlider</a>;</span>
+<a name="28"><font size=-1>28     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="29"><font size=-1>29     </font></a><span class="default">	<a href="dictionary_J.html#4681">Slider</a> <a href="dictionary_C.html#10888">maxcarspeedSlider</a>;</span>
+<a name="30"><font size=-1>30     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="31"><font size=-1>31     </font></a><span class="default">	<a href="dictionary_J.html#4681">Slider</a> <a href="dictionary_C.html#10895">spawnrateSlider</a>;</span>
+<a name="32"><font size=-1>32     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="33"><font size=-1>33     </font></a><span class="default">	<a href="dictionary_J.html#4681">Slider</a> <a href="dictionary_C.html#10884">cartruckratioSlider</a>;</span>
+<a name="34"><font size=-1>34     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a> </span>
+<a name="35"><font size=-1>35     </font></a><span class="default">	<a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10889">numCarLabel</a>;</span>
+<a name="36"><font size=-1>36     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="37"><font size=-1>37     </font></a><span class="default">	<a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10898">tickrateLabel</a>;</span>
+<a name="38"><font size=-1>38     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="39"><font size=-1>39     </font></a><span class="default">	<a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10887">maxcarspeedLabel</a>;</span>
+<a name="40"><font size=-1>40     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="41"><font size=-1>41     </font></a><span class="default">	<a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10894">spawnrateLabel</a>;</span>
+<a name="42"><font size=-1>42     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">	<a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10883">cartruckratioLabel</a>;</span>
+<a name="44"><font size=-1>44     </font></a><span class="default">	@<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="45"><font size=-1>45     </font></a><span class="default">	<a href="dictionary_J.html#10832">CheckBox</a> <a href="dictionary_C.html#10886">debugCheckbox</a>;</span>
+<a name="46"><font size=-1>46     </font></a><span class="default"></span>
+<a name="47"><font size=-1>47     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="48"><font size=-1>48     </font></a><span class="default">    <a href="dictionary_J.html#10901">LineChart</a>&lt;Number, Number&gt; <a href="dictionary_C.html#10891">numCarsChart</a>;</span>
+<a name="49"><font size=-1>49     </font></a><span class="default"></span>
+<a name="50"><font size=-1>50     </font></a><span class="default">    </span><span class="keyword">private static int <a href="dictionary_C.html#10882">MAX_DATA_POINTS</a> </span><span class="default">= </span><span class="number">100</span><span class="default">;</span>
+<a name="51"><font size=-1>51     </font></a><span class="default"></span>
+<a name="52"><font size=-1>52     </font></a><span class="default">    </span><span class="keyword">private int <a href="dictionary_C.html#10885">dataCount</a> </span><span class="default">= </span><span class="number">0</span><span class="default">;</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">    </span><span class="keyword">private <a href="dictionary_L.html#10905">LineChart</a></span><span class="default">.<a href="dictionary_L.html#10903">Series</a> <a href="dictionary_C.html#10892">numCarsSeries</a>;</span>
+<a name="54"><font size=-1>54     </font></a><span class="default"></span>
+<a name="55"><font size=-1>55     </font></a><span class="default">	@Override</span>
+<a name="56"><font size=-1>56     </font></a><span class="default">	</span><span class="keyword">public void <a href="dictionary_C.html#10841">initialize</a></span><span class="default">(URL <a href="dictionary_C.html#10879">location</a>, ResourceBundle <a href="dictionary_C.html#10880">resources</a>) {</span>
+<a name="57"><font size=-1>57     </font></a><span class="default">		</span>
+<a name="58"><font size=-1>58     </font></a><span class="default">		<a href="dictionary_C.html#10892">numCarsSeries</a> = </span><span class="keyword">new <a href="dictionary_J.html#10904">XYChart</a></span><span class="default">.<a href="dictionary_L.html#10903">Series</a>&lt;Number, Number&gt;();</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">        <a href="dictionary_C.html#10891">numCarsChart</a>.<a href="dictionary_G.html#10835">getData</a>().<a href="dictionary_A.html#291">addAll</a>(<a href="dictionary_C.html#10892">numCarsSeries</a>);</span>
+<a name="60"><font size=-1>60     </font></a><span class="default"></span>
+<a name="61"><font size=-1>61     </font></a><span class="default">        SimulationController <a href="dictionary_C.html#10881">simulationController</a> = SimulationController.<a href="dictionary_C.html#947">getInstance</a>();</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">	</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">		<a href="dictionary_C.html#10899">tickrateSlider</a>.<a href="dictionary_V.html#4667">valueProperty</a>().<a href="dictionary_A.html#4665">addListener</a>((<a href="dictionary_C.html#10845">observable</a>, <a href="dictionary_C.html#10846">oldValue</a>, <a href="dictionary_C.html#10844">newValue</a>) -&gt; {</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            <a href="dictionary_C.html#10898">tickrateLabel</a>.<a href="dictionary_S.html#4651">setText</a>(String.<a href="dictionary_V.html#4657">valueOf</a>(<a href="dictionary_C.html#10844">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>()));</span>
+<a name="65"><font size=-1>65     </font></a><span class="default">            <a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10843">setTickTime</a>(<a href="dictionary_C.html#10844">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>());</span>
+<a name="66"><font size=-1>66     </font></a><span class="default">        });</span>
+<a name="67"><font size=-1>67     </font></a><span class="default">		</span>
+<a name="68"><font size=-1>68     </font></a><span class="default">		<a href="dictionary_C.html#10890">numCarSlider</a>.<a href="dictionary_V.html#4667">valueProperty</a>().<a href="dictionary_A.html#4665">addListener</a>((<a href="dictionary_C.html#10850">observable</a>, <a href="dictionary_C.html#10851">oldValue</a>, <a href="dictionary_C.html#10849">newValue</a>) -&gt; {</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">			<a href="dictionary_C.html#10889">numCarLabel</a>.<a href="dictionary_S.html#4651">setText</a>(String.<a href="dictionary_V.html#4657">valueOf</a>(<a href="dictionary_C.html#10849">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>()));</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10848">setMaxCars</a>(<a href="dictionary_C.html#10849">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>());</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">		});</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">		</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">		<a href="dictionary_C.html#10895">spawnrateSlider</a>.<a href="dictionary_V.html#4667">valueProperty</a>().<a href="dictionary_A.html#4665">addListener</a>((<a href="dictionary_C.html#10855">observable</a>, <a href="dictionary_C.html#10856">oldValue</a>, <a href="dictionary_C.html#10854">newValue</a>) -&gt; {</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">			<a href="dictionary_C.html#10894">spawnrateLabel</a>.<a href="dictionary_S.html#4651">setText</a>(String.<a href="dictionary_V.html#4657">valueOf</a>(<a href="dictionary_C.html#10854">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>()));</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10853">setSpawnRate</a>(<a href="dictionary_C.html#10854">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>());</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">		});</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">		</span>
+<a name="78"><font size=-1>78     </font></a><span class="default">		<a href="dictionary_C.html#10888">maxcarspeedSlider</a>.<a href="dictionary_V.html#4667">valueProperty</a>().<a href="dictionary_A.html#4665">addListener</a>((<a href="dictionary_C.html#10860">observable</a>, <a href="dictionary_C.html#10861">oldValue</a>, <a href="dictionary_C.html#10859">newValue</a>) -&gt; {</span>
+<a name="79"><font size=-1>79     </font></a><span class="default">			<a href="dictionary_C.html#10887">maxcarspeedLabel</a>.<a href="dictionary_S.html#4651">setText</a>(String.<a href="dictionary_V.html#4657">valueOf</a>(<a href="dictionary_C.html#10859">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>()));</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10858">setMaxCarSpeed</a>(<a href="dictionary_C.html#10859">newValue</a>.<a href="dictionary_I.html#4656">intValue</a>());</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">		});</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">		</span>
+<a name="83"><font size=-1>83     </font></a><span class="default">		<a href="dictionary_C.html#10884">cartruckratioSlider</a>.<a href="dictionary_V.html#4667">valueProperty</a>().<a href="dictionary_A.html#4665">addListener</a>((<a href="dictionary_C.html#10866">observable</a>, <a href="dictionary_C.html#10867">oldValue</a>, <a href="dictionary_C.html#10865">newValue</a>) -&gt; {</span>
+<a name="84"><font size=-1>84     </font></a><span class="default">			<a href="dictionary_C.html#10883">cartruckratioLabel</a>.<a href="dictionary_S.html#4651">setText</a>(String.valueOf((</span><span class="keyword">double</span><span class="default">) ((</span><span class="keyword">int</span><span class="default">)(<a href="dictionary_C.html#10865">newValue</a>.<a href="dictionary_D.html#10863">doubleValue</a>()*</span><span class="number">10</span><span class="default">))/</span><span class="number">10</span><span class="default">));</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10864">setCarTruckRatio</a>((</span><span class="keyword">double</span><span class="default">) ((</span><span class="keyword">int</span><span class="default">)(<a href="dictionary_C.html#10865">newValue</a>.<a href="dictionary_D.html#10863">doubleValue</a>()*</span><span class="number">10</span><span class="default">))/</span><span class="number">10</span><span class="default">);</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">		});</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">	</span>
+<a name="88"><font size=-1>88     </font></a><span class="default">		<a href="dictionary_C.html#10896">startButton</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10869">event</a>) -&gt; {</span>
+<a name="89"><font size=-1>89     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_C.html#4690">startSimulation</a>();</span>
+<a name="90"><font size=-1>90     </font></a><span class="default">		});</span>
+<a name="91"><font size=-1>91     </font></a><span class="default">		</span>
+<a name="92"><font size=-1>92     </font></a><span class="default">		<a href="dictionary_C.html#10897">stopButton</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10871">event</a>) -&gt; {</span>
+<a name="93"><font size=-1>93     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_C.html#4691">stopSimulation</a>();</span>
+<a name="94"><font size=-1>94     </font></a><span class="default">		});</span>
+<a name="95"><font size=-1>95     </font></a><span class="default"></span>
+<a name="96"><font size=-1>96     </font></a><span class="default">        <a href="dictionary_C.html#10893">resetButton</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10874">event</a>) -&gt; {</span>
+<a name="97"><font size=-1>97     </font></a><span class="default">           <a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_R.html#10873">resetSimulation</a>();</span>
+<a name="98"><font size=-1>98     </font></a><span class="default">        });</span>
+<a name="99"><font size=-1>99     </font></a><span class="default">		</span>
+<a name="100"><font size=-1>100     </font></a><span class="default">		<a href="dictionary_C.html#10886">debugCheckbox</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10878">event</a>) -&gt; {</span>
+<a name="101"><font size=-1>101     </font></a><span class="default">			<a href="dictionary_C.html#10881">simulationController</a>.<a href="dictionary_S.html#10877">setDebugFlag</a>(<a href="dictionary_C.html#10886">debugCheckbox</a>.<a href="dictionary_I.html#10876">isSelected</a>());</span>
+<a name="102"><font size=-1>102     </font></a><span class="default">		});</span>
+<a name="103"><font size=-1>103     </font></a><span class="default">	}</span>
+<a name="104"><font size=-1>104     </font></a><span class="default"></span>
+<a name="105"><font size=-1>105     </font></a><span class="default">    </span><span class="keyword">void <a href="dictionary_C.html#10834">addNumCarData</a></span><span class="default">(</span><span class="keyword">int <a href="dictionary_C.html#10840">num</a></span><span class="default">) {</span>
+<a name="106"><font size=-1>106     </font></a><span class="default"></span>
+<a name="107"><font size=-1>107     </font></a><span class="default">        <a href="dictionary_C.html#10892">numCarsSeries</a>.<a href="dictionary_G.html#10835">getData</a>().<a href="dictionary_A.html#881">add</a>(</span><span class="keyword">new <a href="dictionary_L.html#10905">LineChart</a></span><span class="default">.<a href="dictionary_L.html#10900">Data</a>&lt;&gt;(dataCount++, <a href="dictionary_C.html#10840">num</a>));</span>
+<a name="108"><font size=-1>108     </font></a><span class="default">        ((NumberAxis)<a href="dictionary_C.html#10891">numCarsChart</a>.<a href="dictionary_G.html#10836">getXAxis</a>()).<a href="dictionary_S.html#10837">setLowerBound</a>((</span><span class="number">0 </span><span class="default">&gt; <a href="dictionary_C.html#10885">dataCount</a>-<a href="dictionary_C.html#10882">MAX_DATA_POINTS</a> ? </span><span class="number">0 </span><span class="default">: <a href="dictionary_C.html#10885">dataCount</a>-<a href="dictionary_C.html#10882">MAX_DATA_POINTS</a>));</span>
+<a name="109"><font size=-1>109     </font></a><span class="default">        ((NumberAxis)<a href="dictionary_C.html#10891">numCarsChart</a>.<a href="dictionary_G.html#10836">getXAxis</a>()).<a href="dictionary_S.html#10838">setUpperBound</a>(<a href="dictionary_C.html#10885">dataCount</a>);</span>
+<a name="110"><font size=-1>110     </font></a><span class="default"></span>
+<a name="111"><font size=-1>111     </font></a><span class="default">        </span><span class="keyword">if</span><span class="default">(<a href="dictionary_C.html#10892">numCarsSeries</a>.<a href="dictionary_G.html#10835">getData</a>().<a href="dictionary_S.html#10839">size</a>() &gt; <a href="dictionary_C.html#10882">MAX_DATA_POINTS</a>) {</span>
+<a name="112"><font size=-1>112     </font></a><span class="default">            <a href="dictionary_C.html#10892">numCarsSeries</a>.<a href="dictionary_G.html#10835">getData</a>().<a href="dictionary_R.html#893">remove</a>(</span><span class="number">0</span><span class="default">);</span>
+<a name="113"><font size=-1>113     </font></a><span class="default">        }</span>
+<a name="114"><font size=-1>114     </font></a><span class="default">    }</span>
+<a name="115"><font size=-1>115     </font></a><span class="default"></span>
+<a name="116"><font size=-1>116     </font></a><span class="default">}</span>
+<a name="117"><font size=-1>117     </font></a><span class="default"></span>
+</pre></body></html>
