@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 
 public class EditorControlsController implements Initializable {
 
-
 	@FXML
 	Button landButton;
 	@FXML
@@ -23,15 +22,16 @@ public class EditorControlsController implements Initializable {
 	Button interButton;
 	@FXML
 	Button openMapButton;
-	@FXML 
+	@FXML
+	Button saveMapButton;
+	@FXML
 	Label nameLabel;
-	@FXML 
+	@FXML
 	Label dateLabel;
-	@FXML 
+	@FXML
 	Label descLabel;
-	@FXML 
+	@FXML
 	Label authLabel;
-	
 
 	// TODO
 	@Override
@@ -40,23 +40,26 @@ public class EditorControlsController implements Initializable {
 		landButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		roadHorizontalButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		roadVerticalButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		interButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		openMapButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 
+		saveMapButton.setOnAction((event) -> {
+			EditorApp.getInstance().selectButton((Button) event.getSource());
+		});
 	}
 
 }

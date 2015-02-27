@@ -9,9 +9,12 @@ import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -39,6 +42,12 @@ public class EditorApp extends Application {
 	private int canvasHeight = 900;
 	private int tileWidth;
 	private Scene scene;
+	
+	private Image csrRoadEW = new Image("com/simulus/util/images/csr_eastwest.png");
+	private Image csrRoadNS = new Image("com/simulus/util/images/csr_northsouth.png");
+	private Image csrLand = new Image("com/simulus/util/images/csr_land.png");
+	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
+	
 
 	private boolean landSelected = false;
 	private boolean roadVerticalSelected = false;
@@ -46,8 +55,6 @@ public class EditorApp extends Application {
 	private boolean interSelected = false;
 
 	private static EditorApp instance;
-
-	private Tile[][] tiles = new Tile[30][30];
 
 	public static EditorApp getInstance() {
 		return instance;
@@ -73,7 +80,7 @@ public class EditorApp extends Application {
 		initRootLayout();
 		showControls();
 
-		this.editorMap = new Map();		
+		this.editorMap = new Map();
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -95,27 +102,29 @@ public class EditorApp extends Application {
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Intersection(
-										editorMap.getTiles()[i][p].getGridPosX(), editorMap
-												.getTiles()[i][p].getGridPosY()));
+								editorMap.addGroup(new Intersection(editorMap
+										.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p]
+												.getGridPosY()));
 							} else if (roadVerticalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(
-										editorMap.getTiles()[i][p].getGridPosX(), editorMap
-												.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+								editorMap.addGroup(new Road(editorMap
+										.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(
-										editorMap.getTiles()[i][p].getGridPosX(), editorMap
-												.getTiles()[i][p].getGridPosY(), Seed.WESTEAST));
+								editorMap.addGroup(new Road(editorMap
+										.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.WESTEAST));
 							}
 					}
 			}
 		});
-		
-		
+
 		/*
 		 * Drag to draw for Land and road tiles
 		 */
@@ -131,7 +140,7 @@ public class EditorApp extends Application {
 										.getBoundsInParent().getMinY()
 								&& event.getSceneY() < editorMap.getTiles()[i][p]
 										.getBoundsInParent().getMaxY()) {
-							
+
 							if (landSelected) {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
@@ -139,15 +148,17 @@ public class EditorApp extends Application {
 							} else if (roadVerticalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(
-										editorMap.getTiles()[i][p].getGridPosX(), editorMap
-												.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+								editorMap.addGroup(new Road(editorMap
+										.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(
-										editorMap.getTiles()[i][p].getGridPosX(), editorMap
-												.getTiles()[i][p].getGridPosY(), Seed.WESTEAST));
+								editorMap.addGroup(new Road(editorMap
+										.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.WESTEAST));
 							}
 						}
 					}
@@ -155,8 +166,7 @@ public class EditorApp extends Application {
 			}
 
 		});
-
-		
+			
 
 		/**
 		 * Ticking loop
@@ -214,7 +224,8 @@ public class EditorApp extends Application {
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(EditorApp.class.getResource("view/EditorControls.fxml"));
+			loader.setLocation(EditorApp.class
+					.getResource("view/EditorControls.fxml"));
 			AnchorPane controls = (AnchorPane) loader.load();
 			rootLayout.setRight(controls);
 		} catch (Exception e) {
@@ -251,6 +262,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrLand));
 			break;
 		case "roadVerticalButton":
 			System.out.println("Clicked Vertical Road Button");
@@ -258,6 +270,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = true;
 			roadHorizontalSelected = false;
 			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrRoadNS));
 			break;
 		case "roadHorizontalButton":
 			System.out.println("Clicked Horizontal Road Button");
@@ -265,6 +278,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = true;
 			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrRoadEW));
 			break;
 		case "interButton":
 			System.out.println("Clicked Intersection Button");
@@ -272,9 +286,26 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = true;
+			canvas.setCursor(new ImageCursor(csrIntersection));
+			break;
+		case "openMapButton":
+			System.out.println("Clicked Open Map Button");
+			break;
+		case "saveMapButton":
+			System.out.println("Clicked Save Map Button");
+			
+			System.out.println(editorMap.getTiles()[0][0].isOccupied());
+			System.out.println(editorMap.getTiles()[0][0].getGridPosX());
+			System.out.println(editorMap.getTiles()[0][0].getGridPosY());
+			System.out.println(editorMap.getTiles()[0][0].getX());
+			System.out.println(editorMap.getTiles()[0][0].getY());
+			
+			break;
+		default:
 			break;
 		}
 	}
+	
 
 	public static void main(String[] args) {
 		launch(args);

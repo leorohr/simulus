@@ -1,4 +1,5 @@
 package com.simulus.io;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -47,7 +48,8 @@ public class MapXML {
 
 	}
 
-	//reads XML file and returns 2D array of type tile.  Error thrown if <tile> nodes do not match metadata i.e. grid size matching height x width
+	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
+	// nodes do not match metadata i.e. grid size matching height x width
 	public TileXML[][] readXML(String inputFile) {
 
 		try {
@@ -92,8 +94,9 @@ public class MapXML {
 					.getElementsByTagName("tile_size_width").item(0)
 					.getTextContent());
 
-			fullGrid = new TileXML[mapWidth / mapTileWidth][mapHeight / mapTileHeight];
-			
+			fullGrid = new TileXML[mapWidth / mapTileWidth][mapHeight
+					/ mapTileHeight];
+
 			nList = doc.getElementsByTagName("tile");
 
 			for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -116,14 +119,12 @@ public class MapXML {
 					fullGrid[xPos][yPos] = new TileXML(type, direction);
 
 				}
-				
-				
-			}
-			
 
+			}
 
 		} catch (Exception e) {
-			System.out.println("Check that the input file exisits and that it matches XML map schema.");
+			System.out
+					.println("Check that the input file exisits and that it matches XML map schema.");
 			System.out.println("Error reported:");
 			e.printStackTrace();
 		}
@@ -132,15 +133,16 @@ public class MapXML {
 
 	}
 
-	//outputs XML file based on given 2D array of type tile plus metadata
-	public void writeXML(TileXML[][] gridIn, String outputFile, String nameIn, String dateIn, String descIn, String authIn,
-			int mHeightIn, int mWidthIn, int tHeightIn, int tWidthIn) {
+	// outputs XML file based on given 2D array of type tile plus metadata
+	public void writeXML(TileXML[][] gridIn, String outputFile, String nameIn,
+			String dateIn, String descIn, String authIn, int mHeightIn,
+			int mWidthIn, int tHeightIn, int tWidthIn) {
 
 		try {
-			
+
 			fullGrid = gridIn;
 			outputXmlFile = new File(outputFile);
-			
+
 			mapName = nameIn;
 			mapCreationDate = dateIn;
 			mapDescription = descIn;
@@ -150,19 +152,19 @@ public class MapXML {
 			mapWidth = mWidthIn;
 			mapTileHeight = tHeightIn;
 			mapTileWidth = tWidthIn;
-			
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			
+
 			// root element - map
 			Document doc = docBuilder.newDocument();
 			Element rootElement = doc.createElement("map");
 			doc.appendChild(rootElement);
-			
+
 			// create a comment with team tag
-			Comment comment = doc.createComment("Team Simulus Traffic Simulator Map File");
+			Comment comment = doc
+					.createComment("Team Simulus Traffic Simulator Map File");
 			doc.insertBefore(comment, rootElement);
 
 			// map_details
@@ -210,7 +212,6 @@ public class MapXML {
 			// grid elements
 			Element grid = doc.createElement("grid");
 			rootElement.appendChild(grid);
-			
 
 			for (int r = 0; r < (mapHeight / mapTileHeight); r++) {
 				for (int c = 0; c < (mapWidth / mapTileWidth); c++) {
@@ -225,8 +226,7 @@ public class MapXML {
 					Element y = doc.createElement("y");
 					y.appendChild(doc.createTextNode(String.format("%02d", r)));
 					tile.appendChild(y);
-					
-				
+
 					Element type = doc.createElement("type");
 					type.appendChild(doc.createTextNode(fullGrid[c][r].type));
 					tile.appendChild(type);
@@ -245,7 +245,8 @@ public class MapXML {
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+			transformer.setOutputProperty(
+					"{http://xml.apache.org/xslt}indent-amount", "2");
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(outputXmlFile);
 
@@ -260,7 +261,7 @@ public class MapXML {
 	}
 
 	public TileXML[][] getGrid() {
-	
+
 		return fullGrid;
 	}
 

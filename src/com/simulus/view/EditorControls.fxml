@@ -12,10 +12,10 @@
       <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="55.0" layoutY="300.0" mnemonicParsing="false" text="Vertical Road" />
       <Button id="interButton" fx:id="interButton" layoutX="55.0" layoutY="348.0" mnemonicParsing="false" text="Intersection" />
       <Button fx:id="openMapButton" layoutX="58.0" layoutY="436.0" mnemonicParsing="false" text="Open Map" />
-      <Button layoutX="58.0" layoutY="468.0" mnemonicParsing="false" text="Save Map" />
-      <Label fx:id="nameLabel" layoutX="60.0" layoutY="527.0" />
-      <Label fx:id="dateLabel" layoutX="60.0" layoutY="542.0" />
-      <Label fx:id="descLabel" layoutX="60.0" layoutY="557.0" />
-      <Label fx:id="authLabel" layoutX="60.0" layoutY="572.0" />
+      <Button fx:id="saveMapButton" layoutX="58.0" layoutY="468.0" mnemonicParsing="false" text="Save Map" />
+      <Label fx:id="nameLabel" layoutX="60.0" layoutY="527.0" text="" />
+      <Label fx:id="dateLabel" layoutX="60.0" layoutY="542.0" text="" />
+      <Label fx:id="descLabel" layoutX="60.0" layoutY="557.0" text="" />
+      <Label fx:id="authLabel" layoutX="60.0" layoutY="572.0" text="" />
    </children>
 </AnchorPane>

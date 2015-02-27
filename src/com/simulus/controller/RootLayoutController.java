@@ -9,13 +9,9 @@ import javafx.scene.control.MenuBar;
 
 public class RootLayoutController implements Initializable {
 
-	
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-	
-		 
+
 	}
 
 }

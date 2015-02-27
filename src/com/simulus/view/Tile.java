@@ -1,21 +1,23 @@
 package com.simulus.view;
 
-
 import javafx.scene.Group;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 public class Tile extends Group {
 
-	private int gridPosX;
-	private int gridPosY;
-	private boolean isOccupied;
+	public int gridPosX;
+	public int gridPosY;
+	public boolean isOccupied;
 	private Vehicle occupier;
 	private Rectangle frame;
+	private Image imgLand = new Image("com/simulus/util/images/land.png");
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
-		//super(posX, posY, width, height);
+		// super(posX, posY, width, height);
 		frame = new Rectangle(posX, posY, width, height);
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
@@ -23,6 +25,7 @@ public class Tile extends Group {
 		isOccupied = false;
 		frame.setFill(Color.TRANSPARENT);
 		frame.setStroke(Color.BLACK);
+		frame.setStrokeWidth(0.1);
 		this.getChildren().add(frame);
 	}
 
@@ -31,14 +34,14 @@ public class Tile extends Group {
 			this.occupier = occupier;
 			this.isOccupied = true;
 			redrawTile();
-		}else if(occupier.equals(getOccupier())){
+		} else if (occupier.equals(getOccupier())) {
 			this.occupier = null;
 			this.isOccupied = false;
 			redrawTile();
 		}
 	}
-	
-	public void setOccupied(boolean isOccupied){
+
+	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
 		redrawTile();
 	}
@@ -69,29 +72,29 @@ public class Tile extends Group {
 
 	public void redrawTile() {
 		if (isOccupied()) {
-			frame.setFill(Color.GREEN);
+			frame.setFill(new ImagePattern(imgLand));
 		} else {
 			frame.setFill(Color.TRANSPARENT);
 		}
 	}
-	
-	public double getX(){
+
+	public double getX() {
 		return frame.getX();
 	}
-	
-	public double getY(){
+
+	public double getY() {
 		return frame.getY();
 	}
-	
-	public double getWidth(){
+
+	public double getWidth() {
 		return frame.getWidth();
 	}
-	
-	public double getHeight(){
+
+	public double getHeight() {
 		return frame.getHeight();
 	}
-	
-	public Rectangle getFrame(){
+
+	public Rectangle getFrame() {
 		return frame;
 	}
 
@@ -102,9 +105,9 @@ public class Tile extends Group {
 	public double getCenterY() {
 		return getY() + (getHeight() / 2);
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "X: " + getX() + " Y:" + getY();
 	}
-	
+
 }

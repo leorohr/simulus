@@ -18,28 +18,30 @@
  * 1.00 03/02/2015 Initial Version  
  */
 
-
 package com.simulus.util.enums;
 
 public enum Seed {
-	
+
 	EMPTY, NORTHSOUTH, WESTEAST, INTERSECTION;
-	
+
 	/**
-	 * @return Randomly returns one of the two direction included by the orientation or <code>null</code>
-	 * if it is called on an intersection.
+	 * @return Randomly returns one of the two direction included by the
+	 *         orientation or <code>null</code> if it is called on an
+	 *         intersection.
 	 */
 	public Direction randomDirection() {
-		if(this == NORTHSOUTH) {
-			if(Math.random() > 0.5)
+		if (this == NORTHSOUTH) {
+			if (Math.random() > 0.5)
 				return Direction.NORTH;
-			else return Direction.SOUTH;
-		} else if(this == WESTEAST) {
-			if(Math.random() > 0.5)
+			else
+				return Direction.SOUTH;
+		} else if (this == WESTEAST) {
+			if (Math.random() > 0.5)
 				return Direction.EAST;
-			else return Direction.WEST;
+			else
+				return Direction.WEST;
 		}
-		
+
 		return null;
 	}
 

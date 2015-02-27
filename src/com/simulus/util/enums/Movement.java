@@ -18,7 +18,6 @@
  * 1.00 03/02/2015 Initial Version  
  */
 
-
 /**
  * Enumerations for the movement of the Vehicle Class
  *@author Jerry Wang

@@ -39,11 +39,11 @@ public class ControlsController implements Initializable {
 		landButton.setOnAction((event) -> {
 			MainApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		roadButton.setOnAction((event) -> {
 			MainApp.getInstance().selectButton((Button) event.getSource());
 		});
-		
+
 		interButton.setOnAction((event) -> {
 			MainApp.getInstance().selectButton((Button) event.getSource());
 		});

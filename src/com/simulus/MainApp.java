@@ -98,9 +98,9 @@ public class MainApp extends Application {
 							} else if (roadSelected) {
 								System.out.println("Adding road at "
 										+ map.getTiles()[i][p].toString());
-								map.addGroup(new Road(
-										map.getTiles()[i][p].getGridPosX(), map
-												.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+								map.addGroup(new Road(map.getTiles()[i][p]
+										.getGridPosX(), map.getTiles()[i][p]
+										.getGridPosY(), Seed.NORTHSOUTH));
 							}
 					}
 

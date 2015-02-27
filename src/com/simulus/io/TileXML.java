@@ -1,26 +1,27 @@
 package com.simulus.io;
+
 public class TileXML {
-	
+
 	public String type;
 	public String direction;
-	
-	public TileXML(String typeIn, String directionIn){
-			
+
+	public TileXML(String typeIn, String directionIn) {
+
 		type = typeIn;
 		direction = directionIn;
-		
+
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public String getDirection(){
+
+	public String getDirection() {
 		return direction;
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "type: " + type + " direction: " + direction;
 	}
-	
+
 }
