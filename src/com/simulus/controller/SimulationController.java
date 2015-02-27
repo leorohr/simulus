@@ -75,7 +75,7 @@ public class SimulationController {
                         }
                     }
                 }
-
+            	
                 Platform.runLater(() -> map.updateMap());
 
                 try {
@@ -83,6 +83,7 @@ public class SimulationController {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
+                tickCount++;
             }
         }
 

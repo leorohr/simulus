@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.simulus.MainApp;
+
 public class Intersection extends Group implements TileGroup {
 	
 	public Tile[][] tiles = new Tile[4][4];
+	private long switchTime;
 	
 	/**
 	 * @param xPos x coordinate of the top left tile of the intersection in the grid
@@ -21,6 +24,7 @@ public class Intersection extends Group implements TileGroup {
 	 */
 	public Intersection(int xPos, int yPos) {
 		int tileSize = Map.TILESIZE;
+		switchTime = 5000;
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
@@ -127,6 +131,13 @@ public class Intersection extends Group implements TileGroup {
 		//Straight
 		t.getTurningPaths().add(new Path(	new MoveTo(t.getCenterX(), t.getY()),				
 											new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));
+//		Thread lights = new Thread(){
+//			public void run(){
+//				MainApp.getInstance().getMap().createBlockage(tiles[0][0].getGridPosX(), tiles[0][0].getGridPosY());
+//			}
+//		};
+//		lights.start();
+		
 	}
 	
 	//Display all paths - used in debug mode
@@ -168,5 +179,8 @@ public class Intersection extends Group implements TileGroup {
 		return l;
 	}
 	
+	public long getSwitchTime(){
+		return switchTime;
+	}
 	
 }

@@ -48,7 +48,6 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 
-        //Setup simulation
         SimulationController.init();
 
         this.map = SimulationController.getInstance().getMap();
@@ -60,7 +59,6 @@ public class MainApp extends Application {
 	private void initRootLayout() {
 
 		try {
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
 					.getResource("view/RootLayout.fxml"));
