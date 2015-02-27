@@ -1,13 +1,16 @@
 package com.simulus.view;
 
+import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Seed;
+import javafx.scene.Group;
+
 import java.util.Arrays;
 import java.util.List;
 
-import javafx.scene.Group;
-
-import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
-
+/**
+ * Represents a roadblock. Roadblock refers to four adjacent lanes, hence one roadblock takes up a 1x4 space
+ * in the grid of tiles.
+ */
 public class Road extends Group implements TileGroup{
 
 	private Lane[] lanes = new Lane[4];
@@ -16,7 +19,7 @@ public class Road extends Group implements TileGroup{
 	/**
 	 * @param gridPosX The mostleft/top x-coordinate of the road in the grid.
 	 * @param gridPosY The mostleft/top y-coordinate of the road in the grid.
-	 * @param orientation
+	 * @param orientation The orientation of the Road.
 	 */
 	public Road(int gridPosX, int gridPosY, Seed orientation){
 		
@@ -50,13 +53,19 @@ public class Road extends Group implements TileGroup{
 		
 		this.getChildren().addAll(lanes);
 	}
-	
+
+    /**
+     * @return A list containing the 4 tiles that this roadblock is comprised of.
+     */
 	@Override
 	public List<Tile> getTiles() {
 		
 		return Arrays.asList(lanes);
 	}
-	
+
+    /**
+     * @return The orientation of this roadblock.
+     */
 	public Seed getOrientation() {
 		return this.orientation;
 	}
