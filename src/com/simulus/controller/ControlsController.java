@@ -1,60 +1,116 @@
 package com.simulus.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 public class ControlsController implements Initializable {
 
+	@FXML
+	Button startButton;
+	@FXML
+	Button stopButton;
+    @FXML
+    Button resetButton;
 	@FXML
 	Slider numCarSlider;
 	@FXML
 	Slider tickrateSlider;
 	@FXML
-	Button startButton;
+	Slider maxcarspeedSlider;
 	@FXML
-	Button stopButton;
+	Slider spawnrateSlider;
+	@FXML
+	Slider cartruckratioSlider;
 	@FXML 
 	Label numCarLabel;
 	@FXML
 	Label tickrateLabel;
-	
-	//TODO
+	@FXML
+	Label maxcarspeedLabel;
+	@FXML
+	Label spawnrateLabel;
+	@FXML
+	Label cartruckratioLabel;
+	@FXML
+	CheckBox debugCheckbox;
+
+    @FXML
+    LineChart<Number, Number> numCarsChart;
+
+    private static int MAX_DATA_POINTS = 100;
+
+    private int dataCount = 0;
+    private LineChart.Series numCarsSeries;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-//		simController = SimulationController.getInstance();
-//	
-//		tickrateSlider.valueProperty().addListener(new ChangeListener<Number>() {
-//
-//			@Override
-//			public void changed(ObservableValue<? extends Number> observable,
-//					Number oldValue, Number newValue) {
-//				
-//				tickrateLabel.setText(String.valueOf(newValue.intValue()));
-//				SimulationController.TICKRATE = newValue.intValue();
-//			}
-//		});
-//		
-//		numCarSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-//			numCarLabel.setText(String.valueOf(newValue.intValue()));
-//			SimulationController.MAXCARS = newValue.intValue();
-//		});
-//
-//		startButton.setOnAction((event) -> {
-//			simController.startSimulation();
-//		});
-//		
-//		stopButton.setOnAction((event) -> {
-//			simController.stopSimulation();
-//		});
-//		
+		numCarsSeries = new XYChart.Series<Number, Number>();
+        numCarsChart.getData().addAll(numCarsSeries);
+
+        SimulationController simulationController = SimulationController.getInstance();
+	
+		tickrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+            tickrateLabel.setText(String.valueOf(newValue.intValue()));
+            simulationController.setTickTime(newValue.intValue());
+        });
 		
+		numCarSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			numCarLabel.setText(String.valueOf(newValue.intValue()));
+			simulationController.setMaxCars(newValue.intValue());
+		});
+		
+		spawnrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			spawnrateLabel.setText(String.valueOf(newValue.intValue()));
+			simulationController.setSpawnRate(newValue.intValue());
+		});
+		
+		maxcarspeedSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			maxcarspeedLabel.setText(String.valueOf(newValue.intValue()));
+			simulationController.setMaxCarSpeed(newValue.intValue());
+		});
+		
+		cartruckratioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			cartruckratioLabel.setText(String.valueOf((double) ((int)(newValue.doubleValue()*10))/10));
+			simulationController.setCarTruckRatio((double) ((int)(newValue.doubleValue()*10))/10);
+		});
+	
+		startButton.setOnAction((event) -> {
+			simulationController.startSimulation();
+		});
+		
+		stopButton.setOnAction((event) -> {
+			simulationController.stopSimulation();
+		});
+
+        resetButton.setOnAction((event) -> {
+           simulationController.resetSimulation();
+        });
+		
+		debugCheckbox.setOnAction((event) -> {
+			simulationController.setDebugFlag(debugCheckbox.isSelected());
+		});
 	}
+
+    void addNumCarData(int num) {
+
+        numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
+        ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+        ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
+
+        if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
+            numCarsSeries.getData().remove(0);
+        }
+    }
 
 }

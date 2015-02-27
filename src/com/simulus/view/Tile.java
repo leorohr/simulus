@@ -1,27 +1,42 @@
 package com.simulus.view;
 
+import com.simulus.controller.SimulationController;
+import com.simulus.util.ResourceBuilder;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
-public class Tile extends Rectangle {
+import java.util.ArrayList;
+
+public class Tile extends Group {
 
 	private int gridPosX;
 	private int gridPosY;
 	private boolean isOccupied;
-	private VVehicle occupier;
+	private Vehicle occupier;
+	private ArrayList<Path> turningPaths;
+    protected Rectangle frame;
+    protected boolean isRedLight = false;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
-		super(posX, posY, width, height);
+		//super(posX, posY, width, height);
+		frame = new Rectangle(posX, posY, width, height);
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		setFill(Color.TRANSPARENT);
-		setStroke(Color.BLACK);
+		turningPaths = new ArrayList<>();
+		frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
+//		frame.setStroke(Color.BLACK);
+//		frame.setStrokeWidth(0.2d);
+		this.getChildren().add(frame);
 	}
 
-	public void setOccupied(boolean isOccupied, VVehicle occupier) {
+    //Makes sure that only the current occupier can set the tile's occupation status
+	public void setOccupied(boolean isOccupied, Vehicle occupier) {
 		if (isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
@@ -35,10 +50,13 @@ public class Tile extends Rectangle {
 	
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
+		if(isOccupied)
+			isRedLight = true;
+		else isRedLight = false;
 		redrawTile();
 	}
 
-	public VVehicle getOccupier() {
+	public Vehicle getOccupier() {
 		return occupier;
 	}
 
@@ -53,21 +71,56 @@ public class Tile extends Rectangle {
 	public int getGridPosY() {
 		return gridPosY;
 	}
-
-	public void setGridPosX(int x) {
-		gridPosX = x;
+	
+	public boolean getRedLight(){
+		return isRedLight;
 	}
 
-	public void setGridPosY(int y) {
-		gridPosY = y;
-	}
-
+	/**
+	 * If the app is currently in debug mode, this method draws
+	 * the tiles occupied by vehicles in green.
+	 */
 	public void redrawTile() {
+        if(!SimulationController.getInstance().isDebug())
+			return;
+		
 		if (isOccupied()) {
-			setFill(Color.GREEN);
+            frame.setFill(Color.GREEN);
+            if(isRedLight)
+            	frame.setFill(Color.RED);
 		} else {
-			setFill(Color.TRANSPARENT);
+            if(this instanceof Lane)
+			    frame.setFill(Lane.COLOR);
+            else frame.setFill(Color.TRANSPARENT);
+            if(isRedLight)
+            	frame.setFill(Color.RED);
 		}
+	}
+	
+	/**
+	 * @return The x-coordinate of the top left corner of the tile.
+	 */
+	public double getX(){
+		return frame.getX();
+	}
+	
+	/**
+	 * @return The y-coordinate of the top left corner of the tile.
+	 */
+	public double getY(){
+		return frame.getY();
+	}
+	
+	public double getWidth(){
+		return frame.getWidth();
+	}
+	
+	public double getHeight(){
+		return frame.getHeight();
+	}
+	
+	public Rectangle getFrame(){
+		return frame;
 	}
 
 	public double getCenterX() {
@@ -76,5 +129,16 @@ public class Tile extends Rectangle {
 
 	public double getCenterY() {
 		return getY() + (getHeight() / 2);
+	}
+	
+	/**
+	 * @return The list of available paths for cars to take when they face this tile in an intersection.
+	 */
+	public ArrayList<Path> getTurningPaths() {
+		return turningPaths;
+				
+	}
+	public String toString(){
+		return "X: " + gridPosX + " Y: " + gridPosY;
 	}
 }
