@@ -20,17 +20,13 @@ public class Map extends Group {
 
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
-	private ArrayList<Lane> entryPoints = new ArrayList<>(); // TODO no object
-																// copies but
-																// rather
-																// coordinates
-																// in tiles[][]
+	private ArrayList<Lane> entryPoints = new ArrayList<>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
 
 	public Map() {
 
-		// createBasicMap();
+//		createBasicMap();
 		createHashStyleMap();
 
 		// Add map to canvas

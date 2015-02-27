@@ -114,6 +114,10 @@ public class MainApp extends Application {
         return controlsController;
     }
 
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
 	public static void main(String[] args) {
 		launch(args);
 	}
