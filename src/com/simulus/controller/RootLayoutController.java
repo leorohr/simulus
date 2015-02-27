@@ -1,5 +1,6 @@
 package com.simulus.controller;
 
+import com.simulus.MainApp;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,9 +12,11 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -37,8 +40,28 @@ public class RootLayoutController implements Initializable {
 
         menuBar.setUseSystemMenuBar(true);
 
-        closeMItem.setOnAction((event) -> {
-            Platform.exit();
+        closeMItem.setOnAction((event) -> Platform.exit());
+
+        newMapMItem.setOnAction((event) ->{
+            //TODO launch map editor
+        });
+
+        saveMapMItem.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Map...");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+            fileChooser.setInitialFileName("CustomMap.xml");
+            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
+            //TODO save to selectedFile
+        });
+
+        openMapMItem.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Map...");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+            fileChooser.setInitialFileName("CustomMap.xml");
+            File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
+            //TODO open xml file
         });
 
 
