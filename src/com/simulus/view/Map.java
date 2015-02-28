@@ -2,8 +2,10 @@ package com.simulus.view;
 
 import com.simulus.MainApp;
 import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -103,8 +105,9 @@ public class Map extends Group {
 
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
+	 * @param b The desired behavior of the spawning car.
 	 */
-	public void spawnRandomCar() {
+	public void spawnRandomCar(Behavior b) {
 		Lane l;
 		if ((l = selectRandomEntryPoint()) == null)
 			return;
@@ -125,6 +128,7 @@ public class Map extends Group {
 
 		c.setCurrentTile(l);
 		c.setMap(tiles);
+		c.setBehavior(b);
 		l.setOccupied(true, c);
 		synchronized (vehicles) {
 			vehicles.add(c);

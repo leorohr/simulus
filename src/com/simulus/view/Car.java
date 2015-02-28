@@ -47,9 +47,7 @@ public class Car extends Vehicle {
 	 */
 	public Car(double posX, double posY, Direction dir) {
 		super(posX, posY, CARWIDTH, CARLENGTH, dir);
-		
-		behavior = Behavior.getRandomBehavior();
-		
+				
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
@@ -67,6 +65,7 @@ public class Car extends Vehicle {
 		setArcHeight(ARCHEIGHT);
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
+		
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
 		addToCanvas();
@@ -369,14 +368,6 @@ public class Car extends Vehicle {
         });
         setCurrentTile(moveToTile);
         pathTransition.play();
-	}
-	
-	public void setBehavior(Behavior b){
-		behavior = b;
-	}
-	
-	public Behavior getBehavior(){
-		return behavior;
 	}
 
 	// TODO Curve the car to the northwest

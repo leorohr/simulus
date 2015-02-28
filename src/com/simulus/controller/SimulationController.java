@@ -1,7 +1,9 @@
 package com.simulus.controller;
 
 import com.simulus.MainApp;
+import com.simulus.util.enums.Behavior;
 import com.simulus.view.*;
+
 import javafx.application.Platform;
 
 /**
@@ -14,7 +16,9 @@ public class SimulationController {
     private int spawnRate = 5; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
     private int maxCarSpeed = 10;
-    private double carTruckRatio = 0.7d;
+    private double carTruckRatio = 0.7d;		//the desired carCount/truckCount-fraction 
+    private double recklessNormalRatio = 0.3d; 	//see above
+    private int recklessCount = 0;
     private int truckCount = 0;
     private boolean debugFlag = false;
 
@@ -51,6 +55,7 @@ public class SimulationController {
         MainApp.getInstance().resetCanvas();
         map = new Map();
         truckCount = 0;
+        recklessCount = 0;
         animationThread = new AnimationThread();
     }
 
@@ -60,8 +65,9 @@ public class SimulationController {
         public void run() {
             long tickCount = 0;
             while(!Thread.currentThread().isInterrupted()) {
-
-                Platform.runLater(() ->
+        		
+            	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
+            		Platform.runLater(() ->
                         MainApp.getInstance().getControlsController().addNumCarData(map.getVehicleCount()));
 
                 if(tickCount++ % spawnRate == 0) {
@@ -71,7 +77,12 @@ public class SimulationController {
                             Platform.runLater(() -> map.spawnRandomTruck());
                             truckCount++;
                         } else {
-                            Platform.runLater(() -> map.spawnRandomCar());
+                        	//If the reckless-normal-ratio is not correct, spawn a reckless car.
+                        	if(recklessCount < recklessNormalRatio * map.getVehicleCount()) {
+                        		Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));
+                        		recklessCount++;
+                        	}
+                        	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
                         }
                     }
                 }
@@ -169,6 +180,10 @@ public class SimulationController {
         this.carTruckRatio = carTruckRatio;
     }
 
+    public void setRecklessNormalRatio(double recklessNormalRatio) {
+    	this.recklessNormalRatio = recklessNormalRatio;
+    }
+    
     public Map getMap() {
         return map;
     }

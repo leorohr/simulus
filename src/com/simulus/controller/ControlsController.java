@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ControlsController implements Initializable {
@@ -31,6 +32,8 @@ public class ControlsController implements Initializable {
 	Slider spawnrateSlider;
 	@FXML
 	Slider cartruckratioSlider;
+	@FXML
+	Slider recklessnormalSlider;
 	@FXML 
 	Label numCarLabel;
 	@FXML
@@ -41,6 +44,8 @@ public class ControlsController implements Initializable {
 	Label spawnrateLabel;
 	@FXML
 	Label cartruckratioLabel;
+	@FXML
+	Label recklessnormalLabel;
 	@FXML
 	CheckBox debugCheckbox;
 
@@ -81,8 +86,15 @@ public class ControlsController implements Initializable {
 		});
 		
 		cartruckratioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			cartruckratioLabel.setText(String.valueOf((double) ((int)(newValue.doubleValue()*10))/10));
-			simulationController.setCarTruckRatio((double) ((int)(newValue.doubleValue()*10))/10);
+			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
+			cartruckratioLabel.setText(String.valueOf(roundedValue));
+			simulationController.setCarTruckRatio(roundedValue);
+		});
+		
+		recklessnormalSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
+			recklessnormalLabel.setText(String.valueOf(roundedValue));
+			simulationController.setRecklessNormalRatio(roundedValue);
 		});
 	
 		startButton.setOnAction((event) -> {
@@ -102,15 +114,20 @@ public class ControlsController implements Initializable {
 		});
 	}
 
+	/**
+	 * Adds a datapoint to the numCarChart
+	 * @param num The current number of cars.
+	 */
     void addNumCarData(int num) {
+    	
 
         numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
         ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
         ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
-
+        
         if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
             numCarsSeries.getData().remove(0);
-        }
+        }       
     }
 
 }
