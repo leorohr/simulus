@@ -20,6 +20,7 @@ public class SimulationController {
     private double recklessNormalRatio = 0.3d; 	//see above
     private int recklessCount = 0;
     private int truckCount = 0;
+    private int carColorOption = 0;
     private boolean debugFlag = false;
 
     private Map map = new Map();
@@ -183,6 +184,10 @@ public class SimulationController {
 
     public void setRecklessNormalRatio(double recklessNormalRatio) {
     	this.recklessNormalRatio = recklessNormalRatio;
+    }
+    
+    public void setCarColorOption(int o) {
+    	this.carColorOption = o;
     }
     
     public Map getMap() {

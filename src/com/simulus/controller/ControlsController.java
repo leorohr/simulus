@@ -1,18 +1,17 @@
 package com.simulus.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class ControlsController implements Initializable {
 
@@ -47,6 +46,8 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label recklessnormalLabel;
 	@FXML
+	ComboBox<String> carcolorComboBox;
+	@FXML
 	CheckBox debugCheckbox;
 
     @FXML
@@ -55,12 +56,12 @@ public class ControlsController implements Initializable {
     private static int MAX_DATA_POINTS = 100;
 
     private int dataCount = 0;
-    private LineChart.Series numCarsSeries;
+    private LineChart.Series<Number, Number> numCarsSeries;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		numCarsSeries = new XYChart.Series<Number, Number>();
+		numCarsSeries = new LineChart.Series<Number, Number>();
         numCarsChart.getData().addAll(numCarsSeries);
 
         SimulationController simulationController = SimulationController.getInstance();
@@ -96,6 +97,17 @@ public class ControlsController implements Initializable {
 			recklessnormalLabel.setText(String.valueOf(roundedValue));
 			simulationController.setRecklessNormalRatio(roundedValue);
 		});
+		
+		carcolorComboBox.getItems().addAll("Behavior", "Speed", "User");
+		carcolorComboBox.getSelectionModel().select(0);
+		carcolorComboBox.setOnAction((event) -> { 
+
+			simulationController.setCarColorOption(
+					carcolorComboBox.getSelectionModel().getSelectedIndex());
+			//TODO introduce CarColorOption Enum
+			//TODO label above combobox
+		});
+		
 	
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();

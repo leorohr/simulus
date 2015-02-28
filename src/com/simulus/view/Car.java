@@ -209,7 +209,7 @@ public class Car extends Vehicle {
 				default:break;
 				}
 			}catch(ArrayIndexOutOfBoundsException e){
-				e.printStackTrace();
+//				e.printStackTrace(); TODO avoid exception
 			}
 		}
 		try {
@@ -277,7 +277,7 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+//            e.printStackTrace(); TODO avoid exception
 		}
 
 		//Moves the car in the direction it should go.

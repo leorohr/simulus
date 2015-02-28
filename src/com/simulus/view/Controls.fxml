@@ -85,6 +85,12 @@
                                     </HBox>
                                  </children>
                               </VBox>
+                              <HBox prefHeight="28.0" prefWidth="195.0">
+                                 <children>
+                                    <ComboBox fx:id="carcolorComboBox" prefHeight="25.0" prefWidth="167.0" />
+                                    <ColorPicker prefHeight="25.0" prefWidth="57.0" />
+                                 </children>
+                              </HBox>
                               <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
@@ -98,7 +104,7 @@
                               <Insets />
                            </opaqueInsets>
                            <padding>
-                              <Insets left="5.0" />
+                              <Insets left="5.0" right="5.0" />
                            </padding>
                         </VBox>
                      </children>
