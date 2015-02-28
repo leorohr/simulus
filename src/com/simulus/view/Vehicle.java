@@ -116,4 +116,12 @@ public abstract class Vehicle extends Rectangle {
 	public void setVehicleSpeed(double d){
 		vehicleSpeed = d;
 	}
+	
+	public void setBehavior(Behavior b){
+		behavior = b;
+	}
+	
+	public Behavior getBehavior(){
+		return behavior;
+	}
 }

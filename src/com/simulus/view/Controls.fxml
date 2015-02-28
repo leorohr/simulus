@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.ControlsController">
    <children>
-      <VBox prefWidth="100.0">
+      <VBox prefWidth="200.0">
          <children>
           <TitledPane animated="false" prefWidth="200.0" text="Settings">
             <content>
@@ -70,6 +74,28 @@
                                     </HBox>
                                  </children>
                               </VBox>
+                              <VBox prefWidth="200.0">
+                                 <children>
+                                    <Label text="Reckless/Normal Ratio" />
+                                    <HBox prefWidth="200.0">
+                                       <children>
+                                          <Slider fx:id="recklessnormalSlider" blockIncrement="0.1" max="1.0" prefHeight="16.0" prefWidth="160.0" value="0.3" />
+                                          <Label fx:id="recklessnormalLabel" text="0.3" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox>
+                                 <children>
+                                    <Label text="Car Color" />
+                                    <HBox prefHeight="28.0" prefWidth="195.0">
+                                       <children>
+                                          <ComboBox fx:id="carcolorComboBox" prefHeight="25.0" prefWidth="167.0" />
+                                          <ColorPicker fx:id="carcolorPicker" disable="true" prefHeight="25.0" prefWidth="57.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
                               <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
@@ -83,7 +109,7 @@
                               <Insets />
                            </opaqueInsets>
                            <padding>
-                              <Insets left="5.0" />
+                              <Insets left="5.0" right="5.0" />
                            </padding>
                         </VBox>
                      </children>

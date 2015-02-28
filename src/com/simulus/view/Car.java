@@ -1,26 +1,28 @@
 package com.simulus.view;
 
+import java.util.Random;
+
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.transform.Translate;
+import javafx.util.Duration;
+
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.animation.PathTransitionBuilder;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
-
-import java.util.Random;
 
 /**
  * Describes a car object on the GUI
  */
-@SuppressWarnings("deprecation")
 public class Car extends Vehicle {
 
 	public static final int CARWIDTH = 10;
@@ -45,9 +47,7 @@ public class Car extends Vehicle {
 	 */
 	public Car(double posX, double posY, Direction dir) {
 		super(posX, posY, CARWIDTH, CARLENGTH, dir);
-		
-		behavior = Behavior.getRandomBehavior();
-		
+				
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
@@ -65,6 +65,7 @@ public class Car extends Vehicle {
 		setArcHeight(ARCHEIGHT);
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
+		
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
 		addToCanvas();
@@ -208,7 +209,7 @@ public class Car extends Vehicle {
 				default:break;
 				}
 			}catch(ArrayIndexOutOfBoundsException e){
-
+//				e.printStackTrace(); TODO avoid exception
 			}
 		}
 		try {
@@ -276,7 +277,7 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+//            e.printStackTrace(); TODO avoid exception
 		}
 
 		//Moves the car in the direction it should go.
@@ -352,14 +353,9 @@ public class Car extends Vehicle {
         double pathTime = pathDistance/carSpeed;
         
         
-        
-        pathTransition = PathTransitionBuilder.create()
-                .duration(Duration.millis(pathTime))
-                .path(path)
-                .node(this)
-                .interpolator(Interpolator.LINEAR)
-                .orientation(OrientationType.NONE)
-                .build();
+        pathTransition = new PathTransition(Duration.millis(pathTime), path, this);
+        pathTransition.setInterpolator(Interpolator.LINEAR);
+        pathTransition.setOrientation(OrientationType.NONE);
         
         pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
  
@@ -373,37 +369,23 @@ public class Car extends Vehicle {
         setCurrentTile(moveToTile);
         pathTransition.play();
 	}
-	
-	public void setBehavior(Behavior b){
-		behavior = b;
-	}
-	
-	public Behavior getBehavior(){
-		return behavior;
-	}
 
 	// TODO Curve the car to the northwest
 	public PathTransition curveNorthWest() {
 		PathTransition pathTransition;
 		switch (getDirection()) {
 		case NORTH:
-			Path path = PathBuilder
-					.create()
-					.elements(
-							// from
-							new MoveTo(getX() - 50, getY()),
-							new CubicCurveTo(getX(), getY(), getX(),
-									getY() - 100, getX() - 100, getY() - 95))
-					.build();
+			Path path = new Path(new MoveTo(getX() - 50, getY()),
+						new CubicCurveTo(getX(), getY(), getX(),
+							getY() - 100, getX() - 100, getY() - 95));
 			path.setStroke(Color.DODGERBLUE);
 			path.getStrokeDashArray().setAll(5d, 5d);
 
-			pathTransition = PathTransitionBuilder.create()
-					.duration(Duration.seconds(2)).path(path).node(this)
-					.orientation(OrientationType.NONE)
-					.interpolator(Interpolator.LINEAR)
-					// .cycleCount(Timeline.INDEFINITE)
-					.build();
+			pathTransition = new PathTransition(Duration.seconds(2), path, this);
+			pathTransition.setInterpolator(Interpolator.LINEAR);
+			pathTransition.setOrientation(OrientationType.NONE);
+//			pathTransition.setCycleCount(Timeline.INDEFINITE);
+			
 			setDirection(Direction.WEST);
 			return pathTransition;
 		default:

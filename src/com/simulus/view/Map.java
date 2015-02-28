@@ -1,9 +1,13 @@
 package com.simulus.view;
 
 import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
 import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.CarColorOption;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -25,6 +29,8 @@ public class Map extends Group {
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
+	
+	private CarColorOption carColorOption = CarColorOption.BEHAVIOR;
 
 	public Map() {
 
@@ -103,8 +109,9 @@ public class Map extends Group {
 
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
+	 * @param b The desired behavior of the spawning car.
 	 */
-	public void spawnRandomCar() {
+	public void spawnRandomCar(Behavior b) {
 		Lane l;
 		if ((l = selectRandomEntryPoint()) == null)
 			return;
@@ -125,6 +132,7 @@ public class Map extends Group {
 
 		c.setCurrentTile(l);
 		c.setMap(tiles);
+		c.setBehavior(b);
 		l.setOccupied(true, c);
 		synchronized (vehicles) {
 			vehicles.add(c);
@@ -305,7 +313,7 @@ public class Map extends Group {
 
 			if (nextTile != null) { // if the car is intersecting its front tile
 				// Free tiles
-				Iterator i = v.getOccupiedTiles().iterator();
+				Iterator<Tile> i = v.getOccupiedTiles().iterator();
 				while (i.hasNext()) {
 					Tile t = (Tile) i.next();
 					if (!v.getBoundsInParent().intersects(
@@ -322,7 +330,8 @@ public class Map extends Group {
 				v.setMap(tiles);
 
 			}
-
+			
+			updateCarColor(v);
 			v.moveVehicle();
 		}
 	}
@@ -361,6 +370,38 @@ public class Map extends Group {
 
 	public int getVehicleCount() {
 		return vehicles.size();
+	}
+	
+	public void setCarColorOption(CarColorOption o) {
+    	this.carColorOption = o;
+    }
+	
+	/**
+	 * Changes the color of the vehicle according to the currently chosen coloroption.
+	 * @param v The car whose color should be updated.
+	 */
+	private void updateCarColor(Vehicle v) {
+		if(!(v instanceof Car))
+			return;
+		
+		switch(carColorOption) {
+		case BEHAVIOR: 
+			if(v.behavior == Behavior.RECKLESS)
+				v.setFill(Color.RED);
+			else if(v.behavior == Behavior.CAUTIOUS) 
+				v.setFill(Color.AQUAMARINE);
+			break;
+		case SPEED:
+			//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
+			double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
+			v.setFill(Color.hsb(120.0d * (1-speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+			break;
+		case USER:
+    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
+			break;
+		default:
+			break;
+    	}		
 	}
 
 }

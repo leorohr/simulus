@@ -1,17 +1,21 @@
 package com.simulus.controller;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import com.simulus.util.enums.CarColorOption;
 
 public class ControlsController implements Initializable {
 
@@ -31,6 +35,8 @@ public class ControlsController implements Initializable {
 	Slider spawnrateSlider;
 	@FXML
 	Slider cartruckratioSlider;
+	@FXML
+	Slider recklessnormalSlider;
 	@FXML 
 	Label numCarLabel;
 	@FXML
@@ -42,6 +48,12 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label cartruckratioLabel;
 	@FXML
+	Label recklessnormalLabel;
+	@FXML
+	ComboBox<CarColorOption> carcolorComboBox;
+	@FXML
+	ColorPicker carcolorPicker;
+	@FXML
 	CheckBox debugCheckbox;
 
     @FXML
@@ -50,12 +62,13 @@ public class ControlsController implements Initializable {
     private static int MAX_DATA_POINTS = 100;
 
     private int dataCount = 0;
-    private LineChart.Series numCarsSeries;
+    private LineChart.Series<Number, Number> numCarsSeries;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		numCarsSeries = new XYChart.Series<Number, Number>();
+		numCarsSeries = new LineChart.Series<Number, Number>();
         numCarsChart.getData().addAll(numCarsSeries);
 
         SimulationController simulationController = SimulationController.getInstance();
@@ -81,10 +94,28 @@ public class ControlsController implements Initializable {
 		});
 		
 		cartruckratioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
-			cartruckratioLabel.setText(String.valueOf((double) ((int)(newValue.doubleValue()*10))/10));
-			simulationController.setCarTruckRatio((double) ((int)(newValue.doubleValue()*10))/10);
+			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
+			cartruckratioLabel.setText(String.valueOf(roundedValue));
+			simulationController.setCarTruckRatio(roundedValue);
 		});
+		
+		recklessnormalSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
+			recklessnormalLabel.setText(String.valueOf(roundedValue));
+			simulationController.setRecklessNormalRatio(roundedValue);
+		});
+		
+		carcolorComboBox.getItems().addAll(CarColorOption.values());
+		carcolorComboBox.getSelectionModel().select(0);
+		carcolorComboBox.setOnAction((event) -> { 
 	
+			if(carcolorComboBox.getSelectionModel().getSelectedItem() == CarColorOption.USER) {
+				carcolorPicker.setDisable(false);
+			} else carcolorPicker.setDisable(true);
+			
+			simulationController.getMap().setCarColorOption(carcolorComboBox.getSelectionModel().getSelectedItem());
+		});
+				
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();
 		});
@@ -102,15 +133,25 @@ public class ControlsController implements Initializable {
 		});
 	}
 
+	/**
+	 * Adds a datapoint to the numCarChart
+	 * @param num The current number of cars.
+	 */
     void addNumCarData(int num) {
+    	
 
         numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
-        ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-        ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
-
+        
+        
         if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
             numCarsSeries.getData().remove(0);
-        }
+            ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
+        }       
+    }
+    
+    public Color getCarColor() {
+    	return carcolorPicker.getValue();
     }
 
 }
