@@ -9,9 +9,13 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
+
+import com.simulus.util.enums.CarColorOption;
 
 public class ControlsController implements Initializable {
 
@@ -46,7 +50,9 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label recklessnormalLabel;
 	@FXML
-	ComboBox<String> carcolorComboBox;
+	ComboBox<CarColorOption> carcolorComboBox;
+	@FXML
+	ColorPicker carcolorPicker;
 	@FXML
 	CheckBox debugCheckbox;
 
@@ -58,6 +64,7 @@ public class ControlsController implements Initializable {
     private int dataCount = 0;
     private LineChart.Series<Number, Number> numCarsSeries;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
@@ -98,17 +105,17 @@ public class ControlsController implements Initializable {
 			simulationController.setRecklessNormalRatio(roundedValue);
 		});
 		
-		carcolorComboBox.getItems().addAll("Behavior", "Speed", "User");
+		carcolorComboBox.getItems().addAll(CarColorOption.values());
 		carcolorComboBox.getSelectionModel().select(0);
 		carcolorComboBox.setOnAction((event) -> { 
-
-			simulationController.setCarColorOption(
-					carcolorComboBox.getSelectionModel().getSelectedIndex());
-			//TODO introduce CarColorOption Enum
-			//TODO label above combobox
-		});
-		
 	
+			if(carcolorComboBox.getSelectionModel().getSelectedItem() == CarColorOption.USER) {
+				carcolorPicker.setDisable(false);
+			} else carcolorPicker.setDisable(true);
+			
+			simulationController.getMap().setCarColorOption(carcolorComboBox.getSelectionModel().getSelectedItem());
+		});
+				
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();
 		});
@@ -141,6 +148,10 @@ public class ControlsController implements Initializable {
             ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
             ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
         }       
+    }
+    
+    public Color getCarColor() {
+    	return carcolorPicker.getValue();
     }
 
 }
