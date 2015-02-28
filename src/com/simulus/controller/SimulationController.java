@@ -67,8 +67,7 @@ public class SimulationController {
             while(!Thread.currentThread().isInterrupted()) {
         		
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
-            		Platform.runLater(() ->
-                        MainApp.getInstance().getControlsController().addNumCarData(map.getVehicleCount()));
+            		Platform.runLater(() -> StatisticsController.getInstance().update());
 
                 if(tickCount++ % spawnRate == 0) {
                     if (map.getVehicleCount() < maxCars) {
@@ -94,7 +93,9 @@ public class SimulationController {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
-                tickCount++;
+                
+                //Increase tickCount or reset if overflown
+                tickCount = (tickCount == Long.MAX_VALUE ? 0 : tickCount++);
             }
         }
 

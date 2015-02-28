@@ -122,11 +122,12 @@ public class ControlsController implements Initializable {
     	
 
         numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
-        ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-        ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
+        
         
         if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
             numCarsSeries.getData().remove(0);
+            ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
         }       
     }
 
