@@ -4,6 +4,8 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+
+import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Describes a vehicle on the GUI
  */
-public abstract class Vehicle extends Rectangle {
+public abstract class Vehicle extends Group {
 
 	protected Direction dir;
 	protected int mapSize;
@@ -22,6 +24,7 @@ public abstract class Vehicle extends Rectangle {
 	protected List<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
+	protected Rectangle frame;
 	
 	protected double vehicleSpeed;
 
@@ -38,7 +41,7 @@ public abstract class Vehicle extends Rectangle {
 	 *            The height of the vehicle
 	 */	
 	public Vehicle(double posX, double posY, double width, double height, Direction dir) {
-		super(posX, posY, width, height);
+		frame = new Rectangle(posX, posY, width, height);
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();

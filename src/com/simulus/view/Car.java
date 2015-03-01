@@ -51,22 +51,23 @@ public class Car extends Vehicle {
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
-			setWidth(CARWIDTH);
-			setHeight(CARLENGTH);
+			frame.setWidth(CARWIDTH);
+			frame.setHeight(CARLENGTH);
 			break;
 		case EAST:
 		case WEST:
-			setWidth(CARLENGTH);
-			setHeight(CARWIDTH);
+			frame.setWidth(CARLENGTH);
+			frame.setHeight(CARWIDTH);
 			break;
 		default:
 			break;
 		}
-		setArcHeight(ARCHEIGHT);
-		setArcWidth(ARCWIDTH);
-		setFill(COLOUR);
+		frame.setArcHeight(ARCHEIGHT);
+		frame.setArcWidth(ARCWIDTH);
+		frame.setFill(COLOUR);
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
+		this.getChildren().add(frame);
 		addToCanvas();
 	}
 	
@@ -391,9 +392,9 @@ public class Car extends Vehicle {
 					.create()
 					.elements(
 							// from
-							new MoveTo(getX() - 50, getY()),
-							new CubicCurveTo(getX(), getY(), getX(),
-									getY() - 100, getX() - 100, getY() - 95))
+							new MoveTo(frame.getX() - 50, frame.getY()),
+							new CubicCurveTo(frame.getX(), frame.getY(), frame.getX(),
+									frame.getY() - 100, frame.getX() - 100, frame.getY() - 95))
 					.build();
 			path.setStroke(Color.DODGERBLUE);
 			path.getStrokeDashArray().setAll(5d, 5d);

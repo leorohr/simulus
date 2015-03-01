@@ -64,7 +64,7 @@ public class SimulationController {
                 Platform.runLater(() ->
                         MainApp.getInstance().getControlsController().addNumCarData(map.getVehicleCount()));
 
-                if(tickCount++ % spawnRate == 0) {
+                /*if(tickCount++ % spawnRate == 0) {
                     if (map.getVehicleCount() < maxCars) {
                         //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
                         if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
@@ -74,6 +74,11 @@ public class SimulationController {
                             Platform.runLater(() -> map.spawnRandomCar());
                         }
                     }
+                }*/
+                
+                if(tickCount++ == 10){
+                	Platform.runLater(() -> map.spawnAmbulance());
+                	Platform.runLater(() -> map.spawnRandomCar());
                 }
             	
                 Platform.runLater(() -> map.updateMap());
