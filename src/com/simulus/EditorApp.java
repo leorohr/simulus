@@ -32,6 +32,7 @@ import com.simulus.view.Map;
 import com.simulus.view.Road;
 import com.simulus.view.Tile;
 import com.simulus.view.Vehicle;
+import com.simulus.io.MapXML;
 
 public class EditorApp extends Application {
 
@@ -301,7 +302,7 @@ public class EditorApp extends Application {
              fileChooser.getExtensionFilters().add(extFilter);
 			 File selectedFile = fileChooser.showOpenDialog(editorStage);
 			 if (selectedFile != null) {
-			    //TODO logic for file
+			    loadMap(selectedFile.getPath());
 			 }
 			break;
 		case "saveMapButton":
@@ -317,6 +318,14 @@ public class EditorApp extends Application {
 		default:
 			break;
 		}
+	}
+	
+	
+	public void loadMap(String fileLocation){
+		MapXML mxml = new MapXML();
+		mxml.readXML(fileLocation);
+		System.out.println(mxml.toString());
+		
 	}
 	
 

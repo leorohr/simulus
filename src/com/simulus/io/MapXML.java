@@ -259,6 +259,17 @@ public class MapXML {
 		}
 
 	}
+	
+	public String toString() {
+
+		return "Map Name: " + mapName + "\n" + "Date: " + mapCreationDate + "\n"
+				+ "Description: " + mapDescription + "\n"
+				+ "Author: " + mapAuthor + "\n"
+				+ "Tile Height: " + mapTileHeight + "\n"
+				+ "Tile Width: " + mapTileWidth;
+	}
+	
+
 
 	public TileXML[][] getGrid() {
 
