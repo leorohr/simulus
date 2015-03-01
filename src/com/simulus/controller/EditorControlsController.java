@@ -8,6 +8,7 @@ import com.simulus.EditorApp;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 public class EditorControlsController implements Initializable {
@@ -36,6 +37,7 @@ public class EditorControlsController implements Initializable {
 	// TODO
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 
 		landButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());

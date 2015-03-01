@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -8,20 +9,34 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.EditorControlsController">
    <children>
-      <Label layoutX="11.0" layoutY="14.0" text="Road Builder" />
-      <Button id="landButton" fx:id="landButton" layoutX="15.0" layoutY="53.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/land.png&quot;);" text="Land" textFill="WHITE" />
-      <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="15.0" layoutY="109.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textFill="WHITE">
+      <Label layoutX="18.0" layoutY="14.0" text="Road Builder">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font></Label>
+      <Button id="landButton" fx:id="landButton" layoutX="15.0" layoutY="35.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/land.png&quot;);" text="Land" textFill="WHITE" />
+      <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="15.0" layoutY="91.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textFill="WHITE">
          <opaqueInsets>
             <Insets />
          </opaqueInsets></Button>
-      <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="15.0" layoutY="172.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_northsouth.png&quot;); -fx-background-repeat: repeat-x;" text="Vertical Road" textFill="WHITE" />
-      <Button id="interButton" fx:id="interButton" layoutX="14.0" layoutY="239.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/boxjunction.png&quot;);" text="Intersection" textFill="WHITE" />
-      <Button fx:id="openMapButton" layoutX="15.0" layoutY="365.0" mnemonicParsing="false" text="Open Map" />
-      <Button fx:id="saveMapButton" layoutX="15.0" layoutY="397.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="73.0" text="Save Map" />
+      <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="15.0" layoutY="154.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_northsouth.png&quot;); -fx-background-repeat: repeat-x;" text="Vertical Road" textFill="WHITE" />
+      <Button id="interButton" fx:id="interButton" layoutX="14.0" layoutY="221.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="102.0" style="-fx-background-image: url(&quot;com/simulus/util/images/boxjunction.png&quot;);" text="Intersection" textFill="WHITE" />
+      <Button fx:id="openMapButton" layoutX="17.0" layoutY="459.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" style="-fx-graphic: url(&quot;com/simulus/util/images/folder.png&quot;);" text="Open Map" />
+      <Button fx:id="saveMapButton" layoutX="17.0" layoutY="491.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" style="-fx-graphic: url(&quot;com/simulus/util/images/diskette.png&quot;);" text="Save Map" />
       <Label fx:id="nameLabel" layoutX="60.0" layoutY="527.0" text="" />
       <Label fx:id="dateLabel" layoutX="60.0" layoutY="542.0" text="" />
       <Label fx:id="descLabel" layoutX="60.0" layoutY="557.0" text="" />
       <Label fx:id="authLabel" layoutX="60.0" layoutY="572.0" text="" />
-      <Button id="landButton" fx:id="dirtButton" layoutX="68.0" layoutY="53.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;);" text="Land" textFill="WHITE" />
+      <Button id="dirtButton" fx:id="dirtButton" layoutX="68.0" layoutY="35.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;);" text="Dirt" textFill="WHITE" />
+      <Label layoutX="18.0" layoutY="343.0" text="Grid Options">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="442.0" text="Import/Export">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <ChoiceBox id="tileSizeCB" layoutX="17.0" layoutY="360.0" prefHeight="25.0" prefWidth="102.0" />
    </children>
 </AnchorPane>

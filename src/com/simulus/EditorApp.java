@@ -1,5 +1,6 @@
 package com.simulus;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -54,6 +56,7 @@ public class EditorApp extends Application {
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
+	
 
 	private static EditorApp instance;
 
@@ -291,6 +294,15 @@ public class EditorApp extends Application {
 			break;
 		case "openMapButton":
 			System.out.println("Clicked Open Map Button");
+			 FileChooser fileChooser = new FileChooser();
+			 fileChooser.setTitle("Open Resource File");
+             FileChooser.ExtensionFilter extFilter = 
+                     new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+             fileChooser.getExtensionFilters().add(extFilter);
+			 File selectedFile = fileChooser.showOpenDialog(editorStage);
+			 if (selectedFile != null) {
+			    //TODO logic for file
+			 }
 			break;
 		case "saveMapButton":
 			System.out.println("Clicked Save Map Button");
