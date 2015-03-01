@@ -13,8 +13,8 @@ import com.simulus.util.enums.Seed;
 
 public class Map extends Group {
 
-	private static final int NUM_TILES = 30;
-	private static final int CANVAS_SIZE_PX = 900;
+	private static final int NUM_TILES = 40;
+	private static final int CANVAS_SIZE_PX = 800;
 	public static final int TILESIZE = CANVAS_SIZE_PX / NUM_TILES;
 
 	private Tile[][] tiles = new Tile[NUM_TILES][NUM_TILES];
@@ -58,6 +58,7 @@ public class Map extends Group {
 			for (int p = 0; p < tiles.length; p++) {
 				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
 						TILESIZE, i, p);
+				tiles[i][p].setOccupied(true);
 			}
 		}
 

@@ -14,6 +14,8 @@ public class Tile extends Group {
 	private Vehicle occupier;
 	private Rectangle frame;
 	private Image imgLand = new Image("com/simulus/util/images/land.png");
+	private String type;
+	private String direction;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -69,7 +71,7 @@ public class Tile extends Group {
 	public void setGridPosY(int y) {
 		gridPosY = y;
 	}
-
+	
 	public void redrawTile() {
 		if (isOccupied()) {
 			frame.setFill(new ImagePattern(imgLand));
@@ -109,5 +111,6 @@ public class Tile extends Group {
 	public String toString() {
 		return "X: " + getX() + " Y:" + getY();
 	}
+	
 
 }

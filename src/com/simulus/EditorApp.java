@@ -38,8 +38,9 @@ public class EditorApp extends Application {
 	private Pane canvas;
 	private Map editorMap;
 	private int gridSize;
-	private int canvasWidth = 900;
-	private int canvasHeight = 900;
+	//fixed size canvas
+	private int canvasWidth = 800;
+	private int canvasHeight = 800;
 	private int tileWidth;
 	private Scene scene;
 	
