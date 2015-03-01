@@ -27,10 +27,10 @@ public class MapXML {
 	Node nNode;
 	Element eElement;
 
-	String mapName;
-	String mapCreationDate;
-	String mapDescription;
-	String mapAuthor;
+	public String mapName;
+	public String mapCreationDate;
+	public String mapDescription;
+	public String mapAuthor;
 
 	int mapHeight;
 	int mapWidth;

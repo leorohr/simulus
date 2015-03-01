@@ -1,38 +1,30 @@
 package com.simulus;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
-import javafx.scene.Group;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.io.MapXML;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.Intersection;
 import com.simulus.view.Map;
 import com.simulus.view.Road;
-import com.simulus.view.Tile;
-import com.simulus.view.Vehicle;
-import com.simulus.io.MapXML;
 
 public class EditorApp extends Application {
 
@@ -52,11 +44,14 @@ public class EditorApp extends Application {
 	private Image csrLand = new Image("com/simulus/util/images/csr_land.png");
 	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
 	
-
 	private boolean landSelected = false;
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
+	
+	 FileChooser fileChooser = new FileChooser();
+	 FileChooser.ExtensionFilter extFilter;
+	 File selectedFile;
 	
 
 	private static EditorApp instance;
@@ -206,8 +201,9 @@ public class EditorApp extends Application {
 			canvas.setPrefSize(canvasWidth, canvasHeight);
 			canvas.setMaxSize(canvasWidth, canvasHeight);
 			rootLayout.setCenter(canvas);
-
-			setGridSize(30);
+			
+			//not sure if needed?
+			//setGridSize(30);
 
 			scene = new Scene(rootLayout);
 			editorStage.setScene(scene);
@@ -295,12 +291,11 @@ public class EditorApp extends Application {
 			break;
 		case "openMapButton":
 			System.out.println("Clicked Open Map Button");
-			 FileChooser fileChooser = new FileChooser();
-			 fileChooser.setTitle("Open Resource File");
-             FileChooser.ExtensionFilter extFilter = 
-                     new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+			 fileChooser = new FileChooser();
+			 fileChooser.setTitle("Open Map XML...");
+             extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
              fileChooser.getExtensionFilters().add(extFilter);
-			 File selectedFile = fileChooser.showOpenDialog(editorStage);
+			 selectedFile = fileChooser.showOpenDialog(editorStage);
 			 if (selectedFile != null) {
 			    loadMap(selectedFile.getPath());
 			 }
@@ -308,24 +303,41 @@ public class EditorApp extends Application {
 		case "saveMapButton":
 			System.out.println("Clicked Save Map Button");
 			
-			System.out.println(editorMap.getTiles()[0][0].isOccupied());
-			System.out.println(editorMap.getTiles()[0][0].getGridPosX());
-			System.out.println(editorMap.getTiles()[0][0].getGridPosY());
-			System.out.println(editorMap.getTiles()[0][0].getX());
-			System.out.println(editorMap.getTiles()[0][0].getY());
+			 fileChooser = new FileChooser();
+			 fileChooser.setTitle("Save Map XML...");
+             extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+             fileChooser.getExtensionFilters().add(extFilter);
+			 selectedFile = fileChooser.showSaveDialog(editorStage);
+			 if (selectedFile != null) {
+			    saveMap(selectedFile.getPath());
+			 }
 			
+//			System.out.println(editorMap.getTiles()[0][0].isOccupied());
+//			System.out.println(editorMap.getTiles()[0][0].getGridPosX());
+//			System.out.println(editorMap.getTiles()[0][0].getGridPosY());
+//			System.out.println(editorMap.getTiles()[0][0].getX());
+//			System.out.println(editorMap.getTiles()[0][0].getY());
+			break;
+		case "clearMapButton":
+			System.out.println("Clicked Clear Map Button");
+			this.editorMap = new Map();
 			break;
 		default:
 			break;
 		}
 	}
 	
-	
+
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
-		System.out.println(mxml.toString());
-		
+		//set values
+	}
+	
+	public void saveMap(String fileLocation){
+		MapXML mxml = new MapXML();
+		//mxml.writeXML(gridIn, outputFile, nameIn, dateIn, descIn, authIn, mHeightIn, mWidthIn, tHeightIn, tWidthIn);
+		//save file
 	}
 	
 

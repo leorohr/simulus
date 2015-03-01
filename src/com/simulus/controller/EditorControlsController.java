@@ -3,13 +3,12 @@ package com.simulus.controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.simulus.EditorApp;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+import com.simulus.EditorApp;
 
 public class EditorControlsController implements Initializable {
 
@@ -26,13 +25,15 @@ public class EditorControlsController implements Initializable {
 	@FXML
 	Button saveMapButton;
 	@FXML
-	Label nameLabel;
+	Button clearMapButton;
 	@FXML
-	Label dateLabel;
+	TextField nameTextField;
 	@FXML
-	Label descLabel;
+	TextField dateTextField;
 	@FXML
-	Label authLabel;
+	TextField descTextField;
+	@FXML
+	TextField authorTextField;
 
 	// TODO
 	@Override
@@ -62,6 +63,14 @@ public class EditorControlsController implements Initializable {
 		saveMapButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
+		clearMapButton.setOnAction((event) -> {
+			EditorApp.getInstance().selectButton((Button) event.getSource());
+		});
 	}
+	
+
+	public void setMapName(String text) {
+	        nameTextField.setText(text);
+	    }
 
 }
