@@ -15,7 +15,7 @@ import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
 
-	private Stage primaryStage;
+	protected Stage primaryStage;
 	private BorderPane rootLayout;
     private ControlsController controlsController;
 	private Pane canvas;
@@ -54,7 +54,7 @@ public class MainApp extends Application {
 	/**
 	 * Initialise the root layout
 	 */
-	private void initRootLayout() {
+	protected void initRootLayout() {
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -86,7 +86,7 @@ public class MainApp extends Application {
 
 	}
 	
-	private void showControls() {
+	protected void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/Controls.fxml"));
@@ -118,6 +118,10 @@ public class MainApp extends Application {
         return primaryStage;
     }
 
+    public BorderPane getRootLayout(){
+    	return rootLayout;
+    }
+    
 	public static void main(String[] args) {
 		launch(args);
 	}
