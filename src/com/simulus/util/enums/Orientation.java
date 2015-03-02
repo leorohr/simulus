@@ -21,7 +21,7 @@
 
 package com.simulus.util.enums;
 
-public enum Seed {
+public enum Orientation {
 	
 	EMPTY, NORTHSOUTH, WESTEAST, INTERSECTION;
 	

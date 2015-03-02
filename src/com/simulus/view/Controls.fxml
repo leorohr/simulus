@@ -17,9 +17,9 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                      <children>
-                        <VBox alignment="TOP_CENTER" prefWidth="200.0" spacing="5.0">
+                        <VBox alignment="CENTER_LEFT" maxWidth="200.0" spacing="5.0">
                            <children>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
                                     <Label text="Max. Num. of Cars" />
                                     <HBox prefWidth="200.0">
@@ -30,9 +30,9 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
-                                    <Label text="Tickrate (ms)" />
+                                    <Label text="Spawn Delay (Ticks)" />
                                     <HBox prefWidth="200.0">
                                        <children>
                                           <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="20.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
@@ -41,9 +41,9 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
-                                    <Label text="Spawn Delay (Ticks)" />
+                                    <Label text="Tickrate (ms)" />
                                     <HBox prefWidth="200.0">
                                        <children>
                                           <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="1.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
@@ -52,7 +52,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
                                     <Label text="Max. Car Speed" />
                                     <HBox prefWidth="200.0">
@@ -63,7 +63,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
                                     <Label text="Car/Truck Ratio" />
                                     <HBox prefWidth="200.0">
@@ -74,7 +74,7 @@
                                     </HBox>
                                  </children>
                               </VBox>
-                              <VBox prefWidth="200.0">
+                              <VBox>
                                  <children>
                                     <Label text="Reckless/Normal Ratio" />
                                     <HBox prefWidth="200.0">
@@ -91,12 +91,27 @@
                                     <HBox prefHeight="28.0" prefWidth="195.0">
                                        <children>
                                           <ComboBox fx:id="carcolorComboBox" prefHeight="25.0" prefWidth="167.0" />
-                                          <ColorPicker fx:id="carcolorPicker" disable="true" prefHeight="25.0" prefWidth="57.0" />
+                                          <ColorPicker fx:id="carcolorPicker" disable="true" prefHeight="25.0" prefWidth="57.0">
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                          </ColorPicker>
                                        </children>
                                     </HBox>
                                  </children>
                               </VBox>
-                              <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
+                              <VBox>
+                                 <children>
+                                    <Label text="Truck Color" />
+                                    <HBox prefHeight="28.0" prefWidth="195.0">
+                                       <children>
+                                          <ComboBox fx:id="truckcolorComboBox" prefHeight="25.0" prefWidth="167.0" />
+                                          <ColorPicker fx:id="truckcolorPicker" disable="true" prefHeight="25.0" prefWidth="57.0" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <HBox prefWidth="200.0" spacing="10.0">
                                  <children>
                                     <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
                                     <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" />
