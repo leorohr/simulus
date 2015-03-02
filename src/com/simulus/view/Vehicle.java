@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Describes a vehicle on the GUI
  */
-public abstract class Vehicle extends Group {
+public abstract class Vehicle extends Rectangle {
 
 	protected Direction dir;
 	protected int mapSize;
@@ -27,7 +27,7 @@ public abstract class Vehicle extends Group {
 	protected Rectangle frame;
 	
 	protected double vehicleSpeed;
-
+	protected double temporarySpeed;
 	/**
 	 * Initialises the position and size of the vehicle
 	 * 
@@ -41,7 +41,8 @@ public abstract class Vehicle extends Group {
 	 *            The height of the vehicle
 	 */	
 	public Vehicle(double posX, double posY, double width, double height, Direction dir) {
-		frame = new Rectangle(posX, posY, width, height);
+		super(posX, posY, width, height);
+		frame = new Rectangle();
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();
@@ -118,5 +119,9 @@ public abstract class Vehicle extends Group {
 	
 	public void setVehicleSpeed(double d){
 		vehicleSpeed = d;
+	}
+	
+	public void setTemporarySpeed(double d){
+		temporarySpeed = d;
 	}
 }

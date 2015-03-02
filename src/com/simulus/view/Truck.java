@@ -23,22 +23,21 @@ public class Truck extends Vehicle {
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
-			frame.setWidth(TRUCKWIDTH);
-			frame.setHeight(TRUCKLENGTH);
+			 setWidth(TRUCKWIDTH);
+			 setHeight(TRUCKLENGTH);
 			break;
 		case EAST:
 		case WEST:
-			frame.setWidth(TRUCKLENGTH);
-			frame.setHeight(TRUCKWIDTH);
+			 setWidth(TRUCKLENGTH);
+			 setHeight(TRUCKWIDTH);
 			break;
 		default:
 			break;
 		}
 	
-		frame.setFill(COLOUR);
+		 setFill(COLOUR);
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(2)+2;
-		this.getChildren().add(frame);
 		addToCanvas();
 	}
 

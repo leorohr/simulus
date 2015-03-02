@@ -227,11 +227,11 @@ public class Map extends Group {
 					* Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
 					l.getDirection());
 		}
-		a.setCurrentTile(l);
-		a.setMap(tiles);
-		l.setOccupied(true, a);
+		a.getCar().setCurrentTile(l); 
+		a.getCar().setMap(tiles);
+		l.setOccupied(true, a.getCar());
 		synchronized (vehicles){
-			vehicles.add(a);
+			vehicles.add(a.getCar());
 		}
 	}
 
@@ -292,7 +292,6 @@ public class Map extends Group {
 			int vX = v.getCurrentTile().getGridPosX();
 			int vY = v.getCurrentTile().getGridPosY();
 			
-			System.out.println(v.frame.getBoundsInParent().getMaxX());
 			
 			Tile nextTile = null;
 
@@ -338,7 +337,7 @@ public class Map extends Group {
 				Iterator i = v.getOccupiedTiles().iterator();
 				while (i.hasNext()) {
 					Tile t = (Tile) i.next();
-					if (!v.frame.getBoundsInParent().intersects(
+					if (!v.getBoundsInParent().intersects(
 							t.getFrame().getBoundsInParent())) {
 						if(!t.getRedLight()){
 							t.setOccupied(false, v);
@@ -387,6 +386,10 @@ public class Map extends Group {
 
 	public Tile[][] getTiles() {
 		return tiles;
+	}
+	
+	public ArrayList<Vehicle> getVehicles(){
+		return vehicles;
 	}
 
 	public int getVehicleCount() {

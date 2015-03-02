@@ -4,12 +4,14 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.transform.Translate;
@@ -30,6 +32,7 @@ public class Car extends Vehicle {
 	private static final int ARCWIDTH = 10;
 	
 	private PathTransition pathTransition;
+	private Ambulance parent;
 
 	private static final Color COLOUR = Color.LIGHTSEAGREEN;
 
@@ -51,24 +54,51 @@ public class Car extends Vehicle {
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
-			frame.setWidth(CARWIDTH);
-			frame.setHeight(CARLENGTH);
+			 setWidth(CARWIDTH);
+			 setHeight(CARLENGTH);
 			break;
 		case EAST:
 		case WEST:
-			frame.setWidth(CARLENGTH);
-			frame.setHeight(CARWIDTH);
+			 setWidth(CARLENGTH);
+			 setHeight(CARWIDTH);
 			break;
 		default:
 			break;
 		}
-		frame.setArcHeight(ARCHEIGHT);
-		frame.setArcWidth(ARCWIDTH);
-		frame.setFill(COLOUR);
+		 setArcHeight(ARCHEIGHT);
+		 setArcWidth(ARCWIDTH);
+		 setFill(COLOUR);
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
-		this.getChildren().add(frame);
 		addToCanvas();
+	}
+	
+	public Car(double posX, double posY, Direction dir, Ambulance parent) {
+		super(posX, posY, CARWIDTH, CARLENGTH, dir);
+		
+		behavior = Behavior.getRandomBehavior();
+		
+		switch (dir) {
+		case NORTH:
+		case SOUTH:
+			 setWidth(CARWIDTH);
+			 setHeight(CARLENGTH);
+			break;
+		case EAST:
+		case WEST:
+			 setWidth(CARLENGTH);
+			 setHeight(CARWIDTH);
+			break;
+		default:
+			break;
+		}
+		 setArcHeight(ARCHEIGHT);
+		 setArcWidth(ARCWIDTH);
+		 setFill(COLOUR);
+		Random rand = new Random();
+		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
+		addToCanvas();
+		this.parent = parent;
 	}
 	
 	/**
@@ -279,7 +309,8 @@ public class Car extends Vehicle {
 		} catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
 		}
-
+		
+		
 		//Moves the car in the direction it should go.
 		switch (temp) {
 		case NORTH:
@@ -328,6 +359,8 @@ public class Car extends Vehicle {
 			getTransforms().add(trans);
 			break;
 		}
+		if(parent!= null)
+			parent.updateAoE();
 	}
 	
 	
@@ -392,9 +425,9 @@ public class Car extends Vehicle {
 					.create()
 					.elements(
 							// from
-							new MoveTo(frame.getX() - 50, frame.getY()),
-							new CubicCurveTo(frame.getX(), frame.getY(), frame.getX(),
-									frame.getY() - 100, frame.getX() - 100, frame.getY() - 95))
+							new MoveTo( getX() - 50,  getY()),
+							new CubicCurveTo( getX(),  getY(),  getX(),
+									 getY() - 100,  getX() - 100,  getY() - 95))
 					.build();
 			path.setStroke(Color.DODGERBLUE);
 			path.getStrokeDashArray().setAll(5d, 5d);
