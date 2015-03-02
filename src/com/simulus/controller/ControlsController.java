@@ -62,6 +62,10 @@ public class ControlsController implements Initializable {
 
     @FXML
     LineChart<Number, Number> numCarsChart;
+    @FXML
+    LineChart<Number, Number> speedChart;
+    @FXML
+    LineChart<Number, Number> waitingTimeChart;
 
     private static int MAX_DATA_POINTS = 100;
 

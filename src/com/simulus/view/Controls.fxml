@@ -139,11 +139,27 @@
                            <children>
                               <LineChart fx:id="numCarsChart" createSymbols="false" prefHeight="150.0" prefWidth="200.0">
                                 <xAxis>
-                                  <NumberAxis forceZeroInRange="false" label="Cars" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                  <NumberAxis forceZeroInRange="false" label="No. of Cars" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
                                 </yAxis>
+                              </LineChart>
+                              <LineChart fx:id="speedChart" createSymbols="false" prefHeight="150.0" prefWidth="200.0">
+                                 <xAxis>
+                                    <NumberAxis forceZeroInRange="false" label="Avg. Speed" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
+                                 </yAxis>
+                              </LineChart>
+                              <LineChart fx:id="waitingTimeChart" createSymbols="false" prefHeight="150.0" prefWidth="200.0">
+                                 <xAxis>
+                                    <NumberAxis forceZeroInRange="false" label="Avg. Waiting Time" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                 </xAxis>
+                                 <yAxis>
+                                    <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
+                                 </yAxis>
                               </LineChart>
                            </children>
                         </VBox>
