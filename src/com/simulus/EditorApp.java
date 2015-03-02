@@ -100,14 +100,14 @@ public class EditorApp extends Application {
 								&& event.getSceneY() > editorMap.getTiles()[i][p]
 										.getBoundsInParent().getMinY()
 								&& event.getSceneY() < editorMap.getTiles()[i][p]
-										.getBoundsInParent().getMaxY())
+										.getBoundsInParent().getMaxY()) {
 							if (landSelected) {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
-										+ editorMap.getTiles()[i][p].toString());
+										+ editorMap.getTiles()[i][p].toString());								
 								editorMap.addGroup(new Intersection(editorMap
 										.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p]
@@ -127,6 +127,9 @@ public class EditorApp extends Application {
 										editorMap.getTiles()[i][p]
 												.getGridPosY(), Seed.WESTEAST));
 							}
+						}
+							
+							
 					}
 			}
 		});
@@ -201,8 +204,6 @@ public class EditorApp extends Application {
 			loader.setLocation(EditorApp.class
 					.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
-			
-			EditorControlsController EC = loader.getController();
 
 			canvas = new Pane();
 			/*canvas.setMinSize(canvasWidth, canvasHeight);
@@ -320,16 +321,15 @@ public class EditorApp extends Application {
 			    saveMap(selectedFile.getPath());
 			 }
 			
-			/*System.out.println(editorMap.getTiles()[0][0].isOccupied());
+			System.out.println(editorMap.getTiles()[2][2].isOccupied());
 			
-			Tile t = new Tile
 			
-			Tile t = editorMap.getTiles()[0][0];
-			if (t instanceof Road) {
-				getOrientation()
-			}*/
+			Tile t = editorMap.getTiles()[2][2];
 			
-			//System.out.println(editorMap.getTiles()[0][0]
+			if (t instanceof Lane) {
+				System.out.println(((Lane) t).getDirection());
+			}
+			
 
 			break;
 		case "clearMapButton":

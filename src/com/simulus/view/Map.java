@@ -99,6 +99,41 @@ public class Map extends Group {
 		if (g instanceof Intersection)
 			intersections.add((Intersection) g);
 	}
+	
+	
+	
+	public void removeGroup(TileGroup g) {
+
+		List<Tile> l = g.getTiles();
+		for (Tile t : l) {
+			tiles[t.getGridPosX()][t.getGridPosY()] = new Tile(t.getX(), t.getY(), t.getWidth(), t.getHeight(), t.getGridPosX(), t.getGridPosY());
+
+			if (g instanceof Road) {
+				if (t.getGridPosX() == tiles.length - 1
+						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Lane) t).getDirection() == Direction.WEST) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosX() == 0
+						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Lane) t).getDirection() == Direction.EAST) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosY() == tiles.length - 1
+						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Lane) t).getDirection() == Direction.NORTH) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosY() == 0
+						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Lane) t).getDirection() == Direction.SOUTH) {
+					entryPoints.remove((Lane) t);
+				}
+			}
+		}
+
+		if (g instanceof Intersection)
+			intersections.remove((Intersection) g);
+	}
+	
+	
 
 	/**
 	 * Used only for testing purposes Simulates the effect of traffic lights on
