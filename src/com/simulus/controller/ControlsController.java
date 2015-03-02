@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
-import com.simulus.util.enums.CarColorOption;
+import com.simulus.util.enums.VehicleColorOption;
 
 public class ControlsController implements Initializable {
 
@@ -50,14 +50,22 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label recklessnormalLabel;
 	@FXML
-	ComboBox<CarColorOption> carcolorComboBox;
+	ComboBox<VehicleColorOption> carcolorComboBox;
 	@FXML
 	ColorPicker carcolorPicker;
+	@FXML
+	ComboBox<VehicleColorOption> truckcolorComboBox;
+	@FXML
+	ColorPicker truckcolorPicker;
 	@FXML
 	CheckBox debugCheckbox;
 
     @FXML
     LineChart<Number, Number> numCarsChart;
+    @FXML
+    LineChart<Number, Number> speedChart;
+    @FXML
+    LineChart<Number, Number> waitingTimeChart;
 
     private static int MAX_DATA_POINTS = 100;
 
@@ -105,16 +113,29 @@ public class ControlsController implements Initializable {
 			simulationController.setRecklessNormalRatio(roundedValue);
 		});
 		
-		carcolorComboBox.getItems().addAll(CarColorOption.values());
+		carcolorComboBox.getItems().addAll(VehicleColorOption.values());
 		carcolorComboBox.getSelectionModel().select(0);
 		carcolorComboBox.setOnAction((event) -> { 
 	
-			if(carcolorComboBox.getSelectionModel().getSelectedItem() == CarColorOption.USER) {
+			if(carcolorComboBox.getSelectionModel().getSelectedItem() == VehicleColorOption.USER) {
 				carcolorPicker.setDisable(false);
 			} else carcolorPicker.setDisable(true);
 			
 			simulationController.getMap().setCarColorOption(carcolorComboBox.getSelectionModel().getSelectedItem());
 		});
+		
+		truckcolorComboBox.getItems().addAll(VehicleColorOption.values());
+		truckcolorComboBox.getSelectionModel().select(0);
+		truckcolorComboBox.setOnAction((event) -> { 
+			
+			if(truckcolorComboBox.getSelectionModel().getSelectedItem() == VehicleColorOption.USER) {
+				truckcolorPicker.setDisable(false);
+			} else truckcolorPicker.setDisable(true);
+			
+			simulationController.getMap().setTruckColorOption(truckcolorComboBox.getSelectionModel().getSelectedItem());
+		});
+	
+		
 				
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();
@@ -152,6 +173,10 @@ public class ControlsController implements Initializable {
     
     public Color getCarColor() {
     	return carcolorPicker.getValue();
+    }
+    
+    public Color getTruckColor() {
+    	return truckcolorPicker.getValue();
     }
 
 }

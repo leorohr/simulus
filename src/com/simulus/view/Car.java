@@ -67,7 +67,7 @@ public class Car extends Vehicle {
 		setFill(COLOUR);
 		
 		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
+		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
 	
