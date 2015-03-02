@@ -44,10 +44,11 @@ public class SimulationController {
     }
 
     public void startSimulation() {
-        if(!animationThread.isInterrupted())
+        if(animationThread.isInterrupted())
             animationThread = new AnimationThread();
-
-        animationThread.start();
+        
+        if(!animationThread.isAlive())
+        	animationThread.start();
     }
 
     public void stopSimulation() {
