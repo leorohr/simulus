@@ -1,6 +1,7 @@
 package com.simulus;
 
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -20,11 +21,15 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
+import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.Intersection;
+import com.simulus.view.Lane;
 import com.simulus.view.Map;
 import com.simulus.view.Road;
+import com.simulus.view.Tile;
 
 public class EditorApp extends Application {
 
@@ -76,6 +81,7 @@ public class EditorApp extends Application {
 
 		this.editorStage = editorStage;
 		this.editorStage.setTitle("Simulus - Map Editor");
+		//this.editorStage.setResizable(false);
 
 		initRootLayout();
 		showControls();
@@ -195,11 +201,13 @@ public class EditorApp extends Application {
 			loader.setLocation(EditorApp.class
 					.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
+			
+			EditorControlsController EC = loader.getController();
 
 			canvas = new Pane();
-			canvas.setMinSize(canvasWidth, canvasHeight);
+			/*canvas.setMinSize(canvasWidth, canvasHeight);
 			canvas.setPrefSize(canvasWidth, canvasHeight);
-			canvas.setMaxSize(canvasWidth, canvasHeight);
+			canvas.setMaxSize(canvasWidth, canvasHeight);*/
 			rootLayout.setCenter(canvas);
 			
 			//not sure if needed?
@@ -312,11 +320,17 @@ public class EditorApp extends Application {
 			    saveMap(selectedFile.getPath());
 			 }
 			
-//			System.out.println(editorMap.getTiles()[0][0].isOccupied());
-//			System.out.println(editorMap.getTiles()[0][0].getGridPosX());
-//			System.out.println(editorMap.getTiles()[0][0].getGridPosY());
-//			System.out.println(editorMap.getTiles()[0][0].getX());
-//			System.out.println(editorMap.getTiles()[0][0].getY());
+			/*System.out.println(editorMap.getTiles()[0][0].isOccupied());
+			
+			Tile t = new Tile
+			
+			Tile t = editorMap.getTiles()[0][0];
+			if (t instanceof Road) {
+				getOrientation()
+			}*/
+			
+			//System.out.println(editorMap.getTiles()[0][0]
+
 			break;
 		case "clearMapButton":
 			System.out.println("Clicked Clear Map Button");
