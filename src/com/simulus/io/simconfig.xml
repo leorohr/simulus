@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--Team Simulus Traffic Simulator Simulation File-->
-<simulation>
+<!--Team Simulus Traffic Simulator Simulation File--><simulation>
   <sim_details>
-    <name>Strand - Morning</name>
-    <date>19-02-2015</date>
-    <description>A test file</description>
-    <author>Alan</author>
+    <name>n</name>
+    <date>12-02-2015</date>
+    <description>test file</description>
+    <author>bob</author>
   </sim_details>
   <sim_specs>
-	<no_of_cars>10</no_of_cars>
-	<tickrate>5</tickrate>
-	<spawnrate>3</spawnrate>
-	<max_speed_cars>30</max_speed_cars>
-	<car_truck_ratio>20</car_truck_ratio>
-	<debug>false</debug>
+    <no_of_cars>10</no_of_cars>
+    <tickrate>20</tickrate>
+    <spawnrate>30</spawnrate>
+    <max_speed_cars>40</max_speed_cars>
+    <car_truck_ratio>50</car_truck_ratio>
+    <debug>false</debug>
+    <reckless_norm_ratio>0.3</reckless_norm_ratio>
   </sim_specs>
+  <colour_specs>
+    <car_colour_option>speed</car_colour_option>
+    <car_colour/>
+    <truck_colour_option>user</truck_colour_option>
+    <truck_colour>#A5DF00</truck_colour>
+  </colour_specs>
 </simulation>

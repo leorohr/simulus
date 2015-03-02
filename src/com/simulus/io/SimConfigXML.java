@@ -38,6 +38,13 @@ public class SimConfigXML {
 	int maxSpeedCars;
 	int carTruckRatio;
 	boolean debugMode;
+	double recklessNormRatio;
+	String carColourOption;
+	String carColour;
+	String truckColourOption;
+	String truckColour;
+
+	
 
 	public SimConfigXML() {
 
@@ -93,7 +100,26 @@ public class SimConfigXML {
 					.getTextContent());
 			debugMode = Boolean.parseBoolean(eElement
 					.getElementsByTagName("debug").item(0).getTextContent());
-
+			
+			recklessNormRatio = Double.parseDouble(eElement
+					.getElementsByTagName("reckless_norm_ratio").item(0).getTextContent());
+			
+			nList = doc.getElementsByTagName("colour_specs");
+			nNode = nList.item(0);
+			eElement = (Element) nNode;
+			
+			carColourOption = eElement.getElementsByTagName("car_colour_option").item(0)
+					.getTextContent();
+						
+			carColour = eElement.getElementsByTagName("car_colour").item(0)
+			.getTextContent();
+			
+			truckColourOption = eElement.getElementsByTagName("truck_colour_option").item(0)
+					.getTextContent();
+			
+			truckColour = eElement.getElementsByTagName("truck_colour").item(0)
+					.getTextContent();
+			
 		} catch (Exception e) {
 			System.out
 					.println("Check that the input file exisits and that it matches XML simulation schema.");
@@ -107,7 +133,8 @@ public class SimConfigXML {
 	public void writeXML(String outputFile, String nameIn, String dateIn,
 			String descIn, String authIn, int noCarsIn, int tickRateIn,
 			int spawnRateIn, int maxSpeedIn, int carTruckRatioIn,
-			boolean debugIn) {
+			boolean debugIn, double recklessNormRatioIn, String carColourOptionIn, String carColourIn, 
+			String truckColourOptionIn, String truckColourIn) {
 
 		try {
 
@@ -124,6 +151,11 @@ public class SimConfigXML {
 			maxSpeedCars = maxSpeedIn;
 			carTruckRatio = carTruckRatioIn;
 			debugMode = debugIn;
+			recklessNormRatio = recklessNormRatioIn; 
+			carColourOption = carColourOptionIn;
+			carColour = carColourIn;
+			truckColourOption = truckColourOptionIn;
+			truckColour = truckColourIn;
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
@@ -190,6 +222,30 @@ public class SimConfigXML {
 			Element eDubug = doc.createElement("debug");
 			eDubug.appendChild(doc.createTextNode(Boolean.toString(debugMode)));
 			simSpecs.appendChild(eDubug);
+			
+			Element eRecklessRatio = doc.createElement("reckless_norm_ratio");
+			eRecklessRatio.appendChild(doc.createTextNode(String.valueOf(recklessNormRatio)));
+			simSpecs.appendChild(eRecklessRatio);
+			
+			Element colourSpecs = doc.createElement("colour_specs");
+			rootElement.appendChild(colourSpecs);
+			
+			Element eCarColourOption = doc.createElement("car_colour_option");
+			eCarColourOption.appendChild(doc.createTextNode(carColourOption));
+			colourSpecs.appendChild(eCarColourOption);
+			
+			Element eCarColour = doc.createElement("car_colour");
+			eCarColour.appendChild(doc.createTextNode(carColour));
+			colourSpecs.appendChild(eCarColour);
+			
+			Element eTruckColourOption = doc.createElement("truck_colour_option");
+			eTruckColourOption.appendChild(doc.createTextNode(truckColourOption));
+			colourSpecs.appendChild(eTruckColourOption);
+			
+			Element eTruckColour = doc.createElement("truck_colour");
+			eTruckColour.appendChild(doc.createTextNode(truckColour));
+			colourSpecs.appendChild(eTruckColour);	
+			
 
 			TransformerFactory transformerFactory = TransformerFactory
 					.newInstance();
@@ -214,9 +270,15 @@ public class SimConfigXML {
 	public String toString() {
 
 		return "No of Cars: " + noCars + "\n" + "Tickrate: " + tickRate + "\n"
+				+ "Spawn Rate: " + spawnRate + "\n"
 				+ "Max Speed of Cars: " + maxSpeedCars + "\n"
 				+ "Car to Truck Ratio: " + carTruckRatio + "\n"
-				+ "Debug Mode: " + debugMode;
+				+ "Reckless Normal Car Ratio: " + recklessNormRatio + "\n"
+				+ "Debug Mode: " + debugMode + "\n"
+				+ "Car Colour Option: " + carColourOption + "\n"
+				+ "Car Colour: " + carColour + "\n"
+				+ "Truck Colour Option: " + truckColourOption + "\n"
+				+ "Truck Colour: " + truckColour;
 	}
 
 }
