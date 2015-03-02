@@ -25,7 +25,7 @@ public abstract class Vehicle extends Rectangle {
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
 	protected Rectangle frame;
-	
+	protected boolean isPaused = false;
 	protected double vehicleSpeed;
 	protected double temporarySpeed;
 	/**
@@ -80,7 +80,11 @@ public abstract class Vehicle extends Rectangle {
     }
 
 	public void removeFromCanvas() {
-        if (parent.getCanvas().getChildren().contains(this))
+		//If the vehicle is part of a group, remove the whole group
+		if(getParent() != null)
+			parent.getCanvas().getChildren().remove(getParent());
+		//If not, then remove the vehicle itself
+		else if (parent.getCanvas().getChildren().contains(this))
             parent.getCanvas().getChildren().remove(this);
 	}
 
@@ -123,5 +127,9 @@ public abstract class Vehicle extends Rectangle {
 	
 	public void setTemporarySpeed(double d){
 		temporarySpeed = d;
+	}
+	
+	public void setAmbulanceMode(boolean b){
+		isPaused = b;
 	}
 }

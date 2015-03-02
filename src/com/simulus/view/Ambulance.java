@@ -36,7 +36,7 @@ public class Ambulance extends Group {
 		this.getChildren().add(frame);
 		getChildren().add(AoE);
 		MainApp.getInstance().getCanvas().getChildren().add(this);
-		
+		//SimulationController.getInstance().getMap().getVehicles().add(frame);
 			
 		
 		

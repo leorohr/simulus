@@ -310,7 +310,8 @@ public class Car extends Vehicle {
             e.printStackTrace();
 		}
 		
-		
+		if(isPaused)
+			temp = Direction.NONE;
 		//Moves the car in the direction it should go.
 		switch (temp) {
 		case NORTH:
