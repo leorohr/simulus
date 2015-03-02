@@ -50,6 +50,8 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label recklessnormalLabel;
 	@FXML
+	Button randTrafficLightsButton;
+	@FXML
 	ComboBox<VehicleColorOption> carcolorComboBox;
 	@FXML
 	ColorPicker carcolorPicker;
@@ -111,6 +113,10 @@ public class ControlsController implements Initializable {
 			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
 			recklessnormalLabel.setText(String.valueOf(roundedValue));
 			simulationController.setRecklessNormalRatio(roundedValue);
+		});
+		
+		randTrafficLightsButton.setOnAction((event) -> {
+			simulationController.getMap().randomiseTrafficLights();
 		});
 		
 		carcolorComboBox.getItems().addAll(VehicleColorOption.values());

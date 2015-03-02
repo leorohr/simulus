@@ -40,7 +40,7 @@ public class Lane extends Tile{
 	/*
 	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
 	 */
-	protected void redraw() {
+	public void redraw() {
 		frame.setFill(
                 new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
                         ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));

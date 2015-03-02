@@ -1,6 +1,7 @@
 package com.simulus.controller;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
@@ -139,8 +140,11 @@ public class SimulationController {
             //Clear debuginformation from canvas
             for(Tile[] t : map.getTiles()) {
                 for (int i = 0; i < t.length; i++) {
-                    if(t[i] instanceof Lane)
-                        t[i].getFrame().setFill(Lane.COLOR);
+                    if(t[i] instanceof Lane) {
+                    	if(t[i].isRedLight())
+                    		t[i].getFrame().setFill(Color.RED);
+                    	else ((Lane) t[i]).redraw();
+                    }
                 }
             }
         }

@@ -47,7 +47,8 @@ public class Map extends Group {
 		}
 		
 		for(Intersection i: intersections){
-			Thread t = new Thread(i, "Intersection " + i.getId());
+			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
+														+ i.getTiles().get(0).getGridPosY() + ">");
 			t.start();
 		}
 
@@ -319,7 +320,7 @@ public class Map extends Group {
 					Tile t = (Tile) i.next();
 					if (!v.getBoundsInParent().intersects(
 							t.getFrame().getBoundsInParent())) {
-						if(!t.getRedLight()){
+						if(!t.isRedLight()){
 							t.setOccupied(false, v);
 							i.remove();
 						}
@@ -400,6 +401,15 @@ public class Map extends Group {
 		} 
 		
 	
+	}
+	
+	/**
+	 * Give all intersections a new random switchtime between 2 and 5 secs.
+	 */
+	public void randomiseTrafficLights() {
+		for(Intersection i : intersections) {
+			i.setSwitchTime((long) (2000 + Math.random()*3000));
+		}
 	}
 	
 	public void showAllIntersectionPaths() {

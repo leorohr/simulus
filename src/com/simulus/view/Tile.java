@@ -142,7 +142,7 @@ public class Tile extends Group {
 		return gridPosY;
 	}
 	
-	public boolean getRedLight(){
+	public boolean isRedLight(){
 		return isRedLight;
 	}
 	
