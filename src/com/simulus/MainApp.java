@@ -2,6 +2,7 @@ package com.simulus;
 
 import com.simulus.controller.ControlsController;
 import com.simulus.controller.SimulationController;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -15,7 +16,7 @@ import javafx.stage.WindowEvent;
 
 public class MainApp extends Application {
 
-	protected Stage primaryStage;
+	private Stage primaryStage;
 	private BorderPane rootLayout;
     private ControlsController controlsController;
 	private Pane canvas;
@@ -41,9 +42,9 @@ public class MainApp extends Application {
 	@Override
 	public void start(final Stage primaryStage) {
 
-		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Simulus");
-		this.primaryStage.setResizable(false);
+		this.setPrimaryStage(primaryStage);
+		this.getPrimaryStage().setTitle("Simulus");
+		this.getPrimaryStage().setResizable(false);
 		
 		initRootLayout();
 		showControls();
@@ -54,7 +55,7 @@ public class MainApp extends Application {
 	/**
 	 * Initialise the root layout
 	 */
-	protected void initRootLayout() {
+	private void initRootLayout() {
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -69,8 +70,8 @@ public class MainApp extends Application {
 			rootLayout.setCenter(canvas);
 
 			Scene scene = new Scene(rootLayout);
-			primaryStage.setScene(scene);
-			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			getPrimaryStage().setScene(scene);
+			getPrimaryStage().setOnCloseRequest(new EventHandler<WindowEvent>() {
 				@Override
 				public void handle(WindowEvent t) {
 					Platform.exit();
@@ -78,7 +79,7 @@ public class MainApp extends Application {
 				}
 			});
 
-			primaryStage.show();
+			getPrimaryStage().show();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +87,7 @@ public class MainApp extends Application {
 
 	}
 	
-	protected void showControls() {
+	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("view/Controls.fxml"));
@@ -122,7 +123,23 @@ public class MainApp extends Application {
     	return rootLayout;
     }
     
+    public void setPrimaryStage(Stage primaryStage){
+		this.primaryStage = primaryStage;
+    	
+    }
+    
+    public void getInitRobotLayout(){
+    	 initRootLayout();
+    }
+    
+    public void getShowControls(){
+    	showControls();
+    }
+    
+    
 	public static void main(String[] args) {
 		launch(args);
 	}
+
+	
 }
