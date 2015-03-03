@@ -1,13 +1,26 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.animation.Interpolator;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
+import javafx.animation.PathTransitionBuilder;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Translate;
+import javafx.util.Duration;
+
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
-import javafx.scene.shape.Rectangle;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Describes a vehicle on the GUI
@@ -23,6 +36,16 @@ public abstract class Vehicle extends Rectangle {
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
 	
+
+	protected double temporarySpeed;
+	
+	protected PathTransition pathTransition;
+	
+	protected boolean isPaused;
+	protected boolean skipLights;
+	
+	protected Behavior tempBehavior;
+	protected Direction tempDir;
 	protected double acceleration;
 	protected double maxSpeed;
 	protected double vehicleSpeed = 0;
@@ -39,8 +62,9 @@ public abstract class Vehicle extends Rectangle {
 	 *            The width of the vehicle
 	 * @param height
 	 *            The height of the vehicle
-	 */	
-	public Vehicle(double posX, double posY, double width, double height, Direction dir) {
+	 */
+	public Vehicle(double posX, double posY, double width, double height,
+			Direction dir) {
 		super(posX, posY, width, height);
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
@@ -58,8 +82,113 @@ public abstract class Vehicle extends Rectangle {
 	 * Describes a vehicle translation
 	 */
 	public abstract void moveVehicle();
-	
-	public abstract void overtake(Tile t);
+
+	public void move(Direction d) {
+		Translate trans = new Translate();
+
+		final double dx;
+		final double dy;
+		
+		//Accelerate
+		if(tempDir != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
+			vehicleSpeed += acceleration;
+		else if(tempDir == Direction.NONE)
+			vehicleSpeed = 0; //TODO decelerate 
+		
+		// Moves the car in the direction it should go.
+		switch (d) {
+		case NORTH:
+
+			dx = 0;
+			dy = -getVehicleSpeed();
+
+			trans.setX(dx);
+			trans.setY(dy);
+			getTransforms().add(trans);
+
+			break;
+		case SOUTH:
+			dx = 0;
+			dy = getVehicleSpeed();
+
+			trans.setX(dx);
+			trans.setY(dy);
+			getTransforms().add(trans);
+
+			break;
+		case EAST:
+			dx = getVehicleSpeed();
+			dy = 0;
+
+			trans.setX(dx);
+			trans.setY(dy);
+			getTransforms().add(trans);
+			break;
+		case WEST:
+			dx = -getVehicleSpeed();
+			dy = 0;
+
+			trans.setX(dx);
+			trans.setY(dy);
+			getTransforms().add(trans);
+
+			break;
+		case NONE:
+			
+			waitedCounter++;
+			
+			dx = 0;
+			dy = 0;
+
+			trans.setX(dx);
+			trans.setY(dy);
+			getTransforms().add(trans);
+			break;
+		}
+	}
+
+	public void overtake(Tile moveToTile){
+		getTransforms().clear();
+		Path path = new Path(
+                		//from 
+                		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
+                        		
+                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY())
+                    
+                );
+		
+               
+        path.setStroke(Color.DODGERBLUE);
+        path.getStrokeDashArray().setAll(5d,5d);
+        MainApp.getInstance().getCanvas().getChildren().add(path);
+       
+        double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
+        		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
+        double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
+        		
+        double pathTime = pathDistance/carSpeed;
+        
+        
+        
+        pathTransition = PathTransitionBuilder.create()
+                .duration(Duration.millis(pathTime))
+                .path(path)
+                .node(this)
+                .interpolator(Interpolator.LINEAR)
+                .orientation(OrientationType.NONE)
+                .build();
+        
+        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
+ 
+            @Override
+            public void handle(ActionEvent arg0) {
+            	MainApp.getInstance().getCanvas().getChildren().remove(path);
+                isOvertaking = false;
+            }
+        });
+        setCurrentTile(moveToTile);
+        pathTransition.play();
+	};
 
 	public Direction getDirection() {
 		return dir;
@@ -120,19 +249,15 @@ public abstract class Vehicle extends Rectangle {
 		vehicleSpeed = d;
 	}
 	
-	public double getMaxSpeed() {
-		return maxSpeed;
-	}
-	
-	public int getWaitedCounter() {
-		return waitedCounter;
-	}
-	
 	public void setBehavior(Behavior b){
 		behavior = b;
 	}
 	
 	public Behavior getBehavior(){
 		return behavior;
+	}
+
+	public double getWaitedCounter() {
+		return waitedCounter;
 	}
 }

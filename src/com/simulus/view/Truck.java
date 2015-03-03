@@ -183,59 +183,11 @@ public class Truck extends Vehicle {
 			vehicleSpeed += acceleration;
 		else if(temp == Direction.NONE)
 			vehicleSpeed = 0; //TODO decelerate 
-		
+		if(isPaused)
+			temp = Direction.NONE;
 		
 		//Moves the car in the direction it should go.
-		switch (temp) {
-		case NORTH:
-
-			dx = 0;
-			dy = -getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case SOUTH:
-			dx = 0;
-			dy = getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case EAST:
-			dx = getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			break;
-		case WEST:
-			dx = -getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case NONE:
-
-			dx = 0;
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			
-			//The truck did not move
-			waitedCounter++;
-			break;
-		}
+		move(temp);
 	}
 
 	@Override

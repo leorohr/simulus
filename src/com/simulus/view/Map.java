@@ -218,6 +218,35 @@ public class Map extends Group {
 		}
 
 	}
+	
+	public void spawnAmbulance(){
+		
+		Lane l;
+		do{
+			l = selectRandomEntryPoint();
+		}
+		while( l != null && l.getLaneNo() != 1 && l.getLaneNo() != 2);
+		
+		Ambulance a = null;
+		
+		if (l.getDirection() == Direction.NORTH
+				|| l.getDirection() == Direction.SOUTH) {
+			a = new Ambulance(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
+					- Car.CARWIDTH / 2, l.getGridPosY() * Map.TILESIZE
+					+ Map.TILESIZE - Car.CARLENGTH, l.getDirection());
+		} else if (l.getDirection() == Direction.WEST
+				|| l.getDirection() == Direction.EAST) {
+			a = new Ambulance(l.getGridPosX() * Map.TILESIZE, l.getGridPosY()
+					* Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
+					l.getDirection());
+		}
+		a.getCar().setCurrentTile(l); 
+		a.getCar().setMap(tiles);
+		l.setOccupied(true, a.getCar());
+		synchronized (vehicles){
+			vehicles.add(a.getCar());
+		}
+	}
 
 	private void addGroup(TileGroup g) {
 
@@ -275,6 +304,8 @@ public class Map extends Group {
 			v = iter.next();
 			int vX = v.getCurrentTile().getGridPosX();
 			int vY = v.getCurrentTile().getGridPosY();
+			
+			
 			Tile nextTile = null;
 
 			// In order to prevent ConcurrentModificationExceptions
@@ -328,7 +359,7 @@ public class Map extends Group {
 					}
 				}
 
-				nextTile.setOccupied(true, v);
+				nextTile.setOccupied(true, v );
 				v.setCurrentTile(nextTile);
 				v.setMap(tiles);
 
@@ -478,6 +509,10 @@ public class Map extends Group {
 
 	public Tile[][] getTiles() {
 		return tiles;
+	}
+	
+	public ArrayList<Vehicle> getVehicles(){
+		return vehicles;
 	}
 
 	public int getVehicleCount() {
