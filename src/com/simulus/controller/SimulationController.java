@@ -4,6 +4,7 @@ import javafx.application.Platform;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
+import com.simulus.view.EmergencyCar;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
 import com.simulus.view.Tile;
