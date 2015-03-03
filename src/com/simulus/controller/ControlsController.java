@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Button;
@@ -13,8 +14,14 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TitledPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
+import com.simulus.MainApp;
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.Map;
 
@@ -63,7 +70,11 @@ public class ControlsController implements Initializable {
 	@FXML
 	CheckBox debugCheckbox;
 
+	@FXML
+	ImageView resizeIcon;
     @FXML
+    TitledPane statisticsPane;
+	@FXML
     LineChart<Number, Number> numVehiclesChart;
     @FXML
     LineChart<Number, Number> avgSpeedChart;
@@ -84,6 +95,33 @@ public class ControlsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
+		//Allowing to pop-out the statistics panel
+		resizeIcon.setImage(ResourceBuilder.getResizeIcon());
+		resizeIcon.setOnMouseClicked((event) -> {
+
+			Stage chartStage = new Stage();			
+			numVehiclesChart.getXAxis().setPrefWidth(400);
+			avgSpeedChart.getXAxis().setPrefWidth(400);
+			congestionChart.getXAxis().setPrefWidth(400);
+			waitingTimeChart.getXAxis().setPrefWidth(400);
+			VBox chartBox = new VBox(numVehiclesChart, avgSpeedChart, congestionChart, waitingTimeChart);
+			
+			chartStage.setScene(new Scene(chartBox, 500, 800));
+			chartStage.setX(MainApp.getInstance().getPrimaryStage().getX() + 600);
+			chartStage.setY(MainApp.getInstance().getPrimaryStage().getY());
+			chartStage.setOnCloseRequest((WindowEvent) -> {
+				numVehiclesChart.getXAxis().setPrefWidth(200);
+				avgSpeedChart.getXAxis().setPrefWidth(200);
+				congestionChart.getXAxis().setPrefWidth(200);
+				waitingTimeChart.getXAxis().setPrefWidth(200);
+				
+				statisticsPane.setContent((new VBox(numVehiclesChart, avgSpeedChart, congestionChart, waitingTimeChart)));
+				statisticsPane.expandedProperty().set(true);
+			});
+			chartStage.show();
+		}); 
+		
+		//Initialise charts
 		numVehiclesSeries = new LineChart.Series<Number, Number>();
         numVehiclesChart.getData().addAll(numVehiclesSeries);
         
@@ -96,6 +134,7 @@ public class ControlsController implements Initializable {
         waitingTimeSeries = new LineChart.Series<Number, Number>();
         waitingTimeChart.getData().addAll(waitingTimeSeries);
 
+        //Initialise sliders
         SimulationController simulationController = SimulationController.getInstance();
 	
 		tickrateSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -134,6 +173,7 @@ public class ControlsController implements Initializable {
 			simulationController.getMap().randomiseTrafficLights();
 		});
 		
+		//Initialise Colouroptions
 		carcolorComboBox.getItems().addAll(VehicleColorOption.values());
 		carcolorComboBox.getSelectionModel().select(0);
 		carcolorComboBox.setOnAction((event) -> { 
@@ -155,9 +195,8 @@ public class ControlsController implements Initializable {
 			
 			simulationController.getMap().setTruckColorOption(truckcolorComboBox.getSelectionModel().getSelectedItem());
 		});
-	
-		
 				
+		//Initialise Buttons
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();
 		});
@@ -221,6 +260,9 @@ public class ControlsController implements Initializable {
     	return truckcolorPicker.getValue();
     }
     
+    /**
+     * Resets all chart data.
+     */
     public void resetCharts() {
     	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size());
     	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());

@@ -69,7 +69,7 @@ public class Car extends Vehicle {
 		
 		Random rand = new Random();
 		//1.5px/tick acceleration equals a real-life acceleration of ~2,31 m/s^2, i.e 0-100km/h in 12 secs.
-		acceleration = 1.5d; 
+		acceleration = 0.5d; 
 		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
