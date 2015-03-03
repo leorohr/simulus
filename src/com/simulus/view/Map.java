@@ -211,11 +211,10 @@ public class Map extends Group {
 	public void spawnAmbulance(){
 		
 		Lane l;
-		if ((l = selectRandomEntryPoint()) == null){
-			return;
+		do{
+			l = selectRandomEntryPoint();
 		}
-		
-		System.out.println(l.getLaneNo() == 1);
+		while( l != null && l.getLaneNo() != 1 && l.getLaneNo() != 2);
 		
 		Ambulance a = null;
 		
