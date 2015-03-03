@@ -16,7 +16,7 @@ public class Ambulance extends Group {
 	
 	private boolean isColoured = false;
 	private AreaOfEffect AoE;
-	private Car frame;
+	private EmergencyCar frame;
 	
 	public static double AoERadius = 100;
 	
@@ -24,20 +24,13 @@ public class Ambulance extends Group {
 	private static final Color COLOUR = Color.YELLOW;
 
 	public Ambulance(double posX, double posY, Direction dir) {
-		frame = new Car(posX, posY, dir, this);
-		frame.setFill(COLOUR);
-		frame.vehicleSpeed = SimulationController.getInstance().getMaxCarSpeed();
-		frame.setArcHeight(0);
-		frame.setArcWidth(0);
-		
+		frame = new EmergencyCar(posX, posY, dir);
 		AoE = new AreaOfEffect(frame.getX() + frame.getWidth()/2, frame.getY() + frame.getHeight()/2, AoERadius, this);
 		AoE.setFill(Color.ORANGERED);
 		AoE.setOpacity(0.25);
 		this.getChildren().add(frame);
 		getChildren().add(AoE);
 		MainApp.getInstance().getCanvas().getChildren().add(this);
-		//SimulationController.getInstance().getMap().getVehicles().add(frame);
-			
 		
 		
 		Thread t = new Thread(){
@@ -45,9 +38,9 @@ public class Ambulance extends Group {
 				while(!isInterrupted())
 					try{
 						sleep(600);
-						changeColourTo();
+						changeColour();
 						sleep(600);
-						changeColourTo();
+						changeColour();
 					}catch(Exception e){
 						e.printStackTrace();
 					}
@@ -57,7 +50,7 @@ public class Ambulance extends Group {
 		
 	}
 	
-	public void changeColourTo(){
+	public void changeColour(){
 		FillTransition fill = new FillTransition(Duration.millis(300));
 		ParallelTransition transition;
 		if(!isColoured){
@@ -77,11 +70,14 @@ public class Ambulance extends Group {
 		AoE.updatePosition();
 	}
 	
-	public Car getCar(){
+	public EmergencyCar getCar(){
 		return frame;
 	}
 	
 	public Circle getAoE(){
 		return AoE;
+	}
+	public void remove(){
+		MainApp.getInstance().getCanvas().getChildren().remove(this);
 	}
 }

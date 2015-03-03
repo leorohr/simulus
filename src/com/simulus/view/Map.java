@@ -209,10 +209,13 @@ public class Map extends Group {
 	}
 	
 	public void spawnAmbulance(){
-		for(Lane e: entryPoints)
-			if(e.getDirection() == Direction.NORTH)
-				System.out.println(entryPoints.indexOf(e));
-		Lane l = entryPoints.get(19);
+		
+		Lane l;
+		if ((l = selectRandomEntryPoint()) == null){
+			return;
+		}
+		
+		System.out.println(l.getLaneNo() == 1);
 		
 		Ambulance a = null;
 		

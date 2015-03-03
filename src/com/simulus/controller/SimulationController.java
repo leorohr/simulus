@@ -16,6 +16,7 @@ public class SimulationController {
     private int maxCarSpeed = 10;
     private double carTruckRatio = 0.7d;
     private int truckCount = 0;
+    private int ambulanceCount = 0;
     private boolean debugFlag = false;
 
     private Map map = new Map();
@@ -76,9 +77,12 @@ public class SimulationController {
                     }
                 }
                 
-                if(tickCount++ == 10){
+                
+                if(ambulanceCount < 1){
                 	Platform.runLater(() -> map.spawnAmbulance());
+                	ambulanceCount++;
                 }
+                
             	
                 Platform.runLater(() -> map.updateMap());
 
@@ -108,6 +112,8 @@ public class SimulationController {
         map.removeVehicle(v);
         if(v instanceof Truck)
             truckCount--;
+        if(v instanceof EmergencyCar)
+        	ambulanceCount--;
     }
 
     /* Getter & Setter */

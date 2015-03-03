@@ -31,8 +31,8 @@ public class Car extends Vehicle {
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 10;
 	
-	private PathTransition pathTransition;
-	private Ambulance parent;
+	
+	
 
 	private static final Color COLOUR = Color.LIGHTSEAGREEN;
 
@@ -73,34 +73,6 @@ public class Car extends Vehicle {
 		addToCanvas();
 	}
 	
-	public Car(double posX, double posY, Direction dir, Ambulance parent) {
-		super(posX, posY, CARWIDTH, CARLENGTH, dir);
-		
-		behavior = Behavior.getRandomBehavior();
-		
-		switch (dir) {
-		case NORTH:
-		case SOUTH:
-			 setWidth(CARWIDTH);
-			 setHeight(CARLENGTH);
-			break;
-		case EAST:
-		case WEST:
-			 setWidth(CARLENGTH);
-			 setHeight(CARWIDTH);
-			break;
-		default:
-			break;
-		}
-		 setArcHeight(ARCHEIGHT);
-		 setArcWidth(ARCWIDTH);
-		 setFill(COLOUR);
-		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
-		addToCanvas();
-		this.parent = parent;
-	}
-	
 	/**
 	 * Translates the vehicle according to the current direction
 	 */
@@ -109,15 +81,10 @@ public class Car extends Vehicle {
 		if(isOvertaking){
 			return;
 		}
-		
-		Translate trans = new Translate();
-		
-		
-		final double dx;
-		final double dy;
 
-		Direction temp = getDirection();
-		Behavior tempBehavior = behavior;
+		
+		tempDir = getDirection();
+		tempBehavior = behavior;
 		
 		if(tempBehavior == Behavior.SEMI)
 			if(Math.random()>0.5)
@@ -126,122 +93,9 @@ public class Car extends Vehicle {
 
 //		Checks if the tile 2 tiles ahead of the car is taken for overtaking.
 		if(tempBehavior == Behavior.RECKLESS){
-			try {
-				switch(getDirection()){
-				case NORTH:
-					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						.getGridPosY() - 2].isOccupied() && map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						            					                						.getGridPosY() - 2].getOccupier() != null) {
-						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                			.getGridPosY() - 2].getOccupier().getDirection() == getDirection())
-							if(getCurrentTile() instanceof Lane){
-								if(((Lane)getCurrentTile()).getLaneNo() == 0){
-									//Overtake RIGHT
-									if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-										isOvertaking = true;
-									}
-								}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
-									//Overtake LEFT
-									if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-										isOvertaking = true;
-									}
-								}
-							}
-					}
-					break;
-				case SOUTH:
-					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						.getGridPosY() + 2].isOccupied()&& map[getCurrentTile().getGridPosX()][getCurrentTile()
-					                						            					                						.getGridPosY() + 2].getOccupier() != null) {
-						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
-									                			.getGridPosY() + 2].getOccupier().getDirection() == getDirection())
-							if(getCurrentTile() instanceof Lane){
-								if(((Lane)getCurrentTile()).getLaneNo() == 2){
-									//Overtake RIGHT
-									if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-										isOvertaking = true;
-									}
-								}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
-									//Overtake LEFT
-									if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-										isOvertaking = true;
-									}
-								}
-							}
-					}
-					break;
-				case EAST:
-					if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
-					                    						.getGridPosY()].isOccupied()&& map[getCurrentTile().getGridPosX()+2][getCurrentTile()
-					                						            					                						.getGridPosY()].getOccupier() != null) {
-						if(map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
-									                			.getGridPosY()].getOccupier().getDirection() == getDirection())
-							if(getCurrentTile() instanceof Lane){
-								if(((Lane)getCurrentTile()).getLaneNo() == 0){
-									//Overtake DOWN
-									if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()+1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-										isOvertaking = true;
-									}
-								}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
-									//Overtake UP
-									if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-										isOvertaking = true;	
-									}
-								}
-							}
-					}
-					break;
-				case WEST:
-					if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
-					                    						.getGridPosY()].isOccupied()&& map[getCurrentTile().getGridPosX()-2][getCurrentTile()
-					                						            					                						.getGridPosY()].getOccupier() != null) {
-						if(map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
-									                			.getGridPosY()].getOccupier().getDirection() == getDirection())
-							if(getCurrentTile() instanceof Lane){
-								if(((Lane)getCurrentTile()).getLaneNo() == 2){
-									//Overtake DOWN
-									if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()+1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-										isOvertaking = true;
-									}
-								}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
-									//Overtake UP
-									if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-											&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
-										overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-										isOvertaking = true;	
-									}
-								}
-							}
-					}
-					break;
-				default:break;
-				}
-			}catch(ArrayIndexOutOfBoundsException e){
-
-			}
+			attemptOvertake();
 		}
+		
 		try {
             Tile nextTile = null;
 			switch (getDirection()) {
@@ -253,9 +107,9 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
                 if (nextTile.isOccupied()) {
-					temp = Direction.NONE;
+					tempDir = Direction.NONE;
 				} else
-					temp = getDirection();
+					tempDir = getDirection();
 				break;
 
 			case SOUTH:
@@ -266,9 +120,9 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
                 if (nextTile.isOccupied()) {
-					temp = Direction.NONE;
+					tempDir = Direction.NONE;
 				} else
-					temp = getDirection();
+					tempDir = getDirection();
 				break;
 
 			case EAST:
@@ -279,9 +133,9 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
 				if (nextTile.isOccupied()) {
-					temp = Direction.NONE;
+					tempDir = Direction.NONE;
 				} else
-					temp = getDirection();
+					tempDir = getDirection();
 				break;
 
 			case WEST:
@@ -292,9 +146,9 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
 				if (nextTile.isOccupied()) {
-					temp = Direction.NONE;
+					tempDir = Direction.NONE;
 				} else
-					temp = getDirection();
+					tempDir = getDirection();
 				break;
 
 			default:
@@ -311,102 +165,130 @@ public class Car extends Vehicle {
 		}
 		
 		if(isPaused)
-			temp = Direction.NONE;
-		//Moves the car in the direction it should go.
-		switch (temp) {
-		case NORTH:
-
-			dx = 0;
-			dy = -getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case SOUTH:
-			dx = 0;
-			dy = getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case EAST:
-			dx = getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			break;
-		case WEST:
-			dx = -getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case NONE:
-
-			dx = 0;
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			break;
-		}
-		if(parent!= null)
-			parent.updateAoE();
+			tempDir = Direction.NONE;
+		
+		move(tempDir);
+		
+		
 	}
 	
 	
-	public void overtake(Tile moveToTile){
-		getTransforms().clear();
-		Path path = new Path(
-                		//from 
-                		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
-                        		
-                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY())
-                    
-                );
-		
-               
-        path.setStroke(Color.DODGERBLUE);
-        path.getStrokeDashArray().setAll(5d,5d);
-        MainApp.getInstance().getCanvas().getChildren().add(path);
-       
-        double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
-        		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
-        double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
-        		
-        double pathTime = pathDistance/carSpeed;
-        
-        
-        
-        pathTransition = PathTransitionBuilder.create()
-                .duration(Duration.millis(pathTime))
-                .path(path)
-                .node(this)
-                .interpolator(Interpolator.LINEAR)
-                .orientation(OrientationType.NONE)
-                .build();
-        
-        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
- 
-            @Override
-            public void handle(ActionEvent arg0) {
-            	MainApp.getInstance().getCanvas().getChildren().remove(path);
-                isOvertaking = false;
-                
-            }
-        });
-        setCurrentTile(moveToTile);
-        pathTransition.play();
+	public void attemptOvertake(){
+		try {
+			switch(getDirection()){
+			case NORTH:
+				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+				                						.getGridPosY() - 2].isOccupied() && map[getCurrentTile().getGridPosX()][getCurrentTile()
+				                						            					                						.getGridPosY() - 2].getOccupier() != null) {
+					if(map[getCurrentTile().getGridPosX()][getCurrentTile()
+				                			.getGridPosY() - 2].getOccupier().getDirection() == getDirection())
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 0){
+								//Overtake RIGHT
+								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
+								//Overtake LEFT
+								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;
+								}
+							}
+						}
+				}
+				break;
+			case SOUTH:
+				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
+				                						.getGridPosY() + 2].isOccupied()&& map[getCurrentTile().getGridPosX()][getCurrentTile()
+				                						            					                						.getGridPosY() + 2].getOccupier() != null) {
+					if(map[getCurrentTile().getGridPosX()][getCurrentTile()
+								                			.getGridPosY() + 2].getOccupier().getDirection() == getDirection())
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 2){
+								//Overtake RIGHT
+								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
+								//Overtake LEFT
+								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}
+						}
+				}
+				break;
+			case EAST:
+				if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
+				                    						.getGridPosY()].isOccupied()&& map[getCurrentTile().getGridPosX()+2][getCurrentTile()
+				                						            					                						.getGridPosY()].getOccupier() != null) {
+					if(map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
+								                			.getGridPosY()].getOccupier().getDirection() == getDirection())
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 0){
+								//Overtake DOWN
+								if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()+1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
+								//Overtake UP
+								if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;	
+								}
+							}
+						}
+				}
+				break;
+			case WEST:
+				if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
+				                    						.getGridPosY()].isOccupied()&& map[getCurrentTile().getGridPosX()-2][getCurrentTile()
+				                						            					                						.getGridPosY()].getOccupier() != null) {
+					if(map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
+								                			.getGridPosY()].getOccupier().getDirection() == getDirection())
+						if(getCurrentTile() instanceof Lane){
+							if(((Lane)getCurrentTile()).getLaneNo() == 2){
+								//Overtake DOWN
+								if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()+1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
+									isOvertaking = true;
+								}
+							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
+								//Overtake UP
+								if(!map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
+										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
+									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
+									isOvertaking = true;	
+								}
+							}
+						}
+				}
+				break;
+			default:break;
+			}
+		}catch(ArrayIndexOutOfBoundsException e){
+
+		}
 	}
 	
 	public void setBehavior(Behavior b){
