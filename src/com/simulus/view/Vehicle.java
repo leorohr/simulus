@@ -6,7 +6,6 @@ import java.util.List;
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
-import javafx.animation.PathTransitionBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
@@ -93,7 +92,7 @@ public abstract class Vehicle extends Rectangle {
 		if(tempDir != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
 			vehicleSpeed += acceleration;
 		else if(tempDir == Direction.NONE)
-			vehicleSpeed = 0; //TODO decelerate 
+			vehicleSpeed = 0; 
 		
 		// Moves the car in the direction it should go.
 		switch (d) {
@@ -168,16 +167,9 @@ public abstract class Vehicle extends Rectangle {
         		
         double pathTime = pathDistance/carSpeed;
         
-        
-        
-        pathTransition = PathTransitionBuilder.create()
-                .duration(Duration.millis(pathTime))
-                .path(path)
-                .node(this)
-                .interpolator(Interpolator.LINEAR)
-                .orientation(OrientationType.NONE)
-                .build();
-        
+        pathTransition = new PathTransition(Duration.millis(pathTime), path, this);
+        pathTransition.setInterpolator(Interpolator.LINEAR);
+        pathTransition.setOrientation(OrientationType.NONE);        
         pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
  
             @Override

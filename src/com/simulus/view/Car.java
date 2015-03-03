@@ -8,11 +8,9 @@ import javafx.animation.PathTransition.OrientationType;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import com.simulus.MainApp;
@@ -70,7 +68,8 @@ public class Car extends Vehicle {
 		setFill(COLOUR);
 		
 		Random rand = new Random();
-		acceleration = 1.5d;
+		//1.5px/tick acceleration equals a real-life acceleration of ~2,31 m/s^2, i.e 0-100km/h in 12 secs.
+		acceleration = 1.5d; 
 		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
@@ -161,7 +160,7 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-//            e.printStackTrace(); TODO avoid exception
+
 		}
 		
 		if(isPaused)
@@ -334,28 +333,5 @@ public class Car extends Vehicle {
         });
         setCurrentTile(moveToTile);
         pathTransition.play();
-	}
-
-	// TODO Curve the car to the northwest
-	public PathTransition curveNorthWest() {
-		PathTransition pathTransition;
-		switch (getDirection()) {
-		case NORTH:
-			Path path = new Path(new MoveTo(getX() - 50, getY()),
-						new CubicCurveTo(getX(), getY(), getX(),
-							getY() - 100, getX() - 100, getY() - 95));
-			path.setStroke(Color.DODGERBLUE);
-			path.getStrokeDashArray().setAll(5d, 5d);
-
-			pathTransition = new PathTransition(Duration.seconds(2), path, this);
-			pathTransition.setInterpolator(Interpolator.LINEAR);
-			pathTransition.setOrientation(OrientationType.NONE);
-//			pathTransition.setCycleCount(Timeline.INDEFINITE);
-			
-			setDirection(Direction.WEST);
-			return pathTransition;
-		default:
-			return null;
-		}
 	}
 }

@@ -1,11 +1,9 @@
 package com.simulus.view;
 
-import com.simulus.controller.SimulationController;
-import com.simulus.util.enums.Direction;
-
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.shape.Circle;
+
+import com.simulus.controller.SimulationController;
 
 public class AreaOfEffect extends Circle{
 	

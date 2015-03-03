@@ -2,14 +2,12 @@ package com.simulus.view;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 
 public class Ambulance extends Group {
