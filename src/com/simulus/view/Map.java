@@ -244,6 +244,7 @@ public class Map extends Group {
 		a.getCar().setCurrentTile(l); 
 		a.getCar().setMap(tiles);
 		l.setOccupied(true, a.getCar());
+		
 		synchronized (vehicles){
 			vehicles.add(a.getCar());
 		}

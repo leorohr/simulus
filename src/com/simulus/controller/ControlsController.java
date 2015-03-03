@@ -60,6 +60,8 @@ public class ControlsController implements Initializable {
 	@FXML
 	Button randTrafficLightsButton;
 	@FXML
+	Button spawnAmbulanceButton;
+	@FXML
 	ComboBox<VehicleColorOption> carcolorComboBox;
 	@FXML
 	ColorPicker carcolorPicker;
@@ -173,6 +175,10 @@ public class ControlsController implements Initializable {
 			simulationController.getMap().randomiseTrafficLights();
 		});
 		
+		spawnAmbulanceButton.setOnAction((event) -> {
+			simulationController.spawnAmbulance();
+		});
+		
 		//Initialise Colouroptions
 		carcolorComboBox.getItems().addAll(VehicleColorOption.values());
 		carcolorComboBox.getSelectionModel().select(0);
@@ -206,7 +212,7 @@ public class ControlsController implements Initializable {
 		});
 
         resetButton.setOnAction((event) -> {
-           simulationController.resetSimulation();
+    		simulationController.resetSimulation();
         });
 		
 		debugCheckbox.setOnAction((event) -> {
@@ -258,6 +264,10 @@ public class ControlsController implements Initializable {
     
     public Color getTruckColor() {
     	return truckcolorPicker.getValue();
+    }
+    
+    public void setAmbulanceButtonDisabled(boolean b) {
+    	spawnAmbulanceButton.disableProperty().setValue(b);
     }
     
     /**

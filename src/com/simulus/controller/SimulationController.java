@@ -96,14 +96,7 @@ public class SimulationController {
                         	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
                         }
                     }
-                }
-                
-                
-                if(ambulanceCount < 1){
-                	Platform.runLater(() -> map.spawnAmbulance());
-                	ambulanceCount++;
-                }
-                
+                }               
             	
                 Platform.runLater(() -> map.updateMap());
 
@@ -135,8 +128,10 @@ public class SimulationController {
         map.removeVehicle(v);
         if(v instanceof Truck)
             truckCount--;
-        if(v instanceof EmergencyCar)
+        if(v instanceof EmergencyCar) {
         	ambulanceCount--;
+        	MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(false);
+        }
     }
 
     /* Getter & Setter */
@@ -176,6 +171,13 @@ public class SimulationController {
                 }
             }
         }
+    }
+    
+    public void spawnAmbulance() {
+    	if(ambulanceCount < 5) {
+    		Platform.runLater(() -> map.spawnAmbulance());
+	    	ambulanceCount++;
+    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
     }
     
     public int getTickTime() {
