@@ -8,6 +8,7 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 
 public class Ambulance extends Group {
@@ -22,11 +23,10 @@ public class Ambulance extends Group {
 		frame = new EmergencyCar(posX, posY, dir);
 		AoE = new AreaOfEffect(frame.getX() + frame.getWidth()/2, frame.getY() + frame.getHeight()/2, AoERadius, this);
 		AoE.setFill(Color.ORANGERED);
-		AoE.setOpacity(0.25);
+		AoE.setOpacity(SimulationController.getInstance().isDebug() ? 0.25 : 0.0d); //show aoe only if in debug-mode
 		this.getChildren().add(frame);
 		getChildren().add(AoE);
 		MainApp.getInstance().getCanvas().getChildren().add(this);
-		
 		
 		Thread t = new Thread(){
 			public void run(){

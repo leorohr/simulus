@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
+import com.simulus.view.Ambulance;
 import com.simulus.view.EmergencyCar;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
@@ -66,6 +67,7 @@ public class SimulationController {
         MainApp.getInstance().getControlsController().resetCharts();
         truckCount = 0;
         recklessCount = 0;
+        ambulanceCount = 0;
         animationThread = new AnimationThread();
     }
 
@@ -146,9 +148,22 @@ public class SimulationController {
         this.debugFlag = debugFlag;
         if(debugFlag) {
             map.showAllIntersectionPaths();
+            //Show AoE of ambulance
+            for(Vehicle v : map.getVehicles()) {
+            	if(v instanceof EmergencyCar) {
+            		((Ambulance)v.getParent()).getAoE().setOpacity(0.25d);
+            	}
+            }
+            	
         }
         else {
             map.hideAllIntersectionsPaths();
+            //Hide AoE of ambulances
+            for(Vehicle v : map.getVehicles()) {
+            	if(v instanceof EmergencyCar) {
+            		((Ambulance)v.getParent()).getAoE().setOpacity(0.0d);
+            	}
+            }
 
             //Clear debuginformation from canvas
             for(Tile[] t : map.getTiles()) {

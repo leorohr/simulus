@@ -34,14 +34,9 @@ public abstract class Vehicle extends Rectangle {
 	protected List<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
-	
-
 	protected double temporarySpeed;
-	
 	protected PathTransition pathTransition;
-	
 	protected boolean isPaused;
-	protected boolean skipLights;
 	
 	protected Behavior tempBehavior;
 	protected Direction tempDir;
@@ -146,6 +141,10 @@ public abstract class Vehicle extends Rectangle {
 		}
 	}
 
+	/**
+	 * Moves the vehicle to the passed tile with a transition.
+	 * @param moveToTile The tile to move to.
+	 */
 	public void overtake(Tile moveToTile){
 		getTransforms().clear();
 		Path path = new Path(
@@ -160,24 +159,108 @@ public abstract class Vehicle extends Rectangle {
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
         		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
+
+        //Ensure that cars are moving before they try to overtake
+        if(vehicleSpeed == 0)
+        	vehicleSpeed += 2*acceleration; 
         double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
         		
         double pathTime = pathDistance/carSpeed;
         
+        
         pathTransition = new PathTransition(Duration.millis(pathTime), path, this);
         pathTransition.setInterpolator(Interpolator.LINEAR);
-        pathTransition.setOrientation(OrientationType.NONE);        
+        pathTransition.setOrientation(OrientationType.NONE);
+        
         pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
  
             @Override
             public void handle(ActionEvent arg0) {
             	MainApp.getInstance().getCanvas().getChildren().remove(path);
                 isOvertaking = false;
+                
             }
         });
         setCurrentTile(moveToTile);
         pathTransition.play();
 	};
+	
+	/**
+	 * Makes the vehicle change into the adjacent lane if possible
+	 */
+	public void changeToLeftLane() {
+		
+		int vX = currentTile.getGridPosX();
+		int vY = currentTile.getGridPosY();
+
+		if(! (currentTile instanceof Lane))
+			return;
+		
+		Lane currentLane = (Lane) currentTile;
+		
+		switch(currentLane.getLaneNo()) {
+		case 1:
+			if(dir == Direction.NORTH) {
+				if(map[vX-1][vY-2] instanceof Lane && !map[vX-1][vY-1].isOccupied()) //instanceof-check ensure that cars dont merge
+					overtake(map[vX-1][vY-1]);										 //within an intersection
+				}
+			else if(dir == Direction.EAST) {
+				if(map[vX+2][vY-1] instanceof Lane && !map[vX+1][vY-1].isOccupied())
+					overtake(map[vX+1][vY-1]);
+			}
+			break;
+		case 2:
+			if(dir == Direction.SOUTH) {
+				if(map[vX+1][vY+2] instanceof Lane && !map[vX+1][vY+1].isOccupied())
+					overtake(map[vX+1][vY+1]);
+			}
+			else if(dir == Direction.WEST) {
+				if(map[vX-1][vY+2] instanceof Lane && !map[vX-1][vY+1].isOccupied())
+					overtake(map[vX-1][vY+1]);
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	
+	/**
+	 * Slows down the vehicle and forces a higher distance to the car in front
+	 */
+	public void allowMerge() {
+		
+		int vX = currentTile.getGridPosX();
+		int vY = currentTile.getGridPosY();
+		boolean frontTilesFree = true; 
+		
+		try {
+			switch(dir) {
+			case EAST:
+				for(int i=1; i<=3; i++)
+					frontTilesFree &= !map[vX+i][vY].isOccupied();
+				break;
+			case NORTH:
+				for(int i=1; i<=3; i++)
+					frontTilesFree &= !map[vX][vY-i].isOccupied();
+				break;
+			case SOUTH:
+				for(int i=1; i<=3; i++)
+					frontTilesFree &= !map[vX][vY+i].isOccupied();
+				break;
+			case WEST:
+				for(int i=1; i<=3; i++)
+					frontTilesFree &= !map[vX-i][vY].isOccupied();
+				break;
+			default:
+				break;
+			}
+		} catch(ArrayIndexOutOfBoundsException e) {
+			return; //dont stop the car if it is close to the edge of the map.
+		}
+		
+		if(!frontTilesFree)
+			vehicleSpeed = 0.0d;
+	}
 
 	public Direction getDirection() {
 		return dir;

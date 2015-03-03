@@ -191,6 +191,7 @@ public class Map extends Group {
 		return l;
 	}
 
+	//for testing
 	public void spawnTesterCar(double speed) {
 
 		/*

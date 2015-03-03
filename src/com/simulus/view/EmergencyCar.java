@@ -13,7 +13,9 @@ public class EmergencyCar extends Car {
 		super(posX, posY, dir);
 
 		setFill(COLOUR);
-		vehicleSpeed = SimulationController.getInstance().getMaxCarSpeed();
+		maxSpeed = SimulationController.getInstance().getMaxCarSpeed();
+		vehicleSpeed = 0;
+		acceleration = 2.0d;
 		setArcHeight(0);
 		setArcWidth(0);
 	}
