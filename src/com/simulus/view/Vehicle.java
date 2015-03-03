@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
@@ -14,6 +16,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
@@ -33,7 +36,7 @@ public abstract class Vehicle extends Rectangle {
 	protected MainApp parent;
 	protected Tile currentTile;
 	protected List<Tile> occupiedTiles;
-	protected boolean isOvertaking = false;
+	protected boolean isTransitioning = false;
 	protected Behavior behavior;
 	
 
@@ -183,12 +186,69 @@ public abstract class Vehicle extends Rectangle {
             @Override
             public void handle(ActionEvent arg0) {
             	MainApp.getInstance().getCanvas().getChildren().remove(path);
-                isOvertaking = false;
+                isTransitioning = false;
             }
         });
         setCurrentTile(moveToTile);
         pathTransition.play();
 	};
+	
+	public void followPath(CustomPath p){
+		System.out.println("Following Path");
+		getTransforms().clear();
+		ParallelTransition transition;
+		RotateTransition rt = new RotateTransition(Duration.millis(100*(p.getDistance()/getVehicleSpeed())), this);
+		double duration = 1000;
+		if(p.getTurn() == "right"){
+			rt.setToAngle(90);
+			duration = 1250;
+		}
+			
+		if(p.getTurn() == "left"){
+			rt.setToAngle(-90);
+			duration = 750;
+		}
+		rt.setDuration(Duration.millis(duration));
+		
+		pathTransition = PathTransitionBuilder.create()
+                .duration(Duration.millis(duration))
+                .path(p)
+                .node(this)
+                .interpolator(Interpolator.LINEAR)
+                .orientation(OrientationType.NONE)
+                .build();
+        
+        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
+ 
+            @Override
+            public void handle(ActionEvent arg0) {
+                
+                
+            }
+        });
+       
+        transition = new ParallelTransition(this, rt, pathTransition);
+        transition.setOnFinished(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				isTransitioning = false;
+                Vehicle v = new Car(p.getEndTile().getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
+    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * Map.TILESIZE
+    					+ Map.TILESIZE - Car.CARLENGTH, p.getEndDirection());
+                v.setCurrentTile(p.getEndTile());
+             //   v.setVehicleSpeed(getVehicleSpeed());
+                v.setBehavior(getBehavior());
+                v.setFill(getFill());
+                v.setMap(SimulationController.getInstance().getMap().getTiles());
+                System.out.println(p.getEndTile());
+                System.out.println(p.getEndDirection());
+                SimulationController.getInstance().getMap().getVehicles().add(v);
+                SimulationController.getInstance().removeVehicle(Vehicle.this);
+			}
+		});
+        transition.play();
+	}
 
 	public Direction getDirection() {
 		return dir;

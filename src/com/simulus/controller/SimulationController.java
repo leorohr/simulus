@@ -100,6 +100,9 @@ public class SimulationController {
                 	Platform.runLater(() -> map.spawnAmbulance());
                 	ambulanceCount++;
                 }
+            	
+            	/*if(tickCount++ == 4)
+            		Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));*/
                 
             	
                 Platform.runLater(() -> map.updateMap());

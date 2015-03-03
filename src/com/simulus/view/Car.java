@@ -31,6 +31,8 @@ public class Car extends Vehicle {
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 10;
 	
+	private Random rand;
+	
 	
 	
 
@@ -69,7 +71,7 @@ public class Car extends Vehicle {
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		
-		Random rand = new Random();
+		rand = new Random();
 		acceleration = 1.5d;
 		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
@@ -80,7 +82,7 @@ public class Car extends Vehicle {
 	 */
 	public void moveVehicle() {
 		
-		if(isOvertaking){
+		if(isTransitioning){
 			return;
 		}
 		
@@ -102,58 +104,60 @@ public class Car extends Vehicle {
 			case NORTH:
                 if(currentTile.getGridPosY()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
-                    break;
+                    return;
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
+               
 				break;
 
 			case SOUTH:
                 if(currentTile.getGridPosY()+1 >= map.length) {
                     SimulationController.getInstance().removeVehicle(this);
-                    break;
+                    return;
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
+                
 				break;
 
 			case EAST:
                 if(currentTile.getGridPosX()+1 >= map.length) {
                     SimulationController.getInstance().removeVehicle(this);
-                    break;
+                    return;
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
-				break;
+				
 
 			case WEST:
                 if(currentTile.getGridPosX()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
-                    break;
+                    return;
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
+	
 				break;
-
+				
 			default:
 				break;
+				
 			}
+			 if (nextTile.isOccupied()) {
+             	tempDir = Direction.NONE;
+             	if(nextTile.getOccupier()!= null)
+             		if(nextTile.getOccupier()== this)
+             			tempDir = getDirection();
+			 }
+				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) &&Math.random()<0.25){
+					 	
+		          		followPath(nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size())));
+		          		isTransitioning = true;
+		          		return;
+				 }
+		          		else tempDir = getDirection();
+			
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
@@ -166,8 +170,6 @@ public class Car extends Vehicle {
 		
 		if(isPaused)
 			tempDir = Direction.NONE;
-		
-		System.out.println(vehicleSpeed);
 		
 		move(tempDir);
 		
@@ -191,7 +193,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
 								//Overtake LEFT
@@ -199,7 +201,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}
 						}
@@ -218,7 +220,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
 								//Overtake LEFT
@@ -226,7 +228,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}
 						}
@@ -245,7 +247,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
 								//Overtake UP
@@ -253,7 +255,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;	
+									isTransitioning = true;	
 								}
 							}
 						}
@@ -272,7 +274,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-									isOvertaking = true;
+									isTransitioning = true;
 								}
 							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
 								//Overtake UP
@@ -280,7 +282,7 @@ public class Car extends Vehicle {
 										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
 										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()){
 									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-									isOvertaking = true;	
+									isTransitioning = true;	
 								}
 							}
 						}
@@ -328,7 +330,7 @@ public class Car extends Vehicle {
             @Override
             public void handle(ActionEvent arg0) {
             	MainApp.getInstance().getCanvas().getChildren().remove(path);
-                isOvertaking = false;
+                isTransitioning = false;
                 
             }
         });

@@ -16,7 +16,7 @@ public class Tile extends Group {
 	private int gridPosY;
 	private boolean isOccupied;
 	private Vehicle occupier;
-	private ArrayList<Path> turningPaths;
+	private ArrayList<CustomPath> turningPaths;
     protected Rectangle frame;
     protected boolean isRedLight = false;
 
@@ -122,7 +122,7 @@ public class Tile extends Group {
 	/**
 	 * @return The list of available paths for cars to take when they face this tile in an intersection.
 	 */
-	public ArrayList<Path> getTurningPaths() {
+	public ArrayList<CustomPath> getTurningPaths() {
 		return turningPaths;			
 	}
 	
