@@ -45,7 +45,7 @@ public class SimulationController {
     }
 
     public void startSimulation() {
-        if(animationThread.isInterrupted())
+        if(animationThread.isInterrupted() || !animationThread.isAlive())
             animationThread = new AnimationThread();
         
         if(!animationThread.isAlive())
@@ -59,6 +59,7 @@ public class SimulationController {
     public void resetSimulation() {
         animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
+        map.stopChildThreads();
         map = new Map();
         truckCount = 0;
         recklessCount = 0;
@@ -73,7 +74,7 @@ public class SimulationController {
             while(!Thread.currentThread().isInterrupted()) {
         		
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
-            		Platform.runLater(() -> StatisticsController.getInstance().update());
+            		Platform.runLater(() -> MainApp.getInstance().getControlsController().updateCharts());
 
                 if(tickCount++ % spawnRate == 0) {
                     if (map.getVehicleCount() < maxCars) {

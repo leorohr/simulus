@@ -35,7 +35,7 @@
                               <Insets />
                            </VBox.margin>
                         </VBox>
-                        <TitledPane text="Color Settings">
+                        <TitledPane expanded="false" text="Color Settings">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
@@ -95,7 +95,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label text="Spawn Delay (Ticks)" />
+                                                <Label text="Tickrate (ms)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
                                                       <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="20.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
@@ -106,7 +106,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label text="Tickrate (ms)" />
+                                                <Label text="Spawn Delay (Ticks)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
                                                       <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="1.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
@@ -120,7 +120,7 @@
                                                 <Label text="Max. Car Speed" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider fx:id="maxcarspeedSlider" blockIncrement="1.0" max="15.0" min="3.0" prefHeight="16.0" prefWidth="160.0" value="5.0" />
+                                                      <Slider fx:id="maxcarspeedSlider" blockIncrement="1.0" max="13.0" min="3.0" prefHeight="16.0" prefWidth="160.0" value="5.0" />
                                                       <Label fx:id="maxcarspeedLabel" text="5" />
                                                    </children>
                                                 </HBox>
@@ -164,28 +164,36 @@
                                  <children>
                                     <VBox>
                                        <children>
-                                          <LineChart fx:id="numCarsChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="numVehiclesChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
-                                                <NumberAxis forceZeroInRange="false" label="No. of Cars" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                                <NumberAxis forceZeroInRange="false" label="No. of Vehicles" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
+                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="150.0" />
                                              </yAxis>
                                           </LineChart>
-                                          <LineChart fx:id="speedChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="avgSpeedChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
-                                                <NumberAxis forceZeroInRange="false" label="Avg. Speed" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                                <NumberAxis forceZeroInRange="false" label="Avg. Speed [km/h]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
+                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="100.0" />
+                                             </yAxis>
+                                          </LineChart>
+                                          <LineChart fx:id="congestionChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                             <xAxis>
+                                                <NumberAxis forceZeroInRange="false" label="Congestion [%]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                             </xAxis>
+                                             <yAxis>
+                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="75.0" />
                                              </yAxis>
                                           </LineChart>
                                           <LineChart fx:id="waitingTimeChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
-                                                <NumberAxis forceZeroInRange="false" label="Avg. Waiting Time" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
+                                                <NumberAxis forceZeroInRange="false" label="Avg. Waiting Time [s]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis side="LEFT" tickMarkVisible="false" upperBound="150.0" />
+                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" />
                                              </yAxis>
                                           </LineChart>
                                        </children>

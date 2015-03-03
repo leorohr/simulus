@@ -37,7 +37,12 @@ public class Truck extends Vehicle {
 	
 		setFill(COLOUR);
 		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(2)+2;
+		maxSpeed = rand.nextInt(2)+3;
+		
+		//0.4px/tick acceleration equals a real-life acceleration of ~0,62m/s^2, i.e 0-100km/h in 45 secs.
+		acceleration = 0.4d;
+		vehicleSpeed = 0.0d;
+		
 		addToCanvas();
 	}
 
@@ -173,6 +178,13 @@ public class Truck extends Vehicle {
             SimulationController.getInstance().removeVehicle(this);
 		}
 
+		//Accelerate
+		if(temp != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
+			vehicleSpeed += acceleration;
+		else if(temp == Direction.NONE)
+			vehicleSpeed = 0; //TODO decelerate 
+		
+		
 		//Moves the car in the direction it should go.
 		switch (temp) {
 		case NORTH:
@@ -219,6 +231,9 @@ public class Truck extends Vehicle {
 			trans.setX(dx);
 			trans.setY(dy);
 			getTransforms().add(trans);
+			
+			//The truck did not move
+			waitedCounter++;
 			break;
 		}
 	}

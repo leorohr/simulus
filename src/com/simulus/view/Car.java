@@ -66,8 +66,12 @@ public class Car extends Vehicle {
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		
+		//1.5px/tick acceleration equals a real-life acceleration of ~2,31m/s^2, i.e 0-100km/h in 12 secs.
+		acceleration = 1.5d;
+		vehicleSpeed = 0;
+		
 		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
+		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
 	
@@ -273,12 +277,22 @@ public class Car extends Vehicle {
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
-                if(nextTile != null && nextTile.getOccupier()!=null)
-                    setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
+                if(nextTile != null && nextTile.getOccupier()!=null) {
+                	vehicleSpeed = nextTile.getOccupier().getVehicleSpeed();
+                	maxSpeed = nextTile.getOccupier().getMaxSpeed();
+                }
+            		                    
 
 		} catch (ArrayIndexOutOfBoundsException e) {
 //            e.printStackTrace(); TODO avoid exception
 		}
+		
+		//Accelerate
+		if(temp != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
+			vehicleSpeed += acceleration;
+		else if(temp == Direction.NONE)
+			vehicleSpeed = 0; //TODO decelerate 
+			
 
 		//Moves the car in the direction it should go.
 		switch (temp) {
@@ -326,6 +340,9 @@ public class Car extends Vehicle {
 			trans.setX(dx);
 			trans.setY(dy);
 			getTransforms().add(trans);
+			
+			//The car did not move.
+			waitedCounter++;
 			break;
 		}
 	}
@@ -336,10 +353,7 @@ public class Car extends Vehicle {
 		Path path = new Path(
                 		//from 
                 		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
-                        		
-                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY())
-                    
-                );
+                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY()));
 		
                
         path.setStroke(Color.DODGERBLUE);
@@ -348,6 +362,10 @@ public class Car extends Vehicle {
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
         		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
+
+        //Ensure that cars are moving before they try to overtake
+        if(vehicleSpeed == 0)
+        	vehicleSpeed += acceleration; 
         double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
         		
         double pathTime = pathDistance/carSpeed;

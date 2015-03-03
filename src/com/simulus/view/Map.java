@@ -26,16 +26,16 @@ public class Map extends Group {
 
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
+	private ArrayList<Thread> trafficLightThreads = new ArrayList<>();
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
+	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update 
 	
-	private VehicleColorOption carColorOption = VehicleColorOption.BEHAVIOR;
-	private VehicleColorOption truckColorOption = VehicleColorOption.BEHAVIOR;
+	private VehicleColorOption carColorOption = VehicleColorOption.SPEED;
+	private VehicleColorOption truckColorOption = VehicleColorOption.SPEED;
 
 	public Map() {
-
-//		createBasicMap();
+		
 		createHashStyleMap();
 
 		// Add map to canvas
@@ -49,6 +49,7 @@ public class Map extends Group {
 		for(Intersection i: intersections){
 			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
 														+ i.getTiles().get(0).getGridPosY() + ">");
+			trafficLightThreads.add(t);
 			t.start();
 		}
 
@@ -399,8 +400,6 @@ public class Map extends Group {
 				break;
 			}
 		} 
-		
-	
 	}
 	
 	/**
@@ -422,6 +421,60 @@ public class Map extends Group {
 			is.hideAllPaths();
 		}
 	}
+	
+	/**
+	 * @return The average speed of all vehicles currently on the map.
+	 */
+	public double getAverageSpeed() {
+		
+		double avg = 0.0d;
+		for(Vehicle v : vehicles)
+			avg += v.getVehicleSpeed()*10; //simulated speed is scaled by factor 10.
+	
+		return avg/vehicles.size();
+	}
+	
+	/**
+	 * @return The percentage of road-tiles that are currently occupied [0.0;1.0]
+	 */
+	public double getCongestionValue() {
+		double occ = 0.0d;
+		double road = 0.0d;
+		
+		for(Tile[] ts : tiles) {
+			for(Tile t : ts) {
+				if(t instanceof Lane)
+					road++;
+				if(t.isOccupied())
+					occ++;
+			}
+		}
+		return occ/road;
+	}
+	
+	/**
+	 * @return The average number of ticks in which a vehicle did not move on its way through the map.
+	 */
+	public double getAvgWaitingTime() {
+		
+		double avg = 0.0d;
+		for(Vehicle v : vehicles) {
+			avg += v.getWaitedCounter();
+		}
+		
+		return avg/vehicles.size();
+	}
+	
+	/**
+	 * Interrupts all trafficLightThreads that are spawned by the map.
+	 * Is used when the simulation is restart.
+	 */
+	public void stopChildThreads() {
+
+		for(Thread t : trafficLightThreads) {
+			t.interrupt();
+		}
+	}
 
 	public Tile[][] getTiles() {
 		return tiles;
@@ -437,6 +490,5 @@ public class Map extends Group {
 	
 	public void setTruckColorOption(VehicleColorOption o) {
 		this.truckColorOption = o;
-	}
-	
+	}	
 }

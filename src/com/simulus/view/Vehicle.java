@@ -23,7 +23,10 @@ public abstract class Vehicle extends Rectangle {
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
 	
-	protected double vehicleSpeed;
+	protected double acceleration;
+	protected double maxSpeed;
+	protected double vehicleSpeed = 0;
+	protected int waitedCounter = 0;
 
 	/**
 	 * Initialises the position and size of the vehicle
@@ -115,6 +118,14 @@ public abstract class Vehicle extends Rectangle {
 	
 	public void setVehicleSpeed(double d){
 		vehicleSpeed = d;
+	}
+	
+	public double getMaxSpeed() {
+		return maxSpeed;
+	}
+	
+	public int getWaitedCounter() {
+		return waitedCounter;
 	}
 	
 	public void setBehavior(Behavior b){

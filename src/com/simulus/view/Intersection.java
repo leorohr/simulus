@@ -184,7 +184,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	    	try {
 				Thread.sleep( getSwitchTime());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 	    		
 	    	Platform.runLater(() ->{
@@ -205,7 +205,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	    	try {
 				Thread.sleep( getSwitchTime());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
