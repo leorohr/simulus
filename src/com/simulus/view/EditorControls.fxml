@@ -51,6 +51,11 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
+            <Button id="eraserButton" fx:id="eraserButton" layoutX="127.0" layoutY="90.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;); -fx-background-size: 50 50;" text="Eraser" textFill="WHITE">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
          </children>
       </Pane>
       <Pane layoutX="5.0" layoutY="354.0" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">

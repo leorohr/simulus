@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
@@ -58,7 +60,7 @@ public class Map extends Group {
 			for (int p = 0; p < tiles.length; p++) {
 				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
 						TILESIZE, i, p);
-				tiles[i][p].setOccupied(true);
+				//tiles[i][p].setOccupied(true);
 			}
 		}
 
@@ -101,7 +103,10 @@ public class Map extends Group {
 	}
 	
 	
-	
+	/*
+	 *  TODO: shrink method, remove redundant/repeat code
+	 *  	  have a remove method that handles single square and groups
+	 */
 	public void removeGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();

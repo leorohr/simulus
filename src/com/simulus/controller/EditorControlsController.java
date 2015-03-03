@@ -15,6 +15,8 @@ public class EditorControlsController implements Initializable {
 	@FXML
 	Button landButton;
 	@FXML
+	Button eraserButton;
+	@FXML
 	Button roadHorizontalButton;
 	@FXML
 	Button roadVerticalButton;
@@ -41,6 +43,10 @@ public class EditorControlsController implements Initializable {
 		
 
 		landButton.setOnAction((event) -> {
+			EditorApp.getInstance().selectButton((Button) event.getSource());
+		});
+		
+		eraserButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 

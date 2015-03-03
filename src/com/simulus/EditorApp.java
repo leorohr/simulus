@@ -26,6 +26,7 @@ import com.simulus.io.MapXML;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.Intersection;
+import com.simulus.view.Land;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
 import com.simulus.view.Road;
@@ -43,21 +44,23 @@ public class EditorApp extends Application {
 	private int canvasHeight = 800;
 	private int tileWidth;
 	private Scene scene;
-	
+
 	private Image csrRoadEW = new Image("com/simulus/util/images/csr_eastwest.png");
 	private Image csrRoadNS = new Image("com/simulus/util/images/csr_northsouth.png");
 	private Image csrLand = new Image("com/simulus/util/images/csr_land.png");
+	private Image csrDirt = new Image("com/simulus/util/images/dirt.png");
 	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
-	
+
 	private boolean landSelected = false;
+	private boolean eraserSelected = false;
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
-	
-	 FileChooser fileChooser = new FileChooser();
-	 FileChooser.ExtensionFilter extFilter;
-	 File selectedFile;
-	
+
+	FileChooser fileChooser = new FileChooser();
+	FileChooser.ExtensionFilter extFilter;
+	File selectedFile;
+
 
 	private static EditorApp instance;
 
@@ -81,7 +84,8 @@ public class EditorApp extends Application {
 
 		this.editorStage = editorStage;
 		this.editorStage.setTitle("Simulus - Map Editor");
-		//this.editorStage.setResizable(false);
+		// TODO: fix resizable issue with mouse position?
+		this.editorStage.setResizable(false);
 
 		initRootLayout();
 		showControls();
@@ -97,14 +101,22 @@ public class EditorApp extends Application {
 								.getBoundsInParent().getMinX()
 								&& event.getSceneX() < editorMap.getTiles()[i][p]
 										.getBoundsInParent().getMaxX()
-								&& event.getSceneY() > editorMap.getTiles()[i][p]
-										.getBoundsInParent().getMinY()
-								&& event.getSceneY() < editorMap.getTiles()[i][p]
-										.getBoundsInParent().getMaxY()) {
+										&& event.getSceneY() > editorMap.getTiles()[i][p]
+												.getBoundsInParent().getMinY()
+												&& event.getSceneY() < editorMap.getTiles()[i][p]
+														.getBoundsInParent().getMaxY()) {
 							if (landSelected) {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
+							} else if (eraserSelected) {
+								// TODO implement remove properly
+								System.out.println("Removing at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+										.getGridPosX(), editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.NORTHSOUTH));
+
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
 										+ editorMap.getTiles()[i][p].toString());								
@@ -113,6 +125,12 @@ public class EditorApp extends Application {
 										editorMap.getTiles()[i][p]
 												.getGridPosY()));
 							} else if (roadVerticalSelected) {
+								System.out.println("Removing road");
+								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+										.getGridPosX(), editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.NORTHSOUTH));
+
+
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
@@ -128,8 +146,8 @@ public class EditorApp extends Application {
 												.getGridPosY(), Seed.WESTEAST));
 							}
 						}
-							
-							
+
+
 					}
 			}
 		});
@@ -138,6 +156,7 @@ public class EditorApp extends Application {
 		 * Drag to draw for Land and road tiles
 		 */
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			@Override
 			public void handle(MouseEvent event) {
 				for (int i = 0; i < editorMap.getTiles().length; i++) {
 					for (int p = 0; p < editorMap.getTiles()[0].length; p++) {
@@ -145,10 +164,10 @@ public class EditorApp extends Application {
 								.getBoundsInParent().getMinX()
 								&& event.getSceneX() < editorMap.getTiles()[i][p]
 										.getBoundsInParent().getMaxX()
-								&& event.getSceneY() > editorMap.getTiles()[i][p]
-										.getBoundsInParent().getMinY()
-								&& event.getSceneY() < editorMap.getTiles()[i][p]
-										.getBoundsInParent().getMaxY()) {
+										&& event.getSceneY() > editorMap.getTiles()[i][p]
+												.getBoundsInParent().getMinY()
+												&& event.getSceneY() < editorMap.getTiles()[i][p]
+														.getBoundsInParent().getMaxY()) {
 
 							if (landSelected) {
 								System.out.println("Adding land at "
@@ -175,7 +194,27 @@ public class EditorApp extends Application {
 			}
 
 		});
-			
+		
+	
+		/**
+		 * Mouse hover for each tile in the EditorMap
+		 */
+		Tile[][] mapTiles = editorMap.getTiles();
+		for (int x =0 ;  x < mapTiles.length; x++) {
+			for(int y = 0; y < mapTiles[x].length; y++) {
+				Tile t = editorMap.getTiles()[x][y];
+
+				t.setOnMouseEntered(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						System.out.println("Mouse hovering over X:" + t.gridPosX + " Y:" + t.gridPosY);
+					}
+				});
+				
+			}
+
+		}
+
 
 		/**
 		 * Ticking loop
@@ -210,7 +249,7 @@ public class EditorApp extends Application {
 			canvas.setPrefSize(canvasWidth, canvasHeight);
 			canvas.setMaxSize(canvasWidth, canvasHeight);*/
 			rootLayout.setCenter(canvas);
-			
+
 			//not sure if needed?
 			//setGridSize(30);
 
@@ -267,70 +306,72 @@ public class EditorApp extends Application {
 	public void selectButton(Button b) {
 		switch (b.getId()) {
 		case "landButton":
-			System.out.println("Clicked Land Button");
 			landSelected = true;
+			eraserSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrLand));
 			break;
-		case "roadVerticalButton":
-			System.out.println("Clicked Vertical Road Button");
+		case "eraserButton":
 			landSelected = false;
+			eraserSelected = true;
+			roadVerticalSelected = false;
+			roadHorizontalSelected = false;
+			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrDirt));
+			break;
+		case "roadVerticalButton":
+			landSelected = false;
+			eraserSelected = false;
 			roadVerticalSelected = true;
 			roadHorizontalSelected = false;
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrRoadNS));
 			break;
 		case "roadHorizontalButton":
-			System.out.println("Clicked Horizontal Road Button");
 			landSelected = false;
+			eraserSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = true;
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrRoadEW));
 			break;
 		case "interButton":
-			System.out.println("Clicked Intersection Button");
 			landSelected = false;
+			eraserSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = true;
 			canvas.setCursor(new ImageCursor(csrIntersection));
 			break;
 		case "openMapButton":
-			System.out.println("Clicked Open Map Button");
-			 fileChooser = new FileChooser();
-			 fileChooser.setTitle("Open Map XML...");
-             extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-             fileChooser.getExtensionFilters().add(extFilter);
-			 selectedFile = fileChooser.showOpenDialog(editorStage);
-			 if (selectedFile != null) {
-			    loadMap(selectedFile.getPath());
-			 }
+			fileChooser = new FileChooser();
+			fileChooser.setTitle("Open Map XML...");
+			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+			fileChooser.getExtensionFilters().add(extFilter);
+			selectedFile = fileChooser.showOpenDialog(editorStage);
+			if (selectedFile != null) {
+				loadMap(selectedFile.getPath());
+			}
 			break;
 		case "saveMapButton":
-			System.out.println("Clicked Save Map Button");
-			
-			 fileChooser = new FileChooser();
-			 fileChooser.setTitle("Save Map XML...");
-             extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-             fileChooser.getExtensionFilters().add(extFilter);
-			 selectedFile = fileChooser.showSaveDialog(editorStage);
-			 if (selectedFile != null) {
-			    saveMap(selectedFile.getPath());
-			 }
-			
-			System.out.println(editorMap.getTiles()[2][2].isOccupied());
-			
-			
-			Tile t = editorMap.getTiles()[2][2];
-			
-			if (t instanceof Lane) {
-				System.out.println(((Lane) t).getDirection());
+			fileChooser = new FileChooser();
+			fileChooser.setTitle("Save Map XML...");
+			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+			fileChooser.getExtensionFilters().add(extFilter);
+			selectedFile = fileChooser.showSaveDialog(editorStage);
+			if (selectedFile != null) {
+				saveMap(selectedFile.getPath());
 			}
-			
 
+			// TODO: Delete test block
+			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
+			System.out.println(getTileDetails(0,0));
+			System.out.println(getTileDetails(1,0));
+			System.out.println(getTileDetails(2,0));
+			System.out.println(getTileDetails(3,0));
+			
 			break;
 		case "clearMapButton":
 			System.out.println("Clicked Clear Map Button");
@@ -341,19 +382,43 @@ public class EditorApp extends Application {
 		}
 	}
 	
+	
+	/*
+	 *  TODO: replace return type with something usable by mouse hover and/or XML
+	 *  		Perhaps the method should take in a Tile rather than compute the information based on XY 
+	 */
+	/**
+	 * Returns details about the given tile 
+	 * 
+	 * @param posX X position of tile in Map array
+	 * @param posY Y position of tile in Map array
+	 * @return details - String listing tile type and attribute
+	 */
+	public String getTileDetails(int posX, int posY) {
+		String details = "";
+		Tile t = editorMap.getTiles()[posX][posY];
+		
+		if (t instanceof Lane) {
+			details = "This tile "+ posX + " " + posY +" is a lane with " +((Lane) t).getDirection() + " Direction";
+		} else if (t instanceof Land) {
+			details = "This tile "+ posX + " " + posY +" is land of type " +((Land) t).getLandType();
+		}
+		return details;
+	}
+
 
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
 		//set values
 	}
-	
+
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		//mxml.writeXML(gridIn, outputFile, nameIn, dateIn, descIn, authIn, mHeightIn, mWidthIn, tHeightIn, tWidthIn);
 		//save file
 	}
-	
+
 
 	public static void main(String[] args) {
 		launch(args);
