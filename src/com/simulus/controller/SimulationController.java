@@ -4,6 +4,7 @@ import javafx.application.Platform;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
+import com.simulus.view.EmergencyCar;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
 import com.simulus.view.Tile;
@@ -24,6 +25,7 @@ public class SimulationController {
     private double recklessNormalRatio = 0.3d; 	//see above
     private int recklessCount = 0;
     private int truckCount = 0;
+    private int ambulanceCount = 0;
     private boolean debugFlag = false;
 
     private Map map = new Map();
@@ -89,6 +91,13 @@ public class SimulationController {
                         }
                     }
                 }
+                
+                
+                if(ambulanceCount < 1){
+                	Platform.runLater(() -> map.spawnAmbulance());
+                	ambulanceCount++;
+                }
+                
             	
                 Platform.runLater(() -> map.updateMap());
 
@@ -120,6 +129,8 @@ public class SimulationController {
         map.removeVehicle(v);
         if(v instanceof Truck)
             truckCount--;
+        if(v instanceof EmergencyCar)
+        	ambulanceCount--;
     }
 
     /* Getter & Setter */

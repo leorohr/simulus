@@ -23,19 +23,19 @@ public class Truck extends Vehicle {
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
-			setWidth(TRUCKWIDTH);
-			setHeight(TRUCKLENGTH);
+			 setWidth(TRUCKWIDTH);
+			 setHeight(TRUCKLENGTH);
 			break;
 		case EAST:
 		case WEST:
-			setWidth(TRUCKLENGTH);
-			setHeight(TRUCKWIDTH);
+			 setWidth(TRUCKLENGTH);
+			 setHeight(TRUCKWIDTH);
 			break;
 		default:
 			break;
 		}
 	
-		setFill(COLOUR);
+		 setFill(COLOUR);
 		Random rand = new Random();
 		vehicleSpeed = rand.nextInt(2)+2;
 		addToCanvas();
@@ -173,54 +173,11 @@ public class Truck extends Vehicle {
             SimulationController.getInstance().removeVehicle(this);
 		}
 
+		if(isPaused)
+			temp = Direction.NONE;
+		
 		//Moves the car in the direction it should go.
-		switch (temp) {
-		case NORTH:
-
-			dx = 0;
-			dy = -getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case SOUTH:
-			dx = 0;
-			dy = getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case EAST:
-			dx = getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			break;
-		case WEST:
-			dx = -getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
-			break;
-		case NONE:
-
-			dx = 0;
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-			break;
-		}
+		move(temp);
 	}
 
 	@Override
