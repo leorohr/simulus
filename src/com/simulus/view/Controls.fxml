@@ -193,7 +193,7 @@
                                                 <NumberAxis forceZeroInRange="false" label="Avg. Waiting Time [s]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" />
+                                                <NumberAxis forceZeroInRange="false" prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="175.0" />
                                              </yAxis>
                                           </LineChart>
                                        </children>

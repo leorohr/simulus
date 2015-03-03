@@ -166,11 +166,7 @@ public class Car extends Vehicle {
 		if(isPaused)
 			tempDir = Direction.NONE;
 		
-		System.out.println(vehicleSpeed);
-		
 		move(tempDir);
-		
-		
 	}
 	
 	

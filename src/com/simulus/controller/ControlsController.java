@@ -220,5 +220,12 @@ public class ControlsController implements Initializable {
     public Color getTruckColor() {
     	return truckcolorPicker.getValue();
     }
+    
+    public void resetCharts() {
+    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size());
+    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());
+    	congestionSeries.getData().remove(0, congestionSeries.getData().size());
+    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
+    }
 
 }

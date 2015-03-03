@@ -63,6 +63,7 @@ public class SimulationController {
         MainApp.getInstance().resetCanvas();
         map.stopChildThreads();
         map = new Map();
+        MainApp.getInstance().getControlsController().resetCharts();
         truckCount = 0;
         recklessCount = 0;
         animationThread = new AnimationThread();
