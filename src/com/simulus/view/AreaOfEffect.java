@@ -30,7 +30,7 @@ public class AreaOfEffect extends Circle{
 							&& v instanceof Car)
 						((Car) v).attemptOvertake();
 			}
-			else v.setAmbulanceMode(false);
+			else; //v.setAmbulanceMode(false);
 		}
 	}
 }

@@ -1,9 +1,7 @@
 package com.simulus.view;
 
-import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
-import com.simulus.util.enums.Behavior;
-import com.simulus.util.enums.Direction;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -19,8 +17,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Direction;
 
 /**
  * Describes a vehicle on the GUI
@@ -35,16 +35,21 @@ public abstract class Vehicle extends Rectangle {
 	protected List<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
-	protected boolean isPaused = false;
-	protected boolean skipLights = false;
 	
-	protected double vehicleSpeed;
+
 	protected double temporarySpeed;
 	
 	protected PathTransition pathTransition;
 	
+	protected boolean isPaused;
+	protected boolean skipLights;
+	
 	protected Behavior tempBehavior;
 	protected Direction tempDir;
+	protected double acceleration;
+	protected double maxSpeed;
+	protected double vehicleSpeed = 0;
+	protected int waitedCounter = 0;
 
 	/**
 	 * Initialises the position and size of the vehicle
@@ -83,6 +88,13 @@ public abstract class Vehicle extends Rectangle {
 
 		final double dx;
 		final double dy;
+		
+		//Accelerate
+		if(tempDir != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
+			vehicleSpeed += acceleration;
+		else if(tempDir == Direction.NONE)
+			vehicleSpeed = 0; //TODO decelerate 
+		
 		// Moves the car in the direction it should go.
 		switch (d) {
 		case NORTH:
@@ -122,7 +134,9 @@ public abstract class Vehicle extends Rectangle {
 
 			break;
 		case NONE:
-
+			
+			waitedCounter++;
+			
 			dx = 0;
 			dy = 0;
 
@@ -189,13 +203,13 @@ public abstract class Vehicle extends Rectangle {
 	}
 
 	public void setCurrentTile(Tile t) {
-		currentTile = t;
-		addTile(t); // add current tile to list of occupied tiles
-	}
+        currentTile = t;
+        addTile(t); //add current tile to list of occupied tiles
+    }
 
 	public void removeFromCanvas() {
-		if (parent.getCanvas().getChildren().contains(this))
-			parent.getCanvas().getChildren().remove(this);
+        if (parent.getCanvas().getChildren().contains(this))
+            parent.getCanvas().getChildren().remove(this);
 	}
 
 	public Tile getCurrentTile() {
@@ -207,43 +221,43 @@ public abstract class Vehicle extends Rectangle {
 			parent.getCanvas().getChildren().add(this);
 	}
 
-	private void addTile(Tile t) {
-		synchronized (this) {
-			if (!occupiedTiles.contains(t))
-				occupiedTiles.add(t);
-		}
+	private void addTile(Tile t){
+        synchronized(this) {
+            if (!occupiedTiles.contains(t))
+                occupiedTiles.add(t);
+        }
+	}
+	
+	public void removeTile(Tile t){
+        synchronized (this) {
+            if (occupiedTiles.contains(t))
+                occupiedTiles.remove(t);
+        }
 	}
 
-	public void removeTile(Tile t) {
-		synchronized (this) {
-			if (occupiedTiles.contains(t))
-				occupiedTiles.remove(t);
-		}
-	}
-
-	public List<Tile> getOccupiedTiles() {
-		synchronized (this) {
-			return occupiedTiles;
-		}
-	}
-
-	public double getVehicleSpeed() {
+	public List<Tile> getOccupiedTiles(){
+        synchronized (this) {
+            return occupiedTiles;
+        }
+    }
+	
+	public double getVehicleSpeed(){
 		return vehicleSpeed;
 	}
-
-	public void setVehicleSpeed(double d) {
+	
+	public void setVehicleSpeed(double d){
 		vehicleSpeed = d;
 	}
-
-	public void setTemporarySpeed(double d) {
-		temporarySpeed = d;
+	
+	public void setBehavior(Behavior b){
+		behavior = b;
+	}
+	
+	public Behavior getBehavior(){
+		return behavior;
 	}
 
-	public void setAmbulanceMode(boolean b) {
-		isPaused = b;
-	}
-
-	public void setSkipLights(boolean b) {
-		skipLights = b;
+	public double getWaitedCounter() {
+		return waitedCounter;
 	}
 }

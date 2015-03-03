@@ -1,7 +1,7 @@
 package com.simulus.util.enums;
 
 public enum VehicleColorOption {
-	BEHAVIOR("Behavior"), SPEED("Speed"), USER("User");
+	SPEED("Speed"), BEHAVIOR("Behavior"), USER("User");
 	
 	private String name;
 	private VehicleColorOption(String name) {

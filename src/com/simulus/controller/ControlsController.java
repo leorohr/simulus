@@ -16,6 +16,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 
 import com.simulus.util.enums.VehicleColorOption;
+import com.simulus.view.Map;
 
 public class ControlsController implements Initializable {
 
@@ -50,6 +51,8 @@ public class ControlsController implements Initializable {
 	@FXML
 	Label recklessnormalLabel;
 	@FXML
+	Button randTrafficLightsButton;
+	@FXML
 	ComboBox<VehicleColorOption> carcolorComboBox;
 	@FXML
 	ColorPicker carcolorPicker;
@@ -61,23 +64,37 @@ public class ControlsController implements Initializable {
 	CheckBox debugCheckbox;
 
     @FXML
-    LineChart<Number, Number> numCarsChart;
+    LineChart<Number, Number> numVehiclesChart;
     @FXML
-    LineChart<Number, Number> speedChart;
+    LineChart<Number, Number> avgSpeedChart;
+    @FXML
+    LineChart<Number, Number> congestionChart;
     @FXML
     LineChart<Number, Number> waitingTimeChart;
 
     private static int MAX_DATA_POINTS = 100;
 
     private int dataCount = 0;
-    private LineChart.Series<Number, Number> numCarsSeries;
+    private LineChart.Series<Number, Number> numVehiclesSeries;
+    private LineChart.Series<Number, Number> avgSpeedSeries;
+    private LineChart.Series<Number, Number> congestionSeries;
+    private LineChart.Series<Number, Number> waitingTimeSeries;
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		numCarsSeries = new LineChart.Series<Number, Number>();
-        numCarsChart.getData().addAll(numCarsSeries);
+		numVehiclesSeries = new LineChart.Series<Number, Number>();
+        numVehiclesChart.getData().addAll(numVehiclesSeries);
+        
+        avgSpeedSeries = new LineChart.Series<Number, Number>();
+        avgSpeedChart.getData().addAll(avgSpeedSeries);
+        
+        congestionSeries = new LineChart.Series<Number, Number>();
+        congestionChart.getData().addAll(congestionSeries);
+        
+        waitingTimeSeries = new LineChart.Series<Number, Number>();
+        waitingTimeChart.getData().addAll(waitingTimeSeries);
 
         SimulationController simulationController = SimulationController.getInstance();
 	
@@ -111,6 +128,10 @@ public class ControlsController implements Initializable {
 			double roundedValue = (double) ((int)(newValue.doubleValue()*10))/10;
 			recklessnormalLabel.setText(String.valueOf(roundedValue));
 			simulationController.setRecklessNormalRatio(roundedValue);
+		});
+		
+		randTrafficLightsButton.setOnAction((event) -> {
+			simulationController.getMap().randomiseTrafficLights();
 		});
 		
 		carcolorComboBox.getItems().addAll(VehicleColorOption.values());
@@ -154,23 +175,44 @@ public class ControlsController implements Initializable {
 		});
 	}
 
-	/**
-	 * Adds a datapoint to the numCarChart
-	 * @param num The current number of cars.
-	 */
-    void addNumCarData(int num) {
+	void updateCharts() {
+		
+		Map map = SimulationController.getInstance().getMap();
+		dataCount++;
     	
-
-        numCarsSeries.getData().add(new LineChart.Data<>(dataCount++, num));
+    	//Update Vehicle Count Chart
+		numVehiclesSeries.getData().add(new LineChart.Data<>(dataCount, map.getVehicleCount()));
+        if(numVehiclesSeries.getData().size() > MAX_DATA_POINTS) { //enforce only MAX_DATA_POINTS-many values are displayed
+            numVehiclesSeries.getData().remove(0, 10);
+            ((NumberAxis)numVehiclesChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)numVehiclesChart.getXAxis()).setUpperBound(dataCount);
+        }
+    	
+    	//Update Avg. Speed Chart
+        avgSpeedSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAverageSpeed())));
+        if(avgSpeedSeries.getData().size() > MAX_DATA_POINTS) {
+            avgSpeedSeries.getData().remove(0, 10);
+            ((NumberAxis)avgSpeedChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)avgSpeedChart.getXAxis()).setUpperBound(dataCount);
+        }
         
+        //Update Congestion Chart
+        congestionSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getCongestionValue()*100)));
+        if(congestionSeries.getData().size() > MAX_DATA_POINTS) {
+            congestionSeries.getData().remove(0, 10);
+            ((NumberAxis)congestionChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)congestionChart.getXAxis()).setUpperBound(dataCount);
+        }
         
-        if(numCarsSeries.getData().size() > MAX_DATA_POINTS) {
-            numCarsSeries.getData().remove(0);
-            ((NumberAxis)numCarsChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-            ((NumberAxis)numCarsChart.getXAxis()).setUpperBound(dataCount);
-        }       
-    }
-    
+        //Update Waiting Time Chart
+        waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()*1.8))); //1 tick simulates 1.8secs in real-time
+        if(waitingTimeSeries.getData().size() > MAX_DATA_POINTS) {
+            waitingTimeSeries.getData().remove(0, 10);
+            ((NumberAxis)waitingTimeChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)waitingTimeChart.getXAxis()).setUpperBound(dataCount);
+        }   
+	}
+	
     public Color getCarColor() {
     	return carcolorPicker.getValue();
     }

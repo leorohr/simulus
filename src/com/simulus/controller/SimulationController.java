@@ -1,6 +1,7 @@
 package com.simulus.controller;
 
 import javafx.application.Platform;
+import javafx.scene.paint.Color;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
@@ -46,10 +47,11 @@ public class SimulationController {
     }
 
     public void startSimulation() {
-        if(!animationThread.isInterrupted())
+        if(animationThread.isInterrupted() || !animationThread.isAlive())
             animationThread = new AnimationThread();
-
-        animationThread.start();
+        
+        if(!animationThread.isAlive())
+        	animationThread.start();
     }
 
     public void stopSimulation() {
@@ -59,6 +61,7 @@ public class SimulationController {
     public void resetSimulation() {
         animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
+        map.stopChildThreads();
         map = new Map();
         truckCount = 0;
         recklessCount = 0;
@@ -73,7 +76,7 @@ public class SimulationController {
             while(!Thread.currentThread().isInterrupted()) {
         		
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
-            		Platform.runLater(() -> StatisticsController.getInstance().update());
+            		Platform.runLater(() -> MainApp.getInstance().getControlsController().updateCharts());
 
                 if(tickCount++ % spawnRate == 0) {
                     if (map.getVehicleCount() < maxCars) {
@@ -149,8 +152,11 @@ public class SimulationController {
             //Clear debuginformation from canvas
             for(Tile[] t : map.getTiles()) {
                 for (int i = 0; i < t.length; i++) {
-                    if(t[i] instanceof Lane)
-                        t[i].getFrame().setFill(Lane.COLOR);
+                    if(t[i] instanceof Lane) {
+                    	if(t[i].isRedLight())
+                    		t[i].getFrame().setFill(Color.RED);
+                    	else ((Lane) t[i]).redraw();
+                    }
                 }
             }
         }

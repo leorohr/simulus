@@ -153,28 +153,14 @@ public class Intersection extends Group implements TileGroup, Runnable {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
                 Tile t = tiles[i][j];
-                t.getFrame().setFill(Lane.COLOR);
+                t.getFrame().setFill(Color.BLACK);
                 for(Path p : t.getTurningPaths()) {
                     t.getChildren().remove(p);
                 }
             }
-
         }
     }
-
-	@Override
-	public List<Tile> getTiles() {
-		
-		List<Tile> l = new ArrayList<>();
-		for (int i = 0; i < tiles.length; i++) {
-            Collections.addAll(l, tiles[i]);
-		}
-		return l;
-	}
-	
-	public long getSwitchTime(){
-		return switchTime;
-	}
+    
 
 	@Override
 	public void run() {
@@ -198,7 +184,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	    	try {
 				Thread.sleep( getSwitchTime());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 	    		
 	    	Platform.runLater(() ->{
@@ -219,9 +205,26 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	    	try {
 				Thread.sleep( getSwitchTime());
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}
+
+	@Override
+	public List<Tile> getTiles() {
+		
+		List<Tile> l = new ArrayList<>();
+		for (int i = 0; i < tiles.length; i++) {
+            Collections.addAll(l, tiles[i]);
+		}
+		return l;
+	}
 	
+	public long getSwitchTime(){
+		return switchTime;
+	}
+	
+	public void setSwitchTime(long switchTime) {
+		this.switchTime = switchTime;
+	}
 }

@@ -30,12 +30,15 @@ public class Tile extends Group {
 		isOccupied = false;
 		turningPaths = new ArrayList<>();
 		frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
-//		frame.setStroke(Color.BLACK);
-//		frame.setStrokeWidth(0.2d);
 		this.getChildren().add(frame);
 	}
 
-    //Makes sure that only the current occupier can set the tile's occupation status
+    /**
+     * Sets the tile to occupied or free. Passing in the vehicle makes sure that only the current
+     * occupier can set the tile's occupation status.
+     * @param isOccupied
+     * @param occupier
+     */
 	public void setOccupied(boolean isOccupied, Vehicle occupier) {
 		if (isOccupied) {
 			this.occupier = occupier;
@@ -48,32 +51,17 @@ public class Tile extends Group {
 		}
 	}
 	
+	/**
+	 * Sets the tile to occupied or free without checking whether the caller is the currently
+	 * occupying car.
+	 * @param isOccupied
+	 */
 	public void setOccupied(boolean isOccupied){
 		this.isOccupied = isOccupied;
 		if(isOccupied)
 			isRedLight = true;
 		else isRedLight = false;
 		redrawTile();
-	}
-
-	public Vehicle getOccupier() {
-		return occupier;
-	}
-
-	public boolean isOccupied() {
-		return isOccupied;
-	}
-
-	public int getGridPosX() {
-		return gridPosX;
-	}
-
-	public int getGridPosY() {
-		return gridPosY;
-	}
-	
-	public boolean getRedLight(){
-		return isRedLight;
 	}
 
 	/**
@@ -90,10 +78,10 @@ public class Tile extends Group {
             	frame.setFill(Color.RED);
 		} else {
             if(this instanceof Lane)
-			    frame.setFill(Lane.COLOR);
-            else frame.setFill(Color.TRANSPARENT);
+			    ((Lane)this).redraw();
+            else frame.setFill(Color.TRANSPARENT); //keep intersections transparent 
             if(isRedLight)
-            	frame.setFill(Color.RED);
+            	frame.setFill(Color.RED); //redraw trafficlights
 		}
 	}
 	
@@ -135,9 +123,30 @@ public class Tile extends Group {
 	 * @return The list of available paths for cars to take when they face this tile in an intersection.
 	 */
 	public ArrayList<Path> getTurningPaths() {
-		return turningPaths;
-				
+		return turningPaths;			
 	}
+	
+	public Vehicle getOccupier() {
+		return occupier;
+	}
+
+	public boolean isOccupied() {
+		return isOccupied;
+	}
+
+	public int getGridPosX() {
+		return gridPosX;
+	}
+
+	public int getGridPosY() {
+		return gridPosY;
+	}
+	
+	public boolean isRedLight(){
+		return isRedLight;
+	}
+	
+	@Override
 	public String toString(){
 		return "X: " + gridPosX + " Y: " + gridPosY;
 	}

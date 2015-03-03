@@ -17,19 +17,32 @@ public class Lane extends Tile{
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
 		this.laneNo = laneNo;
-		frame.setFill(COLOR);
-
         frame.setFill(
                 new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
                         ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
-
 	}
 
+	/**
+	 * @return The direction the lane is bound towards.
+	 */
     public Direction getDirection() {
 		return this.dir;
 	}
 	
+    /**
+     * A lane number is used to identify lanes available for overtaking cars.
+     * @return The number of the lane.
+     */
 	public int getLaneNo(){
 		return laneNo;
+	}
+	
+	/*
+	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
+	 */
+	public void redraw() {
+		frame.setFill(
+                new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
+                        ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
 	}
 }

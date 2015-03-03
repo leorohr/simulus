@@ -1,12 +1,15 @@
 package com.simulus.controller;
 
 import com.simulus.MainApp;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -72,14 +75,16 @@ public class RootLayoutController implements Initializable {
             ImageView img = new ImageView(RootLayoutController.class.getResource("/resources/simulus.png").toString());
             img.setPreserveRatio(true);
             img.setFitHeight(75.0d);
-            Label infoPanel = new Label("Copyright... SimulusSimulusSimulus\nVer. 0.1");
+            Label infoPanel = new Label("Simulus Traffic Simulation\nVer. 0.1");
+            Hyperlink link = new Hyperlink("http://github.com/leorohr/simulus");
             Button okayBtn = new Button("Okay");
             okayBtn.setOnAction((btnEvent) -> dialog.close());
 
             VBox vbox = new VBox();
             vbox.setAlignment(Pos.CENTER);
             vbox.setSpacing(5.0d);
-            vbox.getChildren().addAll(img, infoPanel, okayBtn);
+            vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
+            vbox.getChildren().addAll(img, infoPanel, link, okayBtn);
 
             dialog.setScene(new Scene(vbox));
             dialog.show();
