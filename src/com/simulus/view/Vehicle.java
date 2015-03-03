@@ -4,21 +4,7 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
-
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.PathTransitionBuilder;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +22,6 @@ public abstract class Vehicle extends Rectangle {
 	protected List<Tile> occupiedTiles;
 	protected boolean isOvertaking = false;
 	protected Behavior behavior;
-	protected Rectangle frame;
-	protected boolean isPaused = false;
-	protected double vehicleSpeed;
-	protected boolean skipLights = false;
-	protected PathTransition pathTransition;
 	
 	protected double temporarySpeed;
 	
@@ -62,7 +43,6 @@ public abstract class Vehicle extends Rectangle {
 	public Vehicle(double posX, double posY, double width, double height,
 			Direction dir) {
 		super(posX, posY, width, height);
-		frame = new Rectangle();
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();

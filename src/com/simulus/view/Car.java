@@ -1,9 +1,6 @@
 package com.simulus.view;
 
-import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
-import com.simulus.util.enums.Behavior;
-import com.simulus.util.enums.Direction;
+import java.util.Random;
 
 import javafx.animation.Interpolator;
 import javafx.animation.PathTransition;
@@ -11,13 +8,18 @@ import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.PathTransitionBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
-import java.util.Random;
+import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Direction;
 
 /**
  * Describes a car object on the GUI
@@ -54,22 +56,22 @@ public class Car extends Vehicle {
 		switch (dir) {
 		case NORTH:
 		case SOUTH:
-			 setWidth(CARWIDTH);
-			 setHeight(CARLENGTH);
+			setWidth(CARWIDTH);
+			setHeight(CARLENGTH);
 			break;
 		case EAST:
 		case WEST:
-			 setWidth(CARLENGTH);
-			 setHeight(CARWIDTH);
+			setWidth(CARLENGTH);
+			setHeight(CARWIDTH);
 			break;
 		default:
 			break;
 		}
-		 setArcHeight(ARCHEIGHT);
-		 setArcWidth(ARCWIDTH);
-		 setFill(COLOUR);
+		setArcHeight(ARCHEIGHT);
+		setArcWidth(ARCWIDTH);
+		setFill(COLOUR);
 		Random rand = new Random();
-		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-3)+3;
+		vehicleSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
 	
@@ -81,7 +83,6 @@ public class Car extends Vehicle {
 		if(isOvertaking){
 			return;
 		}
-
 		
 		tempDir = getDirection();
 		tempBehavior = behavior;
@@ -95,7 +96,6 @@ public class Car extends Vehicle {
 		if(tempBehavior == Behavior.RECKLESS){
 			attemptOvertake();
 		}
-		
 		try {
             Tile nextTile = null;
 			switch (getDirection()) {
@@ -161,7 +161,7 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+//            e.printStackTrace(); TODO avoid exception
 		}
 		
 		if(isPaused)
@@ -304,23 +304,17 @@ public class Car extends Vehicle {
 		PathTransition pathTransition;
 		switch (getDirection()) {
 		case NORTH:
-			Path path = PathBuilder
-					.create()
-					.elements(
-							// from
-							new MoveTo( getX() - 50,  getY()),
-							new CubicCurveTo( getX(),  getY(),  getX(),
-									 getY() - 100,  getX() - 100,  getY() - 95))
-					.build();
+			Path path = new Path(new MoveTo(getX() - 50, getY()),
+						new CubicCurveTo(getX(), getY(), getX(),
+							getY() - 100, getX() - 100, getY() - 95));
 			path.setStroke(Color.DODGERBLUE);
 			path.getStrokeDashArray().setAll(5d, 5d);
 
-			pathTransition = PathTransitionBuilder.create()
-					.duration(Duration.seconds(2)).path(path).node(this)
-					.orientation(OrientationType.NONE)
-					.interpolator(Interpolator.LINEAR)
-					// .cycleCount(Timeline.INDEFINITE)
-					.build();
+			pathTransition = new PathTransition(Duration.seconds(2), path, this);
+			pathTransition.setInterpolator(Interpolator.LINEAR);
+			pathTransition.setOrientation(OrientationType.NONE);
+//			pathTransition.setCycleCount(Timeline.INDEFINITE);
+			
 			setDirection(Direction.WEST);
 			return pathTransition;
 		default:

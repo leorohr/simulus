@@ -1,7 +1,7 @@
 package com.simulus.view;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
+import com.simulus.util.enums.Orientation;
 import javafx.scene.Group;
 
 import java.util.Arrays;
@@ -14,14 +14,14 @@ import java.util.List;
 public class Road extends Group implements TileGroup{
 
 	private Lane[] lanes = new Lane[4];
-	private Seed orientation;
+	private Orientation orientation;
 	
 	/**
 	 * @param gridPosX The mostleft/top x-coordinate of the road in the grid.
 	 * @param gridPosY The mostleft/top y-coordinate of the road in the grid.
 	 * @param orientation The orientation of the Road.
 	 */
-	public Road(int gridPosX, int gridPosY, Seed orientation){
+	public Road(int gridPosX, int gridPosY, Orientation orientation){
 		
 		int tileSize = Map.TILESIZE;
 		this.orientation = orientation;
@@ -66,7 +66,7 @@ public class Road extends Group implements TileGroup{
     /**
      * @return The orientation of this roadblock.
      */
-	public Seed getOrientation() {
+	public Orientation getOrientation() {
 		return this.orientation;
 	}
 }

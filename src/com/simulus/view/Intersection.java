@@ -17,7 +17,6 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public Tile[][] tiles = new Tile[4][4];
 	private long switchTime;
-	private boolean switchingLight = false;
 	
 	/**
 	 * @param xPos x coordinate of the top left tile of the intersection in the grid

@@ -1,9 +1,13 @@
 package com.simulus.view;
 
 import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
 import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
+import com.simulus.util.enums.Orientation;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -25,6 +29,9 @@ public class Map extends Group {
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>();
+	
+	private VehicleColorOption carColorOption = VehicleColorOption.BEHAVIOR;
+	private VehicleColorOption truckColorOption = VehicleColorOption.BEHAVIOR;
 
 	public Map() {
 
@@ -62,8 +69,8 @@ public class Map extends Group {
 		}
 
 		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(18, i, Seed.NORTHSOUTH));
-			addGroup(new Road(i, 18, Seed.WESTEAST));
+			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
+			addGroup(new Road(i, 18, Orientation.WESTEAST));
 		}
 		addGroup(new Intersection(18, 18));
 	}
@@ -78,14 +85,14 @@ public class Map extends Group {
 		}
 
 		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(i, 7, Seed.WESTEAST));
-			addGroup(new Road(7, i, Seed.NORTHSOUTH));
+			addGroup(new Road(i, 7, Orientation.WESTEAST));
+			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
 
-			addGroup(new Road(i, 18, Seed.WESTEAST));
-			addGroup(new Road(18, i, Seed.NORTHSOUTH));
+			addGroup(new Road(i, 18, Orientation.WESTEAST));
+			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
 
-			addGroup(new Road(i, 29, Seed.WESTEAST));
-			addGroup(new Road(29, i, Seed.NORTHSOUTH));
+			addGroup(new Road(i, 29, Orientation.WESTEAST));
+			addGroup(new Road(29, i, Orientation.NORTHSOUTH));
 		}
 
 		addGroup(new Intersection(7, 7));
@@ -103,8 +110,9 @@ public class Map extends Group {
 
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
+	 * @param b The desired behavior of the spawning car.
 	 */
-	public void spawnRandomCar() {
+	public void spawnRandomCar(Behavior b) {
 		Lane l;
 		if ((l = selectRandomEntryPoint()) == null)
 			return;
@@ -125,6 +133,7 @@ public class Map extends Group {
 
 		c.setCurrentTile(l);
 		c.setMap(tiles);
+		c.setBehavior(b);
 		l.setOccupied(true, c);
 		synchronized (vehicles) {
 			vehicles.add(c);
@@ -245,19 +254,19 @@ public class Map extends Group {
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
-						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Road) g).getOrientation() == Orientation.WESTEAST
 						&& ((Lane) t).getDirection() == Direction.WEST) {
 					entryPoints.add((Lane) t);
 				} else if (t.getGridPosX() == 0
-						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Road) g).getOrientation() == Orientation.WESTEAST
 						&& ((Lane) t).getDirection() == Direction.EAST) {
 					entryPoints.add((Lane) t);
 				} else if (t.getGridPosY() == tiles.length - 1
-						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Road) g).getOrientation() == Orientation.NORTHSOUTH
 						&& ((Lane) t).getDirection() == Direction.NORTH) {
 					entryPoints.add((Lane) t);
 				} else if (t.getGridPosY() == 0
-						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Road) g).getOrientation() == Orientation.NORTHSOUTH
 						&& ((Lane) t).getDirection() == Direction.SOUTH) {
 					entryPoints.add((Lane) t);
 				}
@@ -336,7 +345,7 @@ public class Map extends Group {
 
 			if (nextTile != null) { // if the car is intersecting its front tile
 				// Free tiles
-				Iterator i = v.getOccupiedTiles().iterator();
+				Iterator<Tile> i = v.getOccupiedTiles().iterator();
 				while (i.hasNext()) {
 					Tile t = (Tile) i.next();
 					if (!v.getBoundsInParent().intersects(
@@ -353,7 +362,8 @@ public class Map extends Group {
 				v.setMap(tiles);
 
 			}
-
+			
+			updateVehicleColor(v);
 			v.moveVehicle();
 		}
 	}
@@ -375,6 +385,54 @@ public class Map extends Group {
 		toBeRemoved.add(v);
 	}
 
+	/**
+	 * Changes the color of the vehicle according to the currently chosen coloroption.
+	 * @param v The vehicle whose color should be updated.
+	 */
+	private void updateVehicleColor(Vehicle v) {
+		
+		if(v instanceof Car) {
+			switch(carColorOption) {
+			case BEHAVIOR: 
+				if(v.behavior == Behavior.RECKLESS)
+					v.setFill(Color.RED);
+				else if(v.behavior == Behavior.CAUTIOUS) 
+					v.setFill(Color.AQUAMARINE);
+				break;
+			case SPEED:
+				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
+				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
+				v.setFill(Color.hsb(120.0d * (1-speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				break;
+			case USER:
+	    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
+				break;
+			default:
+				break;
+			}
+		} else if(v instanceof Truck) {
+			switch(truckColorOption){
+			case BEHAVIOR:
+				if(v.behavior == Behavior.RECKLESS)
+					v.setFill(Color.RED);
+				else if(v.behavior == Behavior.CAUTIOUS) 
+					v.setFill(Color.AQUAMARINE);
+				break;
+			case SPEED:
+				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
+				v.setFill(Color.hsb(120.0d * (1-speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				break;
+			case USER:
+				v.setFill(MainApp.getInstance().getControlsController().getTruckColor());
+				break;
+			default:
+				break;
+			}
+		} 
+		
+	
+	}
+	
 	public void showAllIntersectionPaths() {
 		for (Intersection is : intersections)
 			is.showAllPaths();
@@ -397,5 +455,13 @@ public class Map extends Group {
 	public int getVehicleCount() {
 		return vehicles.size();
 	}
-
+	
+	public void setCarColorOption(VehicleColorOption o) {
+    	this.carColorOption = o;
+    }
+	
+	public void setTruckColorOption(VehicleColorOption o) {
+		this.truckColorOption = o;
+	}
+	
 }
