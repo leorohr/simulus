@@ -50,13 +50,6 @@ public class Truck extends Vehicle {
 	public void moveVehicle() {
 
 		Direction temp = getDirection();
-		Behavior tempBehavior = behavior;
-		
-		if(tempBehavior == Behavior.SEMI)
-			if(Math.random()>0.5)
-				tempBehavior = Behavior.RECKLESS;
-			else tempBehavior = Behavior.CAUTIOUS;
-
 
 		try {
 			switch (getDirection()) {
@@ -64,11 +57,6 @@ public class Truck extends Vehicle {
 				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
 						.getGridPosY() - 1].isOccupied()) {
 					temp = Direction.NONE;
-					if(tempBehavior == Behavior.CAUTIOUS)
-						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier()!=null)
-						setVehicleSpeed(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier().getVehicleSpeed());
 				} else
 					temp = getDirection();
 				break;

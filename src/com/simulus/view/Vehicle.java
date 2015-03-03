@@ -133,7 +133,7 @@ public abstract class Vehicle extends Rectangle {
 
 			break;
 		case NONE:
-			
+			//Increase the waitingcounter to keep track of how often cars have to stop.
 			waitedCounter++;
 			
 			dx = 0;
@@ -151,10 +151,7 @@ public abstract class Vehicle extends Rectangle {
 		Path path = new Path(
                 		//from 
                 		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
-                        		
-                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY())
-                    
-                );
+                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY()));
 		
                
         path.setStroke(Color.DODGERBLUE);

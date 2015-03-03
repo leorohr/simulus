@@ -17,9 +17,6 @@ public class Ambulance extends Group {
 	private EmergencyCar frame;
 	
 	public static double AoERadius = 100;
-	
-	
-	private static final Color COLOUR = Color.YELLOW;
 
 	public Ambulance(double posX, double posY, Direction dir) {
 		frame = new EmergencyCar(posX, posY, dir);

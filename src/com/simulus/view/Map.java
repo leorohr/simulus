@@ -393,7 +393,7 @@ public class Map extends Group {
 	 */
 	private void updateVehicleColor(Vehicle v) {
 		
-		if(v instanceof Car) {
+		if(v instanceof Car && !(v instanceof EmergencyCar)) {
 			switch(carColorOption) {
 			case BEHAVIOR: 
 				if(v.behavior == Behavior.RECKLESS)
@@ -404,7 +404,7 @@ public class Map extends Group {
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
 				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
-				v.setFill(Color.hsb(120.0d * (1-speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 	    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
@@ -422,7 +422,7 @@ public class Map extends Group {
 				break;
 			case SPEED:
 				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
-				v.setFill(Color.hsb(120.0d * (1-speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 				v.setFill(MainApp.getInstance().getControlsController().getTruckColor());

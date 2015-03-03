@@ -18,6 +18,7 @@ public class EmergencyCar extends Car {
 		setArcWidth(0);
 	}
 
+	@Override
 	public void moveVehicle() {
 		
 		tempDir = getDirection();
@@ -33,10 +34,7 @@ public class EmergencyCar extends Car {
 
 				nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile()
 						.getGridPosY() - 1];
-				if (nextTile.isOccupied() && nextTile.getOccupier() != null) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
+				
 				break;
 
 			case SOUTH:
@@ -47,10 +45,6 @@ public class EmergencyCar extends Car {
 
 				nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile()
 						.getGridPosY() + 1];
-				if (nextTile.isOccupied() && nextTile.getOccupier() != null) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case EAST:
@@ -61,10 +55,6 @@ public class EmergencyCar extends Car {
 
 				nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
 						.getGridPosY()];
-				if (nextTile.isOccupied() && nextTile.getOccupier() != null) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case WEST:
@@ -72,18 +62,19 @@ public class EmergencyCar extends Car {
 					SimulationController.getInstance().removeVehicle(this);
 					break;
 				}
-
 				nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
 						.getGridPosY()];
-				if (nextTile.isOccupied() && nextTile.getOccupier() != null) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			default:
 				break;
 			}
+			
+			if (nextTile != null && nextTile.isOccupied() && nextTile.getOccupier() != null) {
+				tempDir = Direction.NONE;
+			} else
+				tempDir = getDirection();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -105,10 +105,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case SOUTH:
@@ -118,10 +114,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case EAST:
@@ -131,10 +123,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case WEST:
@@ -144,15 +132,16 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			default:
 				break;
 			}
+			
+			if (nextTile != null && nextTile.isOccupied()) {
+				tempDir = Direction.NONE;
+			} else
+				tempDir = getDirection();
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
@@ -160,7 +149,7 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-
+			SimulationController.getInstance().removeVehicle(this);
 		}
 		
 		if(isPaused)
