@@ -92,6 +92,7 @@ public class ControlsController implements Initializable {
     private LineChart.Series<Number, Number> avgSpeedSeries;
     private LineChart.Series<Number, Number> congestionSeries;
     private LineChart.Series<Number, Number> waitingTimeSeries;
+    private LineChart.Series<Number, Number> emWaitingTimeSeries; //waiting time of emergency vehicles
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -101,7 +102,8 @@ public class ControlsController implements Initializable {
 		resizeIcon.setImage(ResourceBuilder.getResizeIcon());
 		resizeIcon.setOnMouseClicked((event) -> {
 
-			Stage chartStage = new Stage();			
+			Stage chartStage = new Stage();
+			chartStage.setTitle("Statistics");
 			numVehiclesChart.getXAxis().setPrefWidth(400);
 			avgSpeedChart.getXAxis().setPrefWidth(400);
 			congestionChart.getXAxis().setPrefWidth(400);
@@ -134,7 +136,12 @@ public class ControlsController implements Initializable {
         congestionChart.getData().addAll(congestionSeries);
         
         waitingTimeSeries = new LineChart.Series<Number, Number>();
+        waitingTimeSeries.setName("Avg. Waiting Time of Cars/Trucks");
         waitingTimeChart.getData().addAll(waitingTimeSeries);
+        
+        emWaitingTimeSeries = new LineChart.Series<Number, Number>();
+        emWaitingTimeSeries.setName("Avg. Waiting Time of Ambulances");
+        waitingTimeChart.getData().addAll(emWaitingTimeSeries);
 
         //Initialise sliders
         SimulationController simulationController = SimulationController.getInstance();
@@ -227,34 +234,32 @@ public class ControlsController implements Initializable {
     	
     	//Update Vehicle Count Chart
 		numVehiclesSeries.getData().add(new LineChart.Data<>(dataCount, map.getVehicleCount()));
-        if(numVehiclesSeries.getData().size() > MAX_DATA_POINTS) { //enforce only MAX_DATA_POINTS-many values are displayed
-            numVehiclesSeries.getData().remove(0, 10);
-            ((NumberAxis)numVehiclesChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-            ((NumberAxis)numVehiclesChart.getXAxis()).setUpperBound(dataCount);
-        }
     	
     	//Update Avg. Speed Chart
         avgSpeedSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAverageSpeed())));
-        if(avgSpeedSeries.getData().size() > MAX_DATA_POINTS) {
-            avgSpeedSeries.getData().remove(0, 10);
-            ((NumberAxis)avgSpeedChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-            ((NumberAxis)avgSpeedChart.getXAxis()).setUpperBound(dataCount);
-        }
         
         //Update Congestion Chart
         congestionSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getCongestionValue()*100)));
-        if(congestionSeries.getData().size() > MAX_DATA_POINTS) {
-            congestionSeries.getData().remove(0, 10);
-            ((NumberAxis)congestionChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-            ((NumberAxis)congestionChart.getXAxis()).setUpperBound(dataCount);
-        }
         
         //Update Waiting Time Chart
         waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()*1.8))); //1 tick simulates 1.8secs in real-time
-        if(waitingTimeSeries.getData().size() > MAX_DATA_POINTS) {
+        emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()*1.8)));
+        
+        if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);
+            emWaitingTimeSeries.getData().remove(0, 10);
+            congestionSeries.getData().remove(0, 10);
+            avgSpeedSeries.getData().remove(0, 10);
+            numVehiclesSeries.getData().remove(0, 10);
+            
+            ((NumberAxis)congestionChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)congestionChart.getXAxis()).setUpperBound(dataCount);
             ((NumberAxis)waitingTimeChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
-            ((NumberAxis)waitingTimeChart.getXAxis()).setUpperBound(dataCount);
+            ((NumberAxis)waitingTimeChart.getXAxis()).setUpperBound(dataCount);   
+            ((NumberAxis)avgSpeedChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)avgSpeedChart.getXAxis()).setUpperBound(dataCount);
+            ((NumberAxis)numVehiclesChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
+            ((NumberAxis)numVehiclesChart.getXAxis()).setUpperBound(dataCount);
         }   
 	}
 	

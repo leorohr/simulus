@@ -499,6 +499,23 @@ public class Map extends Group {
 	}
 	
 	/**
+	 * @return The average number of ticks in which an emergency vehicle did not move on its way through the map.
+	 */
+	public double getAvgEmWaitingTime() {
+		
+		double avg = 0.0d;
+		int count = 0;
+		for(Vehicle v : vehicles) {
+			if(v instanceof EmergencyCar) {
+				avg += v.getWaitedCounter();
+				count++;
+			}
+		}
+		
+		return avg/count;
+	}
+	
+	/**
 	 * Interrupts all trafficLightThreads that are spawned by the map.
 	 * Is used when the simulation is restart.
 	 */

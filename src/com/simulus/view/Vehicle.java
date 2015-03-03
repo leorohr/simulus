@@ -215,7 +215,7 @@ public abstract class Vehicle extends Rectangle {
 					overtake(map[vX+1][vY+1]);
 			}
 			else if(dir == Direction.WEST) {
-				if(map[vX-1][vY+2] instanceof Lane && !map[vX-1][vY+1].isOccupied())
+				if(map[vX-2][vY+1] instanceof Lane && !map[vX-1][vY+1].isOccupied())
 					overtake(map[vX-1][vY+1]);
 			}
 			break;
