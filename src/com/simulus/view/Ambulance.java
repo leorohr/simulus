@@ -2,7 +2,6 @@ package com.simulus.view;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -19,19 +18,15 @@ public class Ambulance extends Group {
 	private EmergencyCar frame;
 	
 	public static double AoERadius = 100;
-	
-	
-	private static final Color COLOUR = Color.YELLOW;
 
 	public Ambulance(double posX, double posY, Direction dir) {
 		frame = new EmergencyCar(posX, posY, dir);
 		AoE = new AreaOfEffect(frame.getX() + frame.getWidth()/2, frame.getY() + frame.getHeight()/2, AoERadius, this);
 		AoE.setFill(Color.ORANGERED);
-		AoE.setOpacity(0.25);
+		AoE.setOpacity(SimulationController.getInstance().isDebug() ? 0.25 : 0.0d); //show aoe only if in debug-mode
 		this.getChildren().add(frame);
 		getChildren().add(AoE);
 		MainApp.getInstance().getCanvas().getChildren().add(this);
-		
 		
 		Thread t = new Thread(){
 			public void run(){

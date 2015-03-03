@@ -2,20 +2,8 @@ package com.simulus.view;
 
 import java.util.Random;
 
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
 
-import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
@@ -70,7 +58,8 @@ public class Car extends Vehicle {
 		setFill(COLOUR);
 		
 		Random rand = new Random();
-		acceleration = 1.5d;
+		//1.5px/tick acceleration equals a real-life acceleration of ~2,31 m/s^2, i.e 0-100km/h in 12 secs.
+		acceleration = 0.5d; 
 		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
 		addToCanvas();
 	}
@@ -106,10 +95,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case SOUTH:
@@ -119,10 +104,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
-                if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case EAST:
@@ -132,10 +113,6 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			case WEST:
@@ -145,15 +122,16 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
-				if (nextTile.isOccupied()) {
-					tempDir = Direction.NONE;
-				} else
-					tempDir = getDirection();
 				break;
 
 			default:
 				break;
 			}
+			
+			if (nextTile != null && nextTile.isOccupied()) {
+				tempDir = Direction.NONE;
+			} else
+				tempDir = getDirection();
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
@@ -161,17 +139,13 @@ public class Car extends Vehicle {
                     setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
 
 		} catch (ArrayIndexOutOfBoundsException e) {
-//            e.printStackTrace(); TODO avoid exception
+			SimulationController.getInstance().removeVehicle(this);
 		}
 		
 		if(isPaused)
 			tempDir = Direction.NONE;
 		
-		System.out.println(vehicleSpeed);
-		
 		move(tempDir);
-		
-		
 	}
 	
 	
@@ -293,69 +267,5 @@ public class Car extends Vehicle {
 		}
 
 		
-	}
-	
-	
-	public void overtake(Tile moveToTile){
-		getTransforms().clear();
-		Path path = new Path(
-                		//from 
-                		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
-                        new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY()));
-		
-               
-        path.setStroke(Color.DODGERBLUE);
-        path.getStrokeDashArray().setAll(5d,5d);
-        MainApp.getInstance().getCanvas().getChildren().add(path);
-       
-        double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
-        		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
-
-        //Ensure that cars are moving before they try to overtake
-        if(vehicleSpeed == 0)
-        	vehicleSpeed += acceleration; 
-        double carSpeed = (getVehicleSpeed()/SimulationController.getInstance().getTickTime());
-        		
-        double pathTime = pathDistance/carSpeed;
-        
-        
-        pathTransition = new PathTransition(Duration.millis(pathTime), path, this);
-        pathTransition.setInterpolator(Interpolator.LINEAR);
-        pathTransition.setOrientation(OrientationType.NONE);
-        
-        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
- 
-            @Override
-            public void handle(ActionEvent arg0) {
-            	MainApp.getInstance().getCanvas().getChildren().remove(path);
-                isOvertaking = false;
-                
-            }
-        });
-        setCurrentTile(moveToTile);
-        pathTransition.play();
-	}
-
-	// TODO Curve the car to the northwest
-	public PathTransition curveNorthWest() {
-		PathTransition pathTransition;
-		switch (getDirection()) {
-		case NORTH:
-			Path path = new Path(new MoveTo(getX() - 50, getY()),
-						new CubicCurveTo(getX(), getY(), getX(),
-							getY() - 100, getX() - 100, getY() - 95));
-			path.setStroke(Color.DODGERBLUE);
-			path.getStrokeDashArray().setAll(5d, 5d);
-
-			pathTransition = new PathTransition(Duration.seconds(2), path, this);
-			pathTransition.setInterpolator(Interpolator.LINEAR);
-			pathTransition.setOrientation(OrientationType.NONE);
-//			pathTransition.setCycleCount(Timeline.INDEFINITE);
-			
-			setDirection(Direction.WEST);
-			return pathTransition;
-		default:
-			return null;
-		}
 	}
 }

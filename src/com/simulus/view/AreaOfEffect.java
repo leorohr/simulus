@@ -1,11 +1,9 @@
 package com.simulus.view;
 
-import com.simulus.controller.SimulationController;
-import com.simulus.util.enums.Direction;
-
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.shape.Circle;
+
+import com.simulus.controller.SimulationController;
 
 public class AreaOfEffect extends Circle{
 	
@@ -18,19 +16,31 @@ public class AreaOfEffect extends Circle{
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				setCenterX(((Ambulance) getParent()).getCar().getBoundsInParent().getMaxX() - ((Ambulance) getParent()).getCar().getWidth()/2);
-				setCenterY(((Ambulance) getParent()).getCar().getBoundsInParent().getMaxY() - ((Ambulance) getParent()).getCar().getHeight()/2);
+				setCenterX(getCar().getBoundsInParent().getMaxX() - getCar().getWidth()/2);
+				setCenterY(getCar().getBoundsInParent().getMaxY() - getCar().getHeight()/2);
 			}
 		});	
 		
 		for(Vehicle v: SimulationController.getInstance().getMap().getVehicles()){
+			
 			if(this.getBoundsInParent().intersects(v.getBoundsInParent()) && !(v instanceof EmergencyCar)){
-					//v.setAmbulanceMode(true);
-					if(v.getDirection() == ((Ambulance) getParent()).getCar().getDirection()
-							&& v instanceof Car)
-						((Car) v).attemptOvertake();
+				if(v.getDirection() == getCar().getDirection() && (v.getCurrentTile()  instanceof Lane) && getCar().getCurrentTile() instanceof Lane) {						
+					
+					Lane l = (Lane) v.getCurrentTile();
+					if(l.getLaneNo() ==  ((Lane)getCar().getCurrentTile()).getLaneNo()) //if v is in same lane, force it over
+						v.changeToLeftLane();
+					else //if car is in adjacent lane, make it slow down and allow cars to merge
+						v.allowMerge();
+				}
 			}
-			else; //v.setAmbulanceMode(false);
 		}
 	}
+	
+	/**
+	 * @return The EmergencyCar object that this AoE is associated to.
+	 */
+	private EmergencyCar getCar() {
+		return ((Ambulance) getParent()).getCar();
+	}
+
 }
