@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
+import com.simulus.view.Ambulance;
 import com.simulus.view.EmergencyCar;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
@@ -63,8 +64,10 @@ public class SimulationController {
         MainApp.getInstance().resetCanvas();
         map.stopChildThreads();
         map = new Map();
+        MainApp.getInstance().getControlsController().resetCharts();
         truckCount = 0;
         recklessCount = 0;
+        ambulanceCount = 0;
         animationThread = new AnimationThread();
     }
 
@@ -93,17 +96,7 @@ public class SimulationController {
                         	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
                         }
                     }
-                }
-                
-                
-                if(ambulanceCount < 1){
-                	Platform.runLater(() -> map.spawnAmbulance());
-                	ambulanceCount++;
-                }
-            	
-            	/*if(tickCount++ == 4)
-            		Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));*/
-                
+                }               
             	
                 Platform.runLater(() -> map.updateMap());
 
@@ -135,8 +128,10 @@ public class SimulationController {
         map.removeVehicle(v);
         if(v instanceof Truck)
             truckCount--;
-        if(v instanceof EmergencyCar)
+        if(v instanceof EmergencyCar) {
         	ambulanceCount--;
+        	MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(false);
+        }
     }
 
     /* Getter & Setter */
@@ -148,9 +143,22 @@ public class SimulationController {
         this.debugFlag = debugFlag;
         if(debugFlag) {
             map.showAllIntersectionPaths();
+            //Show AoE of ambulance
+            for(Vehicle v : map.getVehicles()) {
+            	if(v instanceof EmergencyCar) {
+            		((Ambulance)v.getParent()).getAoE().setOpacity(0.25d);
+            	}
+            }
+            	
         }
         else {
             map.hideAllIntersectionsPaths();
+            //Hide AoE of ambulances
+            for(Vehicle v : map.getVehicles()) {
+            	if(v instanceof EmergencyCar) {
+            		((Ambulance)v.getParent()).getAoE().setOpacity(0.0d);
+            	}
+            }
 
             //Clear debuginformation from canvas
             for(Tile[] t : map.getTiles()) {
@@ -163,6 +171,13 @@ public class SimulationController {
                 }
             }
         }
+    }
+    
+    public void spawnAmbulance() {
+    	if(ambulanceCount < 5) {
+    		Platform.runLater(() -> map.spawnAmbulance());
+	    	ambulanceCount++;
+    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
     }
     
     public int getTickTime() {

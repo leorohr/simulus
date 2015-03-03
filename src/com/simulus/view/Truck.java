@@ -1,5 +1,9 @@
 package com.simulus.view;
 
+import java.util.Random;
+
+import javafx.scene.paint.Color;
+
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
@@ -66,87 +70,14 @@ public class Truck extends Vehicle {
 				tempBehavior = Behavior.RECKLESS;
 			else tempBehavior = Behavior.CAUTIOUS;
 
-//		//Checks if the tile 2 tiles ahead of the car is taken for overtaking.
-//		if(tempBehavior == Behavior.RECKLESS){
-//			try {
-//				switch(getDirection()){
-//				case NORTH:
-//					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-//					                						.getGridPosY() - 2].isOccupied()) {
-//						if(getCurrentTile() instanceof Lane){
-//							if(((Lane)getCurrentTile()).getLaneNo() == 0){
-//								//Overtake RIGHT
-//								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-//									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1]);
-//									isOvertaking = true;
-//								}
-//							}else if(((Lane)getCurrentTile()).getLaneNo() == 1){
-//								//Overtake LEFT
-//								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-//									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1]);
-//									isOvertaking = true;
-//								}
-//							}
-//						}
-//					}
-//					break;
-//				case SOUTH:
-//					if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-//					                						.getGridPosY() + 2].isOccupied()) {
-//						if(getCurrentTile() instanceof Lane){
-//							if(((Lane)getCurrentTile()).getLaneNo() == 2){
-//								//Overtake RIGHT
-//								if(!map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()-1].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1].isOccupied()){
-//									overtake(map[getCurrentTile().getGridPosX()+1][getCurrentTile().getGridPosY()+1]);
-//									isOvertaking = true;
-//								}
-//							}else if(((Lane)getCurrentTile()).getLaneNo() == 3){
-//								//Overtake LEFT
-//								if(!map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()-1].isOccupied()
-//										&& !map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1].isOccupied()){
-//									overtake(map[getCurrentTile().getGridPosX()-1][getCurrentTile().getGridPosY()+1]);
-//									isOvertaking = true;
-//								}
-//							}
-//						}
-//					}
-//					break;
-//				case EAST:
-//					if (map[getCurrentTile().getGridPosX() + 2][getCurrentTile()
-//					                    						.getGridPosY()].isOccupied()) {
-//
-//					}
-//					break;
-//				case WEST:
-//					if (map[getCurrentTile().getGridPosX() - 2][getCurrentTile()
-//					                    						.getGridPosY()].isOccupied()) {
-//
-//					}
-//					break;
-//				default:break;
-//				}
-//			}catch(ArrayIndexOutOfBoundsException e){
-//                SimulationController.getInstance().removeVehicle(this);
-//			}
-//		}
+
 		try {
 			switch (getDirection()) {
 			case NORTH:
 				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
 						.getGridPosY() - 1].isOccupied()) {
 					temp = Direction.NONE;
-					if(tempBehavior == Behavior.CAUTIOUS)
-						if(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier()!=null)
-						setVehicleSpeed(map[getCurrentTile().getGridPosX()][getCurrentTile()
-						                         						.getGridPosY() - 1].getOccupier().getVehicleSpeed());
+					
 				} else
 					temp = getDirection();
 				break;
@@ -182,7 +113,7 @@ public class Truck extends Vehicle {
 		if(temp != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
 			vehicleSpeed += acceleration;
 		else if(temp == Direction.NONE)
-			vehicleSpeed = 0; //TODO decelerate 
+			vehicleSpeed = 0;  
 		if(isPaused)
 			temp = Direction.NONE;
 		
@@ -190,10 +121,6 @@ public class Truck extends Vehicle {
 		move(temp);
 	}
 
-	@Override
-	public void overtake(Tile t) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

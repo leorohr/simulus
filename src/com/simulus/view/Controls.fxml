@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
@@ -149,6 +150,7 @@
                                              </children>
                                           </VBox>
                                           <Button fx:id="randTrafficLightsButton" mnemonicParsing="false" text="Randomise Trafficlights" />
+                                          <Button fx:id="spawnAmbulanceButton" mnemonicParsing="false" text="Spawn Ambulance" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -158,13 +160,13 @@
                               </AnchorPane>
                            </content>
                         </TitledPane>
-                        <TitledPane text="Statistics">
+                        <TitledPane fx:id="statisticsPane" text="Statistics">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
                                     <VBox>
                                        <children>
-                                          <LineChart fx:id="numVehiclesChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="numVehiclesChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
                                                 <NumberAxis forceZeroInRange="false" label="No. of Vehicles" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
@@ -172,7 +174,7 @@
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="150.0" />
                                              </yAxis>
                                           </LineChart>
-                                          <LineChart fx:id="avgSpeedChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="avgSpeedChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
                                                 <NumberAxis forceZeroInRange="false" label="Avg. Speed [km/h]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
@@ -180,7 +182,7 @@
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="100.0" />
                                              </yAxis>
                                           </LineChart>
-                                          <LineChart fx:id="congestionChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="congestionChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
                                                 <NumberAxis forceZeroInRange="false" label="Congestion [%]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
@@ -188,12 +190,12 @@
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="75.0" />
                                              </yAxis>
                                           </LineChart>
-                                          <LineChart fx:id="waitingTimeChart" createSymbols="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+                                          <LineChart fx:id="waitingTimeChart" createSymbols="false" legendVisible="true" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
                                                 <NumberAxis forceZeroInRange="false" label="Avg. Waiting Time [s]" minorTickCount="0" prefHeight="16.0" prefWidth="147.0" side="BOTTOM" tickLabelGap="0.0" tickLabelsVisible="false" tickLength="0.0" tickUnit="1.0" />
                                              </xAxis>
                                              <yAxis>
-                                                <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" />
+                                                <NumberAxis forceZeroInRange="false" prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="175.0" />
                                              </yAxis>
                                           </LineChart>
                                        </children>
@@ -201,6 +203,9 @@
                                  </children>
                               </AnchorPane>
                            </content>
+                           <graphic>
+                              <ImageView fx:id="resizeIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
                         </TitledPane>
                      </children>
                   </VBox>
