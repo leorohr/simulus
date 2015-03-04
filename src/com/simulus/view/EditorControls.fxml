@@ -13,7 +13,7 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Pane layoutX="5.0" layoutY="515.0" prefHeight="220.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="575.0" prefHeight="220.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <Button fx:id="saveMapButton" layoutX="95.0" layoutY="182.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;com/simulus/util/images/diskette.png&quot;);" text="Save" />
             <Button fx:id="openMapButton" layoutX="11.0" layoutY="182.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;com/simulus/util/images/folder.png&quot;);" text="Open" />
@@ -27,38 +27,38 @@
             <Label layoutX="10.0" layoutY="46.0" text="Date:" />
          </children>
       </Pane>
-      <Pane layoutX="5.0" layoutY="65.0" prefHeight="264.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="65.0" prefHeight="329.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
-            <Button id="landButton" fx:id="landButton" layoutX="15.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/land.png&quot;); -fx-background-size: 50 50;" text="Land" textFill="WHITE">
+            <Button id="landButton" fx:id="landButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/land.png&quot;); -fx-background-size: 50 50;" text="Land" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="15.0" layoutY="85.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="10.0" layoutY="157.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="122.0" layoutY="151.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="60.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_northsouth.png&quot;); -fx-background-repeat: repeat-y;" text="Vertical Road" textFill="WHITE" />
-            <Button id="interButton" fx:id="interButton" layoutX="15.0" layoutY="150.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(&quot;com/simulus/util/images/boxjunction.png&quot;); -fx-background-size: 50 50;" text="Intersection" textFill="WHITE">
+            <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="116.0" layoutY="222.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="60.0" style="-fx-background-image: url(&quot;com/simulus/util/images/double_northsouth.png&quot;); -fx-background-repeat: repeat-y;" text="Vertical Road" textFill="WHITE" />
+            <Button id="interButton" fx:id="interButton" layoutX="10.0" layoutY="222.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(&quot;com/simulus/util/images/boxjunction.png&quot;); -fx-background-size: 50 50;" text="Intersection" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="dirtButton" fx:id="dirtButton" layoutX="73.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;); -fx-background-size: 50 50;" text="Dirt" textFill="WHITE">
+            <Button id="dirtButton" fx:id="dirtButton" layoutX="63.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;); -fx-background-size: 50 50;" text="Dirt" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="blockButton" fx:id="blockButton" layoutX="131.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/obstruction.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
+            <Button id="blockButton" fx:id="blockButton" layoutX="116.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/block.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="eraserButton" fx:id="eraserButton" layoutX="127.0" layoutY="90.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/dirt.png&quot;); -fx-background-size: 50 50;" text="Eraser" textFill="WHITE">
+            <Button id="eraserButton" fx:id="eraserButton" layoutX="10.0" layoutY="61.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/erase.png&quot;); -fx-background-size: 50 50; -fx-border-color: #000000;" text="Eraser">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
          </children>
       </Pane>
-      <Pane layoutX="5.0" layoutY="354.0" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="414.0" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="102.0" />
             <Label layoutX="10.0" layoutY="6.0" text="Tile Size:" />
@@ -67,12 +67,12 @@
             <Label layoutX="10.0" layoutY="48.0" text="Pre-built Map:" />
          </children>
       </Pane>
-      <Label layoutX="5.0" layoutY="336.0" text="Map Options">
+      <Label layoutX="5.0" layoutY="396.0" text="Map Options">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <Label layoutX="5.0" layoutY="497.0" text="Import/Export">
+      <Label layoutX="5.0" layoutY="557.0" text="Import/Export">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

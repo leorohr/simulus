@@ -16,6 +16,10 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import com.simulus.view.Land;
+import com.simulus.view.Lane;
+import com.simulus.view.Tile;
+
 import java.io.File;
 
 public class MapXML {
@@ -32,15 +36,13 @@ public class MapXML {
 	public String mapDescription;
 	public String mapAuthor;
 
-	int mapHeight;
-	int mapWidth;
-	int mapTileHeight;
-	int mapTileWidth;
+	int canvasSize;
+	int numOfTiles;
 
 	private int xPos;
 	private int yPos;
 	private String type;
-	private String direction;
+	private String attribute;
 
 	TileXML[][] fullGrid;
 
@@ -83,19 +85,14 @@ public class MapXML {
 			nNode = nList.item(0);
 			eElement = (Element) nNode;
 
-			mapHeight = Integer.parseInt(eElement
-					.getElementsByTagName("height").item(0).getTextContent());
-			mapWidth = Integer.parseInt(eElement.getElementsByTagName("width")
-					.item(0).getTextContent());
-			mapTileHeight = Integer.parseInt(eElement
-					.getElementsByTagName("tile_size_height").item(0)
-					.getTextContent());
-			mapTileWidth = Integer.parseInt(eElement
-					.getElementsByTagName("tile_size_width").item(0)
+			canvasSize = Integer.parseInt(eElement
+					.getElementsByTagName("canvas_size").item(0).getTextContent());
+
+			numOfTiles = Integer.parseInt(eElement
+					.getElementsByTagName("number_of_tiles").item(0)
 					.getTextContent());
 
-			fullGrid = new TileXML[mapWidth / mapTileWidth][mapHeight
-					/ mapTileHeight];
+			fullGrid = new TileXML[numOfTiles][numOfTiles];
 
 			nList = doc.getElementsByTagName("tile");
 
@@ -113,10 +110,10 @@ public class MapXML {
 							.item(0).getTextContent());
 					type = eElement.getElementsByTagName("type").item(0)
 							.getTextContent();
-					direction = eElement.getElementsByTagName("direction")
+					attribute = eElement.getElementsByTagName("attribute")
 							.item(0).getTextContent();
 
-					fullGrid[xPos][yPos] = new TileXML(type, direction);
+					fullGrid[xPos][yPos] = new TileXML(type, attribute);
 
 				}
 
@@ -134,24 +131,20 @@ public class MapXML {
 	}
 
 	// outputs XML file based on given 2D array of type tile plus metadata
-	public void writeXML(TileXML[][] gridIn, String outputFile, String nameIn,
-			String dateIn, String descIn, String authIn, int mHeightIn,
-			int mWidthIn, int tHeightIn, int tWidthIn) {
+	public void writeXML(Tile[][] gridIn, String outputFile, String nameIn,
+			String dateIn, String descIn, String authIn, int canvasSizeIn, int numOfTilesIn) {
 
 		try {
 
-			fullGrid = gridIn;
 			outputXmlFile = new File(outputFile);
 
 			mapName = nameIn;
 			mapCreationDate = dateIn;
 			mapDescription = descIn;
 			mapAuthor = authIn;
-
-			mapHeight = mHeightIn;
-			mapWidth = mWidthIn;
-			mapTileHeight = tHeightIn;
-			mapTileWidth = tWidthIn;
+			
+			canvasSize = canvasSizeIn;
+			numOfTiles = numOfTilesIn;
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
@@ -163,78 +156,82 @@ public class MapXML {
 			doc.appendChild(rootElement);
 
 			// create a comment with team tag
-			Comment comment = doc
+			Comment eComment = doc
 					.createComment("Team Simulus Traffic Simulator Map File");
-			doc.insertBefore(comment, rootElement);
+			doc.insertBefore(eComment, rootElement);
 
 			// map_details
-			Element mapDetails = doc.createElement("map_details");
-			rootElement.appendChild(mapDetails);
+			Element eMapDetails = doc.createElement("map_details");
+			rootElement.appendChild(eMapDetails);
 
-			Element name = doc.createElement("name");
-			name.appendChild(doc.createTextNode(mapName));
-			mapDetails.appendChild(name);
+			Element eName = doc.createElement("name");
+			eName.appendChild(doc.createTextNode(mapName));
+			eMapDetails.appendChild(eName);
 
-			Element date = doc.createElement("date");
-			date.appendChild(doc.createTextNode(mapCreationDate));
-			mapDetails.appendChild(date);
+			Element eDate = doc.createElement("date");
+			eDate.appendChild(doc.createTextNode(mapCreationDate));
+			eMapDetails.appendChild(eDate);
 
-			Element description = doc.createElement("description");
-			description.appendChild(doc.createTextNode(mapDescription));
-			mapDetails.appendChild(description);
+			Element eDescription = doc.createElement("description");
+			eDescription.appendChild(doc.createTextNode(mapDescription));
+			eMapDetails.appendChild(eDescription);
 
-			Element author = doc.createElement("author");
-			author.appendChild(doc.createTextNode(mapAuthor));
-			mapDetails.appendChild(author);
+			Element eAuthor = doc.createElement("author");
+			eAuthor.appendChild(doc.createTextNode(mapAuthor));
+			eMapDetails.appendChild(eAuthor);
 
 			// map_specs
-			Element mapSpecs = doc.createElement("map_specs");
-			rootElement.appendChild(mapSpecs);
+			Element eMapSpecs = doc.createElement("map_specs");
+			rootElement.appendChild(eMapSpecs);
 
-			Element height = doc.createElement("height");
-			height.appendChild(doc.createTextNode(Integer.toString(mapHeight)));
-			mapSpecs.appendChild(height);
-
-			Element width = doc.createElement("width");
-			width.appendChild(doc.createTextNode(Integer.toString(mapWidth)));
-			mapSpecs.appendChild(width);
-
-			Element tile_size_height = doc.createElement("tile_size_height");
-			tile_size_height.appendChild(doc.createTextNode(Integer
-					.toString(mapTileHeight)));
-			mapSpecs.appendChild(tile_size_height);
-
-			Element tile_size_width = doc.createElement("tile_size_width");
-			tile_size_width.appendChild(doc.createTextNode(Integer
-					.toString(mapTileWidth)));
-			mapSpecs.appendChild(tile_size_width);
+			Element eCanvasSize = doc.createElement("canvas_size");
+			eCanvasSize.appendChild(doc.createTextNode(Integer
+					.toString(canvasSize)));
+			eMapSpecs.appendChild(eCanvasSize);
+			
+			Element eNumOfTiles = doc.createElement("number_of_tiles");
+			eNumOfTiles.appendChild(doc.createTextNode(Integer.toString(numOfTiles)));
+			eMapSpecs.appendChild(eNumOfTiles);
 
 			// grid elements
-			Element grid = doc.createElement("grid");
-			rootElement.appendChild(grid);
+			Element eGrid = doc.createElement("grid");
+			rootElement.appendChild(eGrid);
+			
 
-			for (int r = 0; r < (mapHeight / mapTileHeight); r++) {
-				for (int c = 0; c < (mapWidth / mapTileWidth); c++) {
+			for (int r = 0; r < numOfTiles; r++) {
+				for (int c = 0; c < numOfTiles; c++) {
 
-					Element tile = doc.createElement("tile");
-					grid.appendChild(tile);
+					String tileType = "";
+					String tileAttribute = "";
+					Tile t = gridIn[c][r];
+					
+					if (t instanceof Lane) {
+						tileType = "lane";
+						tileAttribute = ((Lane) t).getDirection().toString();
+					} else if (t instanceof Land) {
+						tileType = ((Land) t).getLandType().toString();
+						tileAttribute = "";
+					} 
+					
+					Element eTile = doc.createElement("tile");
+					eGrid.appendChild(eTile);
 
-					Element x = doc.createElement("x");
-					x.appendChild(doc.createTextNode(String.format("%02d", c)));
-					tile.appendChild(x);
+					Element eX = doc.createElement("x");
+					eX.appendChild(doc.createTextNode(String.format("%02d", c)));
+					eTile.appendChild(eX);
 
-					Element y = doc.createElement("y");
-					y.appendChild(doc.createTextNode(String.format("%02d", r)));
-					tile.appendChild(y);
+					Element eY = doc.createElement("y");
+					eY.appendChild(doc.createTextNode(String.format("%02d", r)));
+					eTile.appendChild(eY);
+					
+					Element eType = doc.createElement("type");
+					eType.appendChild(doc.createTextNode(tileType));
+					eTile.appendChild(eType);
 
-					Element type = doc.createElement("type");
-					type.appendChild(doc.createTextNode(fullGrid[c][r].type));
-					tile.appendChild(type);
-
-					Element direction = doc.createElement("direction");
-					direction.appendChild(doc
-							.createTextNode(fullGrid[c][r].direction));
-					tile.appendChild(direction);
+					Element eAttribute = doc.createElement("attribute");
+					eAttribute.appendChild(doc
+							.createTextNode(tileAttribute));
+					eTile.appendChild(eAttribute);
 
 				}
 
@@ -265,15 +262,11 @@ public class MapXML {
 		return "Map Name: " + mapName + "\n" + "Date: " + mapCreationDate + "\n"
 				+ "Description: " + mapDescription + "\n"
 				+ "Author: " + mapAuthor + "\n"
-				+ "Tile Height: " + mapTileHeight + "\n"
-				+ "Tile Width: " + mapTileWidth;
+				+ "Canvas Size: " + canvasSize + "\n"
+				+ "Number of Tiles: " + numOfTiles;
 	}
 	
 
 
-	public TileXML[][] getGrid() {
-
-		return fullGrid;
-	}
 
 }

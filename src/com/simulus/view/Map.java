@@ -19,7 +19,7 @@ public class Map extends Group {
 	private static final int CANVAS_SIZE_PX = 800;
 	public static final int TILESIZE = CANVAS_SIZE_PX / NUM_TILES;
 
-	private Tile[][] tiles = new Tile[NUM_TILES][NUM_TILES];
+	public Tile[][] tiles = new Tile[NUM_TILES][NUM_TILES];
 	private ArrayList<Intersection> intersections = new ArrayList<Intersection>();
 	private ArrayList<Lane> entryPoints = new ArrayList<Lane>();
 

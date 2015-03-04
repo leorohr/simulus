@@ -23,6 +23,7 @@ import javafx.stage.WindowEvent;
 
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
+import com.simulus.io.TileXML;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.Intersection;
@@ -48,11 +49,15 @@ public class EditorApp extends Application {
 	private Image csrRoadEW = new Image("com/simulus/util/images/csr_eastwest.png");
 	private Image csrRoadNS = new Image("com/simulus/util/images/csr_northsouth.png");
 	private Image csrLand = new Image("com/simulus/util/images/csr_land.png");
-	private Image csrDirt = new Image("com/simulus/util/images/dirt.png");
+	private Image csrDirt = new Image("com/simulus/util/images/csr_dirt.png");
+	private Image csrBlock = new Image("com/simulus/util/images/csr_block.png");
 	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
+	private Image csrErase = new Image("com/simulus/util/images/csr_erase.png");
 
 	private boolean landSelected = false;
 	private boolean eraserSelected = false;
+	private boolean dirtSelected = false;
+	private boolean blockSelected = false;
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
@@ -109,6 +114,15 @@ public class EditorApp extends Application {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
+								
+							} else if (dirtSelected) {
+								System.out.println("Adding dirt at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
+							} else if (blockSelected) {
+								System.out.println("Adding block at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (eraserSelected) {
 								// TODO implement remove properly
 								System.out.println("Removing at "
@@ -116,7 +130,6 @@ public class EditorApp extends Application {
 								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
 										.getGridPosX(), editorMap.getTiles()[i][p]
 												.getGridPosY(), Seed.NORTHSOUTH));
-
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
 										+ editorMap.getTiles()[i][p].toString());								
@@ -151,6 +164,7 @@ public class EditorApp extends Application {
 					}
 			}
 		});
+		
 
 		/*
 		 * Drag to draw for Land and road tiles
@@ -173,7 +187,22 @@ public class EditorApp extends Application {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
-							} else if (roadVerticalSelected) {
+							} else if (dirtSelected) {
+								System.out.println("Adding dirt at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
+							} else if (blockSelected) {
+								System.out.println("Adding block at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
+							}else if (eraserSelected) {
+								// TODO implement remove properly
+								System.out.println("Removing at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+										.getGridPosX(), editorMap.getTiles()[i][p]
+												.getGridPosY(), Seed.NORTHSOUTH));
+							}else if (roadVerticalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
@@ -307,23 +336,39 @@ public class EditorApp extends Application {
 		switch (b.getId()) {
 		case "landButton":
 			landSelected = true;
+			dirtSelected = false;
 			eraserSelected = false;
+			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrLand));
 			break;
-		case "eraserButton":
+		case "dirtButton":
 			landSelected = false;
-			eraserSelected = true;
+			dirtSelected = true;
+			eraserSelected = false;
+			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrDirt));
 			break;
+		case "eraserButton":
+			landSelected = false;
+			dirtSelected = false;
+			eraserSelected = true;
+			blockSelected = false;
+			roadVerticalSelected = false;
+			roadHorizontalSelected = false;
+			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrErase));
+			break;
 		case "roadVerticalButton":
 			landSelected = false;
+			dirtSelected = false;
 			eraserSelected = false;
+			blockSelected = false;
 			roadVerticalSelected = true;
 			roadHorizontalSelected = false;
 			interSelected = false;
@@ -331,7 +376,9 @@ public class EditorApp extends Application {
 			break;
 		case "roadHorizontalButton":
 			landSelected = false;
+			dirtSelected = false;
 			eraserSelected = false;
+			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = true;
 			interSelected = false;
@@ -339,11 +386,23 @@ public class EditorApp extends Application {
 			break;
 		case "interButton":
 			landSelected = false;
+			dirtSelected = false;
 			eraserSelected = false;
+			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = true;
 			canvas.setCursor(new ImageCursor(csrIntersection));
+			break;
+		case "blockButton":
+			landSelected = false;
+			dirtSelected = false;
+			eraserSelected = false;
+			blockSelected = true;
+			roadVerticalSelected = false;
+			roadHorizontalSelected = false;
+			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrBlock));
 			break;
 		case "openMapButton":
 			fileChooser = new FileChooser();
@@ -366,11 +425,11 @@ public class EditorApp extends Application {
 			}
 
 			// TODO: Delete test block
-			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
-			System.out.println(getTileDetails(0,0));
-			System.out.println(getTileDetails(1,0));
-			System.out.println(getTileDetails(2,0));
-			System.out.println(getTileDetails(3,0));
+//			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
+//			System.out.println(getTileDetails(0,0));
+//			System.out.println(getTileDetails(1,0));
+//			System.out.println(getTileDetails(2,0));
+//			System.out.println(getTileDetails(3,0));
 			
 			break;
 		case "clearMapButton":
@@ -395,28 +454,27 @@ public class EditorApp extends Application {
 	 * @return details - String listing tile type and attribute
 	 */
 	public String getTileDetails(int posX, int posY) {
-		String details = "";
+		String attribute = "";
 		Tile t = editorMap.getTiles()[posX][posY];
 		
 		if (t instanceof Lane) {
-			details = "This tile "+ posX + " " + posY +" is a lane with " +((Lane) t).getDirection() + " Direction";
+			attribute = "This tile "+ posX + " " + posY +" is a lane with " +((Lane) t).getDirection() + " Direction";
 		} else if (t instanceof Land) {
-			details = "This tile "+ posX + " " + posY +" is land of type " +((Land) t).getLandType();
+			attribute = "This tile "+ posX + " " + posY +" is land of type " +((Land) t).getLandType();
 		}
-		return details;
+		return attribute;
 	}
 
 
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
-		//set values
+		System.out.println(mxml.toString());
 	}
 
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
-		//mxml.writeXML(gridIn, outputFile, nameIn, dateIn, descIn, authIn, mHeightIn, mWidthIn, tHeightIn, tWidthIn);
-		//save file
+		mxml.writeXML(editorMap.tiles, fileLocation, "name", "03-03-2015", "test map by me", "paul", 800, 40);
 	}
 
 
