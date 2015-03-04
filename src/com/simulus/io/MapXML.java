@@ -18,6 +18,7 @@ import org.w3c.dom.Element;
 
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
+import com.simulus.view.Block;
 import com.simulus.view.City;
 import com.simulus.view.Dirt;
 import com.simulus.view.Grass;
@@ -29,6 +30,7 @@ import com.simulus.view.Road;
 import com.simulus.view.Tile;
 
 import java.io.File;
+import java.util.List;
 
 public class MapXML {
 
@@ -154,8 +156,11 @@ public class MapXML {
 						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 						break;
 						case "block":  //add block tile
+							fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
+									 tileSize, xPos, yPos);
+							System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 						break;
-						case "lane":  //add block tile
+						case "lane":  //add lane tile
 							switch(attribute){
 								case "EAST": //add east tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
@@ -283,6 +288,7 @@ public class MapXML {
 						tileType = ((Land) t).getLandType().toString();
 						tileAttribute = "";
 					} 
+
 					
 					Element eTile = doc.createElement("tile");
 					eGrid.appendChild(eTile);

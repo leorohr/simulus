@@ -26,6 +26,7 @@ import javafx.stage.WindowEvent;
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
 import com.simulus.util.enums.Seed;
+import com.simulus.view.Block;
 import com.simulus.view.City;
 import com.simulus.view.Dirt;
 import com.simulus.view.Grass;
@@ -135,7 +136,9 @@ public class EditorApp extends Application {
 							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								//below needed?
+								//editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (eraserSelected) {
 								// TODO implement remove properly
 								System.out.println("Removing at "
@@ -213,7 +216,9 @@ public class EditorApp extends Application {
 							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								//below needed?
+								//editorMap.getTiles()[i][p].setOccupied(true);
 							}else if (eraserSelected) {
 								// TODO implement remove properly
 								System.out.println("Removing at "

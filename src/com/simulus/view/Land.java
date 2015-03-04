@@ -65,6 +65,9 @@ public class Land extends Tile {
 			// TODO Replace CITY image
 			image = new Image("com/simulus/util/images/city.png");
 		break;
+		case BLOCK :
+			image = new Image("com/simulus/util/images/block.png");
+		break;
 		default :
 			image = null;
 		}
