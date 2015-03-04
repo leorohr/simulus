@@ -71,6 +71,25 @@ public class Map extends Group {
 
 	}
 
+	/**
+	 * Adds the passed tile to the tiles[][] array.
+	 * 
+	 * @param tile - The tile to be added
+	 */
+	public void addSingle(Tile tile) {
+		tiles[tile.getGridPosX()][tile.getGridPosY()] = tile;
+	}
+	
+	/**
+	 * Removes the passed tile from the tiles[][] array.
+	 * 
+	 * @param tile - The tile to be removed
+	 */
+	public void removeSingle(Tile tile) {
+		tiles[tile.getGridPosX()][tile.getGridPosY()] = new Tile(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), tile.getGridPosX(), tile.getGridPosY());
+	}
+	
+	
 	public void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();

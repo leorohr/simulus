@@ -22,6 +22,9 @@ import javafx.stage.WindowEvent;
 
 import com.simulus.io.MapXML;
 import com.simulus.util.enums.Seed;
+import com.simulus.view.City;
+import com.simulus.view.Dirt;
+import com.simulus.view.Grass;
 import com.simulus.view.Intersection;
 import com.simulus.view.Land;
 import com.simulus.view.Lane;
@@ -110,18 +113,19 @@ public class EditorApp extends Application {
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
 							if (grassSelected) {
-								System.out.println("Adding land at "
+								System.out.println("Adding grass at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								//editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 								
 							} else if (dirtSelected) {
 								System.out.println("Adding dirt at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							} else if (citySelected) {
 								System.out.println("Adding city at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
@@ -130,9 +134,11 @@ public class EditorApp extends Application {
 								// TODO implement remove properly
 								System.out.println("Removing at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-										.getGridPosX(), editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.NORTHSOUTH));
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+								
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p]
+//												.getGridPosY(), Seed.NORTHSOUTH));
 							} else if (interSelected) {
 								System.out.println("Adding intersection at "
 										+ editorMap.getTiles()[i][p].toString());								
@@ -187,17 +193,17 @@ public class EditorApp extends Application {
 														.getBoundsInParent().getMaxY()) {
 
 							if (grassSelected) {
-								System.out.println("Adding land at "
+								System.out.println("Adding grass at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							} else if (dirtSelected) {
 								System.out.println("Adding dirt at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							} else if (citySelected) {
 								System.out.println("Adding city at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
@@ -206,9 +212,10 @@ public class EditorApp extends Application {
 								// TODO implement remove properly
 								System.out.println("Removing at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-										.getGridPosX(), editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.NORTHSOUTH));
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p]
+//												.getGridPosY(), Seed.NORTHSOUTH));
 							}else if (roadVerticalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
@@ -451,10 +458,10 @@ public class EditorApp extends Application {
 
 			// TODO: Delete test block
 //			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
-//			System.out.println(getTileDetails(0,0));
-//			System.out.println(getTileDetails(1,0));
-//			System.out.println(getTileDetails(2,0));
-//			System.out.println(getTileDetails(3,0));
+			System.out.println(getTileDetails(0,0));
+			System.out.println(getTileDetails(1,0));
+			System.out.println(getTileDetails(2,0));
+			System.out.println(getTileDetails(3,0));
 			
 			break;
 		case "clearMapButton":
