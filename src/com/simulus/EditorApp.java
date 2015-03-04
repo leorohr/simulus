@@ -4,21 +4,29 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import javax.swing.text.Highlighter.Highlight;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -68,6 +76,9 @@ public class EditorApp extends Application {
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
+	
+	
+	private Tile hoverTile;
 
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
@@ -120,61 +131,41 @@ public class EditorApp extends Application {
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
 							if (grassSelected) {
-								System.out.println("Adding grass at "
-										+ editorMap.getTiles()[i][p].toString());
-								//editorMap.getTiles()[i][p].setOccupied(true);
-								editorMap.addSingle(new Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
-								
+								editorMap.addSingle(new 
+										Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							} else if (dirtSelected) {
-								System.out.println("Adding dirt at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new 
+										Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							} else if (citySelected) {
-								System.out.println("Adding city at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new 
+										City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							}else if (blockSelected) {
-								System.out.println("Adding block at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
-								//below needed?
-								//editorMap.getTiles()[i][p].setOccupied(true);
+								// TODO: Blockage
+								editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (eraserSelected) {
 								// TODO implement remove properly
-								System.out.println("Removing at "
-										+ editorMap.getTiles()[i][p].toString());
+								// Single Tile
 								editorMap.removeSingle(editorMap.getTiles()[i][p]);
-								
+								// Group of tiles
 //								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-//										.getGridPosX(), editorMap.getTiles()[i][p]
-//												.getGridPosY(), Seed.NORTHSOUTH));
+//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
 							} else if (interSelected) {
-								System.out.println("Adding intersection at "
-										+ editorMap.getTiles()[i][p].toString());								
-								editorMap.addGroup(new Intersection(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
-												.getGridPosY()));
+								// TODO : Remove group before add new
+								editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p].getGridPosY()));
+								
 							} else if (roadVerticalSelected) {
-								System.out.println("Removing road");
-								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-										.getGridPosX(), editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.NORTHSOUTH));
-
-
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.NORTHSOUTH));
+								// Remove current tiles in space
+								editorMap.removeGroup(new 
+										Road(editorMap.getTiles()[i][p].getGridPosX(), 
+												editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+								// Add new Verticle Road
+								editorMap.addGroup(new 
+										Road(editorMap.getTiles()[i][p].getGridPosX(),
+												editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.WESTEAST));
+								editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
+										editorMap.getTiles()[i][p].getGridPosY(), Seed.WESTEAST));
 							}
 						}
 
@@ -217,8 +208,6 @@ public class EditorApp extends Application {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
-								//below needed?
-								//editorMap.getTiles()[i][p].setOccupied(true);
 							}else if (eraserSelected) {
 								// TODO implement remove properly
 								System.out.println("Removing at "
@@ -250,24 +239,43 @@ public class EditorApp extends Application {
 		});
 		
 	
+		
+		
 		/**
 		 * Mouse hover for each tile in the EditorMap
 		 */
-		Tile[][] mapTiles = editorMap.getTiles();
-		for (int x =0 ;  x < mapTiles.length; x++) {
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		for (int x = 0 ;  x < mapTiles.length; x++) {
 			for(int y = 0; y < mapTiles[x].length; y++) {
-				Tile t = editorMap.getTiles()[x][y];
 
+				Tile t = this.editorMap.getTiles()[x][y];
+				
+				
+				// Get the currently hovered tile
 				t.setOnMouseEntered(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						//System.out.println("Mouse hovering over X:" + t.gridPosX + " Y:" + t.gridPosY);
+						hoverTile = t;
+						System.out.println(t.toString());
+						t.setMouseTransparent(true);
+						ghostDraw(t);
+						
 					}
 				});
 				
+				// TODO : resolve insta-remove issue
+				// Forget the tile when no longer hovered
+				t.setOnMouseExited(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent event) {
+						//hoverTile.setMouseTransparent(false);
+						ghostRemove(hoverTile);
+					}
+				});
 			}
-
 		}
+		
+		
 
 
 		/**
@@ -369,7 +377,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrGrass));
+			canvas.setCursor(new ImageCursor(csrGrass, csrGrass.getHeight()/2, csrGrass.getWidth()/2));
 			break;
 		case "dirtButton":
 			grassSelected = false;
@@ -380,7 +388,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrDirt));
+			canvas.setCursor(new ImageCursor(csrDirt, csrDirt.getHeight()/2, csrDirt.getWidth()/2));
 			break;
 		case "cityButton":
 			grassSelected = false;
@@ -391,7 +399,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrCity));
+			canvas.setCursor(new ImageCursor(csrCity, csrCity.getHeight()/2, csrCity.getWidth()/2));
 			break;
 		case "blockButton":
 			grassSelected = false;
@@ -402,7 +410,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrBlock));
+			canvas.setCursor(new ImageCursor(csrBlock, csrBlock.getHeight()/2, csrBlock.getWidth()/2));
 			break;
 		case "eraserButton":
 			grassSelected = false;
@@ -413,7 +421,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrErase));
+			canvas.setCursor(new ImageCursor(csrErase, csrErase.getHeight()/2, csrErase.getWidth()/2));
 			break;
 		case "roadVerticalButton":
 			grassSelected = false;
@@ -452,7 +460,6 @@ public class EditorApp extends Application {
 			fileChooser = new FileChooser();
 			fileChooser.setTitle("Open Map XML...");
 			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-			fileChooser.setInitialDirectory(userDirectory);
 			fileChooser.getExtensionFilters().add(extFilter);
 			selectedFile = fileChooser.showOpenDialog(editorStage);
 			if (selectedFile != null) {
@@ -464,7 +471,6 @@ public class EditorApp extends Application {
 			fileChooser.setTitle("Save Map XML...");
 			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 			fileChooser.getExtensionFilters().add(extFilter);
-			fileChooser.setInitialDirectory(userDirectory);
 			selectedFile = fileChooser.showSaveDialog(editorStage);
 			if (selectedFile != null) {
 				saveMap(selectedFile.getPath());
@@ -487,6 +493,22 @@ public class EditorApp extends Application {
 		}
 	}
 	
+	
+	/**
+	 * hover function
+	 */
+	private void ghostDraw(Tile tile) {
+		if (grassSelected) {
+			tile.getFrame().setFill(Color.GREEN);
+		} else if (dirtSelected){
+			tile.getFrame().setFill(Color.YELLOW);
+		}
+	}
+	
+	private void ghostRemove(Tile tile) {
+		// TODO 
+		tile.getFrame().setFill(Color.TRANSPARENT);
+	}
 	
 	/*
 	 *  TODO: replace return type with something usable by mouse hover and/or XML
@@ -515,6 +537,7 @@ public class EditorApp extends Application {
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
+		System.out.println(mxml.toString());
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);

@@ -2,12 +2,7 @@ package com.simulus.view;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
-
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
@@ -53,13 +48,12 @@ public class Map extends Group {
 		// TODO Read map from XML
 	}
 
-//	// Hardcoded map for testing
+	// Hardcoded map for testing
 	private void createBasicMap() {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
-				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
-						TILESIZE, i, p);
+				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE, TILESIZE, i, p);
 				//tiles[i][p].setOccupied(true);
 			}
 		}
