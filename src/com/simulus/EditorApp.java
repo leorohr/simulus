@@ -36,6 +36,7 @@ public class EditorApp extends Application {
 	private Pane canvas;
 	private Map editorMap;
 	private int gridSize;
+	private boolean mapValidated;
 	//fixed size canvas
 	private int canvasWidth = 800;
 	private int canvasHeight = 800;
@@ -498,7 +499,7 @@ public class EditorApp extends Application {
 
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
-		mxml.writeXML(editorMap.tiles, fileLocation, "name", "03-03-2015", "test map by me", "paul", 800, 40);
+		mxml.writeXML(editorMap.tiles, fileLocation, "name", "03-03-2015", "test map by me", "paul", 800, 40, mapValidated);
 		
 	}
 

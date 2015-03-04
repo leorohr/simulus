@@ -38,13 +38,14 @@ public class MapXML {
 
 	int canvasSize;
 	int numOfTiles;
+	boolean validated;
 
 	private int xPos;
 	private int yPos;
 	private String type;
 	private String attribute;
 
-	TileXML[][] fullGrid;
+	Tile[][] fullGrid;
 
 	public MapXML() {
 
@@ -52,7 +53,7 @@ public class MapXML {
 
 	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
 	// nodes do not match metadata i.e. grid size matching height x width
-	public TileXML[][] readXML(String inputFile) {
+	public Tile[][] readXML(String inputFile) {
 
 		try {
 
@@ -91,8 +92,14 @@ public class MapXML {
 			numOfTiles = Integer.parseInt(eElement
 					.getElementsByTagName("number_of_tiles").item(0)
 					.getTextContent());
-
-			fullGrid = new TileXML[numOfTiles][numOfTiles];
+			
+			validated = Boolean.parseBoolean(eElement
+					.getElementsByTagName("validated").item(0)
+					.getTextContent());
+			
+			int tileSize = 800 / numOfTiles;
+			
+			fullGrid = new Tile[numOfTiles][numOfTiles];
 
 			nList = doc.getElementsByTagName("tile");
 
@@ -113,8 +120,39 @@ public class MapXML {
 					attribute = eElement.getElementsByTagName("attribute")
 							.item(0).getTextContent();
 
-					fullGrid[xPos][yPos] = new TileXML(type, attribute);
-
+				
+					if (type.equals("land")){
+						switch(attribute){
+							case "grass":  //add grass tile
+								break;
+							case "dirt":  //add dirt tile
+								break;
+							case "city":  //add city tile
+								break;
+							case "block":  //add block tile
+								break;
+						}
+					}else if (type.equals("lane")){
+						switch(attribute){
+							case "EAST": //add east tile
+							break;
+							case "WEST": //add west tile
+							break;
+							case "NORTH": //add north tile
+							break;
+							case "SOUTH": //add south tile
+							break;
+						}
+					}else if (type.equals("intersection")){
+						
+					}
+						
+					 //where to set attribute and tile type?
+					 //type, attribute
+					 fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
+							 tileSize, xPos, yPos);
+					 
+					 System.out.println(xPos + ":" + yPos + " - " + type + ":" + attribute);
 				}
 
 			}
@@ -132,7 +170,7 @@ public class MapXML {
 
 	// outputs XML file based on given 2D array of type tile plus metadata
 	public void writeXML(Tile[][] gridIn, String outputFile, String nameIn,
-			String dateIn, String descIn, String authIn, int canvasSizeIn, int numOfTilesIn) {
+			String dateIn, String descIn, String authIn, int canvasSizeIn, int numOfTilesIn, boolean validatedIn) {
 
 		try {
 
@@ -145,6 +183,7 @@ public class MapXML {
 			
 			canvasSize = canvasSizeIn;
 			numOfTiles = numOfTilesIn;
+			validated = validatedIn;
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory
 					.newInstance();
@@ -192,6 +231,10 @@ public class MapXML {
 			Element eNumOfTiles = doc.createElement("number_of_tiles");
 			eNumOfTiles.appendChild(doc.createTextNode(Integer.toString(numOfTiles)));
 			eMapSpecs.appendChild(eNumOfTiles);
+			
+			Element eValidated = doc.createElement("validated");
+			eValidated.appendChild(doc.createTextNode(Boolean.toString(validated)));
+			eMapSpecs.appendChild(eValidated);
 
 			// grid elements
 			Element eGrid = doc.createElement("grid");
@@ -263,7 +306,8 @@ public class MapXML {
 				+ "Description: " + mapDescription + "\n"
 				+ "Author: " + mapAuthor + "\n"
 				+ "Canvas Size: " + canvasSize + "\n"
-				+ "Number of Tiles: " + numOfTiles;
+				+ "Number of Tiles: " + numOfTiles + "\n"
+				+ "Map Validated: " + validated;
 	}
 	
 
