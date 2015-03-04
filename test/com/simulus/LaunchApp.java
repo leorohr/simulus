@@ -25,6 +25,8 @@ import org.jemmy.fx.AppExecutor;
 
 public class LaunchApp {     //Use JemmyFX test framework to launch the application
 		
+	
+	
 	public static void main (String[] args) {
 		
 		AppExecutor.execute(MainApp.class);

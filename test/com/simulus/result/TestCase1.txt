@@ -1,0 +1,12 @@
+Test 1 completed!
+Start Button Detected
+Start Button Clicked: true
+ 
+Test 2 completed!
+Stop Button Detected
+Stop Button Clicked: true
+ 
+Test 3 completed!
+Reset Button Detected
+Reset Button Clicked: true
+ 
