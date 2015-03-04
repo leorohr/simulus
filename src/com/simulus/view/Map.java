@@ -49,6 +49,7 @@ public class Map extends Group {
 		
 		for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
+			for(CustomPath p: i.get)
 			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
 														+ i.getTiles().get(0).getGridPosY() + ">");
 			trafficLightThreads.add(t);
@@ -257,6 +258,9 @@ public class Map extends Group {
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
 			tiles[t.getGridPosX()][t.getGridPosY()] = t;
+			
+			if(g instanceof Intersection)
+				tiles[t.getGridPosX()][t.getGridPosY()].setIntersection((Intersection)g);;
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
@@ -279,8 +283,9 @@ public class Map extends Group {
 			}
 		}
 
-		if (g instanceof Intersection)
+		if (g instanceof Intersection){
 			intersections.add((Intersection) g);
+		}
 	}
 
 
@@ -547,4 +552,7 @@ public class Map extends Group {
 	public void setTruckColorOption(VehicleColorOption o) {
 		this.truckColorOption = o;
 	}	
+	public ArrayList<Intersection> getIntersections(){
+		return intersections;
+	}
 }

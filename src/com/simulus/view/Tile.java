@@ -19,6 +19,8 @@ public class Tile extends Group {
 	private ArrayList<CustomPath> turningPaths;
     protected Rectangle frame;
     protected boolean isRedLight = false;
+    
+    private Intersection parent = null;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -126,6 +128,13 @@ public class Tile extends Group {
 		return turningPaths;			
 	}
 	
+	public void setIntersection(Intersection i){
+		parent = i;
+	}
+	public Intersection getIntersection(){
+		return parent;
+	}
+	
 	public Vehicle getOccupier() {
 		return occupier;
 	}
@@ -148,6 +157,6 @@ public class Tile extends Group {
 	
 	@Override
 	public String toString(){
-		return "X: " + gridPosX + " Y: " + gridPosY;
+		return "X: " + gridPosX + " Y: " + gridPosY + " Is Occupied: " + isOccupied + " By: " + occupier;
 	}
 }

@@ -20,8 +20,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	public Tile[][] tiles = new Tile[4][4];
 	private long switchTime;
 	private int tileSize = Map.TILESIZE;
-	
-	
+	private ArrayList<CustomPath> turningPaths;
 	
 	/**
 	 * @param xPos x coordinate of the top left tile of the intersection in the grid
@@ -29,12 +28,14 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 */
 	public Intersection(int xPos, int yPos) {
 		switchTime = (long) (2000 + Math.random()*3000);
+		turningPaths = new ArrayList<>();
 		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				tiles[i][j] = new Tile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
 				tiles[i][j].getFrame().setFill(Color.BLACK);
-				this.getChildren().add(tiles[i][j]);
+				
+				//this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}
 		}
 		
@@ -150,7 +151,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
 				Tile t = tiles[i][j];
-                t.getFrame().setFill(Color.TRANSPARENT);
+                //t.getFrame().setFill(Color.TRANSPARENT);
 				for(Path p : t.getTurningPaths()) {
 					p.setStroke(Color.GREEN);
 					p.setFill(Color.TRANSPARENT);
@@ -191,7 +192,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
                 map.setRedTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY());
 			});
 			
-			Thread.sleep(1000);
+			Thread.sleep(1250);
             
             Platform.runLater(() ->{
             	
@@ -220,7 +221,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
                   map.setRedTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
 	    	});
 	    	
-	    	Thread.sleep(1000);
+	    	Thread.sleep(1250);
 	    	
 	    	Platform.runLater(() ->{
 	    		Map map = SimulationController.getInstance().getMap();

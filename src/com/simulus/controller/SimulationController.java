@@ -96,7 +96,7 @@ public class SimulationController {
                         	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
                         }
                     }
-                }               
+                }    
             	
                 Platform.runLater(() -> map.updateMap());
 
