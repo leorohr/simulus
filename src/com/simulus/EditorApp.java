@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.City;
@@ -67,9 +68,11 @@ public class EditorApp extends Application {
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
 	File selectedFile;
+	File userDirectory = new File(System.getProperty("user.home") + "/Desktop");
 
 
 	private static EditorApp instance;
+	EditorControlsController ECC;
 
 	public static EditorApp getInstance() {
 		return instance;
@@ -319,6 +322,7 @@ public class EditorApp extends Application {
 			loader.setLocation(EditorApp.class
 					.getResource("view/EditorControls.fxml"));
 			AnchorPane controls = (AnchorPane) loader.load();
+			ECC = (EditorControlsController) loader.getController();
 			rootLayout.setRight(controls);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -440,6 +444,7 @@ public class EditorApp extends Application {
 			fileChooser = new FileChooser();
 			fileChooser.setTitle("Open Map XML...");
 			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+			fileChooser.setInitialDirectory(userDirectory);
 			fileChooser.getExtensionFilters().add(extFilter);
 			selectedFile = fileChooser.showOpenDialog(editorStage);
 			if (selectedFile != null) {
@@ -451,6 +456,7 @@ public class EditorApp extends Application {
 			fileChooser.setTitle("Save Map XML...");
 			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 			fileChooser.getExtensionFilters().add(extFilter);
+			fileChooser.setInitialDirectory(userDirectory);
 			selectedFile = fileChooser.showSaveDialog(editorStage);
 			if (selectedFile != null) {
 				saveMap(selectedFile.getPath());
@@ -501,7 +507,11 @@ public class EditorApp extends Application {
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
-		System.out.println(mxml.toString());
+		ECC.setMapName(mxml.mapName);
+		ECC.setMapDate(mxml.mapCreationDate);
+		ECC.setMapDesc(mxml.mapDescription);
+		ECC.setMapAuthor(mxml.mapAuthor);
+		//System.out.println(mxml.toString());
 	}
 
 	public void saveMap(String fileLocation){

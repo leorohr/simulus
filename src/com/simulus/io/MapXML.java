@@ -16,8 +16,14 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import com.simulus.util.enums.Seed;
+import com.simulus.view.City;
+import com.simulus.view.Dirt;
+import com.simulus.view.Grass;
 import com.simulus.view.Land;
 import com.simulus.view.Lane;
+import com.simulus.view.Map;
+import com.simulus.view.Road;
 import com.simulus.view.Tile;
 
 import java.io.File;
@@ -45,6 +51,7 @@ public class MapXML {
 	private String type;
 	private String attribute;
 
+	Map importedMap = new Map();
 	Tile[][] fullGrid;
 
 	public MapXML() {
@@ -120,39 +127,46 @@ public class MapXML {
 					attribute = eElement.getElementsByTagName("attribute")
 							.item(0).getTextContent();
 
-				
-					if (type.equals("land")){
-						switch(attribute){
-							case "grass":  //add grass tile
+					//TODO building a [][] of type tile and land tile.
+					// check regarding empty tile and how to add lane tiles
+					//we return the full [][]
+					switch(type){
+						case "": //add empty tile
+						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
+									 tileSize, xPos, yPos);
+							System.out.println(xPos + ":" + yPos + " " + "Empty");
+						break;
+						case "GRASS":
+						 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
+								 tileSize, xPos, yPos);
+						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+						break;
+						case "DIRT":  //add dirt tile
+						fullGrid[xPos][yPos] = new Dirt(xPos * tileSize, yPos * tileSize, tileSize,
+								 tileSize, xPos, yPos);
+						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+						break;
+						case "CITY":  //add city tile
+						fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
+								 tileSize, xPos, yPos);
+						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+						break;
+						case "block":  //add block tile
+						break;
+						case "lane":  //add block tile
+							switch(attribute){
+								case "EAST": //add east tile
 								break;
-							case "dirt":  //add dirt tile
+								case "WEST": //add west tile
 								break;
-							case "city":  //add city tile
+								case "NORTH": //add north tile
 								break;
-							case "block":  //add block tile
+								case "SOUTH": //add south tile
 								break;
-						}
-					}else if (type.equals("lane")){
-						switch(attribute){
-							case "EAST": //add east tile
-							break;
-							case "WEST": //add west tile
-							break;
-							case "NORTH": //add north tile
-							break;
-							case "SOUTH": //add south tile
-							break;
-						}
-					}else if (type.equals("intersection")){
-						
+							}
+						break;
 					}
-						
-					 //where to set attribute and tile type?
-					 //type, attribute
-					 fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
-							 tileSize, xPos, yPos);
-					 
-					 System.out.println(xPos + ":" + yPos + " - " + type + ":" + attribute);
+ 
 				}
 
 			}
@@ -247,6 +261,8 @@ public class MapXML {
 					String tileType = "";
 					String tileAttribute = "";
 					Tile t = gridIn[c][r];
+					
+					System.out.println(tileType);
 					
 					if (t instanceof Lane) {
 						tileType = "lane";
