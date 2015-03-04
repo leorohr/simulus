@@ -1,7 +1,6 @@
 package com.simulus;
 
 import java.io.File;
-import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -21,10 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
-import com.simulus.io.TileXML;
-import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.Intersection;
 import com.simulus.view.Land;
@@ -48,16 +44,18 @@ public class EditorApp extends Application {
 
 	private Image csrRoadEW = new Image("com/simulus/util/images/csr_eastwest.png");
 	private Image csrRoadNS = new Image("com/simulus/util/images/csr_northsouth.png");
-	private Image csrLand = new Image("com/simulus/util/images/csr_land.png");
+	private Image csrGrass = new Image("com/simulus/util/images/csr_grass.png");
 	private Image csrDirt = new Image("com/simulus/util/images/csr_dirt.png");
+	private Image csrCity = new Image("com/simulus/util/images/csr_city.png");
 	private Image csrBlock = new Image("com/simulus/util/images/csr_block.png");
 	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
 	private Image csrErase = new Image("com/simulus/util/images/csr_erase.png");
 
-	private boolean landSelected = false;
-	private boolean eraserSelected = false;
+	private boolean grassSelected = false;
 	private boolean dirtSelected = false;
+	private boolean citySelected = false;
 	private boolean blockSelected = false;
+	private boolean eraserSelected = false;
 	private boolean roadVerticalSelected = false;
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
@@ -110,7 +108,7 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
-							if (landSelected) {
+							if (grassSelected) {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
@@ -119,7 +117,11 @@ public class EditorApp extends Application {
 								System.out.println("Adding dirt at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
-							} else if (blockSelected) {
+							} else if (citySelected) {
+								System.out.println("Adding city at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
+							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
@@ -183,7 +185,7 @@ public class EditorApp extends Application {
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
 
-							if (landSelected) {
+							if (grassSelected) {
 								System.out.println("Adding land at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
@@ -191,7 +193,11 @@ public class EditorApp extends Application {
 								System.out.println("Adding dirt at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
-							} else if (blockSelected) {
+							} else if (citySelected) {
+								System.out.println("Adding city at "
+										+ editorMap.getTiles()[i][p].toString());
+								editorMap.getTiles()[i][p].setOccupied(true);
+							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.getTiles()[i][p].setOccupied(true);
@@ -236,7 +242,7 @@ public class EditorApp extends Application {
 				t.setOnMouseEntered(new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						System.out.println("Mouse hovering over X:" + t.gridPosX + " Y:" + t.gridPosY);
+						//System.out.println("Mouse hovering over X:" + t.gridPosX + " Y:" + t.gridPosY);
 					}
 				});
 				
@@ -334,19 +340,21 @@ public class EditorApp extends Application {
 
 	public void selectButton(Button b) {
 		switch (b.getId()) {
-		case "landButton":
-			landSelected = true;
+		case "grassButton":
+			grassSelected = true;
 			dirtSelected = false;
-			eraserSelected = false;
+			citySelected = false;
 			blockSelected = false;
+			eraserSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrLand));
+			canvas.setCursor(new ImageCursor(csrGrass));
 			break;
 		case "dirtButton":
-			landSelected = false;
+			grassSelected = false;
 			dirtSelected = true;
+			citySelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -354,9 +362,32 @@ public class EditorApp extends Application {
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrDirt));
 			break;
-		case "eraserButton":
-			landSelected = false;
+		case "cityButton":
+			grassSelected = false;
 			dirtSelected = false;
+			citySelected = true;
+			eraserSelected = false;
+			blockSelected = false;
+			roadVerticalSelected = false;
+			roadHorizontalSelected = false;
+			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrCity));
+			break;
+		case "blockButton":
+			grassSelected = false;
+			dirtSelected = false;
+			citySelected = false;
+			eraserSelected = false;
+			blockSelected = true;
+			roadVerticalSelected = false;
+			roadHorizontalSelected = false;
+			interSelected = false;
+			canvas.setCursor(new ImageCursor(csrBlock));
+			break;
+		case "eraserButton":
+			grassSelected = false;
+			dirtSelected = false;
+			citySelected = false;
 			eraserSelected = true;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -365,8 +396,9 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrErase));
 			break;
 		case "roadVerticalButton":
-			landSelected = false;
+			grassSelected = false;
 			dirtSelected = false;
+			citySelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = true;
@@ -375,8 +407,9 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrRoadNS));
 			break;
 		case "roadHorizontalButton":
-			landSelected = false;
+			grassSelected = false;
 			dirtSelected = false;
+			citySelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -385,24 +418,15 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrRoadEW));
 			break;
 		case "interButton":
-			landSelected = false;
+			grassSelected = false;
 			dirtSelected = false;
+			citySelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = true;
 			canvas.setCursor(new ImageCursor(csrIntersection));
-			break;
-		case "blockButton":
-			landSelected = false;
-			dirtSelected = false;
-			eraserSelected = false;
-			blockSelected = true;
-			roadVerticalSelected = false;
-			roadHorizontalSelected = false;
-			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrBlock));
 			break;
 		case "openMapButton":
 			fileChooser = new FileChooser();
@@ -475,6 +499,7 @@ public class EditorApp extends Application {
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		mxml.writeXML(editorMap.tiles, fileLocation, "name", "03-03-2015", "test map by me", "paul", 800, 40);
+		
 	}
 
 

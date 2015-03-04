@@ -56,7 +56,7 @@ public class Land extends Tile {
 		Image image;
 		switch(this.landType) {
 		case GRASS :
-			image = new Image("com/simulus/util/images/land.png");
+			image = new Image("com/simulus/util/images/grass.png");
 			break;
 		case DIRT :
 			image = new Image("com/simulus/util/images/dirt.png");

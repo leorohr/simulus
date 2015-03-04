@@ -20,16 +20,16 @@
             <Label layoutX="10.0" layoutY="128.0" text="Author:" />
             <Label layoutX="10.0" layoutY="87.0" text="Description:" />
             <Label layoutX="10.0" layoutY="6.0" text="Name:" />
-            <TextField fx:id="nameTextField" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="168.0" />
-            <TextField fx:id="descTextField" layoutX="10.0" layoutY="102.0" prefHeight="25.0" prefWidth="168.0" />
-            <TextField fx:id="AuthorTextField" layoutX="10.0" layoutY="143.0" prefHeight="25.0" prefWidth="168.0" />
-            <TextField fx:id="dateTextField" layoutX="10.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
+            <TextField id="nameTextField" fx:id="nameTextField" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="168.0" />
+            <TextField id="descTextField" fx:id="descTextField" layoutX="10.0" layoutY="102.0" prefHeight="25.0" prefWidth="168.0" />
+            <TextField id="authorTextField" fx:id="authorTextField" layoutX="10.0" layoutY="143.0" prefHeight="25.0" prefWidth="168.0" />
+            <TextField id="dateTextField" fx:id="dateTextField" layoutX="10.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
             <Label layoutX="10.0" layoutY="46.0" text="Date:" />
          </children>
       </Pane>
       <Pane layoutX="5.0" layoutY="65.0" prefHeight="329.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
-            <Button id="landButton" fx:id="landButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/land.png&quot;); -fx-background-size: 50 50;" text="Land" textFill="WHITE">
+            <Button id="grassButton" fx:id="grassButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/grass.png&quot;); -fx-background-size: 50 50;" text="Grass" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
@@ -47,11 +47,16 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="blockButton" fx:id="blockButton" layoutX="116.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/block.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
+            <Button id="blockButton" fx:id="blockButton" layoutX="10.0" layoutY="62.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/block.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
-            <Button id="eraserButton" fx:id="eraserButton" layoutX="10.0" layoutY="61.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/erase.png&quot;); -fx-background-size: 50 50; -fx-border-color: #000000;" text="Eraser">
+            <Button id="eraserButton" fx:id="eraserButton" layoutX="116.0" layoutY="62.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/erase.png&quot;); -fx-background-size: 50 50; -fx-border-color: #000000;" text="Eraser">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button id="cityButton" fx:id="cityButton" layoutX="116.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;com/simulus/util/images/city.png&quot;); -fx-background-size: 50 50;" text="City">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -60,11 +65,12 @@
       </Pane>
       <Pane layoutX="5.0" layoutY="414.0" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
-            <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="102.0" />
-            <Label layoutX="10.0" layoutY="6.0" text="Tile Size:" />
-            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="10.0" layoutY="98.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="102.0" style="-fx-graphic: url(&quot;com/simulus/util/images/delete.png&quot;);" text="Clear Map" />
-            <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="65.0" prefHeight="25.0" prefWidth="102.0" />
+            <ChoiceBox id="gridSizeChoiceBox" fx:id="gridSizeChoiceBox" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="81.0" />
+            <Label layoutX="10.0" layoutY="6.0" text="Grid Size:" />
+            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="97.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;com/simulus/util/images/delete.png&quot;);" text="Clear " />
+            <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="65.0" prefHeight="25.0" prefWidth="81.0" />
             <Label layoutX="10.0" layoutY="48.0" text="Pre-built Map:" />
+            <Button id="validateMapButton" fx:id="validateMapButton" layoutX="10.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;com/simulus/util/images/validate.png&quot;);" text="Validate" />
          </children>
       </Pane>
       <Label layoutX="5.0" layoutY="396.0" text="Map Options">

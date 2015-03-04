@@ -13,13 +13,15 @@ import com.simulus.EditorApp;
 public class EditorControlsController implements Initializable {
 
 	@FXML
-	Button landButton;
+	Button grassButton;
 	@FXML
 	Button dirtButton;
 	@FXML
-	Button eraserButton;
+	Button cityButton;
 	@FXML
 	Button blockButton;
+	@FXML
+	Button eraserButton;
 	@FXML
 	Button roadHorizontalButton;
 	@FXML
@@ -45,8 +47,7 @@ public class EditorControlsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-
-		landButton.setOnAction((event) -> {
+		grassButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
@@ -54,14 +55,18 @@ public class EditorControlsController implements Initializable {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
-		eraserButton.setOnAction((event) -> {
+		cityButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
 		blockButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
-
+		
+		eraserButton.setOnAction((event) -> {
+			EditorApp.getInstance().selectButton((Button) event.getSource());
+		});
+	
 		roadHorizontalButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});

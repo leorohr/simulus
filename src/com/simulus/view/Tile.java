@@ -13,9 +13,7 @@ public class Tile extends Group {
 	public boolean isOccupied;
 	private Vehicle occupier;
 	private Rectangle frame;
-	private Image imgLand = new Image("com/simulus/util/images/land.png");
-	private String type;
-	private String direction;
+	private Image imgLand = new Image("com/simulus/util/images/grass.png");
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
