@@ -24,6 +24,10 @@ public class CustomPath extends Path{
 		this.pathDistance = pathDistance;
 		this.turn = turn;
 	}
+	
+	public CustomPath(PathElement... elements){
+		super(elements);
+	}
 		
 	public void setStartTile(Tile t){
 		startTile = t;

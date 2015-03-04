@@ -114,8 +114,6 @@ public class Truck extends Vehicle {
 			vehicleSpeed += acceleration;
 		else if(temp == Direction.NONE)
 			vehicleSpeed = 0;  
-		if(isPaused)
-			temp = Direction.NONE;
 		
 		//Moves the car in the direction it should go.
 		move(temp);

@@ -34,7 +34,8 @@ public class Intersection extends Group implements TileGroup, Runnable {
 			for (int j = 0; j < tiles[0].length; j++) {
 				tiles[i][j] = new Tile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
 				tiles[i][j].getFrame().setFill(Color.BLACK);
-				this.getChildren().add(tiles[i][j]);
+				
+				//this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}
 		}
 		
@@ -191,7 +192,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
                 map.setRedTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY());
 			});
 			
-			Thread.sleep(1000);
+			Thread.sleep(1250);
             
             Platform.runLater(() ->{
             	
@@ -220,7 +221,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
                   map.setRedTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
 	    	});
 	    	
-	    	Thread.sleep(1000);
+	    	Thread.sleep(1250);
 	    	
 	    	Platform.runLater(() ->{
 	    		Map map = SimulationController.getInstance().getMap();

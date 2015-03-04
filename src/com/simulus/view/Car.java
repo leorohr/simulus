@@ -83,6 +83,7 @@ public class Car extends Vehicle {
 	public void moveVehicle() {
 		
 		if(isTransitioning){
+			updateTransitionTiles();
 			return;
 		}
 		
@@ -98,6 +99,7 @@ public class Car extends Vehicle {
 		if(tempBehavior == Behavior.RECKLESS){
 			attemptOvertake();
 		}
+		
 		try {
             Tile nextTile = null;
 			switch (getDirection()) {
@@ -129,7 +131,7 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
 				
-
+                break;
 			case WEST:
                 if(currentTile.getGridPosX()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -145,17 +147,15 @@ public class Car extends Vehicle {
 			}
 			 if (nextTile.isOccupied()) {
              	tempDir = Direction.NONE;
-             	if(nextTile.getOccupier()!= null)
-             		if(nextTile.getOccupier()== this)
-             			tempDir = getDirection();
 			 }
-				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) &&Math.random()<0.25){
-					 	
+				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) && Math.random()>0.25){
+					 	currentIntersection = nextTile.getIntersection();
 		          		followPath(nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size())));
 		          		isTransitioning = true;
 		          		return;
 				 }
 		          		else tempDir = getDirection();
+			 //System.out.println(nextTile.toString());
 			
 
             //Slow the car down if cautious and slow car in front
@@ -167,10 +167,6 @@ public class Car extends Vehicle {
 			SimulationController.getInstance().removeVehicle(this);
 		}
 		
-		if(isPaused)
-			tempDir = Direction.NONE;
-		
-		System.out.println(vehicleSpeed);
 		
 		move(tempDir);
 		

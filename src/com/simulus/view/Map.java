@@ -257,6 +257,9 @@ public class Map extends Group {
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
 			tiles[t.getGridPosX()][t.getGridPosY()] = t;
+			
+			if(g instanceof Intersection)
+				tiles[t.getGridPosX()][t.getGridPosY()].setIntersection((Intersection)g);;
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
@@ -279,8 +282,9 @@ public class Map extends Group {
 			}
 		}
 
-		if (g instanceof Intersection)
+		if (g instanceof Intersection){
 			intersections.add((Intersection) g);
+		}
 	}
 
 
@@ -547,4 +551,7 @@ public class Map extends Group {
 	public void setTruckColorOption(VehicleColorOption o) {
 		this.truckColorOption = o;
 	}	
+	public ArrayList<Intersection> getIntersections(){
+		return intersections;
+	}
 }
