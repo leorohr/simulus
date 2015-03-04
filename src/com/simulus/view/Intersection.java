@@ -67,6 +67,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize,
 																false, true)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath(	straightDistance, t, m[t.getGridPosX()+4][t.getGridPosY()], Direction.EAST,new MoveTo(t.getX(), t.getCenterY()),				
 													new LineTo(tiles[3][1].getX() + tileSize, tiles[3][1].getCenterY())));*/
@@ -80,6 +81,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																t.getX(), t.getCenterY(),
 																false, false)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath( straightDistance, t, m[t.getGridPosX()][t.getGridPosY()-4], Direction.NORTH, new MoveTo(t.getCenterX(), t.getY() + tileSize),				
 													new LineTo(t.getCenterX(), tiles[0][0].getY())));*/
@@ -92,6 +94,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[3][1].getX() + tileSize, tiles[3][1].getCenterY(),
 																false, true)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()][t.getGridPosY()-4], Direction.NORTH,new MoveTo(t.getCenterX(), t.getY() + tileSize),				
 													new LineTo(t.getCenterX(), tiles[0][0].getY())));*/
@@ -105,6 +108,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[3][3].getCenterX(), tiles[3][3].getY()+ tileSize,
 																false, false)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()-4][t.getGridPosY()],Direction.WEST,new MoveTo(t.getX() + tileSize, t.getCenterY()),				
 													new LineTo(tiles[0][3].getX(), t.getCenterY())));*/
@@ -117,6 +121,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[1][0].getCenterX(), tiles[1][0].getY(),
 																false, true)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()-4][t.getGridPosY()],Direction.WEST,new MoveTo(t.getX() + tileSize, t.getCenterY()),				
 													new LineTo(tiles[0][3].getX(), t.getCenterY())));*/
@@ -129,6 +134,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[3][0].getX() + tileSize, tiles[3][0].getCenterY(),
 																false, false)));
+				turningPaths.addAll(t.getTurningPaths());
 			/*	//Straight
 				t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()][t.getGridPosY()+4],Direction.SOUTH,new MoveTo(t.getCenterX(), t.getY()),				
 													new LineTo(tiles[3][3].getCenterX(), tiles[3][3].getY() + tileSize)));*/
@@ -141,6 +147,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 																0.0d,
 																tiles[0][2].getX(), tiles[0][2].getCenterY(),
 																false, true)));
+				turningPaths.addAll(t.getTurningPaths());
 				/*//Straight
 				t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()][t.getGridPosY()+4],Direction.SOUTH,new MoveTo(t.getCenterX(), t.getY()),				
 													new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));*/
@@ -243,12 +250,15 @@ public class Intersection extends Group implements TileGroup, Runnable {
 
 	@Override
 	public List<Tile> getTiles() {
-		
 		List<Tile> l = new ArrayList<>();
 		for (int i = 0; i < tiles.length; i++) {
             Collections.addAll(l, tiles[i]);
 		}
 		return l;
+	}
+	
+	public ArrayList<CustomPath> getTurningPaths(){
+		return turningPaths;
 	}
 	
 	public long getSwitchTime(){

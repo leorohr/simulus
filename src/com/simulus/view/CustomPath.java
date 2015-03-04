@@ -15,7 +15,7 @@ public class CustomPath extends Path {
 	private Direction endDir;
 	private double pathDistance;
 	private String turn;
-	private boolean isActive = true;
+	private boolean isActive = false;
 
 	public CustomPath(String turn, double pathDistance, Tile st, Tile et,
 			Direction ed, PathElement... elements) {

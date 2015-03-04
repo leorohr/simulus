@@ -49,7 +49,11 @@ public class Map extends Group {
 		
 		for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
-			for(CustomPath p: i.get)
+			//If the path has a lane at the end of it, set it to active
+			for(CustomPath p: i.getTurningPaths()){
+				if(p.getEndTile() instanceof Lane)
+					p.setActive(true);
+			}
 			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
 														+ i.getTiles().get(0).getGridPosY() + ">");
 			trafficLightThreads.add(t);

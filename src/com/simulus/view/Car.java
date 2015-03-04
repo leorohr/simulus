@@ -150,7 +150,9 @@ public class Car extends Vehicle {
 			 }
 				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) && Math.random()>0.6){
 					 	currentIntersection = nextTile.getIntersection();
-		          		followPath(nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size())));
+					 	CustomPath p = nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size()));
+					 	if(p.getActive())
+					 		followPath(p);
 		          		isTransitioning = true;
 		          		return;
 				 }
