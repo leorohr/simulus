@@ -49,6 +49,7 @@ public class Map extends Group {
 		
 		for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
+			for(CustomPath p: i.get)
 			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
 														+ i.getTiles().get(0).getGridPosY() + ">");
 			trafficLightThreads.add(t);
