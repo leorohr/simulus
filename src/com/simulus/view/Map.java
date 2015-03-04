@@ -53,7 +53,7 @@ public class Map extends Group {
 		// TODO Read map from XML
 	}
 
-	// Hardcoded map for testing
+//	// Hardcoded map for testing
 	private void createBasicMap() {
 
 		for (int i = 0; i < tiles.length; i++) {
@@ -64,10 +64,7 @@ public class Map extends Group {
 			}
 		}
 
-		/*
-		 * for(int i=0; i<30; i++) { addGroup(new Road(13, i, Seed.NORTHSOUTH));
-		 * addGroup(new Road(i, 13, Seed.WESTEAST)); }
-		 */
+
 
 	}
 

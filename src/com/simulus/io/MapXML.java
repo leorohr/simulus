@@ -16,10 +16,12 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Seed;
 import com.simulus.view.City;
 import com.simulus.view.Dirt;
 import com.simulus.view.Grass;
+import com.simulus.view.Intersection;
 import com.simulus.view.Land;
 import com.simulus.view.Lane;
 import com.simulus.view.Map;
@@ -52,7 +54,7 @@ public class MapXML {
 	private String attribute;
 
 	Map importedMap = new Map();
-	Tile[][] fullGrid;
+	public Tile[][] fullGrid;
 
 	public MapXML() {
 
@@ -156,12 +158,21 @@ public class MapXML {
 						case "lane":  //add block tile
 							switch(attribute){
 								case "EAST": //add east tile
+									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos, Direction.EAST);
+									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "WEST": //add west tile
+									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos, Direction.WEST);
 								break;
 								case "NORTH": //add north tile
+									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos, Direction.NORTH);
 								break;
 								case "SOUTH": //add south tile
+									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos, Direction.SOUTH);
 								break;
 							}
 						break;
@@ -264,6 +275,7 @@ public class MapXML {
 					
 					System.out.println(tileType);
 					
+					//intersection output needed
 					if (t instanceof Lane) {
 						tileType = "lane";
 						tileAttribute = ((Lane) t).getDirection().toString();

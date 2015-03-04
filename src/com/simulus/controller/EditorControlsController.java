@@ -1,12 +1,18 @@
 package com.simulus.controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.event.ChangeListener;
+
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 import com.simulus.EditorApp;
@@ -43,7 +49,10 @@ public class EditorControlsController implements Initializable {
 	TextField descTextField;
 	@FXML
 	TextField authorTextField;
+	@FXML
+	ChoiceBox<KeyValuePair> gridSizeChoiceBox;
 	
+
 
 	// TODO
 	@Override
@@ -92,6 +101,13 @@ public class EditorControlsController implements Initializable {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
+		gridSizeChoiceBox.getItems().add(new KeyValuePair("40", "40 x 40"));
+		gridSizeChoiceBox.getItems().add(new KeyValuePair("60", "60 x 60"));
+		gridSizeChoiceBox.getItems().add(new KeyValuePair("80", "80 x 80"));
+		
+		
+		//gridSizeChoiceBox.getSelectionModel().selectedItemProperty().addListener(choiceboxSelectionChangeListener);
+
 		
 	}
 	
@@ -127,5 +143,14 @@ public class EditorControlsController implements Initializable {
 	public String getMapAuthor() {
 		return authorTextField.getText();
 	}
+	
+	public void setGridSize(String text) {
+        authorTextField.setText(text);
+    }
+
+	public String getGridSize() {
+		return "a";
+	}
+	
 
 }

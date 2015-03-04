@@ -1,6 +1,9 @@
 package com.simulus;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -99,7 +102,7 @@ public class EditorApp extends Application {
 
 		initRootLayout();
 		showControls();
-
+		
 		this.editorMap = new Map();
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -511,12 +514,18 @@ public class EditorApp extends Application {
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
+		editorMap.tiles = mxml.fullGrid;
+		editorMap.drawMap();
 		//System.out.println(mxml.toString());
 	}
 
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
-		mxml.writeXML(editorMap.tiles, fileLocation, "name", "03-03-2015", "test map by me", "paul", 800, 40, mapValidated);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		
+		mxml.writeXML(editorMap.tiles, fileLocation, ECC.getMapName(), dateFormat.format(date),
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, mapValidated);
 		
 	}
 

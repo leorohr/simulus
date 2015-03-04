@@ -23,8 +23,8 @@
             <TextField id="nameTextField" fx:id="nameTextField" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="168.0" />
             <TextField id="descTextField" fx:id="descTextField" layoutX="10.0" layoutY="102.0" prefHeight="25.0" prefWidth="168.0" />
             <TextField id="authorTextField" fx:id="authorTextField" layoutX="10.0" layoutY="143.0" prefHeight="25.0" prefWidth="168.0" />
-            <TextField id="dateTextField" fx:id="dateTextField" layoutX="10.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
-            <Label layoutX="10.0" layoutY="46.0" text="Date:" />
+            <TextField id="dateTextField" fx:id="dateTextField" editable="false" layoutX="10.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
+            <Label layoutX="10.0" layoutY="46.0" text="Last Saved:" />
          </children>
       </Pane>
       <Pane layoutX="5.0" layoutY="65.0" prefHeight="329.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
