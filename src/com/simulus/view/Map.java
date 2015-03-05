@@ -1,21 +1,22 @@
 package com.simulus.view;
 
-import com.simulus.MainApp;
-import com.simulus.controller.SimulationController;
-import com.simulus.util.ResourceBuilder;
-import com.simulus.util.enums.Behavior;
-import com.simulus.util.enums.VehicleColorOption;
-import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Orientation;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import com.simulus.EditorApp;
+import com.simulus.MainApp;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.Orientation;
+import com.simulus.util.enums.VehicleColorOption;
 
 public class Map extends Group {
 
@@ -66,6 +67,23 @@ public class Map extends Group {
 		// TODO Read map from XML
 	}
 
+	public void drawMap() {
+		for (int i = 0; i < tiles.length; i++) {
+			for (int p = 0; p < tiles.length; p++) {
+
+				if (MainApp.getInstance() != null) {
+					MainApp.getInstance().getCanvas().getChildren()
+							.add(tiles[i][p]);
+				} else if (EditorApp.getInstance() != null) {
+					EditorApp.getInstance().getCanvas().getChildren()
+							.add(tiles[i][p]);
+				} else {
+					System.out.println("No current application instance");
+				}
+			}
+		}
+	}
+	
 	// Hardcoded map for testing
 	@SuppressWarnings("unused")
 	private void createBasicMap() {
@@ -275,7 +293,7 @@ public class Map extends Group {
 		}
 	}
 
-	private void addGroup(TileGroup g) {
+	public void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
@@ -413,19 +431,19 @@ public class Map extends Group {
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
-						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Road) g).getOrientation() == Orientation.WESTEAST
 						&& ((Lane) t).getDirection() == Direction.WEST) {
 					entryPoints.remove((Lane) t);
 				} else if (t.getGridPosX() == 0
-						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Road) g).getOrientation() == Orientation.WESTEAST
 						&& ((Lane) t).getDirection() == Direction.EAST) {
 					entryPoints.remove((Lane) t);
 				} else if (t.getGridPosY() == tiles.length - 1
-						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Road) g).getOrientation() == Orientation.NORTHSOUTH
 						&& ((Lane) t).getDirection() == Direction.NORTH) {
 					entryPoints.remove((Lane) t);
 				} else if (t.getGridPosY() == 0
-						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Road) g).getOrientation() == Orientation.NORTHSOUTH
 						&& ((Lane) t).getDirection() == Direction.SOUTH) {
 					entryPoints.remove((Lane) t);
 				}
@@ -612,5 +630,9 @@ public class Map extends Group {
 	}	
 	public ArrayList<Intersection> getIntersections(){
 		return intersections;
+	}
+	
+	public void setTiles(Tile[][] tiles) {
+		this.tiles = tiles;
 	}
 }

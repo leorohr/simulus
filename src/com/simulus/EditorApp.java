@@ -4,23 +4,16 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
-
-import javax.swing.text.Highlighter.Highlight;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -33,7 +26,7 @@ import javafx.stage.WindowEvent;
 
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
-import com.simulus.util.enums.Seed;
+import com.simulus.util.enums.Orientation;
 import com.simulus.view.Block;
 import com.simulus.view.City;
 import com.simulus.view.Dirt;
@@ -159,14 +152,14 @@ public class EditorApp extends Application {
 								// Remove current tiles in space
 								editorMap.removeGroup(new 
 										Road(editorMap.getTiles()[i][p].getGridPosX(), 
-												editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+												editorMap.getTiles()[i][p].getGridPosY(), Orientation.NORTHSOUTH));
 								// Add new Verticle Road
 								editorMap.addGroup(new 
 										Road(editorMap.getTiles()[i][p].getGridPosX(),
-												editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+												editorMap.getTiles()[i][p].getGridPosY(), Orientation.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
 								editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p].getGridPosY(), Seed.WESTEAST));
+										editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));
 							}
 						}
 
@@ -223,14 +216,14 @@ public class EditorApp extends Application {
 								editorMap.addGroup(new Road(editorMap
 										.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.NORTHSOUTH));
+												.getGridPosY(), Orientation.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
 								System.out.println("Adding road at "
 										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
 										.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p]
-												.getGridPosY(), Seed.WESTEAST));
+												.getGridPosY(), Orientation.WESTEAST));
 							}
 						}
 					}
@@ -544,7 +537,7 @@ public class EditorApp extends Application {
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
 		//ECC.setGridSize(60);
-		editorMap.tiles = mxml.getTileGrid();
+		editorMap.setTiles(mxml.getTileGrid());
 		editorMap.drawMap();
 	}
 
@@ -553,7 +546,7 @@ public class EditorApp extends Application {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		
-		mxml.writeXML(editorMap.tiles, fileLocation, ECC.getMapName(), dateFormat.format(date),
+		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
 				ECC.getMapDesc(), ECC.getMapAuthor(), 800, ECC.getGridSize(), mapValidated);
 		
 	}

@@ -17,7 +17,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Seed;
+import com.simulus.util.enums.Orientation;
 import com.simulus.view.Block;
 import com.simulus.view.City;
 import com.simulus.view.Dirt;
