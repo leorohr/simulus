@@ -4,6 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.LandType;
 import com.simulus.view.Tile;
 
@@ -57,17 +58,17 @@ public class Land extends Tile {
 		Image image;
 		switch(this.landType) {
 		case GRASS :
-			image = new Image("com/simulus/util/images/grass.png");
+			image = ResourceBuilder.getGrassTexture();
 			break;
 		case DIRT :
-			image = new Image("com/simulus/util/images/dirt.png");
+			image = ResourceBuilder.getDirtTexture();
 			break;
 		case CITY :
 			// TODO Replace CITY image
-			image = new Image("com/simulus/util/images/city.png");
+			image = ResourceBuilder.getCityTexture();
 		break;
 		case BLOCK :
-			image = new Image("com/simulus/util/images/block.png");
+			image = ResourceBuilder.getBlockTexture();
 		break;
 		default :
 			image = null;

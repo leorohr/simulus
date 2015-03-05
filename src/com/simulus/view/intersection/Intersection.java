@@ -12,6 +12,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
@@ -21,7 +22,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public IntersectionTile[][] tiles = new IntersectionTile[4][4];
 	private long switchTime;
-	private int tileSize = Map.TILESIZE;
+	private int tileSize = Configuration.tileSize;
 	private ArrayList<CustomPath> turningPaths;
 	
 	/**

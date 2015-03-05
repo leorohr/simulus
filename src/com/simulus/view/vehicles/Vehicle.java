@@ -20,6 +20,7 @@ import javafx.util.Duration;
 
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
@@ -27,7 +28,6 @@ import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
-import com.simulus.view.map.Map;
 
 /**
  * Describes a vehicle on the GUI
@@ -75,7 +75,7 @@ public abstract class Vehicle extends Rectangle {
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();
-		tileWidth = Map.TILESIZE;
+		tileWidth = Configuration.tileSize;
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		
@@ -420,9 +420,9 @@ public abstract class Vehicle extends Rectangle {
 			@Override
 			public void handle(ActionEvent event) {
 				
-                Vehicle v = new Car(p.getEndTile().getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
-    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * Map.TILESIZE
-    					+ Map.TILESIZE - Car.CARLENGTH, p.getEndDirection());
+                Vehicle v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
+    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
+    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
                 v.setCurrentTile(p.getEndTile());
                 p.getEndTile().setOccupied(true, v);
                 
@@ -448,6 +448,7 @@ public abstract class Vehicle extends Rectangle {
                 v.setBehavior(getBehavior());
                 v.setFill(getFill());
                 v.setMap(SimulationController.getInstance().getMap().getTiles());
+                v.setWaitedCounter(waitedCounter);
                 SimulationController.getInstance().getMap().getVehicles().add(v);
                 isTransitioning = false;
                 SimulationController.getInstance().removeVehicle(Vehicle.this);
@@ -524,7 +525,11 @@ public abstract class Vehicle extends Rectangle {
 		return behavior;
 	}
 
-	public double getWaitedCounter() {
+	public int getWaitedCounter() {
 		return waitedCounter;
+	}
+	
+	public void setWaitedCounter(int waitedCounter) {
+		this.waitedCounter = waitedCounter;
 	}
 }

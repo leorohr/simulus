@@ -26,6 +26,8 @@ import javafx.stage.WindowEvent;
 
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
+import com.simulus.util.Configuration;
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
@@ -44,22 +46,19 @@ public class EditorApp extends Application {
 	private BorderPane rootLayout;
 	private Pane canvas;
 	private Map editorMap;
-	private int gridSize;
+	private int gridSize = Configuration.gridSize;
+	private int tileSize = Configuration.tileSize;
 	private boolean mapValidated;
-	//fixed size canvas
-	private int canvasWidth = 800;
-	private int canvasHeight = 800;
-	private int tileWidth;
 	private Scene scene;
 
-	private Image csrRoadEW = new Image("com/simulus/util/images/csr_eastwest.png");
-	private Image csrRoadNS = new Image("com/simulus/util/images/csr_northsouth.png");
-	private Image csrGrass = new Image("com/simulus/util/images/csr_grass.png");
-	private Image csrDirt = new Image("com/simulus/util/images/csr_dirt.png");
-	private Image csrCity = new Image("com/simulus/util/images/csr_city.png");
-	private Image csrBlock = new Image("com/simulus/util/images/csr_block.png");
-	private Image csrIntersection = new Image("com/simulus/util/images/csr_boxjunction.png");
-	private Image csrErase = new Image("com/simulus/util/images/csr_erase.png");
+	private Image csrRoadEW = ResourceBuilder.getEWLaneCursor();
+	private Image csrRoadNS = ResourceBuilder.getNSLaneCursor();
+	private Image csrGrass = ResourceBuilder.getGrassCursor();
+	private Image csrDirt = ResourceBuilder.getDirtCursor();
+	private Image csrCity = ResourceBuilder.getCityCursor();
+	private Image csrBlock = ResourceBuilder.getBlockCursor();
+	private Image csrIntersection = ResourceBuilder.getBoxjunctionCursor();
+	private Image csrErase = ResourceBuilder.getEraseCursor();
 
 	private boolean grassSelected = false;
 	private boolean dirtSelected = false;
@@ -125,16 +124,16 @@ public class EditorApp extends Application {
 														.getBoundsInParent().getMaxY()) {
 							if (grassSelected) {
 								editorMap.addSingle(new 
-										Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+										Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (dirtSelected) {
 								editorMap.addSingle(new 
-										Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+										Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (citySelected) {
 								editorMap.addSingle(new 
-										City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+										City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							}else if (blockSelected) {
 								// TODO: Blockage
-								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								//editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (eraserSelected) {
 								// TODO implement remove properly
@@ -189,19 +188,19 @@ public class EditorApp extends Application {
 							if (grassSelected) {
 								System.out.println("Adding grass at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Grass(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (dirtSelected) {
 								System.out.println("Adding dirt at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Dirt(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (citySelected) {
 								System.out.println("Adding city at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							}else if (blockSelected) {
 								System.out.println("Adding block at "
 										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							}else if (eraserSelected) {
 								// TODO implement remove properly
 								System.out.println("Removing at "
@@ -339,17 +338,8 @@ public class EditorApp extends Application {
 		}
 	}
 
-	public void setGridSize(int size) {
-		gridSize = size;
-		tileWidth = canvasWidth / gridSize;
-	}
-
 	public int getGridSize() {
 		return gridSize;
-	}
-
-	public int getTileSize() {
-		return (int) canvasWidth / gridSize;
 	}
 
 	public Pane getCanvas() {

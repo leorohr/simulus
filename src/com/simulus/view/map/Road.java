@@ -1,5 +1,6 @@
 package com.simulus.view.map;
 
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
@@ -20,13 +21,13 @@ public class Road extends Group implements TileGroup{
 	private Orientation orientation;
 	
 	/**
-	 * @param gridPosX The mostleft/top x-coordinate of the road in the grid.
-	 * @param gridPosY The mostleft/top y-coordinate of the road in the grid.
+	 * @param gridPosX The leftmost/top x-coordinate of the road in the grid.
+	 * @param gridPosY The leftmost/top y-coordinate of the road in the grid.
 	 * @param orientation The orientation of the Road.
 	 */
 	public Road(int gridPosX, int gridPosY, Orientation orientation){
 		
-		int tileSize = Map.TILESIZE;
+		int tileSize = Configuration.tileSize;
 		this.orientation = orientation;
 		
 		switch(orientation){

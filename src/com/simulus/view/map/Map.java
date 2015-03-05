@@ -31,12 +31,8 @@ import com.simulus.view.vehicles.Vehicle;
 
 public class Map extends Group {
 
-	private static final int NUM_ROWS = 40;
-	private static final int NUM_COLUMNS = 40;
-	public static final int TILESIZE = Configuration.TILESIZE; 
-	// (int) (MainApp.getInstance().getCanvas().getWidth() / NUM_ROWS);
-
-	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
+	private int tileSize = Configuration.tileSize;
+	private Tile[][] tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private ArrayList<Thread> trafficLightThreads = new ArrayList<>();
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
@@ -51,8 +47,8 @@ public class Map extends Group {
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
-						TILESIZE, i, p);
+				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
+						tileSize, i, p);
 			}
 		}
 		
@@ -116,8 +112,8 @@ public class Map extends Group {
 
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
-						TILESIZE, i, p);
+				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
+						tileSize, i, p);
 			}
 		}
 
@@ -132,8 +128,8 @@ public class Map extends Group {
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
-						TILESIZE, i, p);
+				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
+						tileSize, i, p);
 			}
 		}
 
@@ -174,13 +170,13 @@ public class Map extends Group {
 		Car c = null;
 		if (l.getDirection() == Direction.NORTH
 				|| l.getDirection() == Direction.SOUTH) {
-			c = new Car(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
-					- Car.CARWIDTH / 2, l.getGridPosY() * Map.TILESIZE
-					+ Map.TILESIZE - Car.CARLENGTH, l.getDirection());
+			c = new Car(l.getGridPosX() * tileSize + tileSize / 2
+					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize
+					+ tileSize - Car.CARLENGTH, l.getDirection());
 		} else if (l.getDirection() == Direction.WEST
 				|| l.getDirection() == Direction.EAST) {
-			c = new Car(l.getGridPosX() * Map.TILESIZE, l.getGridPosY()
-					* Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
+			c = new Car(l.getGridPosX() * tileSize, l.getGridPosY()
+					* tileSize + tileSize / 2 - Car.CARWIDTH / 2,
 					l.getDirection());
 		}
 
@@ -205,13 +201,13 @@ public class Map extends Group {
 		Truck t = null;
 		if (l.getDirection() == Direction.NORTH
 				|| l.getDirection() == Direction.SOUTH) {
-			t = new Truck(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
-					- Truck.TRUCKWIDTH / 2, l.getGridPosY() * Map.TILESIZE
-					+ Map.TILESIZE - Truck.TRUCKLENGTH, l.getDirection());
+			t = new Truck(l.getGridPosX() * tileSize + tileSize / 2
+					- Truck.TRUCKWIDTH / 2, l.getGridPosY() * tileSize
+					+ tileSize - Truck.TRUCKLENGTH, l.getDirection());
 		} else if (l.getDirection() == Direction.WEST
 				|| l.getDirection() == Direction.EAST) {
-			t = new Truck(l.getGridPosX() * Map.TILESIZE, l.getGridPosY()
-					* Map.TILESIZE + Map.TILESIZE / 2 - Truck.TRUCKWIDTH / 2,
+			t = new Truck(l.getGridPosX() * tileSize, l.getGridPosY()
+					* tileSize + tileSize / 2 - Truck.TRUCKWIDTH / 2,
 					l.getDirection());
 		}
 
@@ -275,8 +271,8 @@ public class Map extends Group {
 
 		Car c = null;
 		// Car adds itself to the canvas
-		c = new Car(a.getGridPosX() * Map.TILESIZE + Car.CARWIDTH / 4,
-				a.getGridPosY() * Map.TILESIZE + Car.CARLENGTH / 8,
+		c = new Car(a.getGridPosX() * tileSize + Car.CARWIDTH / 4,
+				a.getGridPosY() * tileSize + Car.CARLENGTH / 8,
 				a.getDirection());
 
 		c.setCurrentTile(a);
@@ -301,13 +297,13 @@ public class Map extends Group {
 		
 		if (l.getDirection() == Direction.NORTH
 				|| l.getDirection() == Direction.SOUTH) {
-			a = new Ambulance(l.getGridPosX() * Map.TILESIZE + Map.TILESIZE / 2
-					- Car.CARWIDTH / 2, l.getGridPosY() * Map.TILESIZE
-					+ Map.TILESIZE - Car.CARLENGTH, l.getDirection());
+			a = new Ambulance(l.getGridPosX() * tileSize + tileSize / 2
+					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize
+					+ tileSize - Car.CARLENGTH, l.getDirection());
 		} else if (l.getDirection() == Direction.WEST
 				|| l.getDirection() == Direction.EAST) {
-			a = new Ambulance(l.getGridPosX() * Map.TILESIZE, l.getGridPosY()
-					* Map.TILESIZE + Map.TILESIZE / 2 - Car.CARWIDTH / 2,
+			a = new Ambulance(l.getGridPosX() * tileSize, l.getGridPosY()
+					* tileSize + tileSize / 2 - Car.CARWIDTH / 2,
 					l.getDirection());
 		}
 		a.getCar().setCurrentTile(l); 
