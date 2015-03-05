@@ -1,12 +1,38 @@
-Test 1 completed!
-Start Button Detected
+FX App thread started 
+
+Initialising Test1...
+ 
+Start Button Detected 
+
 Start Button Clicked: true
+
+animationThread found: true
+ 
+thread status is alive.
+ 
+Test 1 completed!
+ 
+Initialising Test2...
+ 
+Stop Button Detected 
+
+Stop Button Clicked: true
+
+animationThread found: true
+ 
+thread status is interrupted.
  
 Test 2 completed!
-Stop Button Detected
-Stop Button Clicked: true
+ 
+Initialising Test3...
+ 
+Reset Button Detected 
+
+Reset Button Clicked: true
+
+animationThread found: true
+ 
+thread status is reseted.
  
 Test 3 completed!
-Reset Button Detected
-Reset Button Clicked: true
  
