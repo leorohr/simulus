@@ -378,7 +378,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrGrass, csrGrass.getHeight()/2, csrGrass.getWidth()/2));
+			canvas.setCursor(new ImageCursor(csrGrass));
 			break;
 		case "dirtButton":
 			grassSelected = false;
@@ -389,7 +389,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrDirt, csrDirt.getHeight()/2, csrDirt.getWidth()/2));
+			canvas.setCursor(new ImageCursor(csrDirt));
 			break;
 		case "cityButton":
 			grassSelected = false;
@@ -400,7 +400,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrCity, csrCity.getHeight()/2, csrCity.getWidth()/2));
+			canvas.setCursor(new ImageCursor(csrCity));
 			break;
 		case "blockButton":
 			grassSelected = false;
@@ -411,7 +411,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrBlock, csrBlock.getHeight()/2, csrBlock.getWidth()/2));
+			canvas.setCursor(new ImageCursor(csrBlock));
 			break;
 		case "eraserButton":
 			grassSelected = false;
@@ -422,7 +422,7 @@ public class EditorApp extends Application {
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrErase, csrErase.getHeight()/2, csrErase.getWidth()/2));
+			canvas.setCursor(new ImageCursor(csrErase));
 			break;
 		case "roadVerticalButton":
 			grassSelected = false;
@@ -543,9 +543,9 @@ public class EditorApp extends Application {
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
-		editorMap.tiles = mxml.fullGrid;
+		//ECC.setGridSize(60);
+		editorMap.tiles = mxml.getTileGrid();
 		editorMap.drawMap();
-		//System.out.println(mxml.toString());
 	}
 
 	public void saveMap(String fileLocation){
@@ -554,7 +554,7 @@ public class EditorApp extends Application {
 		Date date = new Date();
 		
 		mxml.writeXML(editorMap.tiles, fileLocation, ECC.getMapName(), dateFormat.format(date),
-				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, mapValidated);
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, ECC.getGridSize(), mapValidated);
 		
 	}
 

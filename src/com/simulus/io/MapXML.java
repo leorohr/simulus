@@ -47,7 +47,7 @@ public class MapXML {
 	public String mapAuthor;
 
 	int canvasSize;
-	int numOfTiles;
+	public int numOfTiles;
 	boolean validated;
 
 	private int xPos;
@@ -64,7 +64,7 @@ public class MapXML {
 
 	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
 	// nodes do not match metadata i.e. grid size matching height x width
-	public Tile[][] readXML(String inputFile) {
+	public void readXML(String inputFile) {
 
 		try {
 
@@ -194,7 +194,7 @@ public class MapXML {
 			e.printStackTrace();
 		}
 
-		return fullGrid;
+		//return fullGrid;
 
 	}
 
@@ -332,6 +332,10 @@ public class MapXML {
 			tfe.printStackTrace();
 		}
 
+	}
+	
+	public Tile[][] getTileGrid(){
+		return fullGrid;
 	}
 	
 	public String toString() {

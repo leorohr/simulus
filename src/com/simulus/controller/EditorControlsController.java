@@ -1,15 +1,11 @@
 package com.simulus.controller;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.event.ChangeListener;
-
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -49,14 +45,17 @@ public class EditorControlsController implements Initializable {
 	TextField descTextField;
 	@FXML
 	TextField authorTextField;
+//	@FXML
+//	ChoiceBox<KeyValuePair> gridSizeChoiceBox;
 	@FXML
-	ChoiceBox<KeyValuePair> gridSizeChoiceBox;
+	ChoiceBox<String> gridSizeChoiceBox = new ChoiceBox<String>();
 	
 
 
 	// TODO
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		
 		grassButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
@@ -101,56 +100,74 @@ public class EditorControlsController implements Initializable {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
-		gridSizeChoiceBox.getItems().add(new KeyValuePair("40", "40 x 40"));
-		gridSizeChoiceBox.getItems().add(new KeyValuePair("60", "60 x 60"));
-		gridSizeChoiceBox.getItems().add(new KeyValuePair("80", "80 x 80"));
-		
-		
-		//gridSizeChoiceBox.getSelectionModel().selectedItemProperty().addListener(choiceboxSelectionChangeListener);
+		gridSizeChoiceBox.getItems().add("40");
+		gridSizeChoiceBox.getItems().add("60");
+		gridSizeChoiceBox.getItems().add("80");
+		gridSizeChoiceBox.getSelectionModel().select(0);
 
-		
+		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+			@Override
+		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
+				//create new map with new grid size
+			}
+		});
+    
 	}
 	
 
-	public void setMapName(String text) {
-	        nameTextField.setText(text);
+	public void setMapName(String name) {
+	        nameTextField.setText(name);
 	    }
 	
 	public String getMapName() {
         return nameTextField.getText();
     }
 	
-	public void setMapDate(String text) {
-        dateTextField.setText(text);
+	public void setMapDate(String date) {
+        dateTextField.setText(date);
     }
 
 	public String getMapDate() {
 		return dateTextField.getText();
 	}
 	
-	public void setMapDesc(String text) {
-        descTextField.setText(text);
+	public void setMapDesc(String description) {
+        descTextField.setText(description);
     }
 
 	public String getMapDesc() {
 		return descTextField.getText();
 	}
 	
-	public void setMapAuthor(String text) {
-        authorTextField.setText(text);
+	public void setMapAuthor(String author) {
+        authorTextField.setText(author);
     }
 
 	public String getMapAuthor() {
 		return authorTextField.getText();
 	}
 	
-	public void setGridSize(String text) {
-        authorTextField.setText(text);
+	public void setGridSize(int size) {
+		switch(size){
+			case 40:
+				gridSizeChoiceBox.getSelectionModel().select(0);
+			break;
+			case 60:
+				gridSizeChoiceBox.getSelectionModel().select(1);
+			break;
+			case 80:
+				gridSizeChoiceBox.getSelectionModel().select(2);
+			break;
+		}
+		
     }
-
-	public String getGridSize() {
-		return "a";
+	
+	public int getGridSize(){
+		
+		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
+		
 	}
+
 	
 
 }
