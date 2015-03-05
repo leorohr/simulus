@@ -50,6 +50,7 @@ public class Map extends Group {
 		for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
 			//If the path has a lane at the end of it, set it to active
+			//This allows the creation intersections without 4 connected roads
 			for(CustomPath p: i.getTurningPaths()){
 				if(p.getEndTile() instanceof Lane)
 					p.setActive(true);
@@ -263,7 +264,7 @@ public class Map extends Group {
 			tiles[t.getGridPosX()][t.getGridPosY()] = t;
 			
 			if(g instanceof Intersection)
-				tiles[t.getGridPosX()][t.getGridPosY()].setIntersection((Intersection)g);;
+				((IntersectionTile)tiles[t.getGridPosX()][t.getGridPosY()]).setIntersection((Intersection)g);
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1

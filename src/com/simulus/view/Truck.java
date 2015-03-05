@@ -3,14 +3,11 @@ package com.simulus.view;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Translate;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Translate;
-
-import java.util.Random;
 
 public class Truck extends Vehicle {
 

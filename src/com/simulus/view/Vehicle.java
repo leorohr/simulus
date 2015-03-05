@@ -3,12 +3,10 @@ package com.simulus.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
-import javafx.animation.PathTransitionBuilder;
 import javafx.animation.RotateTransition;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
@@ -43,13 +41,9 @@ public abstract class Vehicle extends Rectangle {
 	protected CustomPath currentPath;
 	protected PathTransition pathTransition;
 	protected Transition currentTransition;
-	
-	protected int tileWidth;
 
-	
+	protected int tileWidth;
 	protected Tile moveToTile;
-	
-	
 	protected Behavior tempBehavior;
 	protected Direction tempDir;
 	protected double acceleration;
@@ -75,7 +69,7 @@ public abstract class Vehicle extends Rectangle {
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();
-		tileWidth = SimulationController.getInstance().getMap().TILESIZE;
+		tileWidth = Map.TILESIZE;
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		
@@ -198,7 +192,8 @@ public abstract class Vehicle extends Rectangle {
         setCurrentTile(moveToTile);
         this.moveToTile = moveToTile;
         pathTransition.play();
-	};
+	}
+	
 	/**
 	 * Makes the vehicle change into the adjacent lane if possible
 	 */
@@ -277,98 +272,113 @@ public abstract class Vehicle extends Rectangle {
 	}
 	
 	public void updateTransitionTiles(){
-		if(currentIntersection != null){
-			//TODO Pause transitions if something gets in the way. Currently causes indefinite blockages
-			/*for(int i = 0; i < currentIntersection.tiles.length; i++)
-				for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-					if(currentIntersection.tiles[i][j].getBoundsInParent().intersects(currentPath.getBoundsInParent()))
-						if(currentIntersection.tiles[i][j].isOccupied() == true && currentIntersection.tiles[i][j].getOccupier()!=this){
-							currentTransition.pause();
-							return;
-						}
-						else if(currentTransition.getStatus()==Animation.Status.PAUSED)
-								currentTransition.play();*/
-			System.out.println(currentPath);
-			switch(getDirection()){
-			case NORTH:
-				for(int i = 0; i < currentIntersection.tiles.length; i++)
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-						if(currentPath.getTurn() == "left"){
-							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
-								currentTransition.pause();
-							else currentTransition.play();
-						}
-						else if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).isOccupied()){
-								if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).getOccupier()!=null)
-									if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).getOccupier() != this)
-							currentTransition.pause();
-						}
-						else currentTransition.play();
-				break;
-			case SOUTH:
-				for(int i = 0; i < currentIntersection.tiles.length; i++)
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-						if(currentPath.getTurn() == "left"){
-							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
-								currentTransition.pause();
-							else currentTransition.play();
-						}
-						else if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).isOccupied()){
-								if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).getOccupier()!=null)
-									if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).getOccupier() != this)
-							currentTransition.pause();
-						}
-						else currentTransition.play();
-				break;
-			case EAST:
-				for(int i = 0; i < currentIntersection.tiles.length; i++)
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-						if(currentPath.getTurn() == "left"){
-							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
-								currentTransition.pause();
-							else currentTransition.play();
-						}
-						else if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).isOccupied()){
-								if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).getOccupier()!=null)
-									if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).getOccupier() != this)
-							currentTransition.pause();
-						}
-						else currentTransition.play();
-				break;
-			case WEST:
-				for(int i = 0; i < currentIntersection.tiles.length; i++)
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-						if(currentPath.getTurn() == "left"){
-							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
-								currentTransition.pause();
-							else currentTransition.play();
-						}
-						else if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).isOccupied()){
-								if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).getOccupier()!=null)
-									if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).getOccupier() != this)
-										currentTransition.pause();
-						}
-						else currentTransition.play();
-				break;
-			}
-			
-					
-					
-			//Check if the vehicle occupies tiles throughout the transition
-				for(int i = 0; i < currentIntersection.tiles.length; i++)
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-						if(currentIntersection.tiles[i][j].getFrame().getBoundsInParent().intersects(this.getBoundsInParent()))
-							currentIntersection.tiles[i][j].setOccupied(true, this);
-						else currentIntersection.tiles[i][j].setOccupied(false, this);
+		
+		//Update transitiontiles while overtaking
+		if(currentIntersection == null) {
+			if(currentTile.getFrame().getBoundsInParent().intersects(this.getBoundsInParent()))
+				currentTile.setOccupied(true, this);
+			else currentTile.setOccupied(false, this);
 			return;
 		}
-		if(currentTile.getFrame().getBoundsInParent().intersects(this.getBoundsInParent()))
-			currentTile.setOccupied(true, this);
-		else currentTile.setOccupied(false, this);
 		
+		//TODO Pause transitions if something gets in the way. Currently causes indefinite blockages
+		/*for(int i = 0; i < currentIntersection.tiles.length; i++)
+			for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+				if(currentIntersection.tiles[i][j].getBoundsInParent().intersects(currentPath.getBoundsInParent()))
+					if(currentIntersection.tiles[i][j].isOccupied() == true && currentIntersection.tiles[i][j].getOccupier()!=this){
+						currentTransition.pause();
+						return;
+					}
+					else if(currentTransition.getStatus()==Animation.Status.PAUSED)
+							currentTransition.play();*/
+		
+		//Update transition tiles whil turning in an intersection
+		switch(getDirection()){
+		case NORTH:
+			for(int i = 0; i < currentIntersection.tiles.length; i++) {
+				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+					if(currentPath.getTurn() == "left"){
+						if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+					else {
+						IntersectionTile nextTile = currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2));
+						if(nextTile != null && nextTile.getOccupier() != this) 
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+				}
+			}
+			break;
+		case SOUTH:
+			for(int i = 0; i < currentIntersection.tiles.length; i++) {
+				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+					if(currentPath.getTurn() == "left"){
+						if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+					else {
+						IntersectionTile nextTile = currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2));
+						if(nextTile != null && nextTile.getOccupier() != this) 
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+				}
+			}
+			break;
+		case EAST:
+			for(int i = 0; i < currentIntersection.tiles.length; i++) {
+				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+					if(currentPath.getTurn() == "left") {
+						if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+					else { 
+						IntersectionTile nextTile = currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2));
+						if(nextTile != null && nextTile.getOccupier() != this) 
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+				}
+			}
+			break;
+		case WEST:
+			for(int i = 0; i < currentIntersection.tiles.length; i++) {
+				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+					if(currentPath.getTurn() == "left") {
+						if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+					else {
+						IntersectionTile nextTile = currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2));
+						if(nextTile != null && nextTile.getOccupier() != this) 
+							currentTransition.pause();
+						else currentTransition.play();
+					}
+				}
+			}
+			break;
+		default:
+			break;
+		}
+						
+		//Check if the vehicle occupies tiles throughout the transition
+		for(int i = 0; i < currentIntersection.tiles.length; i++)
+			for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+				if(currentIntersection.tiles[i][j].getFrame().getBoundsInParent().intersects(this.getBoundsInParent()))
+					currentIntersection.tiles[i][j].setOccupied(true, this);
+				else currentIntersection.tiles[i][j].setOccupied(false, this);
 	}
 	
 	public void followPath(CustomPath p){
+		if(p.getEndTile().isOccupied())
+			return;
+		
+		isTransitioning = true;
 		getTransforms().clear();
 		currentPath = p;
 		ParallelTransition transition;
@@ -385,21 +395,16 @@ public abstract class Vehicle extends Rectangle {
 			duration = 750;
 		}
 		rt.setDuration(Duration.millis(duration));
-		
-		pathTransition = PathTransitionBuilder.create()
-                .duration(Duration.millis(duration))
-                .path(p)
-                .node(this)
-                .interpolator(Interpolator.LINEAR)
-                .orientation(OrientationType.NONE)
-                .build();
-        
+		        
+		pathTransition = new PathTransition(Duration.millis(duration), p, this);
+		pathTransition.setInterpolator(Interpolator.LINEAR);
+		pathTransition.setOrientation(OrientationType.NONE);
         pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
  
             @Override
             public void handle(ActionEvent arg0) {
                 
-                
+                //TODO ??
             }
         });
        
@@ -415,7 +420,7 @@ public abstract class Vehicle extends Rectangle {
                 v.setCurrentTile(p.getEndTile());
                 p.getEndTile().setOccupied(true, v);
                 
-                //Unoccupy the final tile leaving the transition
+                //Manually unoccupy the final tile leaving the transition, to ensure that paths are cleared
                 switch(p.getEndDirection()){
                 case NORTH:
                 	SimulationController.getInstance().getMap().getTiles()[p.getEndTile().getGridPosX()][p.getEndTile().getGridPosY()+1].setOccupied(false);
@@ -429,6 +434,8 @@ public abstract class Vehicle extends Rectangle {
                 case WEST:
                 	SimulationController.getInstance().getMap().getTiles()[p.getEndTile().getGridPosX()+1][p.getEndTile().getGridPosY()].setOccupied(false);
                 	break;
+				default:
+					break;
                 }
                 
                 v.setVehicleSpeed(getVehicleSpeed());

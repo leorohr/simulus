@@ -1,7 +1,5 @@
 package com.simulus.view;
 
-import java.util.ArrayList;
-
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -18,8 +16,6 @@ public class Tile extends Group {
 	private Vehicle occupier;
     protected Rectangle frame;
     protected boolean isRedLight = false;
-    
-    private Intersection parent = null;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {

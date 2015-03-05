@@ -1,12 +1,9 @@
 package com.simulus.view;
 
-import java.util.Collection;
-
-import com.simulus.util.enums.Direction;
-
-import javafx.animation.RotateTransition;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathElement;
+
+import com.simulus.util.enums.Direction;
 
 public class CustomPath extends Path {
 

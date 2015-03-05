@@ -1,19 +1,18 @@
 package com.simulus.view;
 
-import com.simulus.controller.SimulationController;
-import com.simulus.util.enums.Direction;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcTo;
-import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.enums.Direction;
 
 public class Intersection extends Group implements TileGroup, Runnable {
 	
@@ -42,12 +41,13 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public void addTurningPaths(Tile[][] m){
 
-		//Left, top
-		IntersectionTile t = tiles[0][0];
+
 		double arcDistanceShort = 90*(Math.PI/180)*(tileSize/2);
 		double arcDistanceLong = 90*(Math.PI/180)*(tileSize*2.5);
-		double straightDistance = 4*tileSize;
-		
+//		double straightDistance = 4*tileSize;
+
+		//Left, top
+		IntersectionTile t = tiles[0][0];
 		//Turn left
 		t.getTurningPaths().add(new CustomPath(	"left",arcDistanceShort, t, m[t.getGridPosX()][t.getGridPosY()-1], Direction.NORTH, new MoveTo(t.getX(), t.getCenterY()),				
 											new ArcTo(	tileSize/2, tileSize/2,
@@ -146,7 +146,9 @@ public class Intersection extends Group implements TileGroup, Runnable {
 											new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));*/
 	}
 	
-	//Display all paths - used in debug mode
+	/**
+	 * Visualise all paths - used in debug mode.
+	 */
 	public void showAllPaths() {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
@@ -162,6 +164,10 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		}
 	}
 
+	/**
+	 * Hides the visualisation of the paths through an intersection. 
+	 * Is used when leaving the debug mode.
+	 */
     public void hideAllPaths() {
         for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++) {
@@ -174,7 +180,13 @@ public class Intersection extends Group implements TileGroup, Runnable {
         }
     }
     
-    public Tile getTileAt(double posX, double posY){
+    /**
+     * Returns a the tile of the intersection at the given position.
+     * @param posX The x-coordinate of the desired tile.
+     * @param posY The y-coordinate of the desired tile.
+     * @return 
+     */
+    public IntersectionTile getTileAt(double posX, double posY){
     	for(int i = 0; i < tiles.length; i++)
     		for(int j = 0; j < tiles[0].length; j++)
     			if(posX < tiles[i][j].getBoundsInParent().getMaxX() && posX > tiles[i][j].getBoundsInParent().getMinX()

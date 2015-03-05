@@ -2,20 +2,8 @@ package com.simulus.view;
 
 import java.util.Random;
 
-import javafx.animation.Interpolator;
-import javafx.animation.PathTransition;
-import javafx.animation.PathTransition.OrientationType;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
 
-import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
@@ -110,9 +98,7 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
-               
 				break;
-
 			case SOUTH:
                 if(currentTile.getGridPosY()+1 >= map.length) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -120,9 +106,7 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
-                
 				break;
-
 			case EAST:
                 if(currentTile.getGridPosX()+1 >= map.length) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -130,8 +114,7 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
-				
-
+                break;
 			case WEST:
                 if(currentTile.getGridPosX()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -139,25 +122,24 @@ public class Car extends Vehicle {
                 }
 
                 nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
-	
 				break;
-				
 			default:
 				break;
 			}
-			 if (nextTile.isOccupied()) {
-             	tempDir = Direction.NONE;
-			 }
-				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) && Math.random()>0.6){
-					 	currentIntersection = nextTile.getIntersection();
-					 	CustomPath p = nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size()));
-					 	if(p.getActive())
-					 		followPath(p);
-		          		isTransitioning = true;
-		          		return;
-					 }
+			 
+			if (nextTile.isOccupied()) {
+				tempDir = Direction.NONE;
+			} else if(nextTile instanceof IntersectionTile) { 
+				if(currentTile instanceof Lane && Math.random()>0.6) {
+					IntersectionTile t = (IntersectionTile) nextTile;
+				 	currentIntersection = t.getIntersection();
+				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
+				 	if(p.getActive())
+				 		followPath(p);
+//	          		isTransitioning = true;
+	          		return;
 				 }
-		          		else tempDir = getDirection();
+			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 			
 
             //Slow the car down if cautious and slow car in front
@@ -169,12 +151,7 @@ public class Car extends Vehicle {
 			SimulationController.getInstance().removeVehicle(this);
 		}
 		
-		if(isPaused)
-			tempDir = Direction.NONE;
-		
 		move(tempDir);
-		
-		
 	}
 	
 	

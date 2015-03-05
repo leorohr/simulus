@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class IntersectionTile extends Tile {
 	
 	private ArrayList<CustomPath> turningPaths;
+	private Intersection intersection;
 
 	public IntersectionTile(double posX, double posY, double width,
 			double height, int gridPosX, int gridPosY) {
@@ -21,6 +22,11 @@ public class IntersectionTile extends Tile {
 		return turningPaths;			
 	}
 
+	public void setIntersection(Intersection i) {
+		this.intersection = i;
+	}
 	
-	
+	public Intersection getIntersection() {
+		return this.intersection;
+	}	
 }
