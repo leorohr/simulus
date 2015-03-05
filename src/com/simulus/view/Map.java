@@ -180,6 +180,24 @@ public class Map extends Group {
 	}
 
 	/**
+	 * Adds the passed tile to the tiles[][] array.
+	 * 
+	 * @param tile - The tile to be added
+	 */
+	public void addSingle(Tile tile) {
+		tiles[tile.getGridPosX()][tile.getGridPosY()] = tile;
+	}
+	
+	/**
+	 * Removes the passed tile from the tiles[][] array.
+	 * 
+	 * @param tile - The tile to be removed
+	 */
+	public void removeSingle(Tile tile) {
+		tiles[tile.getGridPosX()][tile.getGridPosY()] = new Tile(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), tile.getGridPosX(), tile.getGridPosY());
+	}
+
+	/**
 	 * @return A random entrypoint (Lane) or <code>null</code> if no free
 	 *         entrypoint has been found after a certain number of tries.
 	 */
@@ -382,6 +400,42 @@ public class Map extends Group {
 			v.moveVehicle();
 		}
 	}
+
+	/*
+	 *  TODO: shrink method, remove redundant/repeat code
+	 *  	  have a remove method that handles single square and groups
+	 */
+	public void removeGroup(TileGroup g) {
+
+		List<Tile> l = g.getTiles();
+		for (Tile t : l) {
+			tiles[t.getGridPosX()][t.getGridPosY()] = new Tile(t.getX(), t.getY(), t.getWidth(), t.getHeight(), t.getGridPosX(), t.getGridPosY());
+
+			if (g instanceof Road) {
+				if (t.getGridPosX() == tiles.length - 1
+						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Lane) t).getDirection() == Direction.WEST) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosX() == 0
+						&& ((Road) g).getOrientation() == Seed.WESTEAST
+						&& ((Lane) t).getDirection() == Direction.EAST) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosY() == tiles.length - 1
+						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Lane) t).getDirection() == Direction.NORTH) {
+					entryPoints.remove((Lane) t);
+				} else if (t.getGridPosY() == 0
+						&& ((Road) g).getOrientation() == Seed.NORTHSOUTH
+						&& ((Lane) t).getDirection() == Direction.SOUTH) {
+					entryPoints.remove((Lane) t);
+				}
+			}
+		}
+
+		if (g instanceof Intersection)
+			intersections.remove((Intersection) g);
+	}
+
 
 	/**
 	 * Removes a vehicle from the screen
