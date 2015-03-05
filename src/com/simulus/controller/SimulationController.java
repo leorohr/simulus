@@ -69,6 +69,8 @@ public class SimulationController {
         recklessCount = 0;
         ambulanceCount = 0;
         animationThread = new AnimationThread();
+        if(debugFlag)
+        	map.showAllIntersectionPaths();
     }
 
     private class AnimationThread extends Thread {
