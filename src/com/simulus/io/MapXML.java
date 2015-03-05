@@ -155,7 +155,7 @@ public class MapXML {
 								 tileSize, xPos, yPos);
 						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 						break;
-						case "block":  //add block tile
+						case "BLOCK":  //add block tile
 							fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
 									 tileSize, xPos, yPos);
 							System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());

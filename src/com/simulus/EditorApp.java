@@ -141,7 +141,8 @@ public class EditorApp extends Application {
 										City(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
 							}else if (blockSelected) {
 								// TODO: Blockage
-								editorMap.getTiles()[i][p].setOccupied(true);
+								editorMap.addSingle(new Block(i*Map.TILESIZE, p*Map.TILESIZE, Map.TILESIZE, Map.TILESIZE, i, p));
+								//editorMap.getTiles()[i][p].setOccupied(true);
 							} else if (eraserSelected) {
 								// TODO implement remove properly
 								// Single Tile
