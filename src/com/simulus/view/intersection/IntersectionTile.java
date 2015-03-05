@@ -2,6 +2,10 @@ package com.simulus.view.intersection;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.ImagePattern;
+
+import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 
 public class IntersectionTile extends Tile {
@@ -13,6 +17,7 @@ public class IntersectionTile extends Tile {
 			double height, int gridPosX, int gridPosY) {
 		
 		super(posX, posY, width, height, gridPosX, gridPosY);
+		frame.setFill(new ImagePattern((ResourceBuilder.getBoxjunctionTexture())));
 		
 		turningPaths = new ArrayList<>();
 	}
