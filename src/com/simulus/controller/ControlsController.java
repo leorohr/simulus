@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import com.simulus.MainApp;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
-import com.simulus.view.Map;
+import com.simulus.view.map.Map;
 
 public class ControlsController implements Initializable {
 

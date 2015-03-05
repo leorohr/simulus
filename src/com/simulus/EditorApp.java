@@ -27,16 +27,16 @@ import javafx.stage.WindowEvent;
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
 import com.simulus.util.enums.Orientation;
-import com.simulus.view.Block;
-import com.simulus.view.City;
-import com.simulus.view.Dirt;
-import com.simulus.view.Grass;
-import com.simulus.view.Intersection;
-import com.simulus.view.Land;
-import com.simulus.view.Lane;
-import com.simulus.view.Map;
-import com.simulus.view.Road;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.Intersection;
+import com.simulus.view.map.Block;
+import com.simulus.view.map.City;
+import com.simulus.view.map.Dirt;
+import com.simulus.view.map.Grass;
+import com.simulus.view.map.Land;
+import com.simulus.view.map.Lane;
+import com.simulus.view.map.Map;
+import com.simulus.view.map.Road;
 
 public class EditorApp extends Application {
 
@@ -297,7 +297,7 @@ public class EditorApp extends Application {
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(EditorApp.class
-					.getResource("view/RootLayout.fxml"));
+					.getResource("view/ui/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
 			canvas = new Pane();
@@ -330,7 +330,7 @@ public class EditorApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(EditorApp.class
-					.getResource("view/EditorControls.fxml"));
+					.getResource("view/ui/EditorControls.fxml"));
 			AnchorPane controls = (AnchorPane) loader.load();
 			ECC = (EditorControlsController) loader.getController();
 			rootLayout.setRight(controls);

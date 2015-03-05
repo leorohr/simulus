@@ -1,9 +1,10 @@
-package com.simulus.view;
+package com.simulus.view.vehicles;
 
 import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
 
 public class EmergencyCar extends Car {
 

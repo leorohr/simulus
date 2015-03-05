@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="com.simulus.view.Ambulance" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Ambulance.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="com.simulus.view.vehicles.Ambulance" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/vehicles/Ambulance.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="116" width="309" x="673" y="1018"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="com.simulus.view.Intersection" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Intersection.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="com.simulus.view.intersection.Intersection" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/intersection/Intersection.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="188" width="141" x="356" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="com.simulus.view.Truck" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Truck.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="com.simulus.view.vehicles.Truck" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/vehicles/Truck.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="170" width="246" x="1022" y="1018"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="com.simulus.view.Car" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Car.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="com.simulus.view.vehicles.Car" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/vehicles/Car.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="242" width="262" x="1308" y="1018"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="com.simulus.view.Lane" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Lane.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="com.simulus.view.map.Lane" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/map/Lane.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="549" y="1820"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -55,8 +55,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="7" language="java" name="com.simulus.view.Road" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Road.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="7" language="java" name="com.simulus.view.map.Road" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/map/Road.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="134" width="143" x="173" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -73,16 +73,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="com.simulus.view.TrafficLight" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/TrafficLight.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="332" width="190" x="251" y="-26"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="com.simulus.view.Vehicle" project="Simulus" 
+  <class id="9" language="java" name="com.simulus.view.Vehicle" project="Simulus" 
     file="/Simulus/src/com/simulus/view/Vehicle.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="476" width="288" x="558" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
@@ -91,8 +82,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="com.simulus.view.Map" project="Simulus" 
-    file="/Simulus/src/com/simulus/view/Map.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="10" language="java" name="com.simulus.view.map.Map" project="Simulus" 
+    file="/Simulus/src/com/simulus/view/map/Map.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="488" width="365" x="558" y="-26"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -100,73 +91,77 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="12">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="13" name="occupiedTiles">        
-        <position height="18" width="87" x="519" y="1055"/>      
+  <association id="11">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="12" name="currentTile">        
+        <position height="18" width="69" x="497" y="1089"/>      
       </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="16" width="25" x="576" y="1074"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="14">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="15" name="intersections">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <association id="19">    
+    <bendpoint x="527" y="502"/>    
+    <bendpoint x="465" y="796"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="20" name="tiles">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="15">    
+  <realization id="22">    
     <end type="SOURCE" refId="2"/>    
     <end type="TARGET" refId="6"/>  
   </realization>  
-  <association id="16">    
-    <bendpoint x="381" y="910"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="17" name="tiles">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="18" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="19">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="10"/>  
-  </generalization>  
-  <association id="20">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="21" name="vehicles">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="22" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="10"/>  
-  </generalization>  
+  <realization id="23">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
   <association id="24">    
-    <bendpoint x="527" y="502"/>    
-    <bendpoint x="465" y="796"/>    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="25" name="tiles">        
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="25" name="occupier">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="26" minimum="0" maximum="2147483647">        
+      <multiplicity id="26" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="27">    
-    <bendpoint x="182" y="1018"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="28" name="lanes">        
+    <bendpoint x="1600" y="502"/>    
+    <bendpoint x="1600" y="1018"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="28" name="entryPoints">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="29" minimum="0" maximum="2147483647">        
@@ -176,90 +171,29 @@
     <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="30">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="6"/>  
-  </realization>  
-  <association id="31">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="32" name="occupier">        
+  <association id="30">    
+    <bendpoint x="182" y="1018"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="31" name="lanes">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="33" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="34">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <association id="35">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="36" name="map">        
-        <position height="18" width="35" x="561" y="1092"/>      
-      </attribute>      
-      <multiplicity id="37" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="38">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="10"/>  
-  </generalization>  
-  <association id="39">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="40" name="intersections">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="41" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="42">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="43" name="currentTile">        
-        <position height="18" width="69" x="497" y="1089"/>      
-      </attribute>      
-      <multiplicity id="44" minimum="0" maximum="1">        
-        <position height="16" width="25" x="576" y="1074"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="45">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="46" name="toBeRemoved">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="47" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="48">    
-    <bendpoint x="1600" y="502"/>    
-    <bendpoint x="1600" y="1018"/>    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="49" name="entryPoints">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="50" minimum="0" maximum="2147483647">        
+      <multiplicity id="32" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="33">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="34" name="map">        
+        <position height="18" width="35" x="561" y="1092"/>      
+      </attribute>      
+      <multiplicity id="35" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 

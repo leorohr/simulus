@@ -5,13 +5,13 @@ import javafx.scene.paint.Color;
 
 import com.simulus.MainApp;
 import com.simulus.util.enums.Behavior;
-import com.simulus.view.Ambulance;
-import com.simulus.view.EmergencyCar;
-import com.simulus.view.Lane;
-import com.simulus.view.Map;
 import com.simulus.view.Tile;
-import com.simulus.view.Truck;
-import com.simulus.view.Vehicle;
+import com.simulus.view.map.Lane;
+import com.simulus.view.map.Map;
+import com.simulus.view.vehicles.Ambulance;
+import com.simulus.view.vehicles.EmergencyCar;
+import com.simulus.view.vehicles.Truck;
+import com.simulus.view.vehicles.Vehicle;
 
 /**
  * TODO
@@ -228,6 +228,10 @@ public class SimulationController {
     
     public Map getMap() {
         return map;
+    }
+    
+    public void setMap(Map map) {
+    	this.map = map;
     }
 }
 

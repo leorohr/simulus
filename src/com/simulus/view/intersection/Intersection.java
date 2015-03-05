@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.intersection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,6 +13,9 @@ import javafx.scene.shape.Path;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+import com.simulus.view.TileGroup;
+import com.simulus.view.map.Map;
 
 public class Intersection extends Group implements TileGroup, Runnable {
 	

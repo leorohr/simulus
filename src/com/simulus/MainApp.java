@@ -1,20 +1,18 @@
 package com.simulus;
 
-import com.simulus.controller.ControlsController;
-import com.simulus.controller.SimulationController;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+import com.simulus.controller.ControlsController;
+import com.simulus.controller.SimulationController;
 
 public class MainApp extends Application {
 
@@ -62,7 +60,7 @@ public class MainApp extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class
-					.getResource("view/RootLayout.fxml"));
+					.getResource("view/ui/RootLayout.fxml"));
 			rootLayout = loader.load();
 
 			canvas = new Pane();
@@ -92,7 +90,7 @@ public class MainApp extends Application {
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/Controls.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/ui/Controls.fxml"));
 			AnchorPane controls = loader.load();
 			rootLayout.setRight(controls);
             controlsController = loader.getController();

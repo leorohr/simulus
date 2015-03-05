@@ -1,10 +1,11 @@
-package com.simulus.view;
+package com.simulus.view.map;
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
 import com.simulus.util.enums.LandType;
+import com.simulus.view.Tile;
 
 public class Land extends Tile {
 

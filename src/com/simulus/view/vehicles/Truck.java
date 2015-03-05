@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.vehicles;
 
 import java.util.Random;
 

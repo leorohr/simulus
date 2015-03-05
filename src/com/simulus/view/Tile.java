@@ -7,6 +7,8 @@ import javafx.scene.shape.Rectangle;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.ResourceBuilder;
+import com.simulus.view.map.Lane;
+import com.simulus.view.vehicles.Vehicle;
 
 public class Tile extends Group {
 

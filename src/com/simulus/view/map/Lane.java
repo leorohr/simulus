@@ -1,7 +1,9 @@
-package com.simulus.view;
+package com.simulus.view.map;
 
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 

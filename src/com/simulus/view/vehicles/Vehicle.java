@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.vehicles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +22,12 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
+import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.map.Lane;
+import com.simulus.view.map.Map;
 
 /**
  * Describes a vehicle on the GUI

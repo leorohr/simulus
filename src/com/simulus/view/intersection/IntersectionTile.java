@@ -1,6 +1,8 @@
-package com.simulus.view;
+package com.simulus.view.intersection;
 
 import java.util.ArrayList;
+
+import com.simulus.view.Tile;
 
 public class IntersectionTile extends Tile {
 	

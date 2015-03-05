@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.map;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,18 +12,29 @@ import javafx.scene.paint.ImagePattern;
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
 import com.simulus.util.enums.VehicleColorOption;
+import com.simulus.view.Tile;
+import com.simulus.view.TileGroup;
+import com.simulus.view.intersection.CustomPath;
+import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.vehicles.Ambulance;
+import com.simulus.view.vehicles.Car;
+import com.simulus.view.vehicles.EmergencyCar;
+import com.simulus.view.vehicles.Truck;
+import com.simulus.view.vehicles.Vehicle;
 
 public class Map extends Group {
 
 	private static final int NUM_ROWS = 40;
 	private static final int NUM_COLUMNS = 40;
-	public static final int TILESIZE = (int) (MainApp.getInstance().getCanvas()
-			.getWidth() / NUM_ROWS);
+	public static final int TILESIZE = Configuration.TILESIZE; 
+	// (int) (MainApp.getInstance().getCanvas().getWidth() / NUM_ROWS);
 
 	private Tile[][] tiles = new Tile[NUM_COLUMNS][NUM_ROWS];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
@@ -37,13 +48,22 @@ public class Map extends Group {
 
 	public Map() {
 		
-		createHashStyleMap();
+		// init all tiles
+		for (int i = 0; i < tiles.length; i++) {
+			for (int p = 0; p < tiles[0].length; p++) {
+				tiles[i][p] = new Tile(i * TILESIZE, p * TILESIZE, TILESIZE,
+						TILESIZE, i, p);
+			}
+		}
+		
+//		createHashStyleMap();
 
 		// Add map to canvas
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
-				MainApp.getInstance().getCanvas().getChildren()
-						.add(tiles[i][p]);
+				if(MainApp.getInstance() != null)
+					MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+				else EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
 		}
 		
@@ -63,6 +83,12 @@ public class Map extends Group {
 		}
 	}
 
+	public Map(Tile[][] tiles) {
+		this();
+		
+		this.tiles = tiles;
+	}
+	
 	public void readMap() {
 		// TODO Read map from XML
 	}
@@ -481,14 +507,14 @@ public class Map extends Group {
 		if(v instanceof Car && !(v instanceof EmergencyCar)) {
 			switch(carColorOption) {
 			case BEHAVIOR: 
-				if(v.behavior == Behavior.RECKLESS)
+				if(v.getBehavior() == Behavior.RECKLESS)
 					v.setFill(Color.RED);
-				else if(v.behavior == Behavior.CAUTIOUS) 
+				else if(v.getBehavior() == Behavior.CAUTIOUS) 
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
-				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
+				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
@@ -500,13 +526,13 @@ public class Map extends Group {
 		} else if(v instanceof Truck) {
 			switch(truckColorOption){
 			case BEHAVIOR:
-				if(v.behavior == Behavior.RECKLESS)
+				if(v.getBehavior() == Behavior.RECKLESS)
 					v.setFill(Color.RED);
-				else if(v.behavior == Behavior.CAUTIOUS) 
+				else if(v.getBehavior() == Behavior.CAUTIOUS) 
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
-				double speedfraction = v.vehicleSpeed/SimulationController.getInstance().getMaxCarSpeed();
+				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:

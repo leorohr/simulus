@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.vehicles;
 
 import java.util.Random;
 
@@ -7,6 +7,10 @@ import javafx.scene.paint.Color;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.map.Lane;
 
 /**
  * Describes a car object on the GUI

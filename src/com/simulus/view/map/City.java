@@ -1,4 +1,4 @@
-package com.simulus.view;
+package com.simulus.view.map;
 
 import com.simulus.util.enums.LandType;
 

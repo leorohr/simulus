@@ -1,9 +1,10 @@
-package com.simulus.view;
+package com.simulus.view.intersection;
 
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathElement;
 
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
 
 public class CustomPath extends Path {
 

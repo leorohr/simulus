@@ -1,9 +1,10 @@
-package com.simulus.view;
+package com.simulus.view.vehicles;
 
 import javafx.application.Platform;
 import javafx.scene.shape.Circle;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.view.map.Lane;
 
 public class AreaOfEffect extends Circle{
 	

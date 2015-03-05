@@ -18,16 +18,16 @@ import org.w3c.dom.Element;
 
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
-import com.simulus.view.Block;
-import com.simulus.view.City;
-import com.simulus.view.Dirt;
-import com.simulus.view.Grass;
-import com.simulus.view.Intersection;
-import com.simulus.view.Land;
-import com.simulus.view.Lane;
-import com.simulus.view.Map;
-import com.simulus.view.Road;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.Intersection;
+import com.simulus.view.map.Block;
+import com.simulus.view.map.City;
+import com.simulus.view.map.Dirt;
+import com.simulus.view.map.Grass;
+import com.simulus.view.map.Land;
+import com.simulus.view.map.Lane;
+import com.simulus.view.map.Map;
+import com.simulus.view.map.Road;
 
 import java.io.File;
 import java.util.List;
@@ -54,6 +54,7 @@ public class MapXML {
 	private int yPos;
 	private String type;
 	private String attribute;
+	private String attribute2;
 
 	Map importedMap = new Map();
 	public Tile[][] fullGrid;
@@ -130,7 +131,10 @@ public class MapXML {
 							.getTextContent();
 					attribute = eElement.getElementsByTagName("attribute")
 							.item(0).getTextContent();
-
+					attribute2 = eElement.getElementsByTagName("attribute2")
+							.item(0).getTextContent();
+					
+					
 					//TODO building a [][] of type tile and land tile.
 					// check regarding empty tile and how to add lane tiles
 					//we return the full [][]
@@ -164,20 +168,20 @@ public class MapXML {
 							switch(attribute){
 								case "EAST": //add east tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.EAST);
+											 tileSize, xPos, yPos, Direction.EAST, Integer.parseInt(attribute2));
 									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "WEST": //add west tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.WEST);
+											 tileSize, xPos, yPos, Direction.WEST, Integer.parseInt(attribute2));
 								break;
 								case "NORTH": //add north tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.NORTH);
+											 tileSize, xPos, yPos, Direction.NORTH, Integer.parseInt(attribute2));
 								break;
 								case "SOUTH": //add south tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.SOUTH);
+											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
 								break;
 							}
 						break;
@@ -276,6 +280,7 @@ public class MapXML {
 
 					String tileType = "";
 					String tileAttribute = "";
+					String tileAttribute2 = "";
 					Tile t = gridIn[c][r];
 					
 					System.out.println(tileType);
@@ -284,6 +289,7 @@ public class MapXML {
 					if (t instanceof Lane) {
 						tileType = "lane";
 						tileAttribute = ((Lane) t).getDirection().toString();
+						tileAttribute2 = String.valueOf(((Lane) t).getLaneNo());
 					} else if (t instanceof Land) {
 						tileType = ((Land) t).getLandType().toString();
 						tileAttribute = "";
@@ -310,6 +316,10 @@ public class MapXML {
 							.createTextNode(tileAttribute));
 					eTile.appendChild(eAttribute);
 
+					Element eAttribute2 = doc.createElement("attribute2");
+					eAttribute2.appendChild(doc
+							.createTextNode(tileAttribute2));
+					eTile.appendChild(eAttribute2);
 				}
 
 			}

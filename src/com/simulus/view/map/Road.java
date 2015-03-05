@@ -1,7 +1,10 @@
-package com.simulus.view;
+package com.simulus.view.map;
 
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
+import com.simulus.view.Tile;
+import com.simulus.view.TileGroup;
+
 import javafx.scene.Group;
 
 import java.util.Arrays;
