@@ -1,7 +1,9 @@
 package com.simulus.io;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -12,14 +14,13 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
-import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
@@ -27,10 +28,6 @@ import com.simulus.view.map.Grass;
 import com.simulus.view.map.Land;
 import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
-import com.simulus.view.map.Road;
-
-import java.io.File;
-import java.util.List;
 
 public class MapXML {
 
@@ -184,6 +181,9 @@ public class MapXML {
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
 								break;
 							}
+						case "intersection":
+							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos);
 						break;
 					}
  
@@ -293,8 +293,9 @@ public class MapXML {
 					} else if (t instanceof Land) {
 						tileType = ((Land) t).getLandType().toString();
 						tileAttribute = "";
-					} 
-
+					} else if (t instanceof IntersectionTile) {
+						tileType = "intersection";
+					}
 					
 					Element eTile = doc.createElement("tile");
 					eGrid.appendChild(eTile);
@@ -357,8 +358,5 @@ public class MapXML {
 				+ "Number of Tiles: " + numOfTiles + "\n"
 				+ "Map Validated: " + validated;
 	}
-	
-
-
 
 }
