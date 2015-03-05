@@ -494,7 +494,7 @@ public class EditorApp extends Application {
 		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 	
-	public void loadMap(String fileLocation){
+	private void loadMap(String fileLocation){
 
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
@@ -508,7 +508,7 @@ public class EditorApp extends Application {
 		editorMap.drawMap();
 	}
 
-	public void saveMap(String fileLocation){
+	private void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -517,7 +517,19 @@ public class EditorApp extends Application {
 				ECC.getMapDesc(), ECC.getMapAuthor(), 800, ECC.getGridSize(), mapValidated);
 		
 	}
+	
+	//TODO implment some validation checks based on tiles
+	private void validateMap(){
+		
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		for (int x = 0 ;  x < mapTiles.length; x++) {
+			for(int y = 0; y < mapTiles[x].length; y++) {
 
+				Tile t = this.editorMap.getTiles()[x][y];
+				
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		launch(args);
