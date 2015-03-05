@@ -7,9 +7,19 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 
@@ -108,7 +118,25 @@ public class EditorControlsController implements Initializable {
 		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 			@Override
 		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
-				//create new map with new grid size
+				final Stage dialog = new Stage();
+	            dialog.initModality(Modality.APPLICATION_MODAL);
+	            dialog.setResizable(false);
+
+	            Label text = new Label("Are you sure you want to change the GridSize?\n"
+	            		+ "The current map will be lost.");
+	            Button okayBtn = new Button("Okay");
+	            okayBtn.setOnAction((btnEvent) -> dialog.close());
+	            Button cancelBtn = new Button("Cancel");
+	            cancelBtn.setOnAction((btnEvent) -> dialog.close());
+	            
+	            VBox vbox = new VBox();
+	            vbox.setAlignment(Pos.CENTER);
+	            vbox.setSpacing(5.0d);
+	            vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
+	            vbox.getChildren().addAll(text, new HBox(okayBtn, cancelBtn));
+
+	            dialog.setScene(new Scene(vbox));
+	            dialog.show();
 			}
 		});
     
