@@ -1,32 +1,48 @@
 package com.simulus.view;
 
-import javafx.scene.image.Image;
+import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Direction;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
-import com.simulus.util.enums.Direction;
+public class Lane extends Tile{
 
-public class Lane extends Tile {
+    public static final Color COLOR = Color.GREY;
 
 	private Direction dir;
-	private Image imgRoadEW = new Image("com/simulus/util/images/roadtile_eastwest.png");
-	private Image imgRoadNS = new Image("com/simulus/util/images/roadtile_northsouth.png");
+	private int laneNo;
 
 	public Lane(double posX, double posY, double width, double height,
-			int gridPosX, int gridPosY, Direction dir) {
+			int gridPosX, int gridPosY, Direction dir, int laneNo) {
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
-		
-		if(this.dir == Direction.EAST || this.dir == Direction.WEST) {
-			getFrame().setFill(new ImagePattern(imgRoadEW));
-		} else if(this.dir == Direction.NORTH || this.dir == Direction.SOUTH) {
-			getFrame().setFill(new ImagePattern(imgRoadNS));
-		} else {
-			getFrame().setFill(Color.BLACK);
-		}
+		this.laneNo = laneNo;
+        frame.setFill(
+                new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
+                        ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
 	}
 
-	public Direction getDirection() {
+	/**
+	 * @return The direction the lane is bound towards.
+	 */
+    public Direction getDirection() {
 		return this.dir;
+	}
+	
+    /**
+     * A lane number is used to identify lanes available for overtaking cars.
+     * @return The number of the lane.
+     */
+	public int getLaneNo(){
+		return laneNo;
+	}
+	
+	/*
+	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
+	 */
+	public void redraw() {
+		frame.setFill(
+                new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
+                        ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
 	}
 }

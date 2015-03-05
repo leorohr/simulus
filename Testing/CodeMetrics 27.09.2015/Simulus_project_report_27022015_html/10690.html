@@ -1,0 +1,100 @@
+<html><head><title>RootLayoutController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="stylesheet" type="text/css" href="sourcestyles.css" />
+</head><body link="blue" vlink="blue">
+<h3>File: /Users/Jerry/Documents/EclipseWorkspace/Copy of Simulus/src/com/simulus/controller/RootLayoutController.java</h3>
+<SCRIPT>
+defaultStatus = "File: /Users/Jerry/Documents/EclipseWorkspace/Copy of Simulus/src/com/simulus/controller/RootLayoutController.java";
+top.document.title  = "RootLayoutController.java";
+</SCRIPT>
+<pre><span class="default"></span><a name="1"><font size=-1>1     </font></a><span class="default"></span><span class="keyword">package </span><span class="default">com.simulus.<a href="dictionary_C.html#926">controller</a>;</span>
+<a name="2"><font size=-1>2     </font></a><span class="default"></span>
+<a name="3"><font size=-1>3     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">com.<a href="dictionary_C.html#4351">simulus</a>.MainApp;</span>
+<a name="4"><font size=-1>4     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#921">application</a>.<a href="dictionary_J.html#920">Platform</a>;</span>
+<a name="5"><font size=-1>5     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#4684">fxml</a>.<a href="dictionary_J.html#4677">FXML</a>;</span>
+<a name="6"><font size=-1>6     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#4684">fxml</a>.<a href="dictionary_J.html#4678">Initializable</a>;</span>
+<a name="7"><font size=-1>7     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#10750">geometry</a>.<a href="dictionary_J.html#10696">Pos</a>;</span>
+<a name="8"><font size=-1>8     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#336">scene</a>.<a href="dictionary_J.html#10746">Scene</a>;</span>
+<a name="9"><font size=-1>9     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#4645">Button</a>;</span>
+<a name="10"><font size=-1>10     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#4679">Label</a>;</span>
+<a name="11"><font size=-1>11     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#5625">MenuBar</a>;</span>
+<a name="12"><font size=-1>12     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#4683">control</a>.<a href="dictionary_J.html#10694">MenuItem</a>;</span>
+<a name="13"><font size=-1>13     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#744">image</a>.<a href="dictionary_J.html#10693">ImageView</a>;</span>
+<a name="14"><font size=-1>14     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.scene.<a href="dictionary_J.html#10751">layout</a>.<a href="dictionary_J.html#10748">VBox</a>;</span>
+<a name="15"><font size=-1>15     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#10752">stage</a>.<a href="dictionary_J.html#10692">FileChooser</a>;</span>
+<a name="16"><font size=-1>16     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#10752">stage</a>.<a href="dictionary_J.html#10695">Modality</a>;</span>
+<a name="17"><font size=-1>17     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">javafx.<a href="dictionary_J.html#10752">stage</a>.<a href="dictionary_J.html#10747">Stage</a>;</span>
+<a name="18"><font size=-1>18     </font></a><span class="default"></span>
+<a name="19"><font size=-1>19     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">java.io.File;</span>
+<a name="20"><font size=-1>20     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">java.net.URL;</span>
+<a name="21"><font size=-1>21     </font></a><span class="default"></span><span class="keyword">import </span><span class="default">java.util.ResourceBundle;</span>
+<a name="22"><font size=-1>22     </font></a><span class="default"></span>
+<a name="23"><font size=-1>23     </font></a><span class="default"></span><span class="keyword">public class <a href="dictionary_C.html#10697">RootLayoutController</a> implements <a href="dictionary_J.html#4678">Initializable</a> </span><span class="default">{</span>
+<a name="24"><font size=-1>24     </font></a><span class="default"></span>
+<a name="25"><font size=-1>25     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="26"><font size=-1>26     </font></a><span class="default">    <a href="dictionary_J.html#5625">MenuBar</a> <a href="dictionary_C.html#10742">menuBar</a>;</span>
+<a name="27"><font size=-1>27     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="28"><font size=-1>28     </font></a><span class="default">    <a href="dictionary_J.html#10694">MenuItem</a> <a href="dictionary_C.html#10743">newMapMItem</a>;</span>
+<a name="29"><font size=-1>29     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="30"><font size=-1>30     </font></a><span class="default">    <a href="dictionary_J.html#10694">MenuItem</a> <a href="dictionary_C.html#10744">openMapMItem</a>;</span>
+<a name="31"><font size=-1>31     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="32"><font size=-1>32     </font></a><span class="default">    <a href="dictionary_J.html#10694">MenuItem</a> <a href="dictionary_C.html#10745">saveMapMItem</a>;</span>
+<a name="33"><font size=-1>33     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="34"><font size=-1>34     </font></a><span class="default">    <a href="dictionary_J.html#10694">MenuItem</a> <a href="dictionary_C.html#10741">closeMItem</a>;</span>
+<a name="35"><font size=-1>35     </font></a><span class="default">    @<a href="dictionary_J.html#4677">FXML</a></span>
+<a name="36"><font size=-1>36     </font></a><span class="default">    <a href="dictionary_J.html#10694">MenuItem</a> <a href="dictionary_C.html#10740">aboutMItem</a>;</span>
+<a name="37"><font size=-1>37     </font></a><span class="default"></span>
+<a name="38"><font size=-1>38     </font></a><span class="default">	@Override</span>
+<a name="39"><font size=-1>39     </font></a><span class="default">	</span><span class="keyword">public void <a href="dictionary_C.html#10698">initialize</a></span><span class="default">(URL <a href="dictionary_C.html#10738">location</a>, ResourceBundle <a href="dictionary_C.html#10739">resources</a>) {</span>
+<a name="40"><font size=-1>40     </font></a><span class="default"></span>
+<a name="41"><font size=-1>41     </font></a><span class="default">        <a href="dictionary_C.html#10742">menuBar</a>.<a href="dictionary_S.html#5628">setUseSystemMenuBar</a>(</span><span class="keyword">true</span><span class="default">);</span>
+<a name="42"><font size=-1>42     </font></a><span class="default"></span>
+<a name="43"><font size=-1>43     </font></a><span class="default">        <a href="dictionary_C.html#10741">closeMItem</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10701">event</a>) -&gt; <a href="dictionary_J.html#920">Platform</a>.<a href="dictionary_E.html#10700">exit</a>());</span>
+<a name="44"><font size=-1>44     </font></a><span class="default"></span>
+<a name="45"><font size=-1>45     </font></a><span class="default">        <a href="dictionary_C.html#10743">newMapMItem</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10703">event</a>) -&gt;{</span>
+<a name="46"><font size=-1>46     </font></a><span class="default">            </span><span class="comment">//TODO launch map editor</span>
+<a name="47"><font size=-1>47     </font></a><span class="comment">        </span><span class="default">});</span>
+<a name="48"><font size=-1>48     </font></a><span class="default"></span>
+<a name="49"><font size=-1>49     </font></a><span class="default">        <a href="dictionary_C.html#10745">saveMapMItem</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10710">event</a>) -&gt; {</span>
+<a name="50"><font size=-1>50     </font></a><span class="default">            <a href="dictionary_J.html#10692">FileChooser</a> <a href="dictionary_C.html#10711">fileChooser</a> = </span><span class="keyword">new <a href="dictionary_J.html#10692">FileChooser</a></span><span class="default">();</span>
+<a name="51"><font size=-1>51     </font></a><span class="default">            <a href="dictionary_C.html#10711">fileChooser</a>.<a href="dictionary_S.html#10708">setTitle</a>(</span><span class="string">&quot;Save Map...&quot;</span><span class="default">);</span>
+<a name="52"><font size=-1>52     </font></a><span class="default">            <a href="dictionary_C.html#10711">fileChooser</a>.<a href="dictionary_G.html#10705">getExtensionFilters</a>().<a href="dictionary_A.html#291">addAll</a>(</span><span class="keyword">new <a href="dictionary_F.html#10749">FileChooser</a></span><span class="default">.<a href="dictionary_F.html#10691">ExtensionFilter</a>(</span><span class="string">&quot;XML Files&quot;</span><span class="default">, </span><span class="string">&quot;*.xml&quot;</span><span class="default">));</span>
+<a name="53"><font size=-1>53     </font></a><span class="default">            <a href="dictionary_C.html#10711">fileChooser</a>.<a href="dictionary_S.html#10707">setInitialFileName</a>(</span><span class="string">&quot;CustomMap.xml&quot;</span><span class="default">);</span>
+<a name="54"><font size=-1>54     </font></a><span class="default">            File <a href="dictionary_C.html#10712">selectedFile</a> = <a href="dictionary_C.html#10711">fileChooser</a>.<a href="dictionary_S.html#10709">showSaveDialog</a>(MainApp.<a href="dictionary_C.html#4352">getInstance</a>().<a href="dictionary_G.html#10706">getPrimaryStage</a>());</span>
+<a name="55"><font size=-1>55     </font></a><span class="default">            </span><span class="comment">//TODO save to selectedFile</span>
+<a name="56"><font size=-1>56     </font></a><span class="comment">        </span><span class="default">});</span>
+<a name="57"><font size=-1>57     </font></a><span class="default"></span>
+<a name="58"><font size=-1>58     </font></a><span class="default">        <a href="dictionary_C.html#10744">openMapMItem</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10715">event</a>) -&gt; {</span>
+<a name="59"><font size=-1>59     </font></a><span class="default">            <a href="dictionary_J.html#10692">FileChooser</a> <a href="dictionary_C.html#10716">fileChooser</a> = </span><span class="keyword">new <a href="dictionary_J.html#10692">FileChooser</a></span><span class="default">();</span>
+<a name="60"><font size=-1>60     </font></a><span class="default">            <a href="dictionary_C.html#10716">fileChooser</a>.<a href="dictionary_S.html#10708">setTitle</a>(</span><span class="string">&quot;Open Map...&quot;</span><span class="default">);</span>
+<a name="61"><font size=-1>61     </font></a><span class="default">            <a href="dictionary_C.html#10716">fileChooser</a>.<a href="dictionary_G.html#10705">getExtensionFilters</a>().<a href="dictionary_A.html#291">addAll</a>(</span><span class="keyword">new <a href="dictionary_J.html#10692">FileChooser</a></span><span class="default">.<a href="dictionary_F.html#10691">ExtensionFilter</a>(</span><span class="string">&quot;XML Files&quot;</span><span class="default">, </span><span class="string">&quot;*.xml&quot;</span><span class="default">));</span>
+<a name="62"><font size=-1>62     </font></a><span class="default">            <a href="dictionary_C.html#10716">fileChooser</a>.<a href="dictionary_S.html#10707">setInitialFileName</a>(</span><span class="string">&quot;CustomMap.xml&quot;</span><span class="default">);</span>
+<a name="63"><font size=-1>63     </font></a><span class="default">            File <a href="dictionary_C.html#10717">selectedFile</a> = <a href="dictionary_C.html#10716">fileChooser</a>.<a href="dictionary_S.html#10714">showOpenDialog</a>(MainApp.<a href="dictionary_C.html#4352">getInstance</a>().<a href="dictionary_G.html#10706">getPrimaryStage</a>());</span>
+<a name="64"><font size=-1>64     </font></a><span class="default">            </span><span class="comment">//TODO open xml file</span>
+<a name="65"><font size=-1>65     </font></a><span class="comment">        </span><span class="default">});</span>
+<a name="66"><font size=-1>66     </font></a><span class="default"></span>
+<a name="67"><font size=-1>67     </font></a><span class="default"></span>
+<a name="68"><font size=-1>68     </font></a><span class="default">        <a href="dictionary_C.html#10740">aboutMItem</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10733">event</a>) -&gt; {</span>
+<a name="69"><font size=-1>69     </font></a><span class="default">            </span><span class="keyword">final <a href="dictionary_J.html#10747">Stage</a> <a href="dictionary_C.html#10732">dialog</a> </span><span class="default">= </span><span class="keyword">new <a href="dictionary_J.html#10747">Stage</a></span><span class="default">();</span>
+<a name="70"><font size=-1>70     </font></a><span class="default">            <a href="dictionary_C.html#10732">dialog</a>.<a href="dictionary_I.html#10722">initModality</a>(<a href="dictionary_J.html#10695">Modality</a>.<a href="dictionary_A.html#10730">APPLICATION_MODAL</a>);</span>
+<a name="71"><font size=-1>71     </font></a><span class="default">            <a href="dictionary_C.html#10732">dialog</a>.<a href="dictionary_S.html#10726">setResizable</a>(</span><span class="keyword">false</span><span class="default">);</span>
+<a name="72"><font size=-1>72     </font></a><span class="default">            <a href="dictionary_J.html#10693">ImageView</a> <a href="dictionary_C.html#10734">img</a> = </span><span class="keyword">new <a href="dictionary_J.html#10693">ImageView</a></span><span class="default">(<a href="dictionary_C.html#10697">RootLayoutController</a>.</span><span class="keyword">class</span><span class="default">.getResource(</span><span class="string">&quot;/resources/simulus.png&quot;</span><span class="default">).toString());</span>
+<a name="73"><font size=-1>73     </font></a><span class="default">            <a href="dictionary_C.html#10734">img</a>.<a href="dictionary_S.html#10725">setPreserveRatio</a>(</span><span class="keyword">true</span><span class="default">);</span>
+<a name="74"><font size=-1>74     </font></a><span class="default">            <a href="dictionary_C.html#10734">img</a>.<a href="dictionary_S.html#10724">setFitHeight</a>(</span><span class="number">75.0d</span><span class="default">);</span>
+<a name="75"><font size=-1>75     </font></a><span class="default">            <a href="dictionary_J.html#4679">Label</a> <a href="dictionary_C.html#10735">infoPanel</a> = </span><span class="keyword">new <a href="dictionary_J.html#4679">Label</a></span><span class="default">(</span><span class="string">&quot;Copyright... SimulusSimulusSimulus\nVer. 0.1&quot;</span><span class="default">);</span>
+<a name="76"><font size=-1>76     </font></a><span class="default">            <a href="dictionary_J.html#4645">Button</a> <a href="dictionary_C.html#10736">okayBtn</a> = </span><span class="keyword">new <a href="dictionary_J.html#4645">Button</a></span><span class="default">(</span><span class="string">&quot;Okay&quot;</span><span class="default">);</span>
+<a name="77"><font size=-1>77     </font></a><span class="default">            <a href="dictionary_C.html#10736">okayBtn</a>.<a href="dictionary_S.html#4666">setOnAction</a>((<a href="dictionary_C.html#10721">btnEvent</a>) -&gt; <a href="dictionary_C.html#10732">dialog</a>.<a href="dictionary_C.html#10720">close</a>());</span>
+<a name="78"><font size=-1>78     </font></a><span class="default"></span>
+<a name="79"><font size=-1>79     </font></a><span class="default">            <a href="dictionary_J.html#10748">VBox</a> <a href="dictionary_C.html#10737">vbox</a> = </span><span class="keyword">new <a href="dictionary_J.html#10748">VBox</a></span><span class="default">();</span>
+<a name="80"><font size=-1>80     </font></a><span class="default">            <a href="dictionary_C.html#10737">vbox</a>.<a href="dictionary_S.html#10723">setAlignment</a>(<a href="dictionary_J.html#10696">Pos</a>.<a href="dictionary_C.html#10731">CENTER</a>);</span>
+<a name="81"><font size=-1>81     </font></a><span class="default">            <a href="dictionary_C.html#10737">vbox</a>.<a href="dictionary_S.html#10728">setSpacing</a>(</span><span class="number">5.0d</span><span class="default">);</span>
+<a name="82"><font size=-1>82     </font></a><span class="default">            <a href="dictionary_C.html#10737">vbox</a>.<a href="dictionary_G.html#292">getChildren</a>().<a href="dictionary_A.html#291">addAll</a>(<a href="dictionary_C.html#10734">img</a>, <a href="dictionary_C.html#10735">infoPanel</a>, <a href="dictionary_C.html#10736">okayBtn</a>);</span>
+<a name="83"><font size=-1>83     </font></a><span class="default"></span>
+<a name="84"><font size=-1>84     </font></a><span class="default">            <a href="dictionary_C.html#10732">dialog</a>.<a href="dictionary_S.html#10727">setScene</a>(</span><span class="keyword">new <a href="dictionary_J.html#10746">Scene</a></span><span class="default">(<a href="dictionary_C.html#10737">vbox</a>));</span>
+<a name="85"><font size=-1>85     </font></a><span class="default">            <a href="dictionary_C.html#10732">dialog</a>.<a href="dictionary_S.html#10729">show</a>();</span>
+<a name="86"><font size=-1>86     </font></a><span class="default">        });</span>
+<a name="87"><font size=-1>87     </font></a><span class="default">	}</span>
+<a name="88"><font size=-1>88     </font></a><span class="default"></span>
+<a name="89"><font size=-1>89     </font></a><span class="default">}</span>
+<a name="90"><font size=-1>90     </font></a><span class="default"></span>
+</pre></body></html>
