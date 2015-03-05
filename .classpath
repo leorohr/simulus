@@ -4,12 +4,12 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="JemmyFX.jar"/>
-	<classpathentry kind="lib" path="ScenicView.jar"/>
-	<classpathentry kind="lib" path="JemmyCore.jar"/>
-	<classpathentry kind="lib" path="GlassImage.jar"/>
-	<classpathentry kind="lib" path="GlassRobot.jar"/>
-	<classpathentry kind="lib" path="JemmyAWTInput.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/GlassImage.jar"/>
+	<classpathentry kind="lib" path="lib/GlassRobot.jar"/>
+	<classpathentry kind="lib" path="lib/JemmyAWTInput.jar"/>
+	<classpathentry kind="lib" path="lib/JemmyCore.jar"/>
+	<classpathentry kind="lib" path="lib/JemmyFX.jar"/>
+	<classpathentry kind="lib" path="lib/ScenicView.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
