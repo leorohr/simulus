@@ -38,7 +38,6 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				//this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}
 		}
-		
 	}
 	
 	public void addTurningPaths(Tile[][] m){
@@ -158,7 +157,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
 				Tile t = tiles[i][j];
-                //t.getFrame().setFill(Color.TRANSPARENT);
+                t.getFrame().setFill(Color.TRANSPARENT);
 				for(Path p : t.getTurningPaths()) {
 					p.setStroke(Color.GREEN);
 					p.setFill(Color.TRANSPARENT);
@@ -181,7 +180,15 @@ public class Intersection extends Group implements TileGroup, Runnable {
         }
     }
     
-
+    public Tile getTileAt(double posX, double posY){
+    	for(int i = 0; i < tiles.length; i++)
+    		for(int j = 0; j < tiles[0].length; j++)
+    			if(posX < tiles[i][j].getBoundsInParent().getMaxX() && posX > tiles[i][j].getBoundsInParent().getMinX()
+    					&& posY < tiles[i][j].getBoundsInParent().getMaxY() && posY > tiles[i][j].getBoundsInParent().getMinY())
+    				return tiles[i][j];
+    	return null;
+    }
+    
 	@Override
 	public void run() {
 		while(!Thread.currentThread().isInterrupted()){

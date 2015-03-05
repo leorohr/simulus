@@ -59,7 +59,6 @@ public class Map extends Group {
 			trafficLightThreads.add(t);
 			t.start();
 		}
-
 	}
 
 	public void readMap() {

@@ -43,6 +43,8 @@ public abstract class Vehicle extends Rectangle {
 	protected CustomPath currentPath;
 	protected PathTransition pathTransition;
 	protected Transition currentTransition;
+	
+	protected int tileWidth;
 
 	
 	protected Tile moveToTile;
@@ -73,6 +75,7 @@ public abstract class Vehicle extends Rectangle {
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();
+		tileWidth = SimulationController.getInstance().getMap().TILESIZE;
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		try {
@@ -284,7 +287,72 @@ public abstract class Vehicle extends Rectangle {
 						}
 						else if(currentTransition.getStatus()==Animation.Status.PAUSED)
 								currentTransition.play();*/
+			System.out.println(currentPath);
+			switch(getDirection()){
+			case NORTH:
+				for(int i = 0; i < currentIntersection.tiles.length; i++)
+					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+						if(currentPath.getTurn() == "left"){
+							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+								currentTransition.pause();
+							else currentTransition.play();
+						}
+						else if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).isOccupied()){
+								if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).getOccupier()!=null)
+									if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()-(tileWidth/2)).getOccupier() != this)
+							currentTransition.pause();
+						}
+						else currentTransition.play();
+				break;
+			case SOUTH:
+				for(int i = 0; i < currentIntersection.tiles.length; i++)
+					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+						if(currentPath.getTurn() == "left"){
+							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+								currentTransition.pause();
+							else currentTransition.play();
+						}
+						else if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).isOccupied()){
+								if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).getOccupier()!=null)
+									if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()+(tileWidth/2)).getOccupier() != this)
+							currentTransition.pause();
+						}
+						else currentTransition.play();
+				break;
+			case EAST:
+				for(int i = 0; i < currentIntersection.tiles.length; i++)
+					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+						if(currentPath.getTurn() == "left"){
+							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+								currentTransition.pause();
+							else currentTransition.play();
+						}
+						else if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).isOccupied()){
+								if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).getOccupier()!=null)
+									if(currentIntersection.getTileAt(getX()+(tileWidth/2) , getY()+(tileWidth/2)).getOccupier() != this)
+							currentTransition.pause();
+						}
+						else currentTransition.play();
+				break;
+			case WEST:
+				for(int i = 0; i < currentIntersection.tiles.length; i++)
+					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
+						if(currentPath.getTurn() == "left"){
+							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this)
+								currentTransition.pause();
+							else currentTransition.play();
+						}
+						else if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).isOccupied()){
+								if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).getOccupier()!=null)
+									if(currentIntersection.getTileAt(getX()-(tileWidth/2) , getY()-(tileWidth/2)).getOccupier() != this)
+										currentTransition.pause();
+						}
+						else currentTransition.play();
+				break;
+			}
 			
+					
+					
 			//Check if the vehicle occupies tiles throughout the transition
 				for(int i = 0; i < currentIntersection.tiles.length; i++)
 					for(int j = 0; j< currentIntersection.tiles[0].length;j++)
