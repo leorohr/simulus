@@ -462,10 +462,10 @@ public class EditorApp extends Application {
 
 			// TODO: Delete test block
 //			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
-			System.out.println(getTileDetails(0,0));
-			System.out.println(getTileDetails(1,0));
-			System.out.println(getTileDetails(2,0));
-			System.out.println(getTileDetails(3,0));
+//			System.out.println(getTileDetails(0,0));
+//			System.out.println(getTileDetails(1,0));
+//			System.out.println(getTileDetails(2,0));
+//			System.out.println(getTileDetails(3,0));
 			
 			break;
 		case "clearMapButton":
@@ -494,31 +494,8 @@ public class EditorApp extends Application {
 		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 	
-	/*
-	 *  TODO: replace return type with something usable by mouse hover and/or XML
-	 *  		Perhaps the method should take in a Tile rather than compute the information based on XY 
-	 */
-	/**
-	 * Returns details about the given tile 
-	 * 
-	 * @param posX X position of tile in Map array
-	 * @param posY Y position of tile in Map array
-	 * @return details - String listing tile type and attribute
-	 */
-	public String getTileDetails(int posX, int posY) {
-		String attribute = "";
-		Tile t = editorMap.getTiles()[posX][posY];
-		
-		if (t instanceof Lane) {
-			attribute = "This tile "+ posX + " " + posY +" is a lane with " +((Lane) t).getDirection() + " Direction";
-		} else if (t instanceof Land) {
-			attribute = "This tile "+ posX + " " + posY +" is land of type " +((Land) t).getLandType();
-		}
-		return attribute;
-	}
-
-
 	public void loadMap(String fileLocation){
+
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
 		System.out.println(mxml.toString());

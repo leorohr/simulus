@@ -7,12 +7,14 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
@@ -36,7 +38,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[0].length; j++) {
 				tiles[i][j] = new IntersectionTile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
-				tiles[i][j].getFrame().setFill(Color.BLACK);
+				tiles[i][j].getFrame().setFill(new ImagePattern(ResourceBuilder.getBoxjunctionTexture()));
 				
 				//this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}

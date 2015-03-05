@@ -27,7 +27,10 @@ public class Tile extends Group {
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
+		//frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
+		frame.setFill(Color.TRANSPARENT);
+		frame.setStroke(Color.BLACK);
+		frame.setStrokeWidth(0.1);
 		this.getChildren().add(frame);
 	}
 

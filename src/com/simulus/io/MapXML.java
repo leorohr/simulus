@@ -140,26 +140,30 @@ public class MapXML {
 						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
 									 tileSize, xPos, yPos);
 							System.out.println(xPos + ":" + yPos + " " + "Empty");
-						break;
-						case "GRASS":
-						 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
-								 tileSize, xPos, yPos);
-						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
-						break;
-						case "DIRT":  //add dirt tile
-						fullGrid[xPos][yPos] = new Dirt(xPos * tileSize, yPos * tileSize, tileSize,
-								 tileSize, xPos, yPos);
-						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
-						break;
-						case "CITY":  //add city tile
-						fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
-								 tileSize, xPos, yPos);
-						System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
-						break;
-						case "BLOCK":  //add block tile
-							fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
-									 tileSize, xPos, yPos);
-							System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+						case "land":	
+							switch(attribute){
+							case "GRASS":
+								 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
+										 tileSize, xPos, yPos);
+								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+								break;
+								case "DIRT":  //add dirt tile
+								fullGrid[xPos][yPos] = new Dirt(xPos * tileSize, yPos * tileSize, tileSize,
+										 tileSize, xPos, yPos);
+								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+								break;
+								case "CITY":  //add city tile
+								fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
+										 tileSize, xPos, yPos);
+								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+								break;
+								case "BLOCK":  //add block tile
+									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
+											 tileSize, xPos, yPos);
+									System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
+								break;
+							}
+							
 						break;
 						case "lane":  //add lane tile
 							switch(attribute){
@@ -171,19 +175,24 @@ public class MapXML {
 								case "WEST": //add west tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.WEST, Integer.parseInt(attribute2));
+									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "NORTH": //add north tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.NORTH, Integer.parseInt(attribute2));
+									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "SOUTH": //add south tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
+									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 							}
+							break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);
+							System.out.println(xPos + ":" + yPos + " Intersection");
 						break;
 					}
  
@@ -283,16 +292,16 @@ public class MapXML {
 					String tileAttribute2 = "";
 					Tile t = gridIn[c][r];
 					
-					System.out.println(tileType);
+					//System.out.println(tileType);
 					
 					//intersection output needed
 					if (t instanceof Lane) {
 						tileType = "lane";
 						tileAttribute = ((Lane) t).getDirection().toString();
-						tileAttribute2 = String.valueOf(((Lane) t).getLaneNo());
+						tileAttribute2 =   Integer.toString(((Lane) t).getLaneNo());
 					} else if (t instanceof Land) {
-						tileType = ((Land) t).getLandType().toString();
-						tileAttribute = "";
+						tileType = "land";
+						tileAttribute = ((Land) t).getLandType().toString();
 					} else if (t instanceof IntersectionTile) {
 						tileType = "intersection";
 					}
