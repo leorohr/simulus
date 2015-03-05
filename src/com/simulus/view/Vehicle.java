@@ -78,7 +78,8 @@ public abstract class Vehicle extends Rectangle {
 		tileWidth = SimulationController.getInstance().getMap().TILESIZE;
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
-		try {
+		
+		try { //TODO this is not correct, is it?
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			currentTile = null;

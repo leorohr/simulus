@@ -131,7 +131,7 @@ public class Car extends Vehicle {
 
                 nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
 				
-                break;
+
 			case WEST:
                 if(currentTile.getGridPosX()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -155,9 +155,9 @@ public class Car extends Vehicle {
 					 		followPath(p);
 		          		isTransitioning = true;
 		          		return;
+					 }
 				 }
 		          		else tempDir = getDirection();
-			 //System.out.println(nextTile.toString());
 			
 
             //Slow the car down if cautious and slow car in front
@@ -169,6 +169,8 @@ public class Car extends Vehicle {
 			SimulationController.getInstance().removeVehicle(this);
 		}
 		
+		if(isPaused)
+			tempDir = Direction.NONE;
 		
 		move(tempDir);
 		
