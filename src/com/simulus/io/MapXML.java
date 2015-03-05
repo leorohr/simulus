@@ -62,11 +62,9 @@ public class MapXML {
 
 	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
 	// nodes do not match metadata i.e. grid size matching height x width
-	public void readXML(String inputFile) {
+	public void readXML(File inputXmlFile) {
 
 		try {
-
-			inputXmlFile = new File(inputFile);
 
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
@@ -181,6 +179,7 @@ public class MapXML {
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
 								break;
 							}
+						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);

@@ -1,5 +1,6 @@
 package com.simulus.view.map;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +13,7 @@ import javafx.scene.paint.ImagePattern;
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
+import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Behavior;
@@ -34,8 +36,8 @@ public class Map extends Group {
 	private int tileSize = Configuration.tileSize;
 	private Tile[][] tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
-	private ArrayList<Thread> trafficLightThreads = new ArrayList<>();
-	private ArrayList<Lane> entryPoints = new ArrayList<>();
+	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); //the threads that switch the lights of trafficlights
+	private ArrayList<Lane> entryPoints = new ArrayList<>();	//stores all those lanes, that are suitable to spawn a car on
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
 	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update 
 	
@@ -51,8 +53,6 @@ public class Map extends Group {
 						tileSize, i, p);
 			}
 		}
-		
-//		createHashStyleMap();
 
 		// Add map to canvas
 		for (int i = 0; i < tiles.length; i++) {
@@ -66,6 +66,7 @@ public class Map extends Group {
 		
 		for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
+			
 			//If the path has a lane at the end of it, set it to active
 			//This allows the creation intersections without 4 connected roads
 			for(CustomPath p: i.getTurningPaths()){
@@ -85,11 +86,16 @@ public class Map extends Group {
 		this.tiles = tiles;
 	}
 	
-	public void readMap() {
-		// TODO Read map from XML
-	}
 
+	/**
+	 * Draws the current state of the map on either the editor's or the mainApp's canvas.
+	 */
 	public void drawMap() {
+		if(MainApp.getInstance() != null)
+			MainApp.getInstance().getCanvas().getChildren().clear();
+		else if(EditorApp.getInstance() != null)
+			EditorApp.getInstance().getCanvas().getChildren().clear();
+		
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles.length; p++) {
 
@@ -106,24 +112,6 @@ public class Map extends Group {
 		}
 	}
 	
-	// Hardcoded map for testing
-	@SuppressWarnings("unused")
-	private void createBasicMap() {
-
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
-						tileSize, i, p);
-			}
-		}
-
-		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
-			addGroup(new Road(i, 18, Orientation.WESTEAST));
-		}
-		addGroup(new Intersection(18, 18));
-	}
-
 	private void createHashStyleMap() {
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
@@ -259,14 +247,6 @@ public class Map extends Group {
 	//for testing
 	public void spawnTesterCar(double speed) {
 
-		/*
-		 * Lane l = entryPoints.get(4);
-		 * 
-		 * //Car adds itself to the canvas new Car(l.getGridPosX() *
-		 * Map.TILESIZE + Car.CARWIDTH / 4, l.getGridPosY() * Map.TILESIZE +
-		 * Car.CARLENGTH / 8, l.getDirection());
-		 */
-
 		Lane a = entryPoints.get(0);
 
 		Car c = null;
@@ -284,7 +264,10 @@ public class Map extends Group {
 		}
 
 	}
-	
+
+	/**
+	 * Spawns an ambulance at a random, available entrypoint.
+	 */
 	public void spawnAmbulance(){
 		
 		Lane l;
@@ -315,14 +298,21 @@ public class Map extends Group {
 		}
 	}
 
+	/**
+	 * Add the tiles contained by the passed tilegroup to the current instance of the map.
+	 * If a North/Southbound lane is at the top/bottom-edge of the map, it becomes an entrypoint,
+	 * equivalently do East/Westbound  lanes at the left/right-edge of the map.
+	 * @param g The TileGroup to add to the map's tiles.
+	 */
 	public void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
 			tiles[t.getGridPosX()][t.getGridPosY()] = t;
 			
-			if(g instanceof Intersection)
+			if(g instanceof Intersection) {
 				((IntersectionTile)tiles[t.getGridPosX()][t.getGridPosY()]).setIntersection((Intersection)g);
+			}
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
@@ -344,10 +334,9 @@ public class Map extends Group {
 				}
 			}
 		}
-
-		if (g instanceof Intersection){
+		
+		if(g instanceof Intersection)
 			intersections.add((Intersection) g);
-		}
 	}
 
 
@@ -364,7 +353,7 @@ public class Map extends Group {
 	}
 
 	/**
-	 * Computes one simulation step.
+	 * Computes one simulation step. Is executed with each tick.
 	 */
 	public void updateMap() {
 
@@ -475,13 +464,82 @@ public class Map extends Group {
 		if (g instanceof Intersection)
 			intersections.remove((Intersection) g);
 	}
-
+	
+    /**
+     * Loads a Map from an XML file.
+     * @param mapFile The XML file containing the map-data.
+     */
+    public void loadMap(File mapFile) {
+    	SimulationController.getInstance().resetSimulation(false);
+    	SimulationController.getInstance().setLastLoadedMap(mapFile);
+        tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
+        entryPoints = new ArrayList<Lane>();
+        intersections = new ArrayList<Intersection>();
+        stopChildThreads();
+        trafficLightThreads = new ArrayList<Thread>();
+        vehicles = new ArrayList<Vehicle>();
+        toBeRemoved = new ArrayList<Vehicle>();
+    	
+    	MapXML loader = new MapXML();
+        loader.readXML(mapFile);
+        tiles = loader.getTileGrid();
+        
+        boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+        for(int i=0; i<tiles.length; i++) {
+        	for(int j=0; j<tiles[0].length; j++) {
+        		//Dont double-check tiles -- mainly for correct detection of intersections.
+        		if(checked[i][j])
+        			continue;
+        		
+        		//Check for entrypoints
+        		if(i==0) {
+        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
+        				entryPoints.add((Lane) tiles[i][j]);
+        		} else if(i == tiles.length-1) {
+        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
+        				entryPoints.add((Lane) tiles[i][j]);
+        		} else if(j == 0) {
+        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
+        				entryPoints.add((Lane) tiles[i][j]);
+        		} else if(j == tiles.length-1) {
+        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
+        				entryPoints.add((Lane) tiles[i][j]);
+        		}
+        		
+        		if(tiles[i][j] instanceof IntersectionTile) {
+        			//If an intersection is encountered, create new object and set all related tiles to checked
+        			addGroup(new Intersection(i, j));
+        			for(int m=i; m<i+4; m++) {
+        				for(int n=j; n<j+4; n++) 
+        					checked[m][n] = true;
+        			}
+        		}
+        	}
+        }
+        
+        for(Intersection i: intersections){
+			i.addTurningPaths(tiles);
+			
+			//If the path has a lane at the end of it, set it to active
+			//This allows the creation intersections without 4 connected roads
+			for(CustomPath p: i.getTurningPaths()){
+				if(p.getEndTile() instanceof Lane)
+					p.setActive(true);
+			}
+			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
+														+ i.getTiles().get(0).getGridPosY() + ">");
+			trafficLightThreads.add(t);
+			t.start();
+		}
+        
+        drawMap();
+    }
 
 	/**
-	 * Removes a vehicle from the screen
-	 * 
-	 * @param v
-	 *            Vehicle to be removed
+	 * Removes a vehicle from the screen. To prevent ConcurrentModification-Exceptions, the 
+	 * vehicles that shold be removed are temporarily stored in <code>toBeRemoved</code> and 
+	 * then removed in the main simulation loop.
+	 * @param v Vehicle to be removed
 	 */
 	public void removeVehicle(Vehicle v) {
 

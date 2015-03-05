@@ -532,4 +532,12 @@ public abstract class Vehicle extends Rectangle {
 	public void setWaitedCounter(int waitedCounter) {
 		this.waitedCounter = waitedCounter;
 	}
+	
+	public boolean isTransitioning() {
+		return isTransitioning;
+	}
+	
+	public Transition getCurrentTransition() {
+		return currentTransition;
+	}
 }

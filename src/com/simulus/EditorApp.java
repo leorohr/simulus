@@ -520,7 +520,7 @@ public class EditorApp extends Application {
 
 	public void loadMap(String fileLocation){
 		MapXML mxml = new MapXML();
-		mxml.readXML(fileLocation);
+		mxml.readXML(new File(fileLocation));
 		System.out.println(mxml.toString());
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);

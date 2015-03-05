@@ -2,6 +2,8 @@ package com.simulus.view.intersection;
 
 import java.util.ArrayList;
 
+import javafx.scene.paint.Color;
+
 import com.simulus.view.Tile;
 
 public class IntersectionTile extends Tile {
@@ -14,6 +16,7 @@ public class IntersectionTile extends Tile {
 		
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		
+		frame.setFill(Color.BLACK);
 		turningPaths = new ArrayList<>();
 	}
 	

@@ -1,5 +1,7 @@
 package com.simulus;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -49,7 +51,9 @@ public class MainApp extends Application {
 		showControls();
 
         SimulationController.init();
-	}
+        //Load default map on startup
+		SimulationController.getInstance().getMap().loadMap(
+				new File(MainApp.class.getResource("/resources/default.xml").getFile()));	}
 
 	/**
 	 * Initialise the root layout

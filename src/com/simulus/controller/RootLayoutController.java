@@ -22,9 +22,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.simulus.MainApp;
-import com.simulus.io.MapXML;
-import com.simulus.view.Tile;
-import com.simulus.view.map.Map;
 
 public class RootLayoutController implements Initializable {
 
@@ -67,14 +64,7 @@ public class RootLayoutController implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
             fileChooser.setInitialFileName("CustomMap.xml");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
-            
-            
-            //TODO open xml file
-            MapXML loader = new MapXML();
-            loader.readXML(selectedFile.toPath().toString());
-            Tile[][] tiles = loader.getTileGrid();
-            SimulationController.getInstance().setMap(new Map(tiles));
-            
+            SimulationController.getInstance().getMap().loadMap(selectedFile);            
         });
 
 

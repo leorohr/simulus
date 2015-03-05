@@ -1,5 +1,7 @@
 package com.simulus.controller;
 
+import java.io.File;
+
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
@@ -31,6 +33,7 @@ public class SimulationController {
     private boolean debugFlag = false;
 
     private Map map = new Map();
+    private File lastLoadedMap;
     private AnimationThread animationThread;
 
     /* Singleton */
@@ -59,16 +62,19 @@ public class SimulationController {
         animationThread.interrupt();
     }
 
-    public void resetSimulation() {
-        animationThread.interrupt();
+    public void resetSimulation(boolean reloadMap) {
+    	
+    	if(reloadMap)
+        	map.loadMap(lastLoadedMap);
+    	
+    	animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
-        map.stopChildThreads();
-        map = new Map();
         MainApp.getInstance().getControlsController().resetCharts();
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
         animationThread = new AnimationThread();
+        map.drawMap();
         if(debugFlag)
         	map.showAllIntersectionPaths();
     }
@@ -101,11 +107,23 @@ public class SimulationController {
                 }    
             	
                 Platform.runLater(() -> map.updateMap());
+                
+                //TODO
+                for(Vehicle v : map.getVehicles()) {
+                	if(v.isTransitioning() && v.getCurrentTransition() != null)
+                		v.getCurrentTransition().pause();
+                }
 
                 try {
                     Thread.sleep(tickTime);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
+                }
+                
+                //TODO
+                for(Vehicle v : map.getVehicles()) {
+                	if(v.isTransitioning() && v.getCurrentTransition() != null)
+                		v.getCurrentTransition().play();
                 }
                 
                 //Increase tickCount or reset if overflown
@@ -126,6 +144,10 @@ public class SimulationController {
             instance = new SimulationController();
     }
 
+    /**
+     * Notifies the map that the passed vehicle should be removed.
+     * @param v The vehicle to be removed.
+     */
     public void removeVehicle(Vehicle v) {
         map.removeVehicle(v);
         if(v instanceof Truck)
@@ -136,7 +158,20 @@ public class SimulationController {
         }
     }
 
-    /* Getter & Setter */
+    /**
+     * If there a are no more than 4 ambulances on the map, this method reaches out to the map
+     * to spawn an additional ambulance.
+     */
+    public void spawnAmbulance() {
+    	if(ambulanceCount < 5) {
+    		Platform.runLater(() -> map.spawnAmbulance());
+	    	ambulanceCount++;
+    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
+    }
+    
+    /* * * 
+     * Getter & Setter 
+     * * */
     public boolean isDebug() {
         return debugFlag;
     }
@@ -173,13 +208,6 @@ public class SimulationController {
                 }
             }
         }
-    }
-    
-    public void spawnAmbulance() {
-    	if(ambulanceCount < 5) {
-    		Platform.runLater(() -> map.spawnAmbulance());
-	    	ambulanceCount++;
-    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
     }
     
     public int getTickTime() {
@@ -232,6 +260,10 @@ public class SimulationController {
     
     public void setMap(Map map) {
     	this.map = map;
+    }
+    
+    public void setLastLoadedMap(File mapFile) {
+    	lastLoadedMap = mapFile;
     }
 }
 
