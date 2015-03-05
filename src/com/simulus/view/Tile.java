@@ -1,14 +1,14 @@
 package com.simulus.view;
 
-import com.simulus.controller.SimulationController;
-import com.simulus.util.ResourceBuilder;
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 
-import java.util.ArrayList;
+import com.simulus.controller.SimulationController;
+import com.simulus.util.ResourceBuilder;
 
 public class Tile extends Group {
 
@@ -16,7 +16,6 @@ public class Tile extends Group {
 	private int gridPosY;
 	private boolean isOccupied;
 	private Vehicle occupier;
-	private ArrayList<CustomPath> turningPaths;
     protected Rectangle frame;
     protected boolean isRedLight = false;
 
@@ -28,7 +27,6 @@ public class Tile extends Group {
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		turningPaths = new ArrayList<>();
 		frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
 		this.getChildren().add(frame);
 	}
@@ -117,13 +115,6 @@ public class Tile extends Group {
 
 	public double getCenterY() {
 		return getY() + (getHeight() / 2);
-	}
-	
-	/**
-	 * @return The list of available paths for cars to take when they face this tile in an intersection.
-	 */
-	public ArrayList<CustomPath> getTurningPaths() {
-		return turningPaths;			
 	}
 	
 	public Vehicle getOccupier() {

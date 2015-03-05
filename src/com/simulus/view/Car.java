@@ -149,11 +149,13 @@ public class Car extends Vehicle {
              		if(nextTile.getOccupier()== this)
              			tempDir = getDirection();
 			 }
-				 else if(nextTile.getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) &&Math.random()<0.25){
+				 else if(nextTile instanceof IntersectionTile) {
+					 if( ((IntersectionTile)nextTile).getTurningPaths().size() >0 && (getCurrentTile() instanceof Lane) &&Math.random()<0.25){
 					 	
-		          		followPath(nextTile.getTurningPaths().get(rand.nextInt(nextTile.getTurningPaths().size())));
+		          		followPath( ((IntersectionTile)nextTile).getTurningPaths().get(rand.nextInt( ((IntersectionTile)nextTile).getTurningPaths().size())));
 		          		isTransitioning = true;
 		          		return;
+					 }
 				 }
 		          		else tempDir = getDirection();
 			
