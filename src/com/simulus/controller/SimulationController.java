@@ -2,6 +2,7 @@ package com.simulus.controller;
 
 import java.io.File;
 
+import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
@@ -21,7 +22,7 @@ import com.simulus.view.vehicles.Vehicle;
 public class SimulationController {
 
     //Simulation Parameters
-    private int tickTime = 50; //in ms
+    private double tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
     private int maxCarSpeed = 10;
@@ -108,22 +109,18 @@ public class SimulationController {
             	
                 Platform.runLater(() -> map.updateMap());
                 
-                //TODO
-                for(Vehicle v : map.getVehicles()) {
-                	if(v.isTransitioning() && v.getCurrentTransition() != null)
-                		v.getCurrentTransition().pause();
-                }
-
-                try {
-                    Thread.sleep(tickTime);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+                
                 
                 //TODO
                 for(Vehicle v : map.getVehicles()) {
-                	if(v.isTransitioning() && v.getCurrentTransition() != null)
-                		v.getCurrentTransition().play();
+                	if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
+                		v.getCurrentTransition().setRate(50/tickTime);
+                }
+
+                try {
+                    Thread.sleep((long) tickTime);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
                 
                 //Increase tickCount or reset if overflown
@@ -210,11 +207,11 @@ public class SimulationController {
         }
     }
     
-    public int getTickTime() {
+    public double getTickTime() {
         return tickTime;
     }
 
-    public void setTickTime(int tickTime) {
+    public void setTickTime(double tickTime) {
         this.tickTime = tickTime;
     }
 

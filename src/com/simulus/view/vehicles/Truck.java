@@ -8,6 +8,10 @@ import javafx.scene.transform.Translate;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.map.Lane;
 
 public class Truck extends Vehicle {
 
@@ -50,7 +54,7 @@ public class Truck extends Vehicle {
 	@Override
 	public void moveVehicle() {
 			
-		if(isTransitioning){
+		if(isTransitioning()){
 			return;
 		}
 		
@@ -69,39 +73,57 @@ public class Truck extends Vehicle {
 
 
 		try {
+            Tile nextTile = null;
 			switch (getDirection()) {
 			case NORTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() - 1].isOccupied()) {
-					temp = Direction.NONE;
-					
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosY()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
 				break;
 			case SOUTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() + 1].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosY()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
 				break;
 			case EAST:
-				if (map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
-				break;
+                if(currentTile.getGridPosX()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
+                break;
 			case WEST:
-				if (map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosX()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
 				break;
 			default:
 				break;
 			}
+			 
+			if (nextTile.isOccupied()) {
+				tempDir = Direction.NONE;
+			} else if(nextTile instanceof IntersectionTile) { 
+				if(currentTile instanceof Lane && Math.random()>0.6) {
+					IntersectionTile t = (IntersectionTile) nextTile;
+				 	currentIntersection = t.getIntersection();
+				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
+				 	if(p.getActive())
+				 		followPath(p);
+//	          		isTransitioning = true;
+	          		return;
+				 }
+			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {
             SimulationController.getInstance().removeVehicle(this);
 		}
