@@ -2,7 +2,9 @@ package com.simulus.view.vehicles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
@@ -40,13 +42,14 @@ public abstract class Vehicle extends Rectangle {
 	protected MainApp parent;
 	protected Tile currentTile;
 	protected List<Tile> occupiedTiles;
-	protected boolean isTransitioning = false;
 	protected Behavior behavior;
 	
 	protected Intersection currentIntersection;
 	protected CustomPath currentPath;
 	protected PathTransition pathTransition;
 	protected Transition currentTransition;
+	
+	protected Random rand;
 
 	protected int tileWidth;
 	protected Tile moveToTile;
@@ -84,6 +87,8 @@ public abstract class Vehicle extends Rectangle {
 		} catch (ArrayIndexOutOfBoundsException e) {
 			currentTile = null;
 		}
+		
+		rand = new Random();
 	}
 
 	/**
@@ -192,11 +197,12 @@ public abstract class Vehicle extends Rectangle {
             @Override
             public void handle(ActionEvent arg0) {
             	MainApp.getInstance().getCanvas().getChildren().remove(path);
-                isTransitioning = false;
             }
         });
         setCurrentTile(moveToTile);
         this.moveToTile = moveToTile;
+        pathTransition.setRate(50/SimulationController.getInstance().getTickTime());
+        currentTransition = pathTransition;
         pathTransition.play();
 	}
 	
@@ -384,7 +390,6 @@ public abstract class Vehicle extends Rectangle {
 		if(p.getEndTile().isOccupied())
 			return;
 		
-		isTransitioning = true;
 		getTransforms().clear();
 		currentPath = p;
 		ParallelTransition transition;
@@ -420,11 +425,27 @@ public abstract class Vehicle extends Rectangle {
 			@Override
 			public void handle(ActionEvent event) {
 				
-                Vehicle v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
-    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
-    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
-                v.setCurrentTile(p.getEndTile());
-                p.getEndTile().setOccupied(true, v);
+				Vehicle v = null;
+				if(SimulationController.getInstance().getAnimationThread().isAlive()){
+					if(Vehicle.this instanceof Car){
+	                v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
+	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
+	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+					}else {
+						v = new Truck(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
+	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
+	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+					}
+	                v.setCurrentTile(p.getEndTile());
+	                p.getEndTile().setOccupied(true, v);
+	                v.setVehicleSpeed(getVehicleSpeed());
+	                v.setBehavior(getBehavior());
+	                v.setFill(getFill());
+	                v.setMap(SimulationController.getInstance().getMap().getTiles());
+	                v.setWaitedCounter(waitedCounter);
+	                SimulationController.getInstance().getMap().getVehicles().add(v);
+				}
+				
                 
                 //Manually unoccupy the final tile leaving the transition, to ensure that paths are cleared
                 switch(p.getEndDirection()){
@@ -444,17 +465,15 @@ public abstract class Vehicle extends Rectangle {
 					break;
                 }
                 
-                v.setVehicleSpeed(getVehicleSpeed());
-                v.setBehavior(getBehavior());
-                v.setFill(getFill());
-                v.setMap(SimulationController.getInstance().getMap().getTiles());
-                v.setWaitedCounter(waitedCounter);
-                SimulationController.getInstance().getMap().getVehicles().add(v);
-                isTransitioning = false;
+                
+               
                 SimulationController.getInstance().removeVehicle(Vehicle.this);
 			}
 		});
+        transition.setRate(50/SimulationController.getInstance().getTickTime());
+        //System.out.println(50/SimulationController.getInstance().getTickTime());
         currentTransition = transition;
+        
         transition.play();
 	}
 
@@ -531,5 +550,15 @@ public abstract class Vehicle extends Rectangle {
 	
 	public void setWaitedCounter(int waitedCounter) {
 		this.waitedCounter = waitedCounter;
+	}
+	
+	public boolean isTransitioning() {
+		if(currentTransition != null && currentTransition.getStatus() == Animation.Status.RUNNING)
+			return true;
+		return false;
+	}
+	
+	public Transition getCurrentTransition() {
+		return currentTransition;
 	}
 }

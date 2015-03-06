@@ -66,8 +66,8 @@ public class MapXML {
 
 		try {
 
-			inputXmlFile = new File(inputFile);
-
+			File inputXmlFile = new File(inputFile);
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -145,22 +145,18 @@ public class MapXML {
 							case "GRASS":
 								 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
-								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 								break;
 								case "DIRT":  //add dirt tile
 								fullGrid[xPos][yPos] = new Dirt(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
-								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 								break;
 								case "CITY":  //add city tile
 								fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
-								System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 								break;
 								case "BLOCK":  //add block tile
 									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);
-									System.out.println(xPos + ":" + yPos + " " + ((Land) fullGrid[xPos][yPos]).getLandType().toString());
 								break;
 							}
 							
@@ -170,25 +166,21 @@ public class MapXML {
 								case "EAST": //add east tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.EAST, Integer.parseInt(attribute2));
-									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "WEST": //add west tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.WEST, Integer.parseInt(attribute2));
-									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "NORTH": //add north tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.NORTH, Integer.parseInt(attribute2));
-									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 								case "SOUTH": //add south tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
-									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 							}
-							break;
+						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);

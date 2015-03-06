@@ -6,8 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Translate;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.map.Lane;
 
 public class Truck extends Vehicle {
 
@@ -38,19 +43,19 @@ public class Truck extends Vehicle {
 	
 		setFill(COLOUR);
 		Random rand = new Random();
-		maxSpeed = rand.nextInt(2)+3;
-		
-		//0.4px/tick acceleration equals a real-life acceleration of ~0,62m/s^2, i.e 0-100km/h in 45 secs.
-		acceleration = 0.4d;
-		vehicleSpeed = 0.0d;
-		
+		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+		//0.5m/s^2; 1m=tilesize/5; 1 tick = 1/10s; 0-80
+		acceleration = (0.5d * Configuration.tileSize/5)/10;
+		//Any speed within the maxspeed range, at least 10km/h (i.e. 1.111px per tick)
+		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.tileSize/5))/10 -1.111d) + 1.111d;
+
 		addToCanvas();
 	}
 
 	@Override
 	public void moveVehicle() {
 			
-		if(isTransitioning){
+		if(isTransitioning()){
 			return;
 		}
 		
@@ -69,39 +74,57 @@ public class Truck extends Vehicle {
 
 
 		try {
+            Tile nextTile = null;
 			switch (getDirection()) {
 			case NORTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() - 1].isOccupied()) {
-					temp = Direction.NONE;
-					
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosY()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() - 1];
 				break;
 			case SOUTH:
-				if (map[getCurrentTile().getGridPosX()][getCurrentTile()
-						.getGridPosY() + 1].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosY()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile().getGridPosY() + 1];
 				break;
 			case EAST:
-				if (map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
-				break;
+                if(currentTile.getGridPosX()+1 >= map.length) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile().getGridPosY()];
+                break;
 			case WEST:
-				if (map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
-						.getGridPosY()].isOccupied()) {
-					temp = Direction.NONE;
-				} else
-					temp = getDirection();
+                if(currentTile.getGridPosX()-1 < 0) {
+                    SimulationController.getInstance().removeVehicle(this);
+                    return;
+                }
+
+                nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile().getGridPosY()];
 				break;
 			default:
 				break;
 			}
+			 
+			if (nextTile.isOccupied()) {
+				tempDir = Direction.NONE;
+			} else if(nextTile instanceof IntersectionTile) { 
+				if(currentTile instanceof Lane && Math.random()>0.6) {
+					IntersectionTile t = (IntersectionTile) nextTile;
+				 	currentIntersection = t.getIntersection();
+				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
+				 	if(p.getActive())
+				 		followPath(p);
+//	          		isTransitioning = true;
+	          		return;
+				 }
+			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {
             SimulationController.getInstance().removeVehicle(this);
 		}

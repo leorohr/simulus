@@ -219,7 +219,7 @@ public class ControlsController implements Initializable {
 		});
 
         resetButton.setOnAction((event) -> {
-    		simulationController.resetSimulation();
+    		simulationController.resetSimulation(true);
         });
 		
 		debugCheckbox.setOnAction((event) -> {
@@ -242,8 +242,8 @@ public class ControlsController implements Initializable {
         congestionSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getCongestionValue()*100)));
         
         //Update Waiting Time Chart
-        waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()*1.8))); //1 tick simulates 1.8secs in real-time
-        emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()*1.8)));
+        waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()/10))); //1 tick simulates 0.1secs in real-time
+        emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()/10)));
         
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);
@@ -283,6 +283,21 @@ public class ControlsController implements Initializable {
     	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());
     	congestionSeries.getData().remove(0, congestionSeries.getData().size());
     	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
+    }
+    
+    /**
+     * Reset all settings to default
+     */
+    public void resetSettings() {
+    	debugCheckbox.setSelected(false);
+    	carcolorComboBox.getSelectionModel().select(0);
+    	truckcolorComboBox.getSelectionModel().select(0);
+    	numCarSlider.setValue(25);
+    	tickrateSlider.setValue(50);
+    	spawnrateSlider.setValue(25);
+    	maxcarspeedSlider.setValue(50);
+    	cartruckratioSlider.setValue(0.7d);
+    	recklessnormalSlider.setValue(0.3d);
     }
 
 }
