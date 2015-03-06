@@ -1,5 +1,9 @@
 package com.simulus;
 
+import com.simulus.controller.SimulationController;
+import com.simulus.view.vehicles.Truck;
+import com.simulus.view.vehicles.Vehicle;
+
 import javafx.application.Application;
 
 public class LaunchApp {
@@ -10,11 +14,12 @@ public class LaunchApp {
 	boolean isAlive = false;
 	boolean isInterrupted = false;
 
+
 	public void launchApp(){
 
 		appThread = new Thread("JavaFX Init Thread") {
 			public void run() {
-			
+
 				Application.launch(MainApp.class, new String[0]);
 			}
 		};
@@ -23,12 +28,12 @@ public class LaunchApp {
 		appThread.start();
 	}
 
-	
+
 	public Thread threadStatus(String threadName) {
 
 		for(Thread allThread : Thread.getAllStackTraces().keySet()){
 			if(allThread.getName().equals(threadName));
-			
+
 			threadFound = true;
 			returnedThread = allThread;
 
@@ -39,7 +44,7 @@ public class LaunchApp {
 
 	}
 
-	
+
 	private void chceckThreadStatus( ) {
 		if(returnedThread.isAlive()){
 			isAlive = true;
@@ -58,5 +63,26 @@ public class LaunchApp {
 		}
 		return threadFound;
 	}
+
+	public boolean truckIsSpawnedOnMap (){
+
+		for(Vehicle v : SimulationController.getInstance().getMap().getVehicles())
+			if(v instanceof Truck){
+				return true;
+			}
+
+		return false;
+	}
+
+	public boolean carIsSpawnedOnMap(){
+		for(Vehicle v : SimulationController.getInstance().getMap().getVehicles())
+			if(v instanceof Truck){
+				return true;
+			}
+
+		return false;
+
+	}
+
 
 }
