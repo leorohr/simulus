@@ -64,19 +64,23 @@ public class SimulationController {
 
     public void resetSimulation(boolean reloadMap) {
     	
-    	if(reloadMap)
-        	map.loadMap(lastLoadedMap);
+//    	if(reloadMap)
+//        	map.loadMap(lastLoadedMap);
     	
     	animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
         MainApp.getInstance().getControlsController().resetCharts();
+        MainApp.getInstance().getControlsController().resetSettings();
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
         animationThread = new AnimationThread();
         map.drawMap();
+        
         if(debugFlag)
         	map.showAllIntersectionPaths();
+        
+        
     }
 
     private class AnimationThread extends Thread {
@@ -108,11 +112,11 @@ public class SimulationController {
             	
                 Platform.runLater(() -> map.updateMap());
                 
-                //TODO
-                for(Vehicle v : map.getVehicles()) {
-                	if(v.isTransitioning() && v.getCurrentTransition() != null)
-                		v.getCurrentTransition().pause();
-                }
+//                //TODO
+//                for(Vehicle v : map.getVehicles()) {
+//                	if(v.isTransitioning() && v.getCurrentTransition() != null)
+//                		v.getCurrentTransition().pause();
+//                }
 
                 try {
                     Thread.sleep(tickTime);
@@ -120,11 +124,11 @@ public class SimulationController {
                     Thread.currentThread().interrupt();
                 }
                 
-                //TODO
-                for(Vehicle v : map.getVehicles()) {
-                	if(v.isTransitioning() && v.getCurrentTransition() != null)
-                		v.getCurrentTransition().play();
-                }
+//                //TODO
+//                for(Vehicle v : map.getVehicles()) {
+//                	if(v.isTransitioning() && v.getCurrentTransition() != null)
+//                		v.getCurrentTransition().play();
+//                }
                 
                 //Increase tickCount or reset if overflown
                 tickCount = (tickCount == Long.MAX_VALUE ? 0 : tickCount++);

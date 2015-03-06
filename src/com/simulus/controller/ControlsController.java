@@ -279,10 +279,25 @@ public class ControlsController implements Initializable {
      * Resets all chart data.
      */
     public void resetCharts() {
-    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size());
-    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());
-    	congestionSeries.getData().remove(0, congestionSeries.getData().size());
-    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
+    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size()-1);
+    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size()-1);
+    	congestionSeries.getData().remove(0, congestionSeries.getData().size()-1);
+    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size()-1);
+    }
+    
+    /**
+     * Reset all settings to default
+     */
+    public void resetSettings() {
+    	debugCheckbox.setVisible(false);
+    	carcolorComboBox.getSelectionModel().select(0);
+    	truckcolorComboBox.getSelectionModel().select(0);
+    	numCarSlider.setValue(25);
+    	tickrateSlider.setValue(50);
+    	spawnrateSlider.setValue(25);
+    	maxcarspeedSlider.setValue(5); //TODO adjust to new scale
+    	cartruckratioSlider.setValue(0.7d);
+    	recklessnormalSlider.setValue(0.3d);
     }
 
 }
