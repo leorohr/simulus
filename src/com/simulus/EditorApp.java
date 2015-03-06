@@ -292,7 +292,7 @@ public class EditorApp extends Application {
 
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(EditorApp.class
-					.getResource("view/ui/RootLayout.fxml"));
+					.getResource("view/ui/EditorRootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
 			canvas = new Pane();
@@ -437,31 +437,10 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrIntersection));
 			break;
 		case "openMapButton":
-			fileChooser = new FileChooser();
-			fileChooser.setTitle("Open Map XML...");
-			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-			fileChooser.getExtensionFilters().add(extFilter);
-			selectedFile = fileChooser.showOpenDialog(editorStage);
-			if (selectedFile != null) {
-				loadMap(selectedFile.getPath());
-			}
+			openMapDialog();
 			break;
 		case "saveMapButton":
-			fileChooser = new FileChooser();
-			fileChooser.setTitle("Save Map XML...");
-			extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
-			fileChooser.getExtensionFilters().add(extFilter);
-			selectedFile = fileChooser.showSaveDialog(editorStage);
-			if (selectedFile != null) {
-				saveMap(selectedFile.getPath());
-			}
-
-			// TODO: Delete test block
-//			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
-//			System.out.println(getTileDetails(0,0));
-//			System.out.println(getTileDetails(1,0));
-//			System.out.println(getTileDetails(2,0));
-//			System.out.println(getTileDetails(3,0));
+			saveMapDialog();
 			
 			break;
 		case "clearMapButton":
@@ -470,6 +449,28 @@ public class EditorApp extends Application {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void saveMapDialog(){
+		fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Map XML...");
+		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+		selectedFile = fileChooser.showSaveDialog(editorStage);
+		if (selectedFile != null) {
+			saveMap(selectedFile.getPath());
+		}
+	}
+	
+	public void openMapDialog(){
+		fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Map XML...");
+		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+		selectedFile = fileChooser.showOpenDialog(editorStage);
+		if (selectedFile != null) {
+			loadMap(selectedFile.getPath());
 		}
 	}
 	
@@ -530,4 +531,9 @@ public class EditorApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+    public Stage getPrimaryStage() {
+        return editorStage;
+    }
+    
 }
