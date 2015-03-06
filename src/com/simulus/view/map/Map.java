@@ -463,60 +463,60 @@ public class Map extends Group {
 		if (g instanceof Intersection)
 			intersections.remove((Intersection) g);
 	}
-	
+
     /**
      * Loads a Map from an XML file.
      * @param mapFile The XML file containing the map-data.
      */
     public void loadMap(File mapFile) {
-    	SimulationController.getInstance().resetSimulation(false);
-    	SimulationController.getInstance().setLastLoadedMap(mapFile);
-        tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
-        entryPoints = new ArrayList<Lane>();
-        intersections = new ArrayList<Intersection>();
-        stopChildThreads();
-        trafficLightThreads = new ArrayList<Thread>();
-        vehicles = new ArrayList<Vehicle>();
-        toBeRemoved = new ArrayList<Vehicle>();
-    	
-    	MapXML loader = new MapXML();
-        loader.readXML(mapFile.toPath().toString());
-        tiles = loader.getTileGrid();
-        
-        boolean[][] checked = new boolean[tiles.length][tiles[0].length];
-        for(int i=0; i<tiles.length; i++) {
-        	for(int j=0; j<tiles[0].length; j++) {
-        		//Dont double-check tiles -- mainly for correct detection of intersections.
-        		if(checked[i][j])
-        			continue;
-        		
-        		//Check for entrypoints
-        		if(i==0) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(i == tiles.length-1) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(j == 0) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(j == tiles.length-1) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		}
-        		
-        		if(tiles[i][j] instanceof IntersectionTile) {
-        			//If an intersection is encountered, create new object and set all related tiles to checked
-        			addGroup(new Intersection(i, j));
-        			for(int m=i; m<i+4; m++) {
-        				for(int n=j; n<j+4; n++) 
-        					checked[m][n] = true;
-        			}
-        		}
-        	}
-        }
-        
-        for(Intersection i: intersections){
+		    	
+		entryPoints = new ArrayList<Lane>();
+		intersections = new ArrayList<Intersection>();
+		stopChildThreads();
+		trafficLightThreads = new ArrayList<Thread>();
+		vehicles = new ArrayList<Vehicle>();
+		toBeRemoved = new ArrayList<Vehicle>();
+	    SimulationController.getInstance().resetSimulation(false);
+		SimulationController.getInstance().setLastLoadedMap(mapFile);
+		
+		MapXML loader = new MapXML();
+	    loader.readXML(mapFile.toPath().toString());
+	    tiles = loader.getTileGrid();
+	    
+	    boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+	    for(int i=0; i<tiles.length; i++) {
+	    	for(int j=0; j<tiles[0].length; j++) {
+	    		//Dont double-check tiles -- mainly for correct detection of intersections.
+	    		if(checked[i][j])
+	    			continue;
+	    		
+	    		//Check for entrypoints
+	    		if(i==0) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(i == tiles.length-1) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(j == 0) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(j == tiles.length-1) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		}
+	    		
+	    		if(tiles[i][j] instanceof IntersectionTile) {
+	    			//If an intersection is encountered, create new object and set all related tiles to checked
+	    			addGroup(new Intersection(i, j));
+	    			for(int m=i; m<i+4; m++) {
+	    				for(int n=j; n<j+4; n++) 
+	    					checked[m][n] = true;
+	    			}
+	    		}
+	    	}
+	    }
+	    
+	    for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
 			
 			//If the path has a lane at the end of it, set it to active
@@ -530,8 +530,8 @@ public class Map extends Group {
 			trafficLightThreads.add(t);
 			t.start();
 		}
-        
-        drawMap();
+	    
+	    drawMap();
     }
 
 	/**

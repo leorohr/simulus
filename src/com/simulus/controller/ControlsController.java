@@ -279,10 +279,10 @@ public class ControlsController implements Initializable {
      * Resets all chart data.
      */
     public void resetCharts() {
-    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size()-1);
-    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size()-1);
-    	congestionSeries.getData().remove(0, congestionSeries.getData().size()-1);
-    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size()-1);
+    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size());
+    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());
+    	congestionSeries.getData().remove(0, congestionSeries.getData().size());
+    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
     }
     
     /**

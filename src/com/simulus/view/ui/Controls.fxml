@@ -164,7 +164,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
-                                    <VBox>
+                                    <VBox alignment="CENTER">
                                        <children>
                                           <LineChart fx:id="numVehiclesChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
@@ -173,6 +173,9 @@
                                              <yAxis>
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="150.0" />
                                              </yAxis>
+                                             <VBox.margin>
+                                                <Insets left="7.0" />
+                                             </VBox.margin>
                                           </LineChart>
                                           <LineChart fx:id="avgSpeedChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
@@ -181,6 +184,9 @@
                                              <yAxis>
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="100.0" />
                                              </yAxis>
+                                             <VBox.margin>
+                                                <Insets left="7.0" />
+                                             </VBox.margin>
                                           </LineChart>
                                           <LineChart fx:id="congestionChart" createSymbols="false" legendVisible="false" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
@@ -189,6 +195,9 @@
                                              <yAxis>
                                                 <NumberAxis prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="75.0" />
                                              </yAxis>
+                                             <VBox.margin>
+                                                <Insets left="7.0" />
+                                             </VBox.margin>
                                           </LineChart>
                                           <LineChart fx:id="waitingTimeChart" createSymbols="false" legendVisible="true" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
                                              <xAxis>
@@ -197,6 +206,9 @@
                                              <yAxis>
                                                 <NumberAxis forceZeroInRange="false" prefWidth="5.0" side="LEFT" tickLength="0.0" tickMarkVisible="false" upperBound="175.0" />
                                              </yAxis>
+                                             <VBox.margin>
+                                                <Insets left="7.0" />
+                                             </VBox.margin>
                                           </LineChart>
                                        </children>
                                     </VBox>

@@ -62,10 +62,13 @@ public class SimulationController {
         animationThread.interrupt();
     }
 
-    public void resetSimulation(boolean reloadMap) {
+    public void resetSimulation(boolean resetMap) {
     	
-//    	if(reloadMap)
-//        	map.loadMap(lastLoadedMap);
+    	if(resetMap) {
+    		map.stopChildThreads();
+	    	map = new Map();
+	    	map.loadMap(lastLoadedMap);
+    	}
     	
     	animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
@@ -79,8 +82,6 @@ public class SimulationController {
         
         if(debugFlag)
         	map.showAllIntersectionPaths();
-        
-        
     }
 
     private class AnimationThread extends Thread {
