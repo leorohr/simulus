@@ -5,6 +5,7 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
@@ -64,8 +65,12 @@ public class Car extends Vehicle {
 		setFill(COLOUR);
 		
 		rand = new Random();
-		acceleration = 1.5d;
-		maxSpeed = rand.nextInt(SimulationController.getInstance().getMaxCarSpeed()-2)+3;
+		 
+		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+		//2.32m/s^2; 1m=tilesize/5; 1 tick = 1/10s
+		acceleration = (2.32d * Configuration.tileSize/5)/10;
+		//Any speed within the maxspeed range, at least 10km/h (i.e. 1.111px per tick)
+		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.tileSize/5))/10 -1.111d) + 1.111d;
 		addToCanvas();
 	}
 	

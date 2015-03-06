@@ -567,8 +567,9 @@ public class Map extends Group {
 				break;
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
-				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
-				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1 : speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 	    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
@@ -585,7 +586,8 @@ public class Map extends Group {
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
-				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
@@ -624,7 +626,7 @@ public class Map extends Group {
 		
 		double avg = 0.0d;
 		for(Vehicle v : vehicles)
-			avg += v.getVehicleSpeed()*10; //simulated speed is scaled by factor 10.
+			avg += v.getVehicleSpeed()*(50/Configuration.tileSize)*3.6;
 	
 		return avg/vehicles.size();
 	}

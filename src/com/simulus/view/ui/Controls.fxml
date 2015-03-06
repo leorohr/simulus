@@ -118,11 +118,11 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label text="Max. Car Speed" />
+                                                <Label text="Max. Car Speed (km/h)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider fx:id="maxcarspeedSlider" blockIncrement="1.0" max="13.0" min="3.0" prefHeight="16.0" prefWidth="160.0" value="5.0" />
-                                                      <Label fx:id="maxcarspeedLabel" text="5" />
+                                                      <Slider fx:id="maxcarspeedSlider" blockIncrement="1.0" max="130.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
+                                                      <Label fx:id="maxcarspeedLabel" text="50" />
                                                    </children>
                                                 </HBox>
                                              </children>

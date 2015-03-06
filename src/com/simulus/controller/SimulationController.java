@@ -24,7 +24,7 @@ public class SimulationController {
     private int tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
-    private int maxCarSpeed = 10;
+    private int maxCarSpeed = 50;
     private double carTruckRatio = 0.7d;		//the desired carCount/truckCount-fraction 
     private double recklessNormalRatio = 0.3d; 	//see above
     private int recklessCount = 0;
