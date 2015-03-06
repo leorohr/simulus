@@ -67,7 +67,7 @@
          <children>
             <ChoiceBox id="gridSizeChoiceBox" fx:id="gridSizeChoiceBox" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="81.0" />
             <Label layoutX="10.0" layoutY="6.0" text="Grid Size:" />
-            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="97.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;resources/delete.png&quot;);" text="Clear " />
+            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="97.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;resources/delete.png&quot;);" text="New Map" />
             <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="65.0" prefHeight="25.0" prefWidth="81.0" />
             <Label layoutX="10.0" layoutY="48.0" text="Pre-built Map:" />
             <Button id="validateMapButton" fx:id="validateMapButton" layoutX="10.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/validate.png&quot;);" text="Validate" />
