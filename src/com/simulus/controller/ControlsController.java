@@ -289,7 +289,7 @@ public class ControlsController implements Initializable {
      * Reset all settings to default
      */
     public void resetSettings() {
-    	debugCheckbox.setVisible(false);
+    	debugCheckbox.setSelected(false);
     	carcolorComboBox.getSelectionModel().select(0);
     	truckcolorComboBox.getSelectionModel().select(0);
     	numCarSlider.setValue(25);
