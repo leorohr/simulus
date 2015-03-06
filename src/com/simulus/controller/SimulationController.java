@@ -109,9 +109,6 @@ public class SimulationController {
             	
                 Platform.runLater(() -> map.updateMap());
                 
-                
-
-
                 try {
                     Thread.sleep((long) tickTime);
                 } catch (InterruptedException e) {

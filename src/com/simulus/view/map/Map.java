@@ -111,39 +111,6 @@ public class Map extends Group {
 			}
 		}
 	}
-	
-	private void createHashStyleMap() {
-		// init all tiles
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
-						tileSize, i, p);
-			}
-		}
-
-		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(i, 7, Orientation.WESTEAST));
-			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 18, Orientation.WESTEAST));
-			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 29, Orientation.WESTEAST));
-			addGroup(new Road(29, i, Orientation.NORTHSOUTH));
-		}
-
-		addGroup(new Intersection(7, 7));
-		addGroup(new Intersection(7, 18));
-		addGroup(new Intersection(7, 29));
-
-		addGroup(new Intersection(18, 7));
-		addGroup(new Intersection(18, 18));
-		addGroup(new Intersection(18, 29));
-
-		addGroup(new Intersection(29, 7));
-		addGroup(new Intersection(29, 18));
-		addGroup(new Intersection(29, 29));
-	}
 
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.

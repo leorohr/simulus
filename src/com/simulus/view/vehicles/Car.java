@@ -1,7 +1,5 @@
 package com.simulus.view.vehicles;
 
-import java.util.Random;
-
 import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
