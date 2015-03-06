@@ -21,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import com.simulus.EditorApp;
 import com.simulus.MainApp;
 
 public class RootLayoutController implements Initializable {
@@ -32,7 +33,7 @@ public class RootLayoutController implements Initializable {
     @FXML
     MenuItem openMapMItem;
     @FXML
-    MenuItem saveMapMItem;
+    MenuItem editMapMItem;
     @FXML
     MenuItem closeMItem;
     @FXML
@@ -49,13 +50,11 @@ public class RootLayoutController implements Initializable {
             //TODO launch map editor
         });
 
-        saveMapMItem.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Map...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            fileChooser.setInitialFileName("CustomMap.xml");
-            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
-            //TODO save to selectedFile
+        editMapMItem.setOnAction((event) -> {
+            Stage editorStage = new Stage();
+            EditorApp editor = new EditorApp();
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            editor.start(editorStage);
         });
 
         openMapMItem.setOnAction((event) -> {

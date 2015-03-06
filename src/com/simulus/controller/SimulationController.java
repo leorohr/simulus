@@ -265,6 +265,10 @@ public class SimulationController {
     public void setLastLoadedMap(File mapFile) {
     	lastLoadedMap = mapFile;
     }
+    
+    public File getLastLoadedMap() {
+    	return lastLoadedMap;
+    }
 }
 
 
