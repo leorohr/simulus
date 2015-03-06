@@ -481,7 +481,7 @@ public class Map extends Group {
         toBeRemoved = new ArrayList<Vehicle>();
     	
     	MapXML loader = new MapXML();
-        loader.readXML(mapFile);
+        loader.readXML(mapFile.toPath().toString());
         tiles = loader.getTileGrid();
         
         boolean[][] checked = new boolean[tiles.length][tiles[0].length];
