@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Translate;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
@@ -42,12 +43,12 @@ public class Truck extends Vehicle {
 	
 		setFill(COLOUR);
 		Random rand = new Random();
-		maxSpeed = rand.nextInt(2)+3;
-		
-		//0.4px/tick acceleration equals a real-life acceleration of ~0,62m/s^2, i.e 0-100km/h in 45 secs.
-		acceleration = 0.4d;
-		vehicleSpeed = 0.0d;
-		
+		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+		//0.5m/s^2; 1m=tilesize/5; 1 tick = 1/10s; 0-80
+		acceleration = (0.5d * Configuration.tileSize/5)/10;
+		//Any speed within the maxspeed range, at least 10km/h (i.e. 1.111px per tick)
+		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.tileSize/5))/10 -1.111d) + 1.111d;
+
 		addToCanvas();
 	}
 

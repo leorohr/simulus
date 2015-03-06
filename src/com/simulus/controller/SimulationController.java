@@ -25,14 +25,14 @@ public class SimulationController {
     private double tickTime = 50; //in ms
     private int spawnRate = 5; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
-    private int maxCarSpeed = 10;
+    private int maxCarSpeed = 50;
     private double carTruckRatio = 0.7d;		//the desired carCount/truckCount-fraction 
     private double recklessNormalRatio = 0.3d; 	//see above
     private int recklessCount = 0;
     private int truckCount = 0;
     private int ambulanceCount = 0;
     private boolean debugFlag = false;
-
+    
     private Map map = new Map();
     private File lastLoadedMap;
     private AnimationThread animationThread;
@@ -57,20 +57,28 @@ public class SimulationController {
         
         if(!animationThread.isAlive())
         	animationThread.start();
+    	
     }
 
     public void stopSimulation() {
         animationThread.interrupt();
+        for(Vehicle v: getMap().getVehicles())
+        	 if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
+             	v.getCurrentTransition().pause();
     }
 
     public void resetSimulation(boolean reloadMap) {
     	
-    	if(reloadMap)
-        	map.loadMap(lastLoadedMap);
+    	if(reloadMap) {
+    		map.stopChildThreads();
+	    	map = new Map();
+	    	map.loadMap(lastLoadedMap);
+    	}
     	
     	animationThread.interrupt();
         MainApp.getInstance().resetCanvas();
         MainApp.getInstance().getControlsController().resetCharts();
+        MainApp.getInstance().getControlsController().resetSettings();
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
@@ -110,19 +118,13 @@ public class SimulationController {
                 Platform.runLater(() -> map.updateMap());
                 
                 
-                
-                //TODO
-                for(Vehicle v : map.getVehicles()) {
-                	if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
-                		v.getCurrentTransition().setRate(50/tickTime);
-                }
+
 
                 try {
                     Thread.sleep((long) tickTime);
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    Thread.currentThread().interrupt();   
                 }
-                
                 //Increase tickCount or reset if overflown
                 tickCount = (tickCount == Long.MAX_VALUE ? 0 : tickCount++);
             }
@@ -131,6 +133,10 @@ public class SimulationController {
         public AnimationThread() {
             super("AnimationThread");
         }
+    }
+    
+    public Thread getAnimationThread(){
+    	return animationThread;
     }
 
     /**
@@ -261,6 +267,10 @@ public class SimulationController {
     
     public void setLastLoadedMap(File mapFile) {
     	lastLoadedMap = mapFile;
+    }
+    
+    public File getLastLoadedMap() {
+    	return lastLoadedMap;
     }
 }
 

@@ -35,8 +35,6 @@ import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
-import com.simulus.view.map.Land;
-import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
 
@@ -90,8 +88,6 @@ public class EditorApp extends Application {
 
 		// Synchronized call to access the application's instance
 		synchronized (EditorApp.class) {
-			if (instance != null)
-				throw new UnsupportedOperationException(getClass() + " ");
 			instance = this;
 		}
 	}
@@ -462,10 +458,10 @@ public class EditorApp extends Application {
 
 			// TODO: Delete test block
 //			System.out.println("Tile 0,0 is occupied: " + editorMap.getTiles()[0][0].isOccupied());
-			System.out.println(getTileDetails(0,0));
-			System.out.println(getTileDetails(1,0));
-			System.out.println(getTileDetails(2,0));
-			System.out.println(getTileDetails(3,0));
+//			System.out.println(getTileDetails(0,0));
+//			System.out.println(getTileDetails(1,0));
+//			System.out.println(getTileDetails(2,0));
+//			System.out.println(getTileDetails(3,0));
 			
 			break;
 		case "clearMapButton":
@@ -494,33 +490,10 @@ public class EditorApp extends Application {
 		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 	
-	/*
-	 *  TODO: replace return type with something usable by mouse hover and/or XML
-	 *  		Perhaps the method should take in a Tile rather than compute the information based on XY 
-	 */
-	/**
-	 * Returns details about the given tile 
-	 * 
-	 * @param posX X position of tile in Map array
-	 * @param posY Y position of tile in Map array
-	 * @return details - String listing tile type and attribute
-	 */
-	public String getTileDetails(int posX, int posY) {
-		String attribute = "";
-		Tile t = editorMap.getTiles()[posX][posY];
-		
-		if (t instanceof Lane) {
-			attribute = "This tile "+ posX + " " + posY +" is a lane with " +((Lane) t).getDirection() + " Direction";
-		} else if (t instanceof Land) {
-			attribute = "This tile "+ posX + " " + posY +" is land of type " +((Land) t).getLandType();
-		}
-		return attribute;
-	}
-
-
 	public void loadMap(String fileLocation){
+
 		MapXML mxml = new MapXML();
-		mxml.readXML(new File(fileLocation));
+		mxml.readXML(fileLocation);
 		System.out.println(mxml.toString());
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);
@@ -531,7 +504,7 @@ public class EditorApp extends Application {
 		editorMap.drawMap();
 	}
 
-	public void saveMap(String fileLocation){
+	private void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -540,7 +513,19 @@ public class EditorApp extends Application {
 				ECC.getMapDesc(), ECC.getMapAuthor(), 800, ECC.getGridSize(), mapValidated);
 		
 	}
+	
+	//TODO implment some validation checks based on tiles
+	private void validateMap(){
+		
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		for (int x = 0 ;  x < mapTiles.length; x++) {
+			for(int y = 0; y < mapTiles[x].length; y++) {
 
+				Tile t = this.editorMap.getTiles()[x][y];
+				
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		launch(args);

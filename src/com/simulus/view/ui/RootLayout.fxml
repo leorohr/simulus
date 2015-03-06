@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
+
 <BorderPane minHeight="800.0" minWidth="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.RootLayoutController">
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
@@ -10,7 +13,7 @@
             <items>
                   <MenuItem fx:id="newMapMItem" mnemonicParsing="false" text="New Map" />
                   <MenuItem fx:id="openMapMItem" mnemonicParsing="false" text="Open Map..." />
-                  <MenuItem fx:id="saveMapMItem" mnemonicParsing="false" text="Save Map..." />
+                  <MenuItem fx:id="editMapMItem" mnemonicParsing="false" text="Edit Map..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
               <MenuItem fx:id="closeMItem" mnemonicParsing="false" text="Close" />
             </items>

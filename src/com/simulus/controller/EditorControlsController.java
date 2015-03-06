@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -105,7 +106,30 @@ public class EditorControlsController implements Initializable {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		clearMapButton.setOnAction((event) -> {
-			EditorApp.getInstance().selectButton((Button) event.getSource());
+			
+			final Stage dialog = new Stage();
+	        dialog.initModality(Modality.APPLICATION_MODAL);
+	        dialog.setResizable(false);
+
+	        Label text = new Label("The following action will clear the current map!\n"
+	        		+ "Are you sure?");
+	        Button yesBtn = new Button("Yes");
+	        yesBtn.setOnAction((btnEvent) -> {
+	        	//new map of size grid
+	        	EditorApp.getInstance().selectButton((Button) event.getSource());
+	        	dialog.close();});
+	        Button cancelBtn = new Button("Cancel");
+	        cancelBtn.setOnAction((btnEvent) -> {
+	        	dialog.close();});
+	 
+	        VBox vbox = new VBox();
+	        vbox.setAlignment(Pos.CENTER);
+	        vbox.setSpacing(5.0d);
+	        vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
+	        vbox.getChildren().addAll(text, new HBox(yesBtn, cancelBtn));
+
+	        dialog.setScene(new Scene(vbox));
+	        dialog.show();
 		});
 		
 		gridSizeChoiceBox.getItems().add("40");
@@ -117,29 +141,34 @@ public class EditorControlsController implements Initializable {
 			@Override
 		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
 				final Stage dialog = new Stage();
-	            dialog.initModality(Modality.APPLICATION_MODAL);
-	            dialog.setResizable(false);
+		        dialog.initModality(Modality.APPLICATION_MODAL);
+		        dialog.setResizable(false);
 
-	            Label text = new Label("Are you sure you want to change the GridSize?\n"
-	            		+ "The current map will be lost.");
-	            Button okayBtn = new Button("Okay");
-	            okayBtn.setOnAction((btnEvent) -> dialog.close());
-	            Button cancelBtn = new Button("Cancel");
-	            cancelBtn.setOnAction((btnEvent) -> dialog.close());
-	            
-	            VBox vbox = new VBox();
-	            vbox.setAlignment(Pos.CENTER);
-	            vbox.setSpacing(5.0d);
-	            vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
-	            vbox.getChildren().addAll(text, new HBox(okayBtn, cancelBtn));
+		        Label text = new Label("The following action will clear the current map!\n"
+		        		+ "Are you sure?");
+		        Button yesBtn = new Button("Yes");
+		        yesBtn.setOnAction((btnEvent) -> {
+		        	//new map of size grid
+		        	dialog.close();});
+		        Button cancelBtn = new Button("Cancel");
+		        cancelBtn.setOnAction((btnEvent) -> {
+		        	gridSizeChoiceBox.getSelectionModel().select(num1.intValue());
+		        	dialog.close();});
+		 
+		        VBox vbox = new VBox();
+		        vbox.setAlignment(Pos.CENTER);
+		        vbox.setSpacing(5.0d);
+		        vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
+		        vbox.getChildren().addAll(text, new HBox(yesBtn, cancelBtn));
 
-	            dialog.setScene(new Scene(vbox));
-	            dialog.show();
+		        dialog.setScene(new Scene(vbox));
+		        dialog.show();
 			}
 		});
     
 	}
 	
+
 
 	public void setMapName(String name) {
 	        nameTextField.setText(name);

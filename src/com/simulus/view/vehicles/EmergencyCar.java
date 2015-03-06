@@ -3,6 +3,7 @@ package com.simulus.view.vehicles;
 import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 
@@ -14,9 +15,12 @@ public class EmergencyCar extends Car {
 		super(posX, posY, dir);
 
 		setFill(COLOUR);
-		maxSpeed = SimulationController.getInstance().getMaxCarSpeed();
+		
+		//4.64m/s^2; 1m=tilesize/5; 1 tick = 1/10s
+		acceleration = (4.64 * Configuration.tileSize/5)/10;
+		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+		maxSpeed = speedInMps * (Configuration.tileSize/5)/10;
 		vehicleSpeed = 0;
-		acceleration = 2.0d;
 		setArcHeight(0);
 		setArcWidth(0);
 	}

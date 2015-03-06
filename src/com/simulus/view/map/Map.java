@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import javafx.animation.Animation;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -93,7 +94,7 @@ public class Map extends Group {
 	public void drawMap() {
 		if(MainApp.getInstance() != null)
 			MainApp.getInstance().getCanvas().getChildren().clear();
-		else if(EditorApp.getInstance() != null)
+		 if(EditorApp.getInstance() != null)
 			EditorApp.getInstance().getCanvas().getChildren().clear();
 		
 		for (int i = 0; i < tiles.length; i++) {
@@ -102,11 +103,10 @@ public class Map extends Group {
 				if (MainApp.getInstance() != null) {
 					MainApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
-				} else if (EditorApp.getInstance() != null) {
+				}
+				if (EditorApp.getInstance() != null) {
 					EditorApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
-				} else {
-					System.out.println("No current application instance");
 				}
 			}
 		}
@@ -426,6 +426,10 @@ public class Map extends Group {
 			}
 			
 			updateVehicleColor(v);
+			
+            if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
+            	v.getCurrentTransition().setRate(50/SimulationController.getInstance().getTickTime());
+            
 			v.moveVehicle();
 		}
 	}
@@ -464,60 +468,60 @@ public class Map extends Group {
 		if (g instanceof Intersection)
 			intersections.remove((Intersection) g);
 	}
-	
+
     /**
      * Loads a Map from an XML file.
      * @param mapFile The XML file containing the map-data.
      */
     public void loadMap(File mapFile) {
-    	SimulationController.getInstance().resetSimulation(false);
-    	SimulationController.getInstance().setLastLoadedMap(mapFile);
-        tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
-        entryPoints = new ArrayList<Lane>();
-        intersections = new ArrayList<Intersection>();
-        stopChildThreads();
-        trafficLightThreads = new ArrayList<Thread>();
-        vehicles = new ArrayList<Vehicle>();
-        toBeRemoved = new ArrayList<Vehicle>();
-    	
-    	MapXML loader = new MapXML();
-        loader.readXML(mapFile);
-        tiles = loader.getTileGrid();
-        
-        boolean[][] checked = new boolean[tiles.length][tiles[0].length];
-        for(int i=0; i<tiles.length; i++) {
-        	for(int j=0; j<tiles[0].length; j++) {
-        		//Dont double-check tiles -- mainly for correct detection of intersections.
-        		if(checked[i][j])
-        			continue;
-        		
-        		//Check for entrypoints
-        		if(i==0) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(i == tiles.length-1) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(j == 0) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		} else if(j == tiles.length-1) {
-        			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
-        				entryPoints.add((Lane) tiles[i][j]);
-        		}
-        		
-        		if(tiles[i][j] instanceof IntersectionTile) {
-        			//If an intersection is encountered, create new object and set all related tiles to checked
-        			addGroup(new Intersection(i, j));
-        			for(int m=i; m<i+4; m++) {
-        				for(int n=j; n<j+4; n++) 
-        					checked[m][n] = true;
-        			}
-        		}
-        	}
-        }
-        
-        for(Intersection i: intersections){
+		    	
+		entryPoints = new ArrayList<Lane>();
+		intersections = new ArrayList<Intersection>();
+		stopChildThreads();
+		trafficLightThreads = new ArrayList<Thread>();
+		vehicles = new ArrayList<Vehicle>();
+		toBeRemoved = new ArrayList<Vehicle>();
+	    SimulationController.getInstance().resetSimulation(false);
+		SimulationController.getInstance().setLastLoadedMap(mapFile);
+		
+		MapXML loader = new MapXML();
+	    loader.readXML(mapFile.toPath().toString());
+	    tiles = loader.getTileGrid();
+	    
+	    boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+	    for(int i=0; i<tiles.length; i++) {
+	    	for(int j=0; j<tiles[0].length; j++) {
+	    		//Dont double-check tiles -- mainly for correct detection of intersections.
+	    		if(checked[i][j])
+	    			continue;
+	    		
+	    		//Check for entrypoints
+	    		if(i==0) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(i == tiles.length-1) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(j == 0) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		} else if(j == tiles.length-1) {
+	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
+	    				entryPoints.add((Lane) tiles[i][j]);
+	    		}
+	    		
+	    		if(tiles[i][j] instanceof IntersectionTile) {
+	    			//If an intersection is encountered, create new object and set all related tiles to checked
+	    			addGroup(new Intersection(i, j));
+	    			for(int m=i; m<i+4; m++) {
+	    				for(int n=j; n<j+4; n++) 
+	    					checked[m][n] = true;
+	    			}
+	    		}
+	    	}
+	    }
+	    
+	    for(Intersection i: intersections){
 			i.addTurningPaths(tiles);
 			
 			//If the path has a lane at the end of it, set it to active
@@ -531,8 +535,8 @@ public class Map extends Group {
 			trafficLightThreads.add(t);
 			t.start();
 		}
-        
-        drawMap();
+	    
+	    drawMap();
     }
 
 	/**
@@ -568,8 +572,9 @@ public class Map extends Group {
 				break;
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
-				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
-				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1 : speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 	    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
@@ -586,7 +591,8 @@ public class Map extends Group {
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
-				double speedfraction = v.getVehicleSpeed()/SimulationController.getInstance().getMaxCarSpeed();
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
@@ -625,7 +631,7 @@ public class Map extends Group {
 		
 		double avg = 0.0d;
 		for(Vehicle v : vehicles)
-			avg += v.getVehicleSpeed()*10; //simulated speed is scaled by factor 10.
+			avg += v.getVehicleSpeed()*(50/Configuration.tileSize)*3.6;
 	
 		return avg/vehicles.size();
 	}

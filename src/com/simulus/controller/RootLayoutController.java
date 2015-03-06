@@ -2,6 +2,7 @@ package com.simulus.controller;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -10,7 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -21,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import com.simulus.EditorApp;
 import com.simulus.MainApp;
 
 public class RootLayoutController implements Initializable {
@@ -32,7 +37,7 @@ public class RootLayoutController implements Initializable {
     @FXML
     MenuItem openMapMItem;
     @FXML
-    MenuItem saveMapMItem;
+    MenuItem editMapMItem;
     @FXML
     MenuItem closeMItem;
     @FXML
@@ -46,16 +51,37 @@ public class RootLayoutController implements Initializable {
         closeMItem.setOnAction((event) -> Platform.exit());
 
         newMapMItem.setOnAction((event) ->{
-            //TODO launch map editor
+        	Stage editorStage = new Stage();
+            EditorApp editor = null;
+			try {
+				editor = EditorApp.class.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+            editor.start(editorStage);
         });
 
-        saveMapMItem.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Map...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            fileChooser.setInitialFileName("CustomMap.xml");
-            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
-            //TODO save to selectedFile
+        editMapMItem.setOnAction((event) -> {
+        	
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+        	alert.setTitle("Opening Editor");
+        	alert.setHeaderText("Opening the Editor will close the current simulation.");
+        	alert.setContentText("Continue?");
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if(result.get() != ButtonType.OK)
+        		return;
+        	
+    		Stage editorStage = new Stage();
+            EditorApp editor = null;
+			try {
+				editor = EditorApp.class.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+            editor.start(editorStage);
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            MainApp.getInstance().getPrimaryStage().close();
         });
 
         openMapMItem.setOnAction((event) -> {

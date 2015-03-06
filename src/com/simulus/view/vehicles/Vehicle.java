@@ -426,17 +426,25 @@ public abstract class Vehicle extends Rectangle {
 			public void handle(ActionEvent event) {
 				
 				Vehicle v = null;
-				if(Vehicle.this instanceof Car){
-                v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
-    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
-    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
-				}else {
-					v = new Truck(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
-    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
-    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+				if(SimulationController.getInstance().getAnimationThread().isAlive()){
+					if(Vehicle.this instanceof Car){
+	                v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
+	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
+	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+					}else {
+						v = new Truck(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
+	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
+	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+					}
+	                v.setCurrentTile(p.getEndTile());
+	                p.getEndTile().setOccupied(true, v);
+	                v.setVehicleSpeed(getVehicleSpeed());
+	                v.setBehavior(getBehavior());
+	                v.setFill(getFill());
+	                v.setMap(SimulationController.getInstance().getMap().getTiles());
+	                v.setWaitedCounter(waitedCounter);
+	                SimulationController.getInstance().getMap().getVehicles().add(v);
 				}
-                v.setCurrentTile(p.getEndTile());
-                p.getEndTile().setOccupied(true, v);
 				
                 
                 //Manually unoccupy the final tile leaving the transition, to ensure that paths are cleared
@@ -457,12 +465,8 @@ public abstract class Vehicle extends Rectangle {
 					break;
                 }
                 
-                v.setVehicleSpeed(getVehicleSpeed());
-                v.setBehavior(getBehavior());
-                v.setFill(getFill());
-                v.setMap(SimulationController.getInstance().getMap().getTiles());
-                v.setWaitedCounter(waitedCounter);
-                SimulationController.getInstance().getMap().getVehicles().add(v);
+                
+               
                 SimulationController.getInstance().removeVehicle(Vehicle.this);
 			}
 		});
