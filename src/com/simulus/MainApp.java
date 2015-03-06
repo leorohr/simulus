@@ -1,5 +1,7 @@
 package com.simulus;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -13,6 +15,7 @@ import javafx.stage.WindowEvent;
 
 import com.simulus.controller.ControlsController;
 import com.simulus.controller.SimulationController;
+import com.simulus.util.Configuration;
 
 public class MainApp extends Application {
 
@@ -20,8 +23,6 @@ public class MainApp extends Application {
 	private BorderPane rootLayout;
     private ControlsController controlsController;
 	private Pane canvas;
-	private int canvasWidth = 800;
-	private int canvasHeight = 800;
 	private static MainApp instance;
 
 	public static MainApp getInstance() {
@@ -50,7 +51,9 @@ public class MainApp extends Application {
 		showControls();
 
         SimulationController.init();
-	}
+        //Load default map on startup
+		SimulationController.getInstance().getMap().loadMap(
+				new File(MainApp.class.getResource("/resources/default.xml").getFile()));	}
 
 	/**
 	 * Initialise the root layout
@@ -63,10 +66,11 @@ public class MainApp extends Application {
 					.getResource("view/ui/RootLayout.fxml"));
 			rootLayout = loader.load();
 
-			canvas = new Pane();
-			canvas.setMinSize(canvasWidth, canvasHeight);
-			canvas.setPrefSize(canvasWidth, canvasHeight);
-			canvas.setMaxSize(canvasWidth, canvasHeight);
+			
+			canvas = new Pane();			
+			canvas.setMinSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
+			canvas.setPrefSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
+			canvas.setMaxSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
 			rootLayout.setCenter(canvas);
 
 			Scene scene = new Scene(rootLayout);
@@ -90,7 +94,7 @@ public class MainApp extends Application {
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/ui/Controls.fxml"));
+			loader.setLocation(MainApp.class.getResource("/com/simulus/view/ui/Controls.fxml"));
 			AnchorPane controls = loader.load();
 			rootLayout.setRight(controls);
             controlsController = loader.getController();
@@ -101,9 +105,9 @@ public class MainApp extends Application {
 
     public void resetCanvas() {
         canvas = new Pane();
-        canvas.setMinSize(canvasWidth, canvasHeight);
-        canvas.setPrefSize(canvasWidth, canvasHeight);
-        canvas.setMaxSize(canvasWidth, canvasHeight);
+        canvas.setMinSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
+        canvas.setPrefSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
+        canvas.setMaxSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
         rootLayout.setCenter(canvas);
     }
 

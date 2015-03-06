@@ -66,8 +66,8 @@ public class MapXML {
 
 		try {
 
-			inputXmlFile = new File(inputFile);
-
+			File inputXmlFile = new File(inputFile);
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -188,7 +188,7 @@ public class MapXML {
 									System.out.println(xPos + ":" + yPos + " " + ((Lane) fullGrid[xPos][yPos]).getDirection().toString());
 								break;
 							}
-							break;
+						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);

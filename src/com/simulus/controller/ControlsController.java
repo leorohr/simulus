@@ -219,7 +219,7 @@ public class ControlsController implements Initializable {
 		});
 
         resetButton.setOnAction((event) -> {
-    		simulationController.resetSimulation();
+    		simulationController.resetSimulation(true);
         });
 		
 		debugCheckbox.setOnAction((event) -> {

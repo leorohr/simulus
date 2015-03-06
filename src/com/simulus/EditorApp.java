@@ -494,7 +494,7 @@ public class EditorApp extends Application {
 		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 	
-	private void loadMap(String fileLocation){
+	public void loadMap(String fileLocation){
 
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);

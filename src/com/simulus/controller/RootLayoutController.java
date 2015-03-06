@@ -21,10 +21,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import com.simulus.EditorApp;
 import com.simulus.MainApp;
-import com.simulus.io.MapXML;
-import com.simulus.view.Tile;
-import com.simulus.view.map.Map;
 
 public class RootLayoutController implements Initializable {
 
@@ -35,7 +33,7 @@ public class RootLayoutController implements Initializable {
     @FXML
     MenuItem openMapMItem;
     @FXML
-    MenuItem saveMapMItem;
+    MenuItem editMapMItem;
     @FXML
     MenuItem closeMItem;
     @FXML
@@ -52,13 +50,11 @@ public class RootLayoutController implements Initializable {
             //TODO launch map editor
         });
 
-        saveMapMItem.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Save Map...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            fileChooser.setInitialFileName("CustomMap.xml");
-            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
-            //TODO save to selectedFile
+        editMapMItem.setOnAction((event) -> {
+            Stage editorStage = new Stage();
+            EditorApp editor = new EditorApp();
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            editor.start(editorStage);
         });
 
         openMapMItem.setOnAction((event) -> {
@@ -67,14 +63,7 @@ public class RootLayoutController implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
             fileChooser.setInitialFileName("CustomMap.xml");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
-            
-            
-            //TODO open xml file
-            MapXML loader = new MapXML();
-            loader.readXML(selectedFile.toPath().toString());
-            Tile[][] tiles = loader.getTileGrid();
-            SimulationController.getInstance().setMap(new Map(tiles));
-            
+            SimulationController.getInstance().getMap().loadMap(selectedFile);            
         });
 
 
