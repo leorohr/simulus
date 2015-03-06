@@ -2,14 +2,14 @@
 <!--Team Simulus Traffic Simulator Map File--><map>
   <map_details>
     <name>hash</name>
-    <date>05.03.15</date>
+    <date>2015/03/06 17:42:17</date>
     <description/>
     <author/>
   </map_details>
   <map_specs>
     <canvas_size>800</canvas_size>
     <number_of_tiles>40</number_of_tiles>
-    <validated>true</validated>
+    <validated>false</validated>
   </map_specs>
   <grid>
     <tile>
@@ -743,8 +743,8 @@
     <tile>
       <x>24</x>
       <y>02</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
@@ -1023,15 +1023,15 @@
     <tile>
       <x>24</x>
       <y>03</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
       <x>25</x>
       <y>03</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
@@ -1303,15 +1303,15 @@
     <tile>
       <x>24</x>
       <y>04</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
       <x>25</x>
       <y>04</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
@@ -1590,8 +1590,8 @@
     <tile>
       <x>25</x>
       <y>05</y>
-      <type/>
-      <attribute/>
+      <type>land</type>
+      <attribute>GRASS</attribute>
       <attribute2/>
     </tile>
     <tile>
