@@ -2,6 +2,7 @@ package com.simulus.controller;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -10,7 +11,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -21,14 +25,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import org.controlsfx.control.action.Action;
-import org.controlsfx.dialog.Dialog;
-import org.controlsfx.dialog.Dialogs;
-
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 
-@SuppressWarnings("deprecation")
 public class RootLayoutController implements Initializable {
 
     @FXML
@@ -64,18 +63,15 @@ public class RootLayoutController implements Initializable {
 
         editMapMItem.setOnAction((event) -> {
         	
-        	Action response = Dialogs.create()
-        			.owner(MainApp.getInstance().getPrimaryStage())
-        			.title("Opening Editor")
-        			.masthead("Opening the Editor will close the current simulation.")
-        			.message("Continue?")
-        			.actions(Dialog.ACTION_OK, Dialog.ACTION_CANCEL)
-        			.showConfirm();
-        	
-        	if(response != Dialog.ACTION_OK) {
-        		
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+        	alert.setTitle("Opening Editor");
+        	alert.setHeaderText("Opening the Editor will close the current simulation.");
+        	alert.setContentText("Continue?");
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if(result.get() != ButtonType.OK)
         		return;
-        	}
+        	
     		Stage editorStage = new Stage();
             EditorApp editor = null;
 			try {
@@ -85,7 +81,6 @@ public class RootLayoutController implements Initializable {
 			}
             editor.start(editorStage);
             editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
-            
             MainApp.getInstance().getPrimaryStage().close();
         });
 
