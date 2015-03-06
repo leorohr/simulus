@@ -93,7 +93,7 @@ public class Map extends Group {
 	public void drawMap() {
 		if(MainApp.getInstance() != null)
 			MainApp.getInstance().getCanvas().getChildren().clear();
-		else if(EditorApp.getInstance() != null)
+		 if(EditorApp.getInstance() != null)
 			EditorApp.getInstance().getCanvas().getChildren().clear();
 		
 		for (int i = 0; i < tiles.length; i++) {
@@ -102,11 +102,10 @@ public class Map extends Group {
 				if (MainApp.getInstance() != null) {
 					MainApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
-				} else if (EditorApp.getInstance() != null) {
+				}
+				if (EditorApp.getInstance() != null) {
 					EditorApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
-				} else {
-					System.out.println("No current application instance");
 				}
 			}
 		}

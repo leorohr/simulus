@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="lib/JemmyCore.jar"/>
 	<classpathentry kind="lib" path="lib/JemmyFX.jar"/>
 	<classpathentry kind="lib" path="lib/ScenicView.jar"/>
+	<classpathentry kind="lib" path="lib/controlsfx-8.20.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

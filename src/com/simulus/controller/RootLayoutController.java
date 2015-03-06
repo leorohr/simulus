@@ -21,9 +21,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.controlsfx.control.action.Action;
+import org.controlsfx.dialog.Dialog;
+import org.controlsfx.dialog.Dialogs;
+
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 
+@SuppressWarnings("deprecation")
 public class RootLayoutController implements Initializable {
 
     @FXML
@@ -47,14 +52,41 @@ public class RootLayoutController implements Initializable {
         closeMItem.setOnAction((event) -> Platform.exit());
 
         newMapMItem.setOnAction((event) ->{
-            //TODO launch map editor
+        	Stage editorStage = new Stage();
+            EditorApp editor = null;
+			try {
+				editor = EditorApp.class.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+            editor.start(editorStage);
         });
 
         editMapMItem.setOnAction((event) -> {
-            Stage editorStage = new Stage();
-            EditorApp editor = new EditorApp();
-            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+        	
+        	Action response = Dialogs.create()
+        			.owner(MainApp.getInstance().getPrimaryStage())
+        			.title("Opening Editor")
+        			.masthead("Opening the Editor will close the current simulation.")
+        			.message("Continue?")
+        			.actions(Dialog.ACTION_OK, Dialog.ACTION_CANCEL)
+        			.showConfirm();
+        	
+        	if(response != Dialog.ACTION_OK) {
+        		
+        		return;
+        	}
+    		Stage editorStage = new Stage();
+            EditorApp editor = null;
+			try {
+				editor = EditorApp.class.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
             editor.start(editorStage);
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            
+            MainApp.getInstance().getPrimaryStage().close();
         });
 
         openMapMItem.setOnAction((event) -> {

@@ -35,8 +35,6 @@ import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
-import com.simulus.view.map.Land;
-import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
 
@@ -90,8 +88,6 @@ public class EditorApp extends Application {
 
 		// Synchronized call to access the application's instance
 		synchronized (EditorApp.class) {
-			if (instance != null)
-				throw new UnsupportedOperationException(getClass() + " ");
 			instance = this;
 		}
 	}
