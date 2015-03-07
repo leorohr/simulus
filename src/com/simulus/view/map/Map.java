@@ -8,8 +8,12 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.scene.Group;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
@@ -309,7 +313,15 @@ public class Map extends Group {
 
 	public void setRedTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(true);
-        tiles[tileX][tileY].getFrame().setFill(Color.RED);
+		
+		RadialGradient gradient = new RadialGradient(0d, 0d, 0.5d, 0.5d, 1d, true, CycleMethod.REFLECT, new Stop[] {
+                new Stop(0d, Color.RED),
+                new Stop(1d, Color.BLACK)
+            });
+		GaussianBlur blur = new GaussianBlur(5d);
+		
+        tiles[tileX][tileY].getFrame().setEffect(blur);
+        tiles[tileX][tileY].getFrame().setFill(gradient);        
 	}
 	
 	public void setGreenTrafficLight(int tileX, int tileY){
