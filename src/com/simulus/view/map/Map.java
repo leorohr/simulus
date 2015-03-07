@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
@@ -91,23 +93,13 @@ public class Map extends Group {
 	/**
 	 * Draws the current state of the map on either the editor's or the mainApp's canvas.
 	 */
-	public void drawMap() {
-		if(MainApp.getInstance() != null)
-			MainApp.getInstance().getCanvas().getChildren().clear();
-		 if(EditorApp.getInstance() != null)
-			EditorApp.getInstance().getCanvas().getChildren().clear();
+	public void drawMap(Pane canvasPane) {
+		
+		canvasPane.getChildren().clear();
 		
 		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
-
-				if (MainApp.getInstance() != null) {
-					MainApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
-				}
-				else if (EditorApp.getInstance() != null) {
-					EditorApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
-				}
+			for (int p = 0; p < tiles.length; p++) {				
+				canvasPane.getChildren().add(tiles[i][p]);
 			}
 		}
 	}
@@ -470,7 +462,7 @@ public class Map extends Group {
 	}
 
     /**
-     * Loads a Map from an XML file.
+     * Loads a Map from an XML file and draws it onto the MainApp's canvas
      * @param mapFile The XML file containing the map-data.
      */
     public void loadMap(File mapFile) {
@@ -536,7 +528,7 @@ public class Map extends Group {
 			t.start();
 		}
 	    
-	    drawMap();
+	    drawMap(MainApp.getInstance().getCanvas());
     }
 
 	/**
