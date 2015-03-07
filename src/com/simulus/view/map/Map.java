@@ -104,7 +104,7 @@ public class Map extends Group {
 					MainApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
 				}
-				if (EditorApp.getInstance() != null) {
+				else if (EditorApp.getInstance() != null) {
 					EditorApp.getInstance().getCanvas().getChildren()
 							.add(tiles[i][p]);
 				}

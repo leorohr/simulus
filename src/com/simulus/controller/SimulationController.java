@@ -47,7 +47,6 @@ public class SimulationController {
     }
 
     private SimulationController() {
-
         animationThread = new AnimationThread();
     }
 

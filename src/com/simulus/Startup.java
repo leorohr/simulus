@@ -27,7 +27,7 @@ public class Startup extends Application {
 		Button simBtn = new Button("Simulator");
 		simBtn.setPrefSize(100.0d, 50.0d);
 		simBtn.setOnAction((event) -> {
-			MainApp app = new MainApp();
+			MainApp app = MainApp.getInstance();
 			app.start(primaryStage);
 		});
 		

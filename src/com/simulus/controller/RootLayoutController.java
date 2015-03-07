@@ -72,16 +72,17 @@ public class RootLayoutController implements Initializable {
         	if(result.get() != ButtonType.OK)
         		return;
         	
-    		Stage editorStage = new Stage();
-            EditorApp editor = null;
-			try {
-				editor = EditorApp.class.newInstance();
+    		Stage editorStage = new Stage();			
+			EditorApp editor = new EditorApp();
+            editor.start(editorStage);
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            
+            try {
+				MainApp.getInstance().getPrimaryStage().close();
+				MainApp.getInstance().stop();	
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-            editor.start(editorStage);
-            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
-            MainApp.getInstance().getPrimaryStage().close();
         });
 
         openMapMItem.setOnAction((event) -> {
