@@ -24,7 +24,7 @@ import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
 
 
-public class TestCase2 extends TestCaseBase  {
+public class TestCase2 extends TestCaseBaseCode  {
 
 	private boolean test1Pass;
 	private	boolean test2Pass;
@@ -59,17 +59,7 @@ public class TestCase2 extends TestCaseBase  {
 		Thread.sleep(3000);
 	}
 
-	public void isTestPassed(boolean status, Integer testScenario){
 
-		if(status == false){
-			writeToLog("Test scenario " + testScenario + " passed: " + status);
-			writeToLog("Test scenario " + testScenario + " Failed.");
-			fail("Test Scenario: " + testScenario + " Failed! ");
-		}
-		else{
-			writeToLog("Test scenario " + testScenario + " passed: " + status);
-		}
-	}
 
 	@Test 
 	public void test0() {

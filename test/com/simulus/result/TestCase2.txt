@@ -16,11 +16,3 @@ Test 1 completed!
  
 Test scenario 1 passed: true
  
-Initialising Test2...
- 
- Trucks detected on Map: true
- 
-Test 2 completed!
- 
-Test scenario 2 passed: true
- 
