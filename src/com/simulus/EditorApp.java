@@ -77,6 +77,9 @@ public class EditorApp extends Application {
 	
 	
 	private Tile hoverTile;
+	int xFixed;
+	int yFixed;
+	boolean firstDrag = true;
 
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
@@ -133,9 +136,8 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
-							
 
-							
+
 							if (grassSelected) {
 								if (event.isShiftDown()){
 									fillEmptyTiles("grass");
@@ -196,7 +198,11 @@ public class EditorApp extends Application {
 		});
 		
 
-
+		scene.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				firstDrag = true;
+			}});
 		
 		/*
 		 * Drag to draw for Land and road tiles
@@ -204,6 +210,7 @@ public class EditorApp extends Application {
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+			
 				
 				for (int i = 0; i < editorMap.getTiles().length; i++) {
 					for (int p = 0; p < editorMap.getTiles()[0].length; p++) {
@@ -244,18 +251,28 @@ public class EditorApp extends Application {
 //												.getGridPosY(), Seed.NORTHSOUTH));
 								
 							}else if (roadVerticalSelected) {
+								if(firstDrag == true){
+									xFixed = i;
+									firstDrag = false;}
+									else{}
 //								System.out.println("Adding road at "
 //										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
+										.getTiles()[xFixed][p].getGridPosX(),
+										editorMap.getTiles()[xFixed][p]
 												.getGridPosY(), Orientation.NORTHSOUTH));
+							//	System.out.println(i + ":" + p + " - " + xFixed);
+								
 							} else if (roadHorizontalSelected) {
+								if(firstDrag == true){
+									yFixed = p;
+									firstDrag = false;}
+									else{}
 //								System.out.println("Adding road at "
 //										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
+										.getTiles()[i][yFixed].getGridPosX(),
+										editorMap.getTiles()[i][yFixed]
 												.getGridPosY(), Orientation.WESTEAST));
 							}
 						}
@@ -384,6 +401,7 @@ public class EditorApp extends Application {
 	}
 
 	public void selectButton(Button b) {
+
 		switch (b.getId()) {
 		case "grassButton":
 			grassSelected = true;

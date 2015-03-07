@@ -34,7 +34,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-              <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with..." /></tooltip>
+              <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with grass" /></tooltip>
                </Button>
             <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="10.0" layoutY="127.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
@@ -50,7 +50,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with..." /></tooltip>
+               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with dirt" /></tooltip>
                </Button>
             <Button id="blockButton" fx:id="blockButton" layoutX="10.0" layoutY="62.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/block.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
                <opaqueInsets>
@@ -65,7 +65,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
-               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with..." /></tooltip>
+               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with city" /></tooltip>
             </Button>
          </children>
       </Pane>
