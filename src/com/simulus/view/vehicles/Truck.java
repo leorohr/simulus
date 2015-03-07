@@ -117,7 +117,7 @@ public class Truck extends Vehicle {
 			if (nextTile.isOccupied()) {
 				tempDir = Direction.NONE;
 			} else if(nextTile instanceof IntersectionTile) { 
-				if(currentTile instanceof Lane && Math.random()>0.6) {
+				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
 				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
