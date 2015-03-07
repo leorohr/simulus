@@ -261,6 +261,10 @@ public class SimulationController {
     public File getLastLoadedMap() {
     	return lastLoadedMap;
     }
+    
+    public void incTruckCount() {
+    	truckCount++;
+    }
 }
 
 
