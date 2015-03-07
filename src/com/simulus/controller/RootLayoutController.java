@@ -1,7 +1,15 @@
 package com.simulus.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -27,6 +35,9 @@ import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
+import com.simulus.io.FileIO;
+import com.simulus.io.MapXML;
+import com.simulus.util.Configuration;
 
 public class RootLayoutController implements Initializable {
 
@@ -38,6 +49,8 @@ public class RootLayoutController implements Initializable {
     MenuItem openMapMItem;
     @FXML
     MenuItem editMapMItem;
+    @FXML 
+    MenuItem exportStatsMItem;
     @FXML
     MenuItem closeMItem;
     @FXML
@@ -93,6 +106,24 @@ public class RootLayoutController implements Initializable {
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             SimulationController.getInstance().getMap().loadMap(selectedFile);            
         });
+        
+        exportStatsMItem.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Map XML...");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV File (*.csv)", "*.csv"));
+            fileChooser.setInitialFileName("simStatExport.csv");
+            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
+            File sourceFile = Configuration.tempStatsCsv;
+
+    		
+    			try {
+    				FileIO fio = new FileIO();
+					fio.copyFile(sourceFile, selectedFile);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+    		
+        });
 
 
         aboutMItem.setOnAction((event) -> {
@@ -117,5 +148,6 @@ public class RootLayoutController implements Initializable {
             dialog.show();
         });
 	}
+	
 
 }

@@ -15,6 +15,7 @@
                   <MenuItem fx:id="openMapMItem" mnemonicParsing="false" text="Open Map..." />
                   <MenuItem fx:id="editMapMItem" mnemonicParsing="false" text="Edit Map..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="exportStatsMItem" mnemonicParsing="false" text="Export Statistics..." />
               <MenuItem fx:id="closeMItem" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
