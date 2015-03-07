@@ -31,10 +31,13 @@ import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
+import com.simulus.view.map.Land;
+import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
 
@@ -119,6 +122,7 @@ public class EditorApp extends Application {
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
 							if (grassSelected) {
+								fillEmptyTiles();
 								editorMap.addSingle(new 
 										Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (dirtSelected) {
@@ -170,6 +174,7 @@ public class EditorApp extends Application {
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+				
 				for (int i = 0; i < editorMap.getTiles().length; i++) {
 					for (int p = 0; p < editorMap.getTiles()[0].length; p++) {
 						if (event.getSceneX() > editorMap.getTiles()[i][p]
@@ -180,41 +185,44 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
+							
+						
 
 							if (grassSelected) {
-								System.out.println("Adding grass at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding grass at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (dirtSelected) {
-								System.out.println("Adding dirt at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding dirt at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (citySelected) {
-								System.out.println("Adding city at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding city at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							}else if (blockSelected) {
-								System.out.println("Adding block at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding block at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							}else if (eraserSelected) {
 								// TODO implement remove properly
-								System.out.println("Removing at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Removing at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.removeSingle(editorMap.getTiles()[i][p]);
 //								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
 //										.getGridPosX(), editorMap.getTiles()[i][p]
 //												.getGridPosY(), Seed.NORTHSOUTH));
+								
 							}else if (roadVerticalSelected) {
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding road at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
 										.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p]
 												.getGridPosY(), Orientation.NORTHSOUTH));
 							} else if (roadHorizontalSelected) {
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding road at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
 										.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p]
@@ -228,7 +236,6 @@ public class EditorApp extends Application {
 		});
 		
 	
-		
 		
 		/**
 		 * Mouse hover for each tile in the EditorMap
@@ -245,7 +252,7 @@ public class EditorApp extends Application {
 					@Override
 					public void handle(MouseEvent event) {
 						hoverTile = t;
-						System.out.println(t.toString());
+						//System.out.println(t.toString());
 						t.setMouseTransparent(true);
 						ghostDraw(t);
 						
@@ -441,10 +448,8 @@ public class EditorApp extends Application {
 			break;
 		case "saveMapButton":
 			saveMapDialog();
-			
 			break;
 		case "clearMapButton":
-			System.out.println("Clicked Clear Map Button");
 			this.editorMap = new Map();
 			break;
 		default:
@@ -457,6 +462,7 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Save Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName(ECC.getMapName() + ".xml");
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());
@@ -532,8 +538,25 @@ public class EditorApp extends Application {
 		launch(args);
 	}
 	
+	private void fillEmptyTiles(){
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		for (int x = 0 ;  x < mapTiles.length; x++) {
+			for(int y = 0; y < mapTiles[x].length; y++) {
+
+				Tile t = this.editorMap.getTiles()[x][y];
+				if (t instanceof Lane || t instanceof Land || t instanceof IntersectionTile){
+					
+				}else{
+					editorMap.addSingle(new Grass(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+				}
+				
+			}
+		}
+	}
+	
     public Stage getPrimaryStage() {
         return editorStage;
     }
+
     
 }

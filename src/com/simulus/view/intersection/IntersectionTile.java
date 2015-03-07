@@ -19,7 +19,7 @@ public class IntersectionTile extends Tile {
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		frame.setFill(new ImagePattern((ResourceBuilder.getBoxjunctionTexture())));
 		
-		frame.setFill(Color.BLACK);
+		//frame.setFill(Color.BLACK);
 		turningPaths = new ArrayList<>();
 	}
 	

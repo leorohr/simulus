@@ -284,9 +284,6 @@ public class MapXML {
 					String tileAttribute2 = "";
 					Tile t = gridIn[c][r];
 					
-					//System.out.println(tileType);
-					
-					//intersection output needed
 					if (t instanceof Lane) {
 						tileType = "lane";
 						tileAttribute = ((Lane) t).getDirection().toString();
