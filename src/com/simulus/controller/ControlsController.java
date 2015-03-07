@@ -29,8 +29,6 @@ public class ControlsController implements Initializable {
 
 	@FXML
 	Button startButton;
-	@FXML
-	Button stopButton;
     @FXML
     Button resetButton;
 	@FXML
@@ -212,10 +210,6 @@ public class ControlsController implements Initializable {
 		//Initialise Buttons
 		startButton.setOnAction((event) -> {
 			simulationController.startSimulation();
-		});
-		
-		stopButton.setOnAction((event) -> {
-			simulationController.stopSimulation();
 		});
 
         resetButton.setOnAction((event) -> {

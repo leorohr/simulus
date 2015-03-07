@@ -1,0 +1,22 @@
+FX App thread started 
+
+Initialising Test1...
+ 
+Start Button Detected 
+
+Start Button Clicked: true
+
+Test 1 completed!
+ 
+Initialising Test2...
+ 
+ Truck is on Map: true
+ 
+Test 2 completed!
+ 
+Initialising Test3...
+ 
+ Car is on Map: true
+ 
+Test 3 completed!
+ 

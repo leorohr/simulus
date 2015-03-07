@@ -2,7 +2,6 @@ package com.simulus.controller;
 
 import java.io.File;
 
-import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 
@@ -60,13 +59,6 @@ public class SimulationController {
     	
     }
 
-    public void stopSimulation() {
-        animationThread.interrupt();
-        for(Vehicle v: getMap().getVehicles())
-        	 if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
-             	v.getCurrentTransition().pause();
-    }
-
     public void resetSimulation(boolean reloadMap) {
     	
     	if(reloadMap) {
@@ -117,9 +109,6 @@ public class SimulationController {
             	
                 Platform.runLater(() -> map.updateMap());
                 
-                
-
-
                 try {
                     Thread.sleep((long) tickTime);
                 } catch (InterruptedException e) {
@@ -271,6 +260,10 @@ public class SimulationController {
     
     public File getLastLoadedMap() {
     	return lastLoadedMap;
+    }
+    
+    public void incTruckCount() {
+    	truckCount++;
     }
 }
 

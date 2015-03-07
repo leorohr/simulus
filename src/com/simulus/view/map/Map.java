@@ -8,8 +8,12 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.scene.Group;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
@@ -110,39 +114,6 @@ public class Map extends Group {
 				}
 			}
 		}
-	}
-	
-	private void createHashStyleMap() {
-		// init all tiles
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
-						tileSize, i, p);
-			}
-		}
-
-		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(i, 7, Orientation.WESTEAST));
-			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 18, Orientation.WESTEAST));
-			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 29, Orientation.WESTEAST));
-			addGroup(new Road(29, i, Orientation.NORTHSOUTH));
-		}
-
-		addGroup(new Intersection(7, 7));
-		addGroup(new Intersection(7, 18));
-		addGroup(new Intersection(7, 29));
-
-		addGroup(new Intersection(18, 7));
-		addGroup(new Intersection(18, 18));
-		addGroup(new Intersection(18, 29));
-
-		addGroup(new Intersection(29, 7));
-		addGroup(new Intersection(29, 18));
-		addGroup(new Intersection(29, 29));
 	}
 
 	/**
@@ -342,7 +313,15 @@ public class Map extends Group {
 
 	public void setRedTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(true);
-        tiles[tileX][tileY].getFrame().setFill(Color.RED);
+		
+		RadialGradient gradient = new RadialGradient(0d, 0d, 0.5d, 0.5d, 1d, true, CycleMethod.REFLECT, new Stop[] {
+                new Stop(0d, Color.RED),
+                new Stop(1d, Color.BLACK)
+            });
+		GaussianBlur blur = new GaussianBlur(5d);
+		
+        tiles[tileX][tileY].getFrame().setEffect(blur);
+        tiles[tileX][tileY].getFrame().setFill(gradient);        
 	}
 	
 	public void setGreenTrafficLight(int tileX, int tileY){

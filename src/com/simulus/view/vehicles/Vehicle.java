@@ -404,15 +404,7 @@ public abstract class Vehicle extends Rectangle {
 		pathTransition = new PathTransition(Duration.millis(duration), p, this);
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setOrientation(OrientationType.NONE);
-        pathTransition.setOnFinished(new EventHandler<ActionEvent>(){
- 
-            @Override
-            public void handle(ActionEvent arg0) {
-                
-                //TODO ??
-            }
-        });
-       
+
         transition = new ParallelTransition(this, rt, pathTransition);
         transition.setOnFinished(new EventHandler<ActionEvent>() {
 			
@@ -429,6 +421,8 @@ public abstract class Vehicle extends Rectangle {
 						v = new Truck(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
 	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
 	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
+						//the truck count is reduced when the truck is removed later on
+						SimulationController.getInstance().incTruckCount(); 
 					}
 	                v.setCurrentTile(p.getEndTile());
 	                p.getEndTile().setOccupied(true, v);
@@ -438,6 +432,8 @@ public abstract class Vehicle extends Rectangle {
 	                v.setMap(SimulationController.getInstance().getMap().getTiles());
 	                v.setWaitedCounter(waitedCounter);
 	                SimulationController.getInstance().getMap().getVehicles().add(v);
+	                
+
 				}
 				
                 

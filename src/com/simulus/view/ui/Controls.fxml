@@ -23,7 +23,6 @@
                               <HBox spacing="10.0">
                                  <children>
                                     <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
-                                    <Button fx:id="stopButton" mnemonicParsing="false" text="Stop" />
                                     <Button fx:id="resetButton" mnemonicParsing="false" text="Reset" />
                                  </children>
                               </HBox>
