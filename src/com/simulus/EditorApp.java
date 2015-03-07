@@ -118,7 +118,7 @@ public class EditorApp extends Application {
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
-			
+
 			@Override
 			public void handle(MouseEvent event) {
 				for (int i = 0; i < editorMap.getTiles().length; i++)
@@ -133,6 +133,12 @@ public class EditorApp extends Application {
 														.getBoundsInParent().getMaxY()) {
 
 
+							Tile t = editorMap.getTiles()[i][p];
+							
+							if (t instanceof Lane || t instanceof IntersectionTile){
+								
+							} else{
+					
 							if (grassSelected) {
 								if (event.isShiftDown()){
 									fillEmptyTiles("grass");
@@ -154,18 +160,7 @@ public class EditorApp extends Application {
 								editorMap.addSingle(new 
 										City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								}
-							}else if (blockSelected) {
-								// TODO: Blockage
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-								//editorMap.getTiles()[i][p].setOccupied(true);
-							} else if (eraserSelected) {
-								// TODO implement remove properly
-								// Single Tile
-								editorMap.removeSingle(editorMap.getTiles()[i][p]);
-								// Group of tiles
-//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
-							} else if (interSelected) {
+							}else if (interSelected) {
 								// TODO : Remove group before add new
 								editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p].getGridPosY()));
@@ -183,10 +178,23 @@ public class EditorApp extends Application {
 								editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));
 							}
-							
-						}
 						
+							}
+							
+							 if (eraserSelected) {
 
+								// TODO implement remove properly
+								// Single Tile
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+								// Group of tiles
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+							 }else if (blockSelected && t instanceof Lane) {
+									// TODO: Blockage
+									editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+									//editorMap.getTiles()[i][p].setOccupied(true);
+								} 
+						}
 
 					}
 			}
@@ -219,6 +227,11 @@ public class EditorApp extends Application {
 														.getBoundsInParent().getMaxY()) {
 							
 
+							Tile t = editorMap.getTiles()[i][p];
+							
+							if (t instanceof Lane || t instanceof IntersectionTile){
+								
+							} else{
 
 							if (grassSelected) {
 //								System.out.println("Adding grass at "
@@ -232,19 +245,6 @@ public class EditorApp extends Application {
 //								System.out.println("Adding city at "
 //										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-							}else if (blockSelected) {
-//								System.out.println("Adding block at "
-//										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-							}else if (eraserSelected) {
-								// TODO implement remove properly
-//								System.out.println("Removing at "
-//										+ editorMap.getTiles()[i][p].toString());
-								editorMap.removeSingle(editorMap.getTiles()[i][p]);
-//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-//										.getGridPosX(), editorMap.getTiles()[i][p]
-//												.getGridPosY(), Seed.NORTHSOUTH));
-								
 							}else if (roadVerticalSelected) {
 								if(firstDrag == true){
 									xFixed = i;
@@ -270,6 +270,22 @@ public class EditorApp extends Application {
 										editorMap.getTiles()[i][yFixed]
 												.getGridPosY(), Orientation.WESTEAST));
 							}
+							
+							}
+							
+							 if (eraserSelected) {
+
+								// TODO implement remove properly
+								// Single Tile
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+								// Group of tiles
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+							 }else if (blockSelected && t instanceof Lane) {
+									// TODO: Blockage
+									editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+									//editorMap.getTiles()[i][p].setOccupied(true);
+								} 
 						}
 					}
 				}
