@@ -20,7 +20,7 @@ public class LaunchApp {
 		appThread = new Thread("JavaFX Init Thread") {
 			public void run() {
 
-				Application.launch(MainApp.class, new String[0]);
+				Application.launch(Startup.class, new String[0]);
 			}
 		};
 

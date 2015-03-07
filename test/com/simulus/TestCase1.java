@@ -112,6 +112,7 @@ public class TestCase1 {
 
 				writeToLog("Initialising Test1...");
 
+				runClickButtonThread("");
 				runClickButtonThread("Start"); 
 				checkThreadStatus("animationThread");
 
