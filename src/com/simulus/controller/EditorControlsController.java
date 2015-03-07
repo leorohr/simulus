@@ -1,11 +1,15 @@
 package com.simulus.controller;
 
+import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -16,14 +20,19 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
+import com.simulus.MainApp;
 
 public class EditorControlsController implements Initializable {
 
@@ -136,11 +145,13 @@ public class EditorControlsController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
             
 		});
 		
 		simulateButton.setOnAction((event) -> {
 			
+			//validate map then save and open simulator
             EditorApp.getInstance().getPrimaryStage().close();
 
 		});
@@ -150,36 +161,39 @@ public class EditorControlsController implements Initializable {
 		gridSizeChoiceBox.getItems().add("80");
 		gridSizeChoiceBox.getSelectionModel().select(0);
 
-		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-			@Override
-		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
-				final Stage dialog = new Stage();
-		        dialog.initModality(Modality.APPLICATION_MODAL);
-		        dialog.setResizable(false);
-
-		        Label text = new Label("The following action will clear the current map!\n"
-		        		+ "Are you sure?");
-		        Button yesBtn = new Button("Yes");
-		        yesBtn.setOnAction((btnEvent) -> {
-		        	//new map of size grid
-		        	dialog.close();});
-		        Button cancelBtn = new Button("Cancel");
-		        cancelBtn.setOnAction((btnEvent) -> {
-		        	gridSizeChoiceBox.getSelectionModel().select(num1.intValue());
-		        	dialog.close();});
-		 
-		        VBox vbox = new VBox();
-		        vbox.setAlignment(Pos.CENTER);
-		        vbox.setSpacing(5.0d);
-		        vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
-		        vbox.getChildren().addAll(text, new HBox(yesBtn, cancelBtn));
-
-		        dialog.setScene(new Scene(vbox));
-		        dialog.show();
-			}
-		});
+//		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+//			@Override
+//		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
+//				final Stage dialog = new Stage();
+//		        dialog.initModality(Modality.APPLICATION_MODAL);
+//		        dialog.setResizable(false);
+//
+//		        Label text = new Label("The following action will clear the current map!\n"
+//		        		+ "Are you sure?");
+//		        Button yesBtn = new Button("Yes");
+//		        yesBtn.setOnAction((btnEvent) -> {
+//		        	//new map of size grid
+//		        	dialog.close();});
+//		        Button cancelBtn = new Button("Cancel");
+//		        cancelBtn.setOnAction((btnEvent) -> {
+//		        	gridSizeChoiceBox.getSelectionModel().select(num1.intValue());
+//		        	dialog.close();});
+//		 
+//		        VBox vbox = new VBox();
+//		        vbox.setAlignment(Pos.CENTER);
+//		        vbox.setSpacing(5.0d);
+//		        vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
+//		        vbox.getChildren().addAll(text, new HBox(yesBtn, cancelBtn));
+//
+//		        dialog.setScene(new Scene(vbox));
+//		        dialog.show();
+//			}
+//		});
+		
     
 	}
+	
+	
 	
 	public void setMapName(String name) {
 	        nameTextField.setText(name);
@@ -233,6 +247,7 @@ public class EditorControlsController implements Initializable {
 		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
 		
 	}
+	
 
 	
 

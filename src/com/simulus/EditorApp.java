@@ -9,12 +9,17 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -94,6 +99,8 @@ public class EditorApp extends Application {
 			instance = this;
 		}
 	}
+	
+	
 
 	@Override
 	public void start(final Stage editorStage) {
@@ -107,8 +114,13 @@ public class EditorApp extends Application {
 		showControls();
 		
 		this.editorMap = new Map();
+		
+
+		
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
+			
 			@Override
 			public void handle(MouseEvent event) {
 				for (int i = 0; i < editorMap.getTiles().length; i++)
@@ -121,16 +133,30 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
+							
+
+							
 							if (grassSelected) {
-								fillEmptyTiles();
-								editorMap.addSingle(new 
-										Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								if (event.isShiftDown()){
+									fillEmptyTiles("grass");
+								}else{
+									editorMap.addSingle(new 
+											Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								}
 							} else if (dirtSelected) {
+								if (event.isShiftDown()){
+									fillEmptyTiles("dirt");
+								}else{
 								editorMap.addSingle(new 
 										Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								}
 							} else if (citySelected) {
+								if (event.isShiftDown()){
+									fillEmptyTiles("city");
+								}else{
 								editorMap.addSingle(new 
 										City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								}
 							}else if (blockSelected) {
 								// TODO: Blockage
 								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
@@ -160,7 +186,9 @@ public class EditorApp extends Application {
 								editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));
 							}
+							
 						}
+						
 
 
 					}
@@ -168,6 +196,8 @@ public class EditorApp extends Application {
 		});
 		
 
+
+		
 		/*
 		 * Drag to draw for Land and road tiles
 		 */
@@ -186,7 +216,7 @@ public class EditorApp extends Application {
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
 							
-						
+
 
 							if (grassSelected) {
 //								System.out.println("Adding grass at "
@@ -444,7 +474,11 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrIntersection));
 			break;
 		case "openMapButton":
-			openMapDialog();
+			//openMapDialog();
+			
+			
+			
+			
 			break;
 		case "saveMapButton":
 			saveMapDialog();
@@ -511,7 +545,7 @@ public class EditorApp extends Application {
 		editorMap.drawMap();
 	}
 
-	private void saveMap(String fileLocation){
+	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -538,7 +572,8 @@ public class EditorApp extends Application {
 		launch(args);
 	}
 	
-	private void fillEmptyTiles(){
+	private void fillEmptyTiles(String tType){
+		
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		for (int x = 0 ;  x < mapTiles.length; x++) {
 			for(int y = 0; y < mapTiles[x].length; y++) {
@@ -547,7 +582,18 @@ public class EditorApp extends Application {
 				if (t instanceof Lane || t instanceof Land || t instanceof IntersectionTile){
 					
 				}else{
-					editorMap.addSingle(new Grass(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+					switch(tType){
+					case "grass":
+						editorMap.addSingle(new Grass(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					case "dirt":
+						editorMap.addSingle(new Dirt(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					case "city":
+						editorMap.addSingle(new City(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					}
+					
 				}
 				
 			}
