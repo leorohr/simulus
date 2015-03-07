@@ -152,6 +152,22 @@ public class EditorControlsController implements Initializable {
 		simulateButton.setOnAction((event) -> {
 			
 			//validate map then save and open simulator
+	        //save current map as a temp file in maps folder and open in mainapp
+			
+			//for now let it load default xml.  this is ok
+    		Stage mainStage = new Stage();
+            MainApp mainApp = null;
+            SimulationController simCon = null;
+			try {
+				mainApp = MainApp.class.newInstance();
+				simCon = SimulationController.class.newInstance();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+            mainApp.start(mainStage);
+            simCon.getMap().loadMap(
+    				new File(MainApp.class.getResource("/resources/default.xml").getFile()));
+
             EditorApp.getInstance().getPrimaryStage().close();
 
 		});

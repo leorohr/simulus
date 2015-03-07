@@ -9,17 +9,12 @@ import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -492,11 +487,7 @@ public class EditorApp extends Application {
 			canvas.setCursor(new ImageCursor(csrIntersection));
 			break;
 		case "openMapButton":
-			//openMapDialog();
-			
-			
-			
-			
+			openMapDialog();
 			break;
 		case "saveMapButton":
 			saveMapDialog();
