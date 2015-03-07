@@ -1,12 +1,12 @@
 package com.simulus.view;
 
+import java.util.ArrayList;
+
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.controller.SimulationController;
-import com.simulus.util.ResourceBuilder;
 import com.simulus.view.map.Lane;
 import com.simulus.view.vehicles.Vehicle;
 

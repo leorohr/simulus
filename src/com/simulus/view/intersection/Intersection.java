@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.ArcTo;
@@ -32,7 +34,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 * @param yPos y coordinate of the top left tile of the intersection in the grid
 	 */
 	public Intersection(int xPos, int yPos) {
-		switchTime = (long) (2000 + Math.random()*3000);
+		switchTime = (long) (4000 + Math.random()*3000);
 		turningPaths = new ArrayList<>();
 		
 		for (int i = 0; i < tiles.length; i++) {
@@ -40,9 +42,24 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				tiles[i][j] = new IntersectionTile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
 				tiles[i][j].getFrame().setFill(new ImagePattern(ResourceBuilder.getBoxjunctionTexture()));
 				
-				//this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
+				this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
+				/*tiles[i][j].setOnMousePressed(new EventHandler<MouseEvent>() {
+
+					@Override
+					public void handle(MouseEvent arg0) {
+						for (int i = 0; i < tiles.length; i++) {
+							for (int j = 0; j < tiles[0].length; j++) {
+								if(tiles[i][j].getOccupier()!=null)
+								System.out.println(tiles[i][j].getOccupier().toString());
+								else System.out.println("No Occupiers");
+							}
+						}
+					}
+					
+				});*/
 			}
 		}
+		
 	}
 	
 	public void addTurningPaths(Tile[][] m){
@@ -150,6 +167,16 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		/*//Straight
 		t.getTurningPaths().add(new CustomPath(straightDistance, t, m[t.getGridPosX()][t.getGridPosY()+4],Direction.SOUTH,new MoveTo(t.getCenterX(), t.getY()),				
 											new LineTo(tiles[2][3].getCenterX(), tiles[2][3].getY() + tileSize)));*/
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles.length; j++) {
+				IntersectionTile t1 = tiles[i][j];
+                t.getFrame().setFill(Color.TRANSPARENT);
+				for(Path p : t1.getTurningPaths()) {
+					turningPaths.addAll(t1.getTurningPaths());
+				}
+			}
+			
+		}
 	}
 	
 	/**

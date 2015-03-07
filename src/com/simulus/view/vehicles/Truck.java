@@ -121,10 +121,10 @@ public class Truck extends Vehicle {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
 				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
-				 	if(p.getActive())
+				 	if(p.getActive()){
 				 		followPath(p);
-//	          		isTransitioning = true;
-	          		return;
+				 		return;
+				 	}else tempDir = getDirection();
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {

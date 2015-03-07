@@ -142,10 +142,11 @@ public class Car extends Vehicle {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
 				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
-				 	if(p.getActive())
+				 	if(p.getActive()){
 				 		followPath(p);
+				 		return;
+				 	}else tempDir = getDirection();
 //	          		isTransitioning = true;
-	          		return;
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 			
