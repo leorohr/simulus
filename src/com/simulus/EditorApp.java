@@ -342,7 +342,7 @@ public class EditorApp extends Application {
 
 			public void handle(long now) { // Increment the frame number
 				getCanvas().getChildren().clear();
-				editorMap.drawMap();
+				editorMap.drawMap(canvas);
 			}
 		};
 		timer.start();
@@ -566,7 +566,7 @@ public class EditorApp extends Application {
 		ECC.setMapAuthor(mxml.mapAuthor);
 		//ECC.setGridSize(60);
 		editorMap.setTiles(mxml.getTileGrid());
-		editorMap.drawMap();
+		editorMap.drawMap(canvas);
 	}
 
 	public void saveMap(String fileLocation){
