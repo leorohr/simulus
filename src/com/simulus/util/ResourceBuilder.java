@@ -34,6 +34,7 @@ public class ResourceBuilder {
     private static Image saveIcon = new Image(ResourceBuilder.class.getResource("/resources/ic_save.png").toString());
     private static Image saveIconSmall = new Image(ResourceBuilder.class.getResource("/resources/ic_save_sm.png").toString());
     private static Image validateIcon = new Image(ResourceBuilder.class.getResource("/resources/validate.png").toString());
+    private static Image simulateIcon = new Image(ResourceBuilder.class.getResource("/resources/small_car.png").toString());
     
     private static Image logoSmall = new Image(ResourceBuilder.class.getResource("/resources/logo1_small.png").toString());
 

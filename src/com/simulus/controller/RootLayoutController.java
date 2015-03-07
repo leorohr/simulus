@@ -71,13 +71,15 @@ public class RootLayoutController implements Initializable {
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() != ButtonType.OK)
         		return;
-        	
-    		Stage editorStage = new Stage();
-			EditorApp editor = new EditorApp();
-            editor.start(editorStage);
+
+        	EditorApp editor = EditorApp.getInstance(); 
+        	if(editor == null)
+        		editor = new EditorApp();
+            editor.start(new Stage());
             editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
-            MainApp.getInstance().getPrimaryStage().close();
+            
             try {
+				MainApp.getInstance().getPrimaryStage().close();
 				MainApp.getInstance().stop();
 			} catch (Exception e) {
 				e.printStackTrace();
