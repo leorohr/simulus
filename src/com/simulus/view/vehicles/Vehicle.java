@@ -293,18 +293,12 @@ public abstract class Vehicle extends Rectangle {
 			return;
 		}
 		
-		//TODO Pause transitions if something gets in the way. Currently causes indefinite blockages
-		/*for(int i = 0; i < currentIntersection.tiles.length; i++)
-			for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-				if(currentIntersection.tiles[i][j].getBoundsInParent().intersects(currentPath.getBoundsInParent()))
-					if(currentIntersection.tiles[i][j].isOccupied() == true && currentIntersection.tiles[i][j].getOccupier()!=this){
-						currentTransition.pause();
-						return;
-					}
-					else if(currentTransition.getStatus()==Animation.Status.PAUSED)
-							currentTransition.play();*/
+		for(Vehicle v: SimulationController.getInstance().getMap().getVehicles())
+			if(this.getBoundsInParent().intersects(v.getBoundsInParent()))
+				currentTransition.pause();
+			else currentTransition.play();
 		
-		//Update transition tiles whil turning in an intersection
+		//Update transition tiles while turning in an intersection
 		switch(getDirection()){
 		case NORTH:
 			for(int i = 0; i < currentIntersection.tiles.length; i++) {
