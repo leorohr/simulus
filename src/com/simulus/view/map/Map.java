@@ -740,4 +740,12 @@ public class Map extends Group {
 	public void setTiles(Tile[][] tiles) {
 		this.tiles = tiles;
 	}
+	
+	public ArrayList<Vehicle> getToBeRemovedList(){
+		return toBeRemoved;
+	}
+	
+	
+	
+	
 }
