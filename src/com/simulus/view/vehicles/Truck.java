@@ -56,6 +56,8 @@ public class Truck extends Vehicle {
 	public void moveVehicle() {
 			
 		if(isTransitioning()){
+			checkTransitionBlockage();
+			updateTransitionTiles();
 			return;
 		}
 		
