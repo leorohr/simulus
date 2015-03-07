@@ -1,6 +1,9 @@
 package com.simulus.controller;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -21,6 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -70,6 +74,8 @@ public class EditorControlsController implements Initializable {
 	TextField authorTextField;
 	@FXML
 	ChoiceBox<String> gridSizeChoiceBox = new ChoiceBox<String>();
+	@FXML 
+	Hyperlink simulusLink;
 
 
 	// TODO
@@ -146,8 +152,17 @@ public class EditorControlsController implements Initializable {
 				e.printStackTrace();
 			}
 			
-            
+			
 		});
+		
+		simulusLink.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent t) {
+                openWebpage("http://github.com/leorohr/simulus");
+
+            }
+        });
 		
 		simulateButton.setOnAction((event) -> {
 			
@@ -206,8 +221,16 @@ public class EditorControlsController implements Initializable {
     
 	}
 	
+
+	public static void openWebpage(String urlString) {
+	    try {
+	        Desktop.getDesktop().browse(new URL(urlString).toURI());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 	
-	
+
 	public void setMapName(String name) {
 	        nameTextField.setText(name);
 	    }
