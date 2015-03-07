@@ -560,7 +560,6 @@ public class EditorApp extends Application {
 
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
-		System.out.println(mxml.toString());
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
