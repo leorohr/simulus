@@ -13,8 +13,11 @@ import org.jemmy.fx.SceneDock;
 import org.jemmy.fx.control.LabeledDock;
 import org.jemmy.resources.StringComparePolicy;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.view.vehicles.Truck;
@@ -22,6 +25,10 @@ import com.simulus.view.vehicles.Vehicle;
 
 
 public class TestCase2 extends TestCaseBase  {
+
+	private boolean test1Pass;
+	private	boolean test2Pass;
+	private	boolean test3Pass;
 
 
 	@BeforeClass
@@ -35,90 +42,115 @@ public class TestCase2 extends TestCaseBase  {
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				runClickButtonThread("Simulator");
+
+			}
+		});
+
 	}
 
 	@After
 	public void tearDown() throws Exception {
 
 		Thread.sleep(3000);
+	}
+
+	public void isTestPassed(boolean status, Integer testScenario){
+
+		if(status == false){
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+			writeToLog("Test scenario " + testScenario + " Failed.");
+			fail("Test Scenario: " + testScenario + " Failed! ");
+		}
+		else{
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+		}
+	}
+
+	@Test 
+	public void test0() {
+
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+
+				scene = new SceneDock();
+				runClickButtonThread("Start"); 
+
+			}
+		});
 
 	}
 
-
 	@Test 
-	public void test1() {
+	public void test1() throws InterruptedException {
 
-		Platform.runLater(new Runnable() {
+		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
 
 				writeToLog("Initialising Test1...");
 
-				runClickButtonThread("Start"); 
-
+				if (appThread.carIsSpawnedOnMap()){
+					test1Pass = true;
+					writeToLog(" Cars detected on the map: " + appThread.carIsSpawnedOnMap() );
+				}
+				else{
+					writeToLog(" Cars detected on the Map: " + appThread.truckIsSpawnedOnMap() );
+				}
 				writeToLog("Test 1 completed!");
-
 			}
+
+
 		});
+
+		Thread.sleep(4000);
+
+
+		isTestPassed(test1Pass, 1);
 
 	}
 
-	@Test 
-	public void test2() {
 
-		Platform.runLater(new Runnable() {
+	@Test 
+	public void test2() throws InterruptedException {
+
+
+		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
 
 				writeToLog("Initialising Test2...");
 
-
 				if (appThread.truckIsSpawnedOnMap()){
-					writeToLog(" Truck is on Map: " + appThread.truckIsSpawnedOnMap() );
+					test2Pass = true;
+					writeToLog(" Trucks detected on Map: " + appThread.truckIsSpawnedOnMap() );
+
 				}
 				else{
-					writeToLog(" Truck is on Map: " + appThread.truckIsSpawnedOnMap() );
-				}
+					writeToLog(" Trucks detected on map: " + appThread.truckIsSpawnedOnMap() );
+					test2Pass = false;
 
+				}
 
 				writeToLog("Test 2 completed!");
 
 			}
 		});
 
-	}
 
-	@Test 
-	public void test3() {
+		Thread.sleep(4000);
 
-		Platform.runLater(new Runnable() {
-
-			@Override
-			public void run() {
-
-				writeToLog("Initialising Test3...");
-
-
-
-				if (appThread.carIsSpawnedOnMap()){
-					writeToLog(" Car is on Map: " + appThread.carIsSpawnedOnMap() );
-				}
-
-				else{
-					writeToLog(" Car is on Map: " + appThread.truckIsSpawnedOnMap() );
-				}
-
-
-				writeToLog("Test 3 completed!");
-
-			}
-		});
+		isTestPassed(test2Pass, 2);
 
 	}
-
-
 
 }
 

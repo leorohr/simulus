@@ -26,7 +26,7 @@ public class TestCaseBase {
 
 	public static SceneDock scene;
 
-	public final Executor executor = Executors.newSingleThreadExecutor();
+	public final static Executor executor = Executors.newSingleThreadExecutor();
 
 	public static LaunchApp appThread = new LaunchApp();
 
@@ -39,7 +39,7 @@ public class TestCaseBase {
 	}
 
 
-	public void runClickButtonThread(String button) {
+	public static void runClickButtonThread(String button) {
 		executor.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -54,6 +54,7 @@ public class TestCaseBase {
 				//Find the label of the button 
 				LabeledDock b = new LabeledDock(scene.asParent(), button, StringComparePolicy.EXACT);
 
+				
 				if(!b.isPressed()){
 					b.mouse().click(1);
 					buttonClick=true;
