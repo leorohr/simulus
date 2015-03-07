@@ -159,7 +159,7 @@ public class SimulationController {
     		Platform.runLater(() -> map.spawnAmbulance());
 	    	ambulanceCount++;
     	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
-    }
+    }         
     
     /* * * 
      * Getter & Setter 
@@ -232,6 +232,10 @@ public class SimulationController {
 
     public void setMaxCarSpeed(int maxCarSpeed) {
         this.maxCarSpeed = maxCarSpeed;
+    }
+    
+    public int getAmbulanceCount(){
+    	return ambulanceCount;
     }
 
     public double getCarTruckRatio() {
