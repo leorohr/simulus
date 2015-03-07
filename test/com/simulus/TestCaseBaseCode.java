@@ -22,7 +22,7 @@ import com.simulus.view.vehicles.Vehicle;
 
 
 
-public class TestCaseBase {
+public class TestCaseBaseCode {
 
 	public static SceneDock scene;
 
@@ -91,6 +91,17 @@ public class TestCaseBase {
 		});
 	}
 
+	public void isTestPassed(boolean status, Integer testScenario){
+
+		if(status == false){
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+			writeToLog("Test scenario " + testScenario + " Failed.");
+			fail("Test Scenario: " + testScenario + " Failed! ");
+		}
+		else{
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+		}
+	}
 	
 
 
