@@ -154,9 +154,9 @@ public class MapXML {
 								fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
-								case "BLOCK":  //add block tile
+								case "BLOCK":  // TODO: add block tile
 									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos);
+											 tileSize, xPos, yPos, Direction.NONE, Integer.parseInt(attribute2));
 								break;
 							}
 							System.out.println(xPos + ":" + yPos + " " + attribute);
