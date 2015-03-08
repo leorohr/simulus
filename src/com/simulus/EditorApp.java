@@ -30,6 +30,7 @@ import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.LandType;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
@@ -135,21 +136,21 @@ public class EditorApp extends Application {
 							} else{
 								if (grassSelected) {
 									if (event.isShiftDown()){
-										fillEmptyTiles("grass");
+										floodFill("grass", i, p);
 									}else{
 										editorMap.addSingle(new 
 												Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
 								} else if (dirtSelected) {
 									if (event.isShiftDown()){
-										fillEmptyTiles("dirt");
+										floodFill("dirt", i, p);
 									}else{
 										editorMap.addSingle(new 
 												Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
 								} else if (citySelected) {
 									if (event.isShiftDown()){
-										fillEmptyTiles("city");
+										floodFill("city", i, p);
 									}else{
 										editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
@@ -596,40 +597,43 @@ public class EditorApp extends Application {
 		}
 	}
 
-	public static void main(String[] args) {
-		launch(args);
-	}
-
-	private void fillEmptyTiles(String tType){
-
+	private void floodFill(String tFill, int xIn, int yIn){
 		Tile[][] mapTiles = this.editorMap.getTiles();
-		for (int x = 0 ;  x < mapTiles.length; x++) {
-			for(int y = 0; y < mapTiles[x].length; y++) {
-
-				Tile t = this.editorMap.getTiles()[x][y];
-				if (t instanceof Lane || t instanceof Land || t instanceof IntersectionTile){
-
-				}else{
-					switch(tType){
-					case "grass":
-						editorMap.addSingle(new Grass(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
-						break;
-					case "dirt":
-						editorMap.addSingle(new Dirt(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
-						break;
-					case "city":
-						editorMap.addSingle(new City(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
-						break;
-					}
-
+		
+		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
+			
+			Tile t = this.editorMap.getTiles()[xIn][yIn];
+			
+			if (t instanceof Lane || t instanceof Land  || t instanceof IntersectionTile){
+				return;
+			} else {
+				switch(tFill){
+				case "grass":
+					editorMap.addSingle(new Grass(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					break;
+				case "dirt":
+					editorMap.addSingle(new Dirt(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					break;
+				case "city":
+					editorMap.addSingle(new City(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					break;
 				}
-
+				floodFill(tFill, xIn + 1, yIn);
+				floodFill(tFill, xIn - 1, yIn);
+				floodFill(tFill, xIn, yIn + 1);
+				floodFill(tFill, xIn, yIn - 1);
 			}
 		}
+
 	}
+	
 
 	public Stage getPrimaryStage() {
 		return editorStage;
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 
