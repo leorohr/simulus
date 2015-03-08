@@ -1,4 +1,3 @@
-
 package com.simulus.controller;
 
 import java.awt.Desktop;
@@ -47,6 +46,8 @@ public class EditorControlsController implements Initializable {
 	Button saveMapButton;
 	@FXML
 	Button clearMapButton;
+	@FXML
+	Button validateMapButton;
 	@FXML
 	Button simulateButton;
 	@FXML
@@ -103,6 +104,10 @@ public class EditorControlsController implements Initializable {
 		openMapButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
+		
+		validateMapButton.setOnAction((event) -> {
+			EditorApp.getInstance().selectButton((Button) event.getSource());
+		});
 
 		saveMapButton.setOnAction((event) -> {
 			
@@ -120,6 +125,7 @@ public class EditorControlsController implements Initializable {
 			}
 				
 		});
+		
 		clearMapButton.setOnAction((event) -> {
 			
         	Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -141,11 +147,9 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		simulusLink.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent t) {
                 openWebpage("http://github.com/leorohr/simulus");
-
             }
         });
 		

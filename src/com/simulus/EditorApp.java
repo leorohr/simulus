@@ -131,7 +131,7 @@ public class EditorApp extends Application {
 
 							if (t instanceof Lane || t instanceof IntersectionTile){
 
-							} else{
+							} else {
 								if (grassSelected) {
 									if (event.isShiftDown()){
 										floodFill("grass", i, p);
@@ -213,7 +213,7 @@ public class EditorApp extends Application {
 
 							if (t instanceof Lane || t instanceof IntersectionTile){
 
-							} else{
+							} else {
 								if (grassSelected) {
 									editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								} else if (dirtSelected) {
@@ -257,43 +257,6 @@ public class EditorApp extends Application {
 				}
 			}
 		});
-
-
-
-		/**
-		 * Mouse hover for each tile in the EditorMap
-		 */
-		Tile[][] mapTiles = this.editorMap.getTiles();
-		for (int x = 0 ;  x < mapTiles.length; x++) {
-			for(int y = 0; y < mapTiles[x].length; y++) {
-
-				Tile t = this.editorMap.getTiles()[x][y];
-
-				// Get the currently hovered tile
-				t.setOnMouseEntered(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						hoverTile = t;
-						//System.out.println(t.toString());
-						t.setMouseTransparent(true);
-						ghostDraw(t);
-
-					}
-				});
-
-				// TODO : resolve insta-remove issue
-				// Forget the tile when no longer hovered
-				t.setOnMouseExited(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						//hoverTile.setMouseTransparent(false);
-						ghostRemove(hoverTile);
-					}
-				});
-			}
-		}
-
-
 
 
 		/**
@@ -475,6 +438,9 @@ public class EditorApp extends Application {
 		case "clearMapButton":
 			this.editorMap = new Map();
 			break;
+		case "validateMapButton":
+			validateMap();
+			break;
 		default:
 			break;
 		}
@@ -503,23 +469,6 @@ public class EditorApp extends Application {
 		if (selectedFile != null) {
 			loadMap(selectedFile.getPath());
 		}
-	}
-
-
-	/**
-	 * hover function
-	 */
-	private void ghostDraw(Tile tile) {
-		if (grassSelected) {
-			tile.getFrame().setFill(Color.GREEN);
-		} else if (dirtSelected){
-			tile.getFrame().setFill(Color.YELLOW);
-		}
-	}
-
-	private void ghostRemove(Tile tile) {
-		// TODO 
-		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 
 	/**
@@ -588,15 +537,84 @@ public class EditorApp extends Application {
 
 	}
 
-	//TODO implment some validation checks based on tiles
+	//TODO implement some validation checks based on tiles
 	private void validateMap(){
+		
+		Boolean valid = true;
 
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		for (int x = 0 ;  x < mapTiles.length; x++) {
 			for(int y = 0; y < mapTiles[x].length; y++) {
 
 				Tile t = this.editorMap.getTiles()[x][y];
+				
+				while (valid) {
 
+					if (t instanceof Lane) { // Another lane or an intersection is expected
+						Direction dir = ((Lane) t).getDirection();
+						int laneNo = ((Lane) t).getLaneNo();
+
+						if (dir == Direction.NORTH || dir == Direction.SOUTH) {
+							
+							if (y+1 >= this.editorMap.getTiles()[0].length) {
+								System.out.println("y bound reached");
+								break;
+							} else {
+								Tile tNext = this.editorMap.getTiles()[x][y+1];
+								if (tNext instanceof Lane) {
+									if (dir == ((Lane) tNext).getDirection() &&
+											laneNo == ((Lane) tNext).getLaneNo()) {
+										break;
+									} else {
+										valid = false;
+										break;
+									}
+								} else if (tNext instanceof IntersectionTile) {
+									break;
+								} else {
+									valid = false;
+									break;
+								}
+							}
+							
+
+						} else { // Direction is WESTEAST
+							
+							if (x+1 >= this.editorMap.getTiles().length) {
+								System.out.println("x bound reached");
+								break;
+							} else {
+								Tile tNext = this.editorMap.getTiles()[x+1][y];
+								if (tNext instanceof Lane) {
+									if (dir == ((Lane) tNext).getDirection() &&
+											laneNo == ((Lane) tNext).getLaneNo()) {
+										break;
+									} else {
+										valid = false;
+										break;
+									}
+								} else if (tNext instanceof IntersectionTile) {
+									break;
+								} else {
+									valid = false;
+									break;
+								}
+							}
+							
+						}
+					} else if (t instanceof IntersectionTile) { // TODO: logic
+						
+					} else if (t instanceof Land) { // Land tiles are automatically valid
+						break;
+					} else { // Tile is empty and as such it is valid
+						break;
+					}
+					
+
+					
+				} // while
+				
+				System.out.println("System valid?:" + valid);
 			}
 		}
 	}
@@ -648,9 +666,7 @@ public class EditorApp extends Application {
 				floodFillRemove(xIn, yIn - 1);
 			} else{}
 		}
-
 	}
-	
 
 	public Stage getPrimaryStage() {
 		return editorStage;
