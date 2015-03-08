@@ -12,20 +12,17 @@ import com.simulus.controller.SimulationController;
 import com.simulus.view.vehicles.Vehicle;
 
 /**
- * This TestCase tests the MapUpdate on Removing Vihecles
+ * This TestCase tests the Controller settings on Max.no. of cars spawned on map
  * 
  *
  */
 
-public class TestCase4 extends TestCaseBaseCode {
+public class TestCase5 extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
 	private boolean test3Pass = false;
-	private ArrayList<Vehicle> ExpectedCarRemoveList = new ArrayList<>();
-	private ArrayList<Vehicle> ActualCarRemoveList = new ArrayList<>();
-
-
+	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -34,7 +31,7 @@ public class TestCase4 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase4.txt", true);
+		writeToFile("test/com/simulus/result/TestCase5.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -46,8 +43,6 @@ public class TestCase4 extends TestCaseBaseCode {
 
 			}
 		});
-
-
 	}
 
 
@@ -78,7 +73,6 @@ public class TestCase4 extends TestCaseBaseCode {
 	}
 
 
-
 	@Test
 	public void test1() throws InterruptedException {
 		executor.execute(new Runnable() {
@@ -88,19 +82,32 @@ public class TestCase4 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				ExpectedCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();				
-
-				test1Pass= true;
+				int carCount; 
+				int maxCar; 
+				carCount = SimulationController.getInstance().getMap().getVehicleCount();
+				maxCar = SimulationController.getInstance().getMaxCars();
+				
+				writeToLog("Current no of cars on the map: " + carCount);
+				writeToLog("Max no of car on the map: " + maxCar);
+				
+				if(carCount < maxCar){
+					test1Pass = true;
+				}
+				
 				writeToLog("Test 1 completed!");
 
 			}
 		});
 
-		Thread.sleep(2000);
+		Thread.sleep(3000);
 		isTestPassed(test1Pass, 1);
 	}
 
-
+	
+	/**
+	 * Adjust the no of cars on the map and then compare
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test2() throws InterruptedException{
 
@@ -110,13 +117,22 @@ public class TestCase4 extends TestCaseBaseCode {
 			public void run() {
 				writeToLog("Initialising Test2...");
 
-				ActualCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();
-
-				if (!ExpectedCarRemoveList.equals(ActualCarRemoveList)){
-					writeToLog("Hahahah!!!");
-					test2Pass = true;
+				int newMax = 40;
+				SimulationController.getInstance().setMaxCars(newMax);
+				writeToLog("Increased a number of cars on the map to: " + newMax);
+				
+				int carCount; 
+				int maxCar; 
+				carCount = SimulationController.getInstance().getMap().getVehicleCount();
+				maxCar = SimulationController.getInstance().getMaxCars();
+				
+				writeToLog("Current no of cars on the map: " + carCount);
+				writeToLog("Max no of car on the map: " + maxCar);
+				
+				if(carCount < maxCar){
+					test2Pass= true;
 				}
-
+				
 				writeToLog("Test 2 completed!");
 			}
 		});

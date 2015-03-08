@@ -9,6 +9,7 @@ import java.util.concurrent.Executors;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollBar;
 
 import org.jemmy.fx.SceneDock;
 import org.jemmy.fx.control.LabeledDock;
@@ -20,7 +21,6 @@ import org.junit.Test;
 import com.simulus.controller.SimulationController;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
-
 
 
 public class TestCaseBaseCode {
@@ -138,6 +138,10 @@ public class TestCaseBaseCode {
 		});
 
 	}
+	
+	
+	
+	
 	
 	
 	
