@@ -268,6 +268,11 @@ public class SimulationController {
     public void incTruckCount() {
     	truckCount++;
     }
+    
+    public int getTruckCount(){
+    	return truckCount;
+    }
+    
 }
 
 

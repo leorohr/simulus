@@ -16,13 +16,7 @@ The current Spawn rate is: 5.0
  
 Test 1 completed!
  
-The default Tick time is not equal to 25. OR
- 
-The default Spawn rate is not equal to 5. Test Fail!
- 
-Test scenario 1 passed: false
- 
-Test scenario 1 Failed.
+Test scenario 1 passed: true
  
 Initialising Test2...
  

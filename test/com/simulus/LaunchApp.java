@@ -1,5 +1,7 @@
 package com.simulus;
 
+import java.util.ArrayList;
+
 import com.simulus.controller.SimulationController;
 import com.simulus.view.vehicles.Ambulance;
 import com.simulus.view.vehicles.Car;
@@ -18,6 +20,8 @@ public class LaunchApp {
 	boolean threadFound = false;
 	boolean isAlive = false;
 	boolean isInterrupted = false;
+	ArrayList<Double> vihecleSpeed = new ArrayList<>();
+
 
 
 	public void launchApp(){
@@ -100,27 +104,47 @@ public class LaunchApp {
 				return true;
 			}
 		return false;
-		
+
 
 	}
 
-	
+
 	public Vehicle removeEmergencyCar(){
 		for (Vehicle v : SimulationController.getInstance().getMap().getVehicles())
 			if(v instanceof EmergencyCar){
 				Platform.runLater(new Runnable() {
-					
+
 					@Override
 					public void run() {
-					
+
 						SimulationController.getInstance().removeVehicle(v);
 					}
 				});
-				
+
 			}
 		return null;
-		
-		
+
 	}
+
+
+	public Vehicle measureVihecleSpeed(){
+		for (Vehicle v : SimulationController.getInstance().getMap().getVehicles())
+			if(v instanceof Car || v instanceof Truck){
+				Platform.runLater(new Runnable() {
+
+					@Override
+					public void run() {
+						vihecleSpeed.add(v.getVehicleSpeed());
+					}
+				});
+			}
+
+
+
+		return null;
+
+	}
+
+
 
 }

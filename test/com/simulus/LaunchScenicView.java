@@ -1,10 +1,10 @@
 /*
- * @(#) MainAppTest.java 
+ * @(#) LanuchScenicView.java 
  * 
  * Copyright (c) 2015 Team Simulus at King's College London. All Rights Reserved. 
  * 
  * This software is the confidential and proprietary of Team Simulus 
- * 7CCSMGPR Group Project(14~15 SEM2 1) at Kings' College London. 
+ * 7CCSMGPR Group Project(14~15 SEM2 1) at King's College London. 
  * You shall not disclose such confidential information and shall use it only in accordance 
  * with the agreement and regulation set by Simulus and the Department of Informatics at King's College London . 
  * 
