@@ -299,6 +299,7 @@ public class Map extends Group {
 	}
 
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
+		tiles[tileX][tileY].setOccupied(true);
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
