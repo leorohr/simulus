@@ -21,7 +21,6 @@ import org.w3c.dom.NodeList;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.IntersectionTile;
-import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
@@ -138,9 +137,6 @@ public class MapXML {
 							.item(0).getTextContent();
 					
 					
-					//TODO building a [][] of type tile and land tile.
-					// check regarding empty tile and how to add lane tiles
-					//we return the full [][]
 					switch(type){
 						case "": //add empty tile
 						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
@@ -201,13 +197,12 @@ public class MapXML {
 			}
 
 		} catch (Exception e) {
-			System.out
-					.println("Check that the input file exists and that it matches XML map schema.");
-			System.out.println("Error reported:");
-			e.printStackTrace();
+			System.out.println("Error reading map file!" + "\n" +
+					"Check that the input file exists and that it matches XML map schema.");
+			//System.out.println("Error reported:");
+			//e.printStackTrace();
 		}
 
-		//return fullGrid;
 
 	}
 
@@ -357,9 +352,11 @@ public class MapXML {
 			transformer.transform(source, result);
 
 		} catch (ParserConfigurationException pce) {
-			pce.printStackTrace();
+			//pce.printStackTrace();
+			System.out.println("Error writing map file!");
 		} catch (TransformerException tfe) {
-			tfe.printStackTrace();
+			//tfe.printStackTrace();
+			System.out.println("Error writing map file!");
 		}
 
 	}
