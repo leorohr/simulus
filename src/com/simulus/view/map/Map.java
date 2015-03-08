@@ -6,23 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import javafx.animation.Animation;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.paint.RadialGradient;
-import javafx.scene.paint.Stop;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
-import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
@@ -46,7 +38,7 @@ public class Map extends Group {
 	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); //the threads that switch the lights of trafficlights
 	private ArrayList<Lane> entryPoints = new ArrayList<>();	//stores all those lanes, that are suitable to spawn a car on
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update 
+	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update
 	
 	private VehicleColorOption carColorOption = VehicleColorOption.SPEED;
 	private VehicleColorOption truckColorOption = VehicleColorOption.SPEED;
@@ -306,23 +298,13 @@ public class Map extends Group {
 			intersections.add((Intersection) g);
 	}
 
-	public void setRedTrafficLight(int tileX, int tileY) {
-		tiles[tileX][tileY].setOccupied(true);
-		tiles[tileX][tileY].setRedLight(true);
-		RadialGradient gradient = new RadialGradient(0d, 0d, 0.5d, 0.5d, 1d,
-				true, CycleMethod.REFLECT, new Stop[] {
-						new Stop(0d, Color.RED), new Stop(1d, Color.BLACK) });
-		GaussianBlur blur = new GaussianBlur(5d);
-
-		tiles[tileX][tileY].getFrame().setEffect(blur);
-		tiles[tileX][tileY].getFrame().setFill(gradient);
+	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
+		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
 	public void setGreenTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(false);
-        tiles[tileX][tileY].getFrame().setFill(
-                new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?
-                ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
+		tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
 	}
 
 	/**

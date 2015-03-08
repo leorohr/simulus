@@ -231,18 +231,18 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		while(!Thread.currentThread().isInterrupted()){
 			try{
 			
-			
 			Platform.runLater(() ->{
 				
 				Map map = SimulationController.getInstance().getMap();
 
-                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][0].getGridPosY());
-                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][1].getGridPosY());
+                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][0].getGridPosY(), Direction.EAST);
+                map.setRedTrafficLight(tiles[0][0].getGridPosX() - 1, tiles[0][1].getGridPosY(), Direction.EAST);
 
-                map.setRedTrafficLight(tiles[3][2].getGridPosX() + 1, tiles[3][2].getGridPosY());
-                map.setRedTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY());
+                map.setRedTrafficLight(tiles[3][2].getGridPosX() + 1, tiles[3][2].getGridPosY(), Direction.WEST);
+                map.setRedTrafficLight(tiles[3][3].getGridPosX() + 1, tiles[3][3].getGridPosY(), Direction.WEST);
 			});
-			
+
+			//red lights overlap for 1.25seconds to allow vehicles to clear the junction
 			Thread.sleep(1250);
             
             Platform.runLater(() ->{
@@ -256,23 +256,19 @@ public class Intersection extends Group implements TileGroup, Runnable {
                 map.setGreenTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
 			});
 	    	
-	    	
 			Thread.sleep( getSwitchTime());
-			
-				
-			
 	    		
 	    	Platform.runLater(() ->{
 	    		  Map map = SimulationController.getInstance().getMap();
 	    		
-                  map.setRedTrafficLight(tiles[0][3].getGridPosX(), tiles[0][3].getGridPosY() + 1);
-                  map.setRedTrafficLight(tiles[1][3].getGridPosX(), tiles[1][3].getGridPosY() + 1);
+                  map.setRedTrafficLight(tiles[0][3].getGridPosX(), tiles[0][3].getGridPosY() + 1, Direction.NORTH);
+                  map.setRedTrafficLight(tiles[1][3].getGridPosX(), tiles[1][3].getGridPosY() + 1, Direction.NORTH);
 
-                  map.setRedTrafficLight(tiles[2][0].getGridPosX(), tiles[2][0].getGridPosY() - 1);
-                  map.setRedTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1);
+                  map.setRedTrafficLight(tiles[2][0].getGridPosX(), tiles[2][0].getGridPosY() - 1, Direction.SOUTH);
+                  map.setRedTrafficLight(tiles[3][0].getGridPosX(), tiles[3][0].getGridPosY() - 1, Direction.SOUTH);
 	    	});
 	    	
-	    	Thread.sleep(1250);
+	    	Thread.sleep(1250); 
 	    	
 	    	Platform.runLater(() ->{
 	    		Map map = SimulationController.getInstance().getMap();
