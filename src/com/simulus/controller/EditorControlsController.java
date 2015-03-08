@@ -156,18 +156,22 @@ public class EditorControlsController implements Initializable {
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
         	alert.setTitle("Opening Simulator");
         	alert.setHeaderText("Opening the Simulator will close the Editor.");
-        	alert.setContentText("Continue?");
+        	alert.setContentText("Save current map and continue?");
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() != ButtonType.OK)
         		return;
             
-			//for now let it load default xml.  this is ok
+        	//Save map to file
+        	File mapFile = EditorApp.getInstance().saveMapDialog();
+        	if(mapFile == null)
+        		return;
+        	
+        	//Open map in simulator
             MainApp app = MainApp.getInstance(); 
     		if(app == null)
     			app = new MainApp();
     		app.start(new Stage());
-    		SimulationController.getInstance().getMap().loadMap(
-    				new File(MainApp.class.getResource("/resources/default.xml").getFile()));
+    		SimulationController.getInstance().getMap().loadMap(mapFile);
 
             try {
             	EditorApp.getInstance().getPrimaryStage().close();
@@ -277,8 +281,5 @@ public class EditorControlsController implements Initializable {
 		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
 		
 	}
-	
-
-	
 
 }

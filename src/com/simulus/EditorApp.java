@@ -25,12 +25,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.controller.EditorControlsController;
-import com.simulus.io.CsvExport;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
-import com.simulus.util.enums.LandType;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
@@ -482,16 +480,18 @@ public class EditorApp extends Application {
 		}
 	}
 
-	public void saveMapDialog(){
+	public File saveMapDialog(){
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialFileName(ECC.getMapName() + ".xml");
+		fileChooser.setInitialFileName(ECC.getMapName());
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());
 		}
+	
+		return selectedFile;
 	}
 
 	public void openMapDialog(){

@@ -225,11 +225,11 @@ public abstract class Vehicle extends Rectangle {
 				//instanceof-check ensure that cars dont merge within an intersection
 				//only merge if adjacent and next tile is free
 				if(map[vX+1][vY-2] instanceof Lane && !map[vX+1][vY-1].isOccupied() && !map[vX+1][vY].isOccupied()) 
-					overtake(map[vX-1][vY-1]);										
+					overtake(map[vX+1][vY-1]);										
 				}
 			else if(dir == Direction.EAST) {
 				if(map[vX+2][vY+1] instanceof Lane && !map[vX+1][vY+1].isOccupied() && !map[vX][vY+1].isOccupied())
-					overtake(map[vX+1][vY-1]);
+					overtake(map[vX+1][vY+1]);
 			}
 			break;
 		case 1:
@@ -256,11 +256,11 @@ public abstract class Vehicle extends Rectangle {
 		case 3:
 			if(dir == Direction.SOUTH) {
 				if(map[vX-1][vY+2] instanceof Lane && !map[vX-1][vY+1].isOccupied() && !map[vX-1][vY].isOccupied())
-					overtake(map[vX+1][vY+1]);
+					overtake(map[vX-1][vY+1]);
 			}
 			else if(dir == Direction.WEST) {
 				if(map[vX-2][vY-1] instanceof Lane && !map[vX-1][vY-1].isOccupied() && !map[vX][vY-1].isOccupied())
-					overtake(map[vX-1][vY+1]);
+					overtake(map[vX-1][vY-1]);
 			}
 			break;
 		default:

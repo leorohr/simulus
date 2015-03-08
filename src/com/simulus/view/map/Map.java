@@ -8,7 +8,6 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -333,11 +332,17 @@ public class Map extends Group {
 
 
 	public void setRedTrafficLight(int tileX, int tileY) {
+		if(!(tiles[tileX][tileY] instanceof Lane))
+			return;
+		
 		tiles[tileX][tileY].setOccupied(true);
         tiles[tileX][tileY].getFrame().setFill(Color.RED);
 	}
 	
 	public void setGreenTrafficLight(int tileX, int tileY){
+		if(!(tiles[tileX][tileY] instanceof Lane))
+			return;
+		
 		tiles[tileX][tileY].setOccupied(false);
         tiles[tileX][tileY].getFrame().setFill(
                 new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?
