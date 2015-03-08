@@ -46,7 +46,6 @@ public class SimulationController {
     }
 
     private SimulationController() {
-
         animationThread = new AnimationThread();
     }
 
@@ -75,7 +74,7 @@ public class SimulationController {
         recklessCount = 0;
         ambulanceCount = 0;
         animationThread = new AnimationThread();
-        map.drawMap();
+        map.drawMap(MainApp.getInstance().getCanvas());
         if(debugFlag)
         	map.showAllIntersectionPaths();
     }
@@ -159,7 +158,7 @@ public class SimulationController {
     		Platform.runLater(() -> map.spawnAmbulance());
 	    	ambulanceCount++;
     	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
-    }
+    }         
     
     /* * * 
      * Getter & Setter 
@@ -232,6 +231,10 @@ public class SimulationController {
 
     public void setMaxCarSpeed(int maxCarSpeed) {
         this.maxCarSpeed = maxCarSpeed;
+    }
+    
+    public int getAmbulanceCount(){
+    	return ambulanceCount;
     }
 
     public double getCarTruckRatio() {

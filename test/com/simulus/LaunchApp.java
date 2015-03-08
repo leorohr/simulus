@@ -1,10 +1,15 @@
 package com.simulus;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.view.vehicles.Ambulance;
+import com.simulus.view.vehicles.Car;
+import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
+import com.sun.j3d.utils.scenegraph.io.retained.Controller;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 
 public class LaunchApp {
 
@@ -76,7 +81,7 @@ public class LaunchApp {
 
 	public boolean carIsSpawnedOnMap(){
 		for(Vehicle v : SimulationController.getInstance().getMap().getVehicles())
-			if(v instanceof Truck){
+			if(v instanceof Car){
 				return true;
 			}
 
@@ -84,5 +89,38 @@ public class LaunchApp {
 
 	}
 
+	public boolean debugBoxSelected(){
+		return	SimulationController.getInstance().isDebug();
+
+	}
+
+	public boolean AmbulanceIsSpawnedOnMap(){
+		for (Vehicle v : SimulationController.getInstance().getMap().getVehicles())
+			if(v instanceof EmergencyCar){
+				return true;
+			}
+		return false;
+		
+
+	}
+
+	
+	public Vehicle removeEmergencyCar(){
+		for (Vehicle v : SimulationController.getInstance().getMap().getVehicles())
+			if(v instanceof EmergencyCar){
+				Platform.runLater(new Runnable() {
+					
+					@Override
+					public void run() {
+					
+						SimulationController.getInstance().removeVehicle(v);
+					}
+				});
+				
+			}
+		return null;
+		
+		
+	}
 
 }

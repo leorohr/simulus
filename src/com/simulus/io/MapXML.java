@@ -159,7 +159,7 @@ public class MapXML {
 											 tileSize, xPos, yPos);
 								break;
 							}
-							
+							System.out.println(xPos + ":" + yPos + " " + attribute);
 						break;
 						case "lane":  //add lane tile
 							switch(attribute){
@@ -180,11 +180,12 @@ public class MapXML {
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
 								break;
 							}
+							System.out.println(xPos + ":" + yPos + " " + attribute + " Lane: " + attribute2);
 						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);
-							System.out.println(xPos + ":" + yPos + " Intersection");
+							System.out.println(xPos + ":" + yPos + " " + type);
 						break;
 					}
  
@@ -284,9 +285,6 @@ public class MapXML {
 					String tileAttribute2 = "";
 					Tile t = gridIn[c][r];
 					
-					//System.out.println(tileType);
-					
-					//intersection output needed
 					if (t instanceof Lane) {
 						tileType = "lane";
 						tileAttribute = ((Lane) t).getDirection().toString();

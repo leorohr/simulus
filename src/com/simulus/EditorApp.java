@@ -31,10 +31,13 @@ import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Block;
 import com.simulus.view.map.City;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
+import com.simulus.view.map.Land;
+import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
 
@@ -69,6 +72,9 @@ public class EditorApp extends Application {
 	
 	
 	private Tile hoverTile;
+	int xFixed;
+	int yFixed;
+	boolean firstDrag = true;
 
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
@@ -91,6 +97,8 @@ public class EditorApp extends Application {
 			instance = this;
 		}
 	}
+	
+	
 
 	@Override
 	public void start(final Stage editorStage) {
@@ -104,8 +112,13 @@ public class EditorApp extends Application {
 		showControls();
 		
 		this.editorMap = new Map();
+		
+
+		
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
+
 			@Override
 			public void handle(MouseEvent event) {
 				for (int i = 0; i < editorMap.getTiles().length; i++)
@@ -118,27 +131,36 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
+
+
+							Tile t = editorMap.getTiles()[i][p];
+							
+							if (t instanceof Lane || t instanceof IntersectionTile){
+								
+							} else{
+					
 							if (grassSelected) {
-								editorMap.addSingle(new 
-										Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								if (event.isShiftDown()){
+									fillEmptyTiles("grass");
+								}else{
+									editorMap.addSingle(new 
+											Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								}
 							} else if (dirtSelected) {
+								if (event.isShiftDown()){
+									fillEmptyTiles("dirt");
+								}else{
 								editorMap.addSingle(new 
 										Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								}
 							} else if (citySelected) {
+								if (event.isShiftDown()){
+									fillEmptyTiles("city");
+								}else{
 								editorMap.addSingle(new 
 										City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-							}else if (blockSelected) {
-								// TODO: Blockage
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-								//editorMap.getTiles()[i][p].setOccupied(true);
-							} else if (eraserSelected) {
-								// TODO implement remove properly
-								// Single Tile
-								editorMap.removeSingle(editorMap.getTiles()[i][p]);
-								// Group of tiles
-//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
-							} else if (interSelected) {
+								}
+							}else if (interSelected) {
 								// TODO : Remove group before add new
 								editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p].getGridPosY()));
@@ -156,20 +178,43 @@ public class EditorApp extends Application {
 								editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
 										editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));
 							}
-						}
+						
+							}
+							
+							 if (eraserSelected) {
 
+								// TODO implement remove properly
+								// Single Tile
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+								// Group of tiles
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+							 }else if (blockSelected && t instanceof Lane) {
+									// TODO: Blockage
+									editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+									//editorMap.getTiles()[i][p].setOccupied(true);
+								} 
+						}
 
 					}
 			}
 		});
 		
 
+		scene.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				firstDrag = true;
+			}});
+		
 		/*
 		 * Drag to draw for Land and road tiles
 		 */
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+			
+				
 				for (int i = 0; i < editorMap.getTiles().length; i++) {
 					for (int p = 0; p < editorMap.getTiles()[0].length; p++) {
 						if (event.getSceneX() > editorMap.getTiles()[i][p]
@@ -180,46 +225,67 @@ public class EditorApp extends Application {
 												.getBoundsInParent().getMinY()
 												&& event.getSceneY() < editorMap.getTiles()[i][p]
 														.getBoundsInParent().getMaxY()) {
+							
+
+							Tile t = editorMap.getTiles()[i][p];
+							
+							if (t instanceof Lane || t instanceof IntersectionTile){
+								
+							} else{
 
 							if (grassSelected) {
-								System.out.println("Adding grass at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding grass at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (dirtSelected) {
-								System.out.println("Adding dirt at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding dirt at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 							} else if (citySelected) {
-								System.out.println("Adding city at "
-										+ editorMap.getTiles()[i][p].toString());
+//								System.out.println("Adding city at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-							}else if (blockSelected) {
-								System.out.println("Adding block at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-							}else if (eraserSelected) {
-								// TODO implement remove properly
-								System.out.println("Removing at "
-										+ editorMap.getTiles()[i][p].toString());
-								editorMap.removeSingle(editorMap.getTiles()[i][p]);
-//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
-//										.getGridPosX(), editorMap.getTiles()[i][p]
-//												.getGridPosY(), Seed.NORTHSOUTH));
 							}else if (roadVerticalSelected) {
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
+								if(firstDrag == true){
+									xFixed = i;
+									firstDrag = false;}
+									else{}
+//								System.out.println("Adding road at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
+										.getTiles()[xFixed][p].getGridPosX(),
+										editorMap.getTiles()[xFixed][p]
 												.getGridPosY(), Orientation.NORTHSOUTH));
+							//	System.out.println(i + ":" + p + " - " + xFixed);
+								
 							} else if (roadHorizontalSelected) {
-								System.out.println("Adding road at "
-										+ editorMap.getTiles()[i][p].toString());
+								if(firstDrag == true){
+									yFixed = p;
+									firstDrag = false;}
+									else{}
+//								System.out.println("Adding road at "
+//										+ editorMap.getTiles()[i][p].toString());
 								editorMap.addGroup(new Road(editorMap
-										.getTiles()[i][p].getGridPosX(),
-										editorMap.getTiles()[i][p]
+										.getTiles()[i][yFixed].getGridPosX(),
+										editorMap.getTiles()[i][yFixed]
 												.getGridPosY(), Orientation.WESTEAST));
 							}
+							
+							}
+							
+							 if (eraserSelected) {
+
+								// TODO implement remove properly
+								// Single Tile
+								editorMap.removeSingle(editorMap.getTiles()[i][p]);
+								// Group of tiles
+//								editorMap.removeGroup(new Road(editorMap.getTiles()[i][p]
+//										.getGridPosX(), editorMap.getTiles()[i][p].getGridPosY(), Seed.NORTHSOUTH));
+							 }else if (blockSelected && t instanceof Lane) {
+									// TODO: Blockage
+									editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+									//editorMap.getTiles()[i][p].setOccupied(true);
+								} 
 						}
 					}
 				}
@@ -228,7 +294,6 @@ public class EditorApp extends Application {
 		});
 		
 	
-		
 		
 		/**
 		 * Mouse hover for each tile in the EditorMap
@@ -245,7 +310,7 @@ public class EditorApp extends Application {
 					@Override
 					public void handle(MouseEvent event) {
 						hoverTile = t;
-						System.out.println(t.toString());
+						//System.out.println(t.toString());
 						t.setMouseTransparent(true);
 						ghostDraw(t);
 						
@@ -277,7 +342,7 @@ public class EditorApp extends Application {
 
 			public void handle(long now) { // Increment the frame number
 				getCanvas().getChildren().clear();
-				editorMap.drawMap();
+				editorMap.drawMap(canvas);
 			}
 		};
 		timer.start();
@@ -347,6 +412,7 @@ public class EditorApp extends Application {
 	}
 
 	public void selectButton(Button b) {
+
 		switch (b.getId()) {
 		case "grassButton":
 			grassSelected = true;
@@ -441,10 +507,8 @@ public class EditorApp extends Application {
 			break;
 		case "saveMapButton":
 			saveMapDialog();
-			
 			break;
 		case "clearMapButton":
-			System.out.println("Clicked Clear Map Button");
 			this.editorMap = new Map();
 			break;
 		default:
@@ -457,6 +521,7 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Save Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
 		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialFileName(ECC.getMapName() + ".xml");
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());
@@ -495,17 +560,16 @@ public class EditorApp extends Application {
 
 		MapXML mxml = new MapXML();
 		mxml.readXML(fileLocation);
-		System.out.println(mxml.toString());
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
 		//ECC.setGridSize(60);
 		editorMap.setTiles(mxml.getTileGrid());
-		editorMap.drawMap();
+		editorMap.drawMap(canvas);
 	}
 
-	private void saveMap(String fileLocation){
+	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
@@ -532,8 +596,37 @@ public class EditorApp extends Application {
 		launch(args);
 	}
 	
+	private void fillEmptyTiles(String tType){
+		
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		for (int x = 0 ;  x < mapTiles.length; x++) {
+			for(int y = 0; y < mapTiles[x].length; y++) {
+
+				Tile t = this.editorMap.getTiles()[x][y];
+				if (t instanceof Lane || t instanceof Land || t instanceof IntersectionTile){
+					
+				}else{
+					switch(tType){
+					case "grass":
+						editorMap.addSingle(new Grass(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					case "dirt":
+						editorMap.addSingle(new Dirt(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					case "city":
+						editorMap.addSingle(new City(x*tileSize, y*tileSize, tileSize, tileSize, x, y));
+						break;
+					}
+					
+				}
+				
+			}
+		}
+	}
+	
     public Stage getPrimaryStage() {
         return editorStage;
     }
+
     
 }

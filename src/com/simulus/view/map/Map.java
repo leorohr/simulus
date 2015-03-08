@@ -8,6 +8,8 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.layout.Pane;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -41,30 +43,11 @@ public class Map extends Group {
 	private int tileSize = Configuration.tileSize;
 	private Tile[][] tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
-	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); // the
-																		// threads
-																		// that
-																		// switch
-																		// the
-																		// lights
-																		// of
-																		// trafficlights
-	private ArrayList<Lane> entryPoints = new ArrayList<>(); // stores all those
-																// lanes, that
-																// are suitable
-																// to spawn a
-																// car on
+	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); //the threads that switch the lights of trafficlights
+	private ArrayList<Lane> entryPoints = new ArrayList<>();	//stores all those lanes, that are suitable to spawn a car on
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); // temporarily
-																// stores
-																// vehicles that
-																// are off the
-																// canvas and
-																// should be
-																// removed with
-																// the next
-																// update
-
+	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update 
+	
 	private VehicleColorOption carColorOption = VehicleColorOption.SPEED;
 	private VehicleColorOption truckColorOption = VehicleColorOption.SPEED;
 
@@ -81,12 +64,9 @@ public class Map extends Group {
 		// Add map to canvas
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
-				if (MainApp.getInstance() != null)
-					MainApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
-				else
-					EditorApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
+				if(MainApp.getInstance() != null)
+					MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
+				else EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
 		}
 
@@ -117,32 +97,20 @@ public class Map extends Group {
 	 * Draws the current state of the map on either the editor's or the
 	 * mainApp's canvas.
 	 */
-	public void drawMap() {
-		if (MainApp.getInstance() != null)
-			MainApp.getInstance().getCanvas().getChildren().clear();
-		if (EditorApp.getInstance() != null)
-			EditorApp.getInstance().getCanvas().getChildren().clear();
-
+	public void drawMap(Pane canvasPane) {
+		
+		canvasPane.getChildren().clear();
+		
 		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles.length; p++) {
-
-				if (MainApp.getInstance() != null) {
-					MainApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
-				}
-				if (EditorApp.getInstance() != null) {
-					EditorApp.getInstance().getCanvas().getChildren()
-							.add(tiles[i][p]);
-				}
+			for (int p = 0; p < tiles.length; p++) {				
+				canvasPane.getChildren().add(tiles[i][p]);
 			}
 		}
 	}
 
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
-	 * 
-	 * @param b
-	 *            The desired behavior of the spawning car.
+	 * @param b The desired behavior of the spawning car.
 	 */
 	public void spawnRandomCar(Behavior b) {
 		Lane l;
@@ -204,8 +172,7 @@ public class Map extends Group {
 	/**
 	 * Adds the passed tile to the tiles[][] array.
 	 * 
-	 * @param tile
-	 *            - The tile to be added
+	 * @param tile - The tile to be added
 	 */
 	public void addSingle(Tile tile) {
 		tiles[tile.getGridPosX()][tile.getGridPosY()] = tile;
@@ -214,8 +181,7 @@ public class Map extends Group {
 	/**
 	 * Removes the passed tile from the tiles[][] array.
 	 * 
-	 * @param tile
-	 *            - The tile to be removed
+	 * @param tile - The tile to be removed
 	 */
 	public void removeSingle(Tile tile) {
 		tiles[tile.getGridPosX()][tile.getGridPosY()] = new Tile(tile.getX(),
@@ -242,7 +208,7 @@ public class Map extends Group {
 		return l;
 	}
 
-	// for testing
+	//for testing
 	public void spawnTesterCar(double speed) {
 
 		Lane a = entryPoints.get(0);
@@ -260,6 +226,7 @@ public class Map extends Group {
 		synchronized (vehicles) {
 			vehicles.add(c);
 		}
+
 	}
 
 	/**
@@ -334,8 +301,8 @@ public class Map extends Group {
 				}
 			}
 		}
-
-		if (g instanceof Intersection)
+		
+		if(g instanceof Intersection)
 			intersections.add((Intersection) g);
 	}
 
@@ -353,16 +320,9 @@ public class Map extends Group {
 
 	public void setGreenTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(false);
-		tiles[tileX][tileY].setRedLight(false);
-		tiles[tileX][tileY]
-				.getFrame()
-				.setFill(
-						new ImagePattern(
-								(((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST
-										|| ((Lane) tiles[tileX][tileY])
-												.getDirection() == Direction.WEST ? ResourceBuilder
-										.getEWLaneTexture() : ResourceBuilder
-										.getNSLaneTexture())));
+        tiles[tileX][tileY].getFrame().setFill(
+                new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?
+                ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
 	}
 
 	/**
@@ -424,7 +384,7 @@ public class Map extends Group {
 					Tile t = (Tile) i.next();
 					if (!v.getBoundsInParent().intersects(
 							t.getFrame().getBoundsInParent())) {
-						if (!t.isRedLight()) {
+						if(!t.isRedLight()){
 							t.setOccupied(false, v);
 							i.remove();
 						}
@@ -493,14 +453,12 @@ public class Map extends Group {
 			intersections.remove((Intersection) g);
 	}
 
-	/**
-	 * Loads a Map from an XML file.
-	 * 
-	 * @param mapFile
-	 *            The XML file containing the map-data.
-	 */
-	public void loadMap(File mapFile) {
-
+    /**
+     * Loads a Map from an XML file and draws it onto the MainApp's canvas
+     * @param mapFile The XML file containing the map-data.
+     */
+    public void loadMap(File mapFile) {
+		    	
 		entryPoints = new ArrayList<Lane>();
 		intersections = new ArrayList<Intersection>();
 		stopChildThreads();
@@ -568,9 +526,9 @@ public class Map extends Group {
 			trafficLightThreads.add(t);
 			t.start();
 		}
-
-		drawMap();
-	}
+	    
+	    drawMap(MainApp.getInstance().getCanvas());
+    }
 
 	/**
 	 * Removes a vehicle from the screen. To prevent
@@ -782,4 +740,12 @@ public class Map extends Group {
 	public void setTiles(Tile[][] tiles) {
 		this.tiles = tiles;
 	}
+	
+	public ArrayList<Vehicle> getToBeRemovedList(){
+		return toBeRemoved;
+	}
+	
+	
+	
+	
 }

@@ -46,7 +46,7 @@ public class TestCase2 extends TestCaseBaseCode  {
 
 			@Override
 			public void run() {
-				runClickButtonThread("Simulator");
+				clickButton("Simulator");
 
 			}
 		});
@@ -70,13 +70,17 @@ public class TestCase2 extends TestCaseBaseCode  {
 			public void run() {
 
 				scene = new SceneDock();
-				runClickButtonThread("Start"); 
+				clickButton("Start"); 
 
 			}
 		});
 
 	}
 
+	
+
+	
+	
 	@Test 
 	public void test1() throws InterruptedException {
 
@@ -94,7 +98,7 @@ public class TestCase2 extends TestCaseBaseCode  {
 				else{
 					writeToLog(" Cars detected on the Map: " + appThread.truckIsSpawnedOnMap() );
 				}
-				writeToLog("Test 1 completed!");
+				writeToLog("Test1 completed!");
 			}
 
 
@@ -130,17 +134,44 @@ public class TestCase2 extends TestCaseBaseCode  {
 
 				}
 
-				writeToLog("Test 2 completed!");
+				writeToLog("Test2 completed!");
 
 			}
 		});
 
 
-		Thread.sleep(4000);
+		Thread.sleep(2000);
 
 		isTestPassed(test2Pass, 2);
 
 	}
+
+	@Test
+	public void test3() throws InterruptedException{
+
+		executor.execute(new Runnable() {
+
+
+			@Override
+			public void run() {
+
+				writeToLog("Initialising Test3...");
+
+				selectCheckBox("Debug");
+
+				if (appThread.debugBoxSelected()){
+					test3Pass = true;
+					
+				}
+				writeToLog("Test3 completed!");
+			}
+		});
+
+		Thread.sleep(2000);
+		isTestPassed(test3Pass, 3);
+	}
+
+
 
 }
 

@@ -40,7 +40,7 @@ public class TestCase1 extends TestCaseBaseCode {
 
 			@Override
 			public void run() {
-				runClickButtonThread("Simulator");
+				clickButton("Simulator");
 
 			}
 		});
@@ -68,7 +68,7 @@ public class TestCase1 extends TestCaseBaseCode {
 				writeToLog("Initialising Test1...");
 
 
-				runClickButtonThread("Start"); 
+				clickButton("Start"); 
 				checkThreadStatus("animationThread");
 
 				if(appThread.isAlive = true){
@@ -120,7 +120,7 @@ public class TestCase1 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test3...");
 
-				runClickButtonThread("Reset"); 
+				clickButton("Reset"); 
 				checkThreadStatus("animationThread");
 
 				if(appThread.isAlive = true){

@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 
 import org.jemmy.fx.SceneDock;
 import org.jemmy.fx.control.LabeledDock;
@@ -37,46 +38,20 @@ public class TestCaseBaseCode {
 	public static void writeToFile(String fileLocation, boolean append){
 		writeLog = new WriteLog(fileLocation, append);
 	}
+	
+	
+	public void isTestPassed(boolean status, Integer testScenario){
 
-
-	public static void runClickButtonThread(String button) {
-		executor.execute(new Runnable() {
-			@Override
-			public void run() {
-
-				boolean buttonClick = false;
-
-				//Identifying the input button 
-				assertEquals(Button.class, new LabeledDock(scene.asParent(), button, 
-						StringComparePolicy.EXACT).wrap().getControl().getClass());
-
-
-				//Find the label of the button 
-				LabeledDock b = new LabeledDock(scene.asParent(), button, StringComparePolicy.EXACT);
-
-				
-				if(!b.isPressed()){
-					b.mouse().click(1);
-					buttonClick=true;
-				}	
-
-				try {
-					writeLog.WriteToLog(button + " Button Detected \n") ;
-					writeLog.WriteToLog(button + " Button Clicked: " + buttonClick + "\n");
-				} catch (IOException e) {}
-
-			}
-		});
-
+		if(status == false){
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+			writeToLog("Test scenario " + testScenario + " Failed.");
+			fail("Test Scenario: " + testScenario + " Failed! ");
+		}
+		else{
+			writeToLog("Test scenario " + testScenario + " passed: " + status);
+		}
 	}
-
-
-	public void checkThreadStatus(String threadName){
-		appThread.threadStatus(threadName);  //Query the status of the thread
-		writeToLog(threadName + " found: " + appThread.threadFound);
-
-	}
-
+	
 	public void writeToLog(String text){
 		executor.execute(new Runnable() {
 
@@ -91,19 +66,81 @@ public class TestCaseBaseCode {
 		});
 	}
 
-	public void isTestPassed(boolean status, Integer testScenario){
 
-		if(status == false){
-			writeToLog("Test scenario " + testScenario + " passed: " + status);
-			writeToLog("Test scenario " + testScenario + " Failed.");
-			fail("Test Scenario: " + testScenario + " Failed! ");
-		}
-		else{
-			writeToLog("Test scenario " + testScenario + " passed: " + status);
-		}
+	public static void clickButton(String buttonName) {
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+
+				boolean buttonClick = false;
+
+				//Identifying the input button 
+				assertEquals(Button.class, new LabeledDock(scene.asParent(), buttonName, 
+						StringComparePolicy.EXACT).wrap().getControl().getClass());
+
+
+				//Find the label of the button 
+				LabeledDock b = new LabeledDock(scene.asParent(), buttonName, StringComparePolicy.EXACT);
+
+				
+				if(!b.isPressed()){
+					b.mouse().click(1);
+					buttonClick=true;
+				}	
+
+				try {
+					writeLog.WriteToLog(buttonName + " Button Detected \n") ;
+					writeLog.WriteToLog(buttonName + " Button Clicked: " + buttonClick + "\n");
+				} catch (IOException e) {}
+
+			}
+		});
+
+	}
+
+
+	public void checkThreadStatus(String threadName){
+		appThread.threadStatus(threadName);  //Query the status of the thread
+		writeToLog(threadName + " found: " + appThread.threadFound);
+
+	}
+
+
+	
+	
+	public static void selectCheckBox(String checkBoxName) {
+		executor.execute(new Runnable() {
+			@Override
+			public void run() {
+
+				boolean buttonClick = false;
+
+				//Identifying the input checkBox 
+				assertEquals(CheckBox.class, new LabeledDock(scene.asParent(), checkBoxName, 
+						StringComparePolicy.EXACT).wrap().getControl().getClass());
+
+
+				//Find the label of the checkBox 
+				LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT);
+
+				
+				if(!cb.isPressed()){
+					cb.mouse().click(1);
+					buttonClick=true;
+				}	
+
+				try {
+					writeLog.WriteToLog(checkBoxName + " CheckBox Detected \n") ;
+					writeLog.WriteToLog(checkBoxName + " CheckBox Clicked: " + buttonClick + "\n");
+				} catch (IOException e) {}
+
+			}
+		});
+
 	}
 	
-
+	
+	
 
 
 }

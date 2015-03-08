@@ -9,14 +9,14 @@
 
 <AnchorPane maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulus.controller.EditorControlsController">
    <children>
-      <Label layoutX="5.0" layoutY="49.0" text="Road Builder">
+      <Label layoutX="5.0" layoutY="75.0" text="Road Builder">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Label>
-      <Pane layoutX="5.0" layoutY="552.0" prefHeight="220.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="552.0" prefHeight="240.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
-            <Button fx:id="saveMapButton" layoutX="95.0" layoutY="182.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/diskette.png&quot;);" text="Save" />
-            <Button fx:id="openMapButton" layoutX="11.0" layoutY="182.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/folder.png&quot;);" text="Open" />
+            <Button fx:id="saveMapButton" layoutX="95.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;resources/diskette.png&quot;);" text="Save" />
+            <Button fx:id="openMapButton" layoutX="11.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/folder.png&quot;);" text="Open" />
             <Label layoutX="10.0" layoutY="128.0" text="Author:" />
             <Label layoutX="10.0" layoutY="87.0" text="Description:" />
             <Label layoutX="10.0" layoutY="6.0" text="Name:" />
@@ -25,14 +25,17 @@
             <TextField id="authorTextField" fx:id="authorTextField" layoutX="10.0" layoutY="143.0" prefHeight="25.0" prefWidth="168.0" />
             <TextField id="dateTextField" fx:id="dateTextField" editable="false" layoutX="10.0" layoutY="62.0" prefHeight="25.0" prefWidth="168.0" />
             <Label layoutX="10.0" layoutY="46.0" text="Last Saved:" />
+            <Button id="simulateButton" fx:id="simulateButton" layoutX="12.0" layoutY="208.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" style="-fx-graphic: url(&quot;resources/small_car.png&quot;);" text="Simulate Map" />
          </children>
       </Pane>
-      <Pane layoutX="5.0" layoutY="65.0" prefHeight="302.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane id="shiftLabel" fx:id="shiftLabel" layoutX="5.0" layoutY="95.0" prefHeight="304.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <Button id="grassButton" fx:id="grassButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/grass.png&quot;); -fx-background-size: 50 50;" text="Grass" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
-               </opaqueInsets></Button>
+               </opaqueInsets>
+              <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with grass" /></tooltip>
+               </Button>
             <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="10.0" layoutY="127.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
@@ -46,7 +49,9 @@
             <Button id="dirtButton" fx:id="dirtButton" layoutX="63.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/dirt.png&quot;); -fx-background-size: 50 50;" text="Dirt" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
-               </opaqueInsets></Button>
+               </opaqueInsets>
+               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with dirt" /></tooltip>
+               </Button>
             <Button id="blockButton" fx:id="blockButton" layoutX="10.0" layoutY="62.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/block.png&quot;); -fx-background-size: 50 50;" text="Block" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
@@ -60,20 +65,21 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <tooltip><Tooltip text="SHIFT + click on empty till to fill ALL with city" /></tooltip>
             </Button>
          </children>
       </Pane>
-      <Pane layoutX="5.0" layoutY="391.0" prefHeight="135.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="430.0" prefHeight="86.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
-            <ChoiceBox id="gridSizeChoiceBox" fx:id="gridSizeChoiceBox" layoutX="10.0" layoutY="21.0" prefHeight="25.0" prefWidth="81.0" />
-            <Label layoutX="10.0" layoutY="6.0" text="Grid Size:" />
-            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="97.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;resources/delete.png&quot;);" text="New Map" />
-            <ChoiceBox id="tileSizeCB" layoutX="10.0" layoutY="65.0" prefHeight="25.0" prefWidth="81.0" />
-            <Label layoutX="10.0" layoutY="48.0" text="Pre-built Map:" />
-            <Button id="validateMapButton" fx:id="validateMapButton" layoutX="10.0" layoutY="96.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/validate.png&quot;);" text="Validate" />
+            <ChoiceBox id="gridSizeChoiceBox" fx:id="gridSizeChoiceBox" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="81.0" />
+            <Label layoutX="10.0" layoutY="3.0" text="Grid Size:" />
+            <Button id="clearMapButton" fx:id="clearMapButton" layoutX="97.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;resources/delete.png&quot;);" text="New Map" />
+            <ChoiceBox id="tileSizeCB" layoutX="98.0" layoutY="19.0" prefHeight="25.0" prefWidth="81.0" />
+            <Label layoutX="98.0" layoutY="2.0" text="Pre-built Map:" />
+            <Button id="validateMapButton" fx:id="validateMapButton" layoutX="10.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/validate.png&quot;);" text="Validate" />
          </children>
       </Pane>
-      <Label layoutX="5.0" layoutY="373.0" text="Map Options">
+      <Label layoutX="5.0" layoutY="411.0" text="Map Options">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
@@ -83,10 +89,11 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="logoImg" fx:id="logoImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../resources/logo1_small.png" />
          </image>
       </ImageView>
+      <Hyperlink id="simulusLink" fx:id="simulusLink" layoutX="5.0" layoutY="37.0" text="http://github.com/leorohr/simulus" />
    </children>
 </AnchorPane>
