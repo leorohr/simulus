@@ -13,15 +13,20 @@ public class Lane extends Tile{
 
 	private Direction dir;
 	private int laneNo;
+	private boolean isBlock;
 
 	public Lane(double posX, double posY, double width, double height,
-			int gridPosX, int gridPosY, Direction dir, int laneNo) {
+			int gridPosX, int gridPosY, Direction dir, int laneNo, boolean isBlock) {
 		super(posX, posY, width, height, gridPosX, gridPosY);
 		this.dir = dir;
 		this.laneNo = laneNo;
+		this.isBlock = isBlock;
         frame.setFill(
                 new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
                         ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
+        if (isBlock == true){
+        	frame.setFill(new ImagePattern(ResourceBuilder.getBlockTexture()));
+        }
 	}
 
 	/**
@@ -39,6 +44,13 @@ public class Lane extends Tile{
 		return laneNo;
 	}
 	
+    /**
+     * @return If the tile is a block.
+     */
+	public boolean getIsBlock(){
+		return isBlock;
+	}
+	
 	/*
 	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
 	 */
@@ -46,5 +58,8 @@ public class Lane extends Tile{
 		frame.setFill(
                 new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
                         ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
+        if (isBlock == true){
+        	frame.setFill(new ImagePattern(ResourceBuilder.getBlockTexture()));
+        }
 	}
 }

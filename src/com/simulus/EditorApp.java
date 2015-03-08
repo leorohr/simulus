@@ -174,7 +174,7 @@ public class EditorApp extends Application {
 									groupErase(t);
 								}
 							}else if (blockSelected && t instanceof Lane) {
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p, ((Lane) t).getDirection(), ((Lane) t).getLaneNo()));
+								editorMap.addSingle(new Lane(i*tileSize, p*tileSize, tileSize, tileSize, i, p, ((Lane) t).getDirection(), ((Lane) t).getLaneNo(), true));
 							}
 						}
 					}
@@ -247,7 +247,7 @@ public class EditorApp extends Application {
 							} else if (blockSelected && t instanceof Lane) {
 								// TODO: Blockage
 								editorMap.removeSingle(t);
-								editorMap.addSingle(new Block(i*tileSize, p*tileSize, tileSize, tileSize, i, p, ((Lane) t).getDirection(), ((Lane) t).getLaneNo()));
+								editorMap.addSingle(new Lane(i*tileSize, p*tileSize, tileSize, tileSize, i, p, ((Lane) t).getDirection(), ((Lane) t).getLaneNo(), true));
 							}
 						}
 					}
