@@ -145,7 +145,8 @@ public class MapXML {
 						case "": //add empty tile
 						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
 									 tileSize, xPos, yPos);
-							System.out.println(xPos + ":" + yPos + " " + "Empty");
+						System.out.println(xPos + ":" + yPos + " " + "Empty");
+						break;
 						case "land":	
 							switch(subType){
 							case "GRASS":
