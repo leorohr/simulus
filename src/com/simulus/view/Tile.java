@@ -1,14 +1,21 @@
 package com.simulus.view;
 
-import java.util.ArrayList;
-
 import javafx.scene.Group;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.RadialGradient;
+import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.Direction;
 import com.simulus.view.map.Lane;
 import com.simulus.view.vehicles.Vehicle;
+
+import javafx.scene.paint.RadialGradient;
 
 public class Tile extends Group {
 
@@ -74,8 +81,18 @@ public class Tile extends Group {
 
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
-			if (isRedLight)
-				frame.setFill(Color.RED);
+			if (isRedLight){
+				//redraw red tile
+				RadialGradient gradient = new RadialGradient(0d, 0d, 0.5d, 0.5d, 1d,
+						true, CycleMethod.REFLECT, new Stop[] {
+								new Stop(0d, Color.RED), new Stop(1d, Color.BLACK) });
+				GaussianBlur blur = new GaussianBlur(5d);
+
+				this.getFrame().setEffect(blur);
+				this.getFrame().setFill(gradient);
+			}else{
+				//redraw green tile
+			}
 		} else {
 			if (this instanceof Lane)
 				((Lane) this).redraw();
@@ -83,7 +100,7 @@ public class Tile extends Group {
 				frame.setFill(Color.TRANSPARENT); // keep intersections
 													// transparent
 			if (isRedLight)
-				frame.setFill(Color.RED); // redraw trafficlights
+				;
 		}
 	}
 
