@@ -215,7 +215,7 @@ public class ControlsController implements Initializable {
 		//Initialise Buttons
 		startButton.setOnAction((event) -> {
 			
-			csv = new CsvExport(Configuration.tempStatsCsv);
+			csv = new CsvExport(Configuration.getTempStatsFile());
 			csv.generateCsvFile("no of vehicles", "avg speed (km/h)", "congestion %", "avg waiting time(s) - cars/trucks", "avg waiting time(s) - ambulance");
 			
 			simulationController.startSimulation();
@@ -236,23 +236,30 @@ public class ControlsController implements Initializable {
 		
 		Map map = SimulationController.getInstance().getMap();
 		dataCount++;
+		
+		//*100/100 is to round to two decimal places
+		int vehicleCount  = map.getVehicleCount();
+		double avgSpeed = (double) Math.round(map.getAverageSpeed()*100)/100;
+		double congestion = (double) Math.round(map.getCongestionValue()*100*100)/100;
+		double avgWait = (double) Math.round(map.getAvgWaitingTime()/10*100)/100; //1 tick simulates 0.1secs in real-time
+		double avgEmWait = (double) Math.round(map.getAvgEmWaitingTime()/10*100)/100;
     	
     	//Update Vehicle Count Chart
-		numVehiclesSeries.getData().add(new LineChart.Data<>(dataCount, map.getVehicleCount()));
+		numVehiclesSeries.getData().add(new LineChart.Data<>(dataCount, vehicleCount));
     	
     	//Update Avg. Speed Chart
-        avgSpeedSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAverageSpeed())));
+        avgSpeedSeries.getData().add(new LineChart.Data<>(dataCount, avgSpeed));
         
         //Update Congestion Chart
-        congestionSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getCongestionValue()*100)));
+        congestionSeries.getData().add(new LineChart.Data<>(dataCount, congestion));
         
         //Update Waiting Time Chart
-        waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()/10))); //1 tick simulates 0.1secs in real-time
-        emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()/10)));
+        waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, avgWait)); //1 tick simulates 0.1secs in real-time
+        emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, avgEmWait));
         
-//        csv.appendRow(String.valueOf(map.getVehicleCount()), 
-//        		String.valueOf(Math.round(map.getAverageSpeed())), String.valueOf(Math.round(map.getCongestionValue()*100)), 
-//        		String.valueOf(Math.round(map.getAvgWaitingTime()/10)), String.valueOf(Math.round(map.getAvgEmWaitingTime()/10)));
+        //Write stats to temp file
+        csv.appendRow(String.valueOf(vehicleCount), String.valueOf(avgSpeed), String.valueOf(congestion),
+    			String.valueOf(avgWait), String.valueOf(avgEmWait));
         
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);

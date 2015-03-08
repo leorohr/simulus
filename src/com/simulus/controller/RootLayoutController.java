@@ -114,8 +114,7 @@ public class RootLayoutController implements Initializable {
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV File (*.csv)", "*.csv"));
             fileChooser.setInitialFileName("simStatExport.csv");
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
-            File sourceFile = Configuration.tempStatsCsv;
-
+            File sourceFile = Configuration.getTempStatsFile();
     		
     			try {
     				FileIO fio = new FileIO();
