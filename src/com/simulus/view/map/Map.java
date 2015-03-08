@@ -307,8 +307,9 @@ public class Map extends Group {
 	}
 
 	public void setRedTrafficLight(int tileX, int tileY) {
-		tiles[tileX][tileY].setOccupied(true);
 		tiles[tileX][tileY].setRedLight(true);
+		tiles[tileX][tileY].setOccupied(true);
+		
 		RadialGradient gradient = new RadialGradient(0d, 0d, 0.5d, 0.5d, 1d,
 				true, CycleMethod.REFLECT, new Stop[] {
 						new Stop(0d, Color.RED), new Stop(1d, Color.BLACK) });
@@ -319,6 +320,7 @@ public class Map extends Group {
 	}
 
 	public void setGreenTrafficLight(int tileX, int tileY) {
+		tiles[tileX][tileY].setRedLight(false);
 		tiles[tileX][tileY].setOccupied(false);
         tiles[tileX][tileY].getFrame().setFill(
                 new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?

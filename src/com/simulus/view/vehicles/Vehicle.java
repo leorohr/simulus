@@ -306,6 +306,8 @@ public abstract class Vehicle extends Rectangle {
 							}else if(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition() == null){
 								currentTransition.setRate(0);
 								return;
+							}else if(currentPath.getEndTile().isOccupied()){
+								currentTransition.setRate(0);
 							}
 		currentTransition.setRate(50/SimulationController.getInstance().getTickTime());
 	}
