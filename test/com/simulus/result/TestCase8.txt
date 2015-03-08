@@ -1,0 +1,26 @@
+FX App thread started 
+
+Simulator Button Detected 
+
+Simulator Button Clicked: true
+
+Start Button Detected 
+
+Start Button Clicked: true
+
+Initialising Test1...
+ 
+Map car Ratio 0.7
+ 
+Trucks on map: 8.0
+ 
+Cars on map: 17.0
+ 
+Current Ratio 0.68
+ 
+Map car Ratio 0.7
+ 
+Test 1 completed!
+ 
+Test scenario 1 passed: true
+ 
