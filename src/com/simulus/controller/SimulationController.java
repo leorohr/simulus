@@ -273,6 +273,14 @@ public class SimulationController {
     	return truckCount;
     }
     
+    public double getRecklessNormalRatio(){
+    	return recklessNormalRatio;
+    }
+    
+    public int getRecklessCount(){
+    	return recklessCount;
+    }
+    
 }
 
 

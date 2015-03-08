@@ -1,28 +1,38 @@
 FX App thread started 
 
-Simulator Button Detected 
-
-Simulator Button Clicked: true
-
+Test scenario 1 passed: false
+ 
+Test scenario 1 Failed.
+ 
 Start Button Detected 
 
 Start Button Clicked: true
 
 Initialising Test1...
  
- Cars detected on the map: true
+ Cars detected on the Map: false
  
-Test 1 completed!
- 
-Test scenario 1 passed: true
+Test1 completed!
  
 Initialising Test2...
  
- Trucks detected on Map: true
+ Trucks detected on map: false
  
-Test 2 completed!
+Test2 completed!
  
-Test scenario 2 passed: true
+Test scenario 2 passed: false
+ 
+Test scenario 2 Failed.
  
 Initialising Test3...
+ 
+Debug CheckBox Detected 
+
+Debug CheckBox Clicked: true
+
+Test3 completed!
+ 
+Test scenario 3 passed: false
+ 
+Test scenario 3 Failed.
  

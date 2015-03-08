@@ -86,9 +86,9 @@ public class TestCase8 extends TestCaseBaseCode{
 				writeToLog("Initialising Test1...");
 
 				ratio = SimulationController.getInstance().getCarTruckRatio();
-				writeToLog("Map car Ratio " + ratio);
-				//	test1Pass = true;
-
+				
+				writeToLog("Map Car/Truck Ratio: " + ratio);
+				
 				truck = SimulationController.getInstance().getTruckCount();
 
 				vihecleCount = SimulationController.getInstance().getMap().getVehicleCount();
@@ -99,8 +99,8 @@ public class TestCase8 extends TestCaseBaseCode{
 
 				writeToLog("Trucks on map: " + truck);
 				writeToLog("Cars on map: " + car);
-				writeToLog("Current Ratio " + myRatio);
-				writeToLog("Map car Ratio " + ratio);
+				writeToLog("Current Car/Truck Ratio " + myRatio);
+		
 
 
 				if(myRatio< ratio){
