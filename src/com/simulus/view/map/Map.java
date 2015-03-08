@@ -551,16 +551,10 @@ public class Map extends Group {
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
-				// If a car is standing, color it green, if it is driving with
-				// the max. allowed speed, color it red.
-				double maxSpeedInMps = ((double) SimulationController
-						.getInstance().getMaxCarSpeed() * 1000) / 3600;
-				double speedfraction = v.getVehicleSpeed()
-						/ ((maxSpeedInMps * (Configuration.tileSize / 5)) / 10);
-				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1
-						: speedfraction), 1.0d, 1.0d)); // Hue degree 120 is
-														// bright green, 0 is
-														// red
+				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1 : speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 				v.setFill(MainApp.getInstance().getControlsController()
@@ -578,19 +572,9 @@ public class Map extends Group {
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
-				double maxSpeedInMps = ((double) SimulationController
-						.getInstance().getMaxCarSpeed() * 1000) / 3600;
-				double speedfraction = v.getVehicleSpeed()
-						/ ((maxSpeedInMps * (Configuration.tileSize / 5)) / 10);
-				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); // Hue
-																			// degree
-																			// 120
-																			// is
-																			// bright
-																			// green,
-																			// 0
-																			// is
-																			// red
+				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
 				v.setFill(MainApp.getInstance().getControlsController()

@@ -11,17 +11,16 @@ import com.simulus.util.enums.Direction;
 import com.simulus.view.map.Lane;
 import com.simulus.view.vehicles.Vehicle;
 
-import javafx.scene.paint.RadialGradient;
-
 public class Tile extends Group {
 
 	private int gridPosX;
 	private int gridPosY;
-	private boolean isOccupied;
 	private Vehicle occupier;
 	private Line redLight = null;
-	protected Rectangle frame;
-	protected boolean isRedLight = false;
+    protected Rectangle frame;
+    protected boolean isOccupied;
+    protected boolean isBlock;
+    protected boolean isRedLight = false;
 
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
@@ -139,6 +138,10 @@ public class Tile extends Group {
 
 	public int getGridPosY() {
 		return gridPosY;
+	}
+
+	public boolean isBlock(){
+		return isBlock;
 	}
 
 	public boolean isRedLight() {

@@ -21,6 +21,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import com.simulus.MainApp;
+import com.simulus.io.CsvExport;
+import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.map.Map;
@@ -91,6 +93,7 @@ public class ControlsController implements Initializable {
     private LineChart.Series<Number, Number> congestionSeries;
     private LineChart.Series<Number, Number> waitingTimeSeries;
     private LineChart.Series<Number, Number> emWaitingTimeSeries; //waiting time of emergency vehicles
+    private CsvExport csv;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -121,6 +124,8 @@ public class ControlsController implements Initializable {
 				statisticsPane.expandedProperty().set(true);
 			});
 			chartStage.show();
+			
+			
 		}); 
 		
 		//Initialise charts
@@ -209,7 +214,12 @@ public class ControlsController implements Initializable {
 				
 		//Initialise Buttons
 		startButton.setOnAction((event) -> {
+			
+			csv = new CsvExport(Configuration.tempStatsCsv);
+			csv.generateCsvFile("no of vehicles", "avg speed (km/h)", "congestion %", "avg waiting time(s) - cars/trucks", "avg waiting time(s) - ambulance");
+			
 			simulationController.startSimulation();
+
 		});
 
         resetButton.setOnAction((event) -> {
@@ -221,6 +231,7 @@ public class ControlsController implements Initializable {
 		});
 	}
 
+	
 	void updateCharts() {
 		
 		Map map = SimulationController.getInstance().getMap();
@@ -239,6 +250,10 @@ public class ControlsController implements Initializable {
         waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()/10))); //1 tick simulates 0.1secs in real-time
         emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()/10)));
         
+//        csv.appendRow(String.valueOf(map.getVehicleCount()), 
+//        		String.valueOf(Math.round(map.getAverageSpeed())), String.valueOf(Math.round(map.getCongestionValue()*100)), 
+//        		String.valueOf(Math.round(map.getAvgWaitingTime()/10)), String.valueOf(Math.round(map.getAvgEmWaitingTime()/10)));
+        
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);
             emWaitingTimeSeries.getData().remove(0, 10);
@@ -254,6 +269,7 @@ public class ControlsController implements Initializable {
             ((NumberAxis)avgSpeedChart.getXAxis()).setUpperBound(dataCount);
             ((NumberAxis)numVehiclesChart.getXAxis()).setLowerBound((0 > dataCount-MAX_DATA_POINTS ? 0 : dataCount-MAX_DATA_POINTS));
             ((NumberAxis)numVehiclesChart.getXAxis()).setUpperBound(dataCount);
+            
         }   
 	}
 	

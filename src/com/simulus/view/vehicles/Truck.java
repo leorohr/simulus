@@ -3,7 +3,6 @@ package com.simulus.view.vehicles;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Translate;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
@@ -61,11 +60,6 @@ public class Truck extends Vehicle {
 			return;
 		}
 		
-		Translate trans = new Translate();
-		
-		final double dx;
-		final double dy;
-
 		Direction temp = getDirection();
 		Behavior tempBehavior = behavior;
 		
@@ -116,6 +110,8 @@ public class Truck extends Vehicle {
 			 
 			if (nextTile.isOccupied()) {
 				tempDir = Direction.NONE;
+				if(nextTile.isBlock())
+					changeLane();
 			} else if(nextTile instanceof IntersectionTile) { 
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;

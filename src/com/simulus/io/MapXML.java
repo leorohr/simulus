@@ -50,8 +50,10 @@ public class MapXML {
 	private int xPos;
 	private int yPos;
 	private String type;
-	private String attribute;
-	private String attribute2;
+	private String subType;
+	private String direction;
+	private String laneNo;
+	private String isBlock;
 
 	Map importedMap = new Map();
 	public Tile[][] fullGrid;
@@ -126,9 +128,13 @@ public class MapXML {
 							.item(0).getTextContent());
 					type = eElement.getElementsByTagName("type").item(0)
 							.getTextContent();
-					attribute = eElement.getElementsByTagName("attribute")
+					subType = eElement.getElementsByTagName("subType")
 							.item(0).getTextContent();
-					attribute2 = eElement.getElementsByTagName("attribute2")
+					direction = eElement.getElementsByTagName("direction")
+							.item(0).getTextContent();
+					laneNo = eElement.getElementsByTagName("laneNo")
+							.item(0).getTextContent();
+					isBlock = eElement.getElementsByTagName("isBlock")
 							.item(0).getTextContent();
 					
 					
@@ -139,9 +145,10 @@ public class MapXML {
 						case "": //add empty tile
 						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
 									 tileSize, xPos, yPos);
-							System.out.println(xPos + ":" + yPos + " " + "Empty");
+						System.out.println(xPos + ":" + yPos + " " + "Empty");
+						break;
 						case "land":	
-							switch(attribute){
+							switch(subType){
 							case "GRASS":
 								 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
@@ -154,33 +161,33 @@ public class MapXML {
 								fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
-								case "BLOCK":  //add block tile
-									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos);
-								break;
+//								case "BLOCK":  // TODO: add block tile
+//									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
+//											 tileSize, xPos, yPos, Direction.NONE, Integer.parseInt(attribute2));
+//								break;
 							}
-							System.out.println(xPos + ":" + yPos + " " + attribute);
+							System.out.println(xPos + ":" + yPos + " " + subType);
 						break;
 						case "lane":  //add lane tile
-							switch(attribute){
+							switch(direction){
 								case "EAST": //add east tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.EAST, Integer.parseInt(attribute2));
+											 tileSize, xPos, yPos, Direction.EAST, Integer.parseInt(laneNo), Boolean.parseBoolean(isBlock));
 								break;
 								case "WEST": //add west tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.WEST, Integer.parseInt(attribute2));
+											 tileSize, xPos, yPos, Direction.WEST, Integer.parseInt(laneNo), Boolean.parseBoolean(isBlock));
 								break;
 								case "NORTH": //add north tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.NORTH, Integer.parseInt(attribute2));
+											 tileSize, xPos, yPos, Direction.NORTH, Integer.parseInt(laneNo), Boolean.parseBoolean(isBlock));
 								break;
 								case "SOUTH": //add south tile
 									fullGrid[xPos][yPos] = new Lane(xPos * tileSize, yPos * tileSize, tileSize,
-											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(attribute2));
+											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(laneNo), Boolean.parseBoolean(isBlock));
 								break;
 							}
-							System.out.println(xPos + ":" + yPos + " " + attribute + " Lane: " + attribute2);
+							System.out.println(xPos + ":" + yPos + " " + direction + " Lane: " + laneNo + " isBlock: " + isBlock);
 						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
@@ -195,7 +202,7 @@ public class MapXML {
 
 		} catch (Exception e) {
 			System.out
-					.println("Check that the input file exisits and that it matches XML map schema.");
+					.println("Check that the input file exists and that it matches XML map schema.");
 			System.out.println("Error reported:");
 			e.printStackTrace();
 		}
@@ -281,17 +288,20 @@ public class MapXML {
 				for (int c = 0; c < numOfTiles; c++) {
 
 					String tileType = "";
-					String tileAttribute = "";
-					String tileAttribute2 = "";
+					String subType = "";
+					String direction = "";
+					String laneNo = "";
+					String isBlock = "";
 					Tile t = gridIn[c][r];
 					
 					if (t instanceof Lane) {
 						tileType = "lane";
-						tileAttribute = ((Lane) t).getDirection().toString();
-						tileAttribute2 =   Integer.toString(((Lane) t).getLaneNo());
+						direction = ((Lane) t).getDirection().toString();
+						laneNo = Integer.toString(((Lane) t).getLaneNo());
+						isBlock = Boolean.toString((((Lane) t).isBlock()));
 					} else if (t instanceof Land) {
 						tileType = "land";
-						tileAttribute = ((Land) t).getLandType().toString();
+						subType = ((Land) t).getLandType().toString();
 					} else if (t instanceof IntersectionTile) {
 						tileType = "intersection";
 					}
@@ -310,16 +320,26 @@ public class MapXML {
 					Element eType = doc.createElement("type");
 					eType.appendChild(doc.createTextNode(tileType));
 					eTile.appendChild(eType);
+					
+					Element eSubType = doc.createElement("subType");
+					eSubType.appendChild(doc.createTextNode(subType));
+					eTile.appendChild(eSubType);
+					
+					Element eDirection = doc.createElement("direction");
+					eDirection.appendChild(doc
+							.createTextNode(direction));
+					eTile.appendChild(eDirection);
 
-					Element eAttribute = doc.createElement("attribute");
-					eAttribute.appendChild(doc
-							.createTextNode(tileAttribute));
-					eTile.appendChild(eAttribute);
+					Element eLaneNo = doc.createElement("laneNo");
+					eLaneNo.appendChild(doc
+							.createTextNode(laneNo));
+					eTile.appendChild(eLaneNo);
 
-					Element eAttribute2 = doc.createElement("attribute2");
-					eAttribute2.appendChild(doc
-							.createTextNode(tileAttribute2));
-					eTile.appendChild(eAttribute2);
+					Element eIsBlock = doc.createElement("isBlock");
+					eIsBlock.appendChild(doc
+							.createTextNode(isBlock));
+					eTile.appendChild(eIsBlock);
+					
 				}
 
 			}

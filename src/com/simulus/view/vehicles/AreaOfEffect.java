@@ -29,7 +29,7 @@ public class AreaOfEffect extends Circle{
 					
 					Lane l = (Lane) v.getCurrentTile();
 					if(l.getLaneNo() ==  ((Lane)getCar().getCurrentTile()).getLaneNo()) //if v is in same lane, force it over
-						v.changeToLeftLane();
+						v.changeLane();
 					else //if car is in adjacent lane, make it slow down and allow cars to merge
 						v.allowMerge();
 				}

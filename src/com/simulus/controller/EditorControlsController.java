@@ -3,37 +3,21 @@ package com.simulus.controller;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
@@ -173,18 +157,22 @@ public class EditorControlsController implements Initializable {
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
         	alert.setTitle("Opening Simulator");
         	alert.setHeaderText("Opening the Simulator will close the Editor.");
-        	alert.setContentText("Continue?");
+        	alert.setContentText("Save current map and continue?");
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() != ButtonType.OK)
         		return;
             
-			//for now let it load default xml.  this is ok
+        	//Save map to file
+        	File mapFile = EditorApp.getInstance().saveMapDialog();
+        	if(mapFile == null)
+        		return;
+        	
+        	//Open map in simulator
             MainApp app = MainApp.getInstance(); 
     		if(app == null)
     			app = new MainApp();
     		app.start(new Stage());
-    		SimulationController.getInstance().getMap().loadMap(
-    				new File(MainApp.class.getResource("/resources/default.xml").getFile()));
+    		SimulationController.getInstance().getMap().loadMap(mapFile);
 
             try {
             	EditorApp.getInstance().getPrimaryStage().close();
@@ -294,8 +282,5 @@ public class EditorControlsController implements Initializable {
 		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
 		
 	}
-	
-
-	
 
 }
