@@ -294,7 +294,6 @@ public abstract class Vehicle extends Rectangle {
 	}
 	
 	public void checkTransitionBlockage(){
-		//if(currentIntersection != null && currentTransition != null && currentPath != null){
 		if(currentIntersection != null && isTransitioning())
 			for(int i = 0; i < currentIntersection.tiles.length; i++)
 				for(int j = 0; j< currentIntersection.tiles[0].length;j++)
