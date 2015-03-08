@@ -170,7 +170,11 @@ public class EditorApp extends Application {
 
 							if (eraserSelected) {
 								if(t instanceof Land && !(t instanceof Block) ) {
-									editorMap.removeSingle(editorMap.getTiles()[i][p]);									
+									if (event.isShiftDown()){
+										floodFillRemove(i,p);
+									}else{
+									editorMap.removeSingle(editorMap.getTiles()[i][p]);	
+									}
 								} else if (t instanceof Lane || t instanceof IntersectionTile || t instanceof Block){
 									groupErase(t);
 								}
@@ -623,6 +627,26 @@ public class EditorApp extends Application {
 				floodFill(tFill, xIn, yIn + 1);
 				floodFill(tFill, xIn, yIn - 1);
 			}
+		}
+
+	}
+	
+	private void floodFillRemove(int xIn, int yIn){
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		
+		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
+			
+			Tile t = this.editorMap.getTiles()[xIn][yIn];
+			
+			if (t instanceof Lane || t instanceof IntersectionTile){
+				return;
+			} else if (t instanceof Land){
+				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
+				floodFillRemove(xIn + 1, yIn);
+				floodFillRemove(xIn - 1, yIn);
+				floodFillRemove(xIn, yIn + 1);
+				floodFillRemove(xIn, yIn - 1);
+			} else{}
 		}
 
 	}

@@ -60,6 +60,7 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <tooltip><Tooltip text="SHIFT + click to flood remove land tiles" /></tooltip>
             </Button>
             <Button id="cityButton" fx:id="cityButton" layoutX="116.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/city.png&quot;); -fx-background-size: 50 50;" text="City">
                <opaqueInsets>

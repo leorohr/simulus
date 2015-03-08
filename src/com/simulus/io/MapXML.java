@@ -202,7 +202,7 @@ public class MapXML {
 
 		} catch (Exception e) {
 			System.out
-					.println("Check that the input file exisits and that it matches XML map schema.");
+					.println("Check that the input file exists and that it matches XML map schema.");
 			System.out.println("Error reported:");
 			e.printStackTrace();
 		}
