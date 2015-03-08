@@ -6,18 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import javafx.animation.Animation;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
-import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
@@ -41,13 +38,13 @@ public class Map extends Group {
 	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); //the threads that switch the lights of trafficlights
 	private ArrayList<Lane> entryPoints = new ArrayList<>();	//stores all those lanes, that are suitable to spawn a car on
 	private ArrayList<Vehicle> vehicles = new ArrayList<>();
-	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update 
+	private ArrayList<Vehicle> toBeRemoved = new ArrayList<>(); //temporarily stores vehicles that are off the canvas and should be removed with the next update
 	
 	private VehicleColorOption carColorOption = VehicleColorOption.SPEED;
 	private VehicleColorOption truckColorOption = VehicleColorOption.SPEED;
 
 	public Map() {
-		
+
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
 			for (int p = 0; p < tiles[0].length; p++) {
@@ -64,19 +61,19 @@ public class Map extends Group {
 				else EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
 		}
-		
-		
-		for(Intersection i: intersections){
+
+		for (Intersection i : intersections) {
 			i.addTurningPaths(tiles);
-			
-			//If the path has a lane at the end of it, set it to active
-			//This allows the creation intersections without 4 connected roads
-			for(CustomPath p: i.getTurningPaths()){
-				if(p.getEndTile() instanceof Lane)
+
+			// If the path has a lane at the end of it, set it to active
+			// This allows the creation intersections without 4 connected roads
+			for (CustomPath p : i.getTurningPaths()) {
+				if (p.getEndTile() instanceof Lane)
 					p.setActive(true);
 			}
-			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
-														+ i.getTiles().get(0).getGridPosY() + ">");
+			Thread t = new Thread(i, "Intersection <"
+					+ i.getTiles().get(0).getGridPosX() + ", "
+					+ i.getTiles().get(0).getGridPosY() + ">");
 			trafficLightThreads.add(t);
 			t.start();
 		}
@@ -84,13 +81,13 @@ public class Map extends Group {
 
 	public Map(Tile[][] tiles) {
 		this();
-		
+
 		this.tiles = tiles;
 	}
-	
 
 	/**
-	 * Draws the current state of the map on either the editor's or the mainApp's canvas.
+	 * Draws the current state of the map on either the editor's or the
+	 * mainApp's canvas.
 	 */
 	public void drawMap(Pane canvasPane) {
 		
@@ -101,39 +98,6 @@ public class Map extends Group {
 				canvasPane.getChildren().add(tiles[i][p]);
 			}
 		}
-	}
-	
-	private void createHashStyleMap() {
-		// init all tiles
-		for (int i = 0; i < tiles.length; i++) {
-			for (int p = 0; p < tiles[0].length; p++) {
-				tiles[i][p] = new Tile(i * tileSize, p * tileSize, tileSize,
-						tileSize, i, p);
-			}
-		}
-
-		for (int i = 0; i < tiles.length; i++) {
-			addGroup(new Road(i, 7, Orientation.WESTEAST));
-			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 18, Orientation.WESTEAST));
-			addGroup(new Road(18, i, Orientation.NORTHSOUTH));
-
-			addGroup(new Road(i, 29, Orientation.WESTEAST));
-			addGroup(new Road(29, i, Orientation.NORTHSOUTH));
-		}
-
-		addGroup(new Intersection(7, 7));
-		addGroup(new Intersection(7, 18));
-		addGroup(new Intersection(7, 29));
-
-		addGroup(new Intersection(18, 7));
-		addGroup(new Intersection(18, 18));
-		addGroup(new Intersection(18, 29));
-
-		addGroup(new Intersection(29, 7));
-		addGroup(new Intersection(29, 18));
-		addGroup(new Intersection(29, 29));
 	}
 
 	/**
@@ -150,13 +114,12 @@ public class Map extends Group {
 		if (l.getDirection() == Direction.NORTH
 				|| l.getDirection() == Direction.SOUTH) {
 			c = new Car(l.getGridPosX() * tileSize + tileSize / 2
-					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize
-					+ tileSize - Car.CARLENGTH, l.getDirection());
+					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize + tileSize
+					- Car.CARLENGTH, l.getDirection());
 		} else if (l.getDirection() == Direction.WEST
 				|| l.getDirection() == Direction.EAST) {
-			c = new Car(l.getGridPosX() * tileSize, l.getGridPosY()
-					* tileSize + tileSize / 2 - Car.CARWIDTH / 2,
-					l.getDirection());
+			c = new Car(l.getGridPosX() * tileSize, l.getGridPosY() * tileSize
+					+ tileSize / 2 - Car.CARWIDTH / 2, l.getDirection());
 		}
 
 		c.setCurrentTile(l);
@@ -206,14 +169,16 @@ public class Map extends Group {
 	public void addSingle(Tile tile) {
 		tiles[tile.getGridPosX()][tile.getGridPosY()] = tile;
 	}
-	
+
 	/**
 	 * Removes the passed tile from the tiles[][] array.
 	 * 
 	 * @param tile - The tile to be removed
 	 */
 	public void removeSingle(Tile tile) {
-		tiles[tile.getGridPosX()][tile.getGridPosY()] = new Tile(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), tile.getGridPosX(), tile.getGridPosY());
+		tiles[tile.getGridPosX()][tile.getGridPosY()] = new Tile(tile.getX(),
+				tile.getY(), tile.getWidth(), tile.getHeight(),
+				tile.getGridPosX(), tile.getGridPosY());
 	}
 
 	/**
@@ -259,50 +224,53 @@ public class Map extends Group {
 	/**
 	 * Spawns an ambulance at a random, available entrypoint.
 	 */
-	public void spawnAmbulance(){
-		
+	public void spawnAmbulance() {
+
 		Lane l;
-		do{
+		do {
 			l = selectRandomEntryPoint();
-		}
-		while( l != null && l.getLaneNo() != 1 && l.getLaneNo() != 2);
-		
+		} while (l != null && l.getLaneNo() != 1 && l.getLaneNo() != 2);
+
 		Ambulance a = null;
-		
+
 		if (l.getDirection() == Direction.NORTH
 				|| l.getDirection() == Direction.SOUTH) {
 			a = new Ambulance(l.getGridPosX() * tileSize + tileSize / 2
-					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize
-					+ tileSize - Car.CARLENGTH, l.getDirection());
+					- Car.CARWIDTH / 2, l.getGridPosY() * tileSize + tileSize
+					- Car.CARLENGTH, l.getDirection());
 		} else if (l.getDirection() == Direction.WEST
 				|| l.getDirection() == Direction.EAST) {
 			a = new Ambulance(l.getGridPosX() * tileSize, l.getGridPosY()
 					* tileSize + tileSize / 2 - Car.CARWIDTH / 2,
 					l.getDirection());
 		}
-		a.getCar().setCurrentTile(l); 
+		a.getCar().setCurrentTile(l);
 		a.getCar().setMap(tiles);
 		l.setOccupied(true, a.getCar());
-		
-		synchronized (vehicles){
+
+		synchronized (vehicles) {
 			vehicles.add(a.getCar());
 		}
 	}
 
 	/**
-	 * Add the tiles contained by the passed tilegroup to the current instance of the map.
-	 * If a North/Southbound lane is at the top/bottom-edge of the map, it becomes an entrypoint,
-	 * equivalently do East/Westbound  lanes at the left/right-edge of the map.
-	 * @param g The TileGroup to add to the map's tiles.
+	 * Add the tiles contained by the passed tilegroup to the current instance
+	 * of the map. If a North/Southbound lane is at the top/bottom-edge of the
+	 * map, it becomes an entrypoint, equivalently do East/Westbound lanes at
+	 * the left/right-edge of the map.
+	 * 
+	 * @param g
+	 *            The TileGroup to add to the map's tiles.
 	 */
 	public void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
 			tiles[t.getGridPosX()][t.getGridPosY()] = t;
-			
-			if(g instanceof Intersection) {
-				((IntersectionTile)tiles[t.getGridPosX()][t.getGridPosY()]).setIntersection((Intersection)g);
+
+			if (g instanceof Intersection) {
+				((IntersectionTile) tiles[t.getGridPosX()][t.getGridPosY()])
+						.setIntersection((Intersection) g);
 			}
 
 			if (g instanceof Road) {
@@ -330,23 +298,14 @@ public class Map extends Group {
 			intersections.add((Intersection) g);
 	}
 
-
-	public void setRedTrafficLight(int tileX, int tileY) {
-		if(!(tiles[tileX][tileY] instanceof Lane))
-			return;
-		
+	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
 		tiles[tileX][tileY].setOccupied(true);
-        tiles[tileX][tileY].getFrame().setFill(Color.RED);
+		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
-	
-	public void setGreenTrafficLight(int tileX, int tileY){
-		if(!(tiles[tileX][tileY] instanceof Lane))
-			return;
-		
+
+	public void setGreenTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(false);
-        tiles[tileX][tileY].getFrame().setFill(
-                new ImagePattern((((Lane) tiles[tileX][tileY]).getDirection() == Direction.EAST || ((Lane) tiles[tileX][tileY]).getDirection() == Direction.WEST ?
-                ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
+		tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
 	}
 
 	/**
@@ -357,19 +316,18 @@ public class Map extends Group {
 		Vehicle v;
 		Iterator<Vehicle> iter = vehicles.iterator();
 		while (iter.hasNext()) {
-
 			v = iter.next();
+
 			int vX = v.getCurrentTile().getGridPosX();
 			int vY = v.getCurrentTile().getGridPosY();
-			
-			
+
 			Tile nextTile = null;
 
 			// In order to prevent ConcurrentModificationExceptions
 			// vehicles have to be removed in this loop.
 			if (toBeRemoved.contains(v)) {
 				iter.remove();
-                toBeRemoved.remove(v);
+				toBeRemoved.remove(v);
 				continue;
 			}
 
@@ -416,30 +374,42 @@ public class Map extends Group {
 					}
 				}
 
-				nextTile.setOccupied(true, v );
+				nextTile.setOccupied(true, v);
 				v.setCurrentTile(nextTile);
 				v.setMap(tiles);
-
 			}
-			
+
 			updateVehicleColor(v);
-			
-            if(v.getCurrentTransition() != null && v.getCurrentTransition().getStatus() == Animation.Status.RUNNING)
-            	v.getCurrentTransition().setRate(50/SimulationController.getInstance().getTickTime());
-            
+
+			if (v.getCurrentTransition() != null && v.isTransitioning())
+				v.getCurrentTransition().setRate(
+						50 / SimulationController.getInstance().getTickTime());
+
 			v.moveVehicle();
 		}
 	}
 
+	public void pauseTransitions() {
+		Vehicle v;
+		Iterator<Vehicle> iter = vehicles.iterator();
+		while (iter.hasNext()) {
+			v = iter.next();
+			if (v.getCurrentTransition() != null && v.isTransitioning())
+				v.getCurrentTransition().setRate(0);
+		}
+	}
+
 	/*
-	 *  TODO: shrink method, remove redundant/repeat code
-	 *  	  have a remove method that handles single square and groups
+	 * TODO: shrink method, remove redundant/repeat code have a remove method
+	 * that handles single square and groups
 	 */
 	public void removeGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
 		for (Tile t : l) {
-			tiles[t.getGridPosX()][t.getGridPosY()] = new Tile(t.getX(), t.getY(), t.getWidth(), t.getHeight(), t.getGridPosX(), t.getGridPosY());
+			tiles[t.getGridPosX()][t.getGridPosY()] = new Tile(t.getX(),
+					t.getY(), t.getWidth(), t.getHeight(), t.getGridPosX(),
+					t.getGridPosY());
 
 			if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
@@ -478,57 +448,64 @@ public class Map extends Group {
 		trafficLightThreads = new ArrayList<Thread>();
 		vehicles = new ArrayList<Vehicle>();
 		toBeRemoved = new ArrayList<Vehicle>();
-	    SimulationController.getInstance().resetSimulation(false);
+		SimulationController.getInstance().resetSimulation(false);
 		SimulationController.getInstance().setLastLoadedMap(mapFile);
-		
+
 		MapXML loader = new MapXML();
-	    loader.readXML(mapFile.toPath().toString());
-	    tiles = loader.getTileGrid();
-	    
-	    boolean[][] checked = new boolean[tiles.length][tiles[0].length];
-	    for(int i=0; i<tiles.length; i++) {
-	    	for(int j=0; j<tiles[0].length; j++) {
-	    		//Dont double-check tiles -- mainly for correct detection of intersections.
-	    		if(checked[i][j])
-	    			continue;
-	    		
-	    		//Check for entrypoints
-	    		if(i==0) {
-	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.EAST)
-	    				entryPoints.add((Lane) tiles[i][j]);
-	    		} else if(i == tiles.length-1) {
-	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.WEST)
-	    				entryPoints.add((Lane) tiles[i][j]);
-	    		} else if(j == 0) {
-	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.SOUTH)
-	    				entryPoints.add((Lane) tiles[i][j]);
-	    		} else if(j == tiles.length-1) {
-	    			if(tiles[i][j] instanceof Lane && ((Lane)tiles[i][j]).getDirection() == Direction.NORTH)
-	    				entryPoints.add((Lane) tiles[i][j]);
-	    		}
-	    		
-	    		if(tiles[i][j] instanceof IntersectionTile) {
-	    			//If an intersection is encountered, create new object and set all related tiles to checked
-	    			addGroup(new Intersection(i, j));
-	    			for(int m=i; m<i+4; m++) {
-	    				for(int n=j; n<j+4; n++) 
-	    					checked[m][n] = true;
-	    			}
-	    		}
-	    	}
-	    }
-	    
-	    for(Intersection i: intersections){
+		loader.readXML(mapFile.toPath().toString());
+		tiles = loader.getTileGrid();
+
+		boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				// Dont double-check tiles -- mainly for correct detection of
+				// intersections.
+				if (checked[i][j])
+					continue;
+
+				// Check for entrypoints
+				if (i == 0) {
+					if (tiles[i][j] instanceof Lane
+							&& ((Lane) tiles[i][j]).getDirection() == Direction.EAST)
+						entryPoints.add((Lane) tiles[i][j]);
+				} else if (i == tiles.length - 1) {
+					if (tiles[i][j] instanceof Lane
+							&& ((Lane) tiles[i][j]).getDirection() == Direction.WEST)
+						entryPoints.add((Lane) tiles[i][j]);
+				} else if (j == 0) {
+					if (tiles[i][j] instanceof Lane
+							&& ((Lane) tiles[i][j]).getDirection() == Direction.SOUTH)
+						entryPoints.add((Lane) tiles[i][j]);
+				} else if (j == tiles.length - 1) {
+					if (tiles[i][j] instanceof Lane
+							&& ((Lane) tiles[i][j]).getDirection() == Direction.NORTH)
+						entryPoints.add((Lane) tiles[i][j]);
+				}
+
+				if (tiles[i][j] instanceof IntersectionTile) {
+					// If an intersection is encountered, create new object and
+					// set all related tiles to checked
+					addGroup(new Intersection(i, j));
+					for (int m = i; m < i + 4; m++) {
+						for (int n = j; n < j + 4; n++)
+							checked[m][n] = true;
+					}
+				}
+			}
+		}
+
+		for (Intersection i : intersections) {
 			i.addTurningPaths(tiles);
-			
-			//If the path has a lane at the end of it, set it to active
-			//This allows the creation intersections without 4 connected roads
-			for(CustomPath p: i.getTurningPaths()){
-				if(p.getEndTile() instanceof Lane)
+
+			// If the path has a lane at the end of it, set it to active
+			// This allows the creation intersections without 4 connected roads
+			for (CustomPath p : i.getTurningPaths()) {
+				if (p.getEndTile() instanceof Lane)
 					p.setActive(true);
 			}
-			Thread t = new Thread(i, "Intersection <" 	+ i.getTiles().get(0).getGridPosX() + ", "
-														+ i.getTiles().get(0).getGridPosY() + ">");
+			Thread t = new Thread(i, "Intersection <"
+					+ i.getTiles().get(0).getGridPosX() + ", "
+					+ i.getTiles().get(0).getGridPosY() + ">");
 			trafficLightThreads.add(t);
 			t.start();
 		}
@@ -537,10 +514,13 @@ public class Map extends Group {
     }
 
 	/**
-	 * Removes a vehicle from the screen. To prevent ConcurrentModification-Exceptions, the 
-	 * vehicles that shold be removed are temporarily stored in <code>toBeRemoved</code> and 
-	 * then removed in the main simulation loop.
-	 * @param v Vehicle to be removed
+	 * Removes a vehicle from the screen. To prevent
+	 * ConcurrentModification-Exceptions, the vehicles that shold be removed are
+	 * temporarily stored in <code>toBeRemoved</code> and then removed in the
+	 * main simulation loop.
+	 * 
+	 * @param v
+	 *            Vehicle to be removed
 	 */
 	public void removeVehicle(Vehicle v) {
 
@@ -554,17 +534,20 @@ public class Map extends Group {
 	}
 
 	/**
-	 * Changes the color of the vehicle according to the currently chosen coloroption.
-	 * @param v The vehicle whose color should be updated.
+	 * Changes the color of the vehicle according to the currently chosen
+	 * coloroption.
+	 * 
+	 * @param v
+	 *            The vehicle whose color should be updated.
 	 */
 	private void updateVehicleColor(Vehicle v) {
-		
-		if(v instanceof Car && !(v instanceof EmergencyCar)) {
-			switch(carColorOption) {
-			case BEHAVIOR: 
-				if(v.getBehavior() == Behavior.RECKLESS)
+
+		if (v instanceof Car && !(v instanceof EmergencyCar)) {
+			switch (carColorOption) {
+			case BEHAVIOR:
+				if (v.getBehavior() == Behavior.RECKLESS)
 					v.setFill(Color.RED);
-				else if(v.getBehavior() == Behavior.CAUTIOUS) 
+				else if (v.getBehavior() == Behavior.CAUTIOUS)
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
@@ -574,17 +557,18 @@ public class Map extends Group {
 				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1 : speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
-	    		v.setFill(MainApp.getInstance().getControlsController().getCarColor());
+				v.setFill(MainApp.getInstance().getControlsController()
+						.getCarColor());
 				break;
 			default:
 				break;
 			}
-		} else if(v instanceof Truck) {
-			switch(truckColorOption){
+		} else if (v instanceof Truck) {
+			switch (truckColorOption) {
 			case BEHAVIOR:
-				if(v.getBehavior() == Behavior.RECKLESS)
+				if (v.getBehavior() == Behavior.RECKLESS)
 					v.setFill(Color.RED);
-				else if(v.getBehavior() == Behavior.CAUTIOUS) 
+				else if (v.getBehavior() == Behavior.CAUTIOUS)
 					v.setFill(Color.AQUAMARINE);
 				break;
 			case SPEED:
@@ -593,23 +577,24 @@ public class Map extends Group {
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
-				v.setFill(MainApp.getInstance().getControlsController().getTruckColor());
+				v.setFill(MainApp.getInstance().getControlsController()
+						.getTruckColor());
 				break;
 			default:
 				break;
 			}
-		} 
+		}
 	}
-	
+
 	/**
 	 * Give all intersections a new random switchtime between 2 and 5 secs.
 	 */
 	public void randomiseTrafficLights() {
-		for(Intersection i : intersections) {
-			i.setSwitchTime((long) (2000 + Math.random()*3000));
+		for (Intersection i : intersections) {
+			i.setSwitchTime((long) (2000 + Math.random() * 3000));
 		}
 	}
-	
+
 	public void showAllIntersectionPaths() {
 		for (Intersection is : intersections)
 			is.showAllPaths();
@@ -620,74 +605,77 @@ public class Map extends Group {
 			is.hideAllPaths();
 		}
 	}
-	
+
 	/**
 	 * @return The average speed of all vehicles currently on the map.
 	 */
 	public double getAverageSpeed() {
-		
+
 		double avg = 0.0d;
-		for(Vehicle v : vehicles)
-			avg += v.getVehicleSpeed()*(50/Configuration.tileSize)*3.6;
-	
-		return avg/vehicles.size();
+		for (Vehicle v : vehicles)
+			avg += v.getVehicleSpeed() * (50 / Configuration.tileSize) * 3.6;
+
+		return avg / vehicles.size();
 	}
-	
+
 	/**
-	 * @return The percentage of road-tiles that are currently occupied [0.0;1.0]
+	 * @return The percentage of road-tiles that are currently occupied
+	 *         [0.0;1.0]
 	 */
 	public double getCongestionValue() {
 		double occ = 0.0d;
 		double road = 0.0d;
-		
-		for(Tile[] ts : tiles) {
-			for(Tile t : ts) {
-				if(t instanceof Lane)
+
+		for (Tile[] ts : tiles) {
+			for (Tile t : ts) {
+				if (t instanceof Lane)
 					road++;
-				if(t.isOccupied())
+				if (t.isOccupied())
 					occ++;
 			}
 		}
-		return occ/road;
+		return occ / road;
 	}
-	
+
 	/**
-	 * @return The average number of ticks in which a vehicle did not move on its way through the map.
+	 * @return The average number of ticks in which a vehicle did not move on
+	 *         its way through the map.
 	 */
 	public double getAvgWaitingTime() {
-		
+
 		double avg = 0.0d;
-		for(Vehicle v : vehicles) {
+		for (Vehicle v : vehicles) {
 			avg += v.getWaitedCounter();
 		}
-		
-		return avg/vehicles.size();
+
+		return avg / vehicles.size();
 	}
-	
+
 	/**
-	 * @return The average number of ticks in which an emergency vehicle did not move on its way through the map.
+	 * @return The average number of ticks in which an emergency vehicle did not
+	 *         move on its way through the map.
 	 */
 	public double getAvgEmWaitingTime() {
-		
+
 		double avg = 0.0d;
 		int count = 0;
-		for(Vehicle v : vehicles) {
-			if(v instanceof EmergencyCar) {
+		for (Vehicle v : vehicles) {
+			if (v instanceof EmergencyCar) {
 				avg += v.getWaitedCounter();
 				count++;
 			}
 		}
-		
-		return avg/count;
+
+		return avg / count;
 	}
-	
+
 	/**
-	 * Interrupts all trafficLightThreads that are spawned by the map.
-	 * Is used when the simulation is restart.
+	 * Interrupts all trafficLightThreads that are spawned by the map. Is used
+	 * when the simulation is restart.
 	 */
 	public void stopChildThreads() {
 
-		for(Thread t : trafficLightThreads) {
+		for (Thread t : trafficLightThreads) {
 			t.interrupt();
 		}
 	}
@@ -695,27 +683,36 @@ public class Map extends Group {
 	public Tile[][] getTiles() {
 		return tiles;
 	}
-	
-	public ArrayList<Vehicle> getVehicles(){
+
+	public ArrayList<Vehicle> getVehicles() {
 		return vehicles;
 	}
 
 	public int getVehicleCount() {
 		return vehicles.size();
 	}
-	
+
 	public void setCarColorOption(VehicleColorOption o) {
-    	this.carColorOption = o;
-    }
-	
+		this.carColorOption = o;
+	}
+
 	public void setTruckColorOption(VehicleColorOption o) {
 		this.truckColorOption = o;
-	}	
-	public ArrayList<Intersection> getIntersections(){
+	}
+
+	public ArrayList<Intersection> getIntersections() {
 		return intersections;
 	}
-	
+
 	public void setTiles(Tile[][] tiles) {
 		this.tiles = tiles;
 	}
+	
+	public ArrayList<Vehicle> getToBeRemovedList(){
+		return toBeRemoved;
+	}
+	
+	
+	
+	
 }

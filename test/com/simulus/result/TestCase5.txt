@@ -1,0 +1,32 @@
+FX App thread started 
+
+Simulator Button Detected 
+
+Simulator Button Clicked: true
+
+Start Button Detected 
+
+Start Button Clicked: true
+
+Initialising Test1...
+ 
+The current Tick time is: 50.0
+ 
+The current Spawn rate is: 5.0
+ 
+Test 1 completed!
+ 
+The default Tick time is not equal to 25. OR
+ 
+The default Spawn rate is not equal to 5. Test Fail!
+ 
+Test scenario 1 passed: false
+ 
+Test scenario 1 Failed.
+ 
+Initialising Test2...
+ 
+Test 2 completed!
+ 
+Test scenario 2 passed: true
+ 

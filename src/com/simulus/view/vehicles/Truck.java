@@ -55,6 +55,8 @@ public class Truck extends Vehicle {
 	public void moveVehicle() {
 			
 		if(isTransitioning()){
+			checkTransitionBlockage();
+			updateTransitionTiles();
 			return;
 		}
 		
@@ -111,14 +113,14 @@ public class Truck extends Vehicle {
 				if(nextTile.isBlock())
 					changeLane();
 			} else if(nextTile instanceof IntersectionTile) { 
-				if(currentTile instanceof Lane && Math.random()>0.6) {
+				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
 				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
-				 	if(p.getActive())
+				 	if(p.getActive()){
 				 		followPath(p);
-//	          		isTransitioning = true;
-	          		return;
+				 		return;
+				 	}else tempDir = getDirection();
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {
