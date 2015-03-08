@@ -13,7 +13,6 @@ public class Lane extends Tile{
 
 	private Direction dir;
 	private int laneNo;
-	private boolean isBlock;
 
 	public Lane(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY, Direction dir, int laneNo, boolean isBlock) {
@@ -25,6 +24,7 @@ public class Lane extends Tile{
                 new ImagePattern((dir == Direction.EAST || dir == Direction.WEST ?
                         ResourceBuilder.getEWLaneTexture() : ResourceBuilder.getNSLaneTexture())));
         if (isBlock == true){
+        	isOccupied = true;
         	frame.setFill(new ImagePattern(ResourceBuilder.getBlockTexture()));
         }
 	}
@@ -43,14 +43,7 @@ public class Lane extends Tile{
 	public int getLaneNo(){
 		return laneNo;
 	}
-	
-    /**
-     * @return If the tile is a block.
-     */
-	public boolean getIsBlock(){
-		return isBlock;
-	}
-	
+
 	/*
 	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
 	 */

@@ -298,7 +298,7 @@ public class MapXML {
 						tileType = "lane";
 						direction = ((Lane) t).getDirection().toString();
 						laneNo = Integer.toString(((Lane) t).getLaneNo());
-						isBlock = Boolean.toString((((Lane) t).getIsBlock()));
+						isBlock = Boolean.toString((((Lane) t).isBlock()));
 					} else if (t instanceof Land) {
 						tileType = "land";
 						subType = ((Land) t).getLandType().toString();

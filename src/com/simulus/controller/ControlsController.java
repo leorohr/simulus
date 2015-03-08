@@ -1,6 +1,5 @@
 package com.simulus.controller;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -257,9 +256,9 @@ public class ControlsController implements Initializable {
         waitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgWaitingTime()/10))); //1 tick simulates 0.1secs in real-time
         emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, Math.round(map.getAvgEmWaitingTime()/10)));
         
-        csv.appendRow(String.valueOf(map.getVehicleCount()), 
-        		String.valueOf(Math.round(map.getAverageSpeed())), String.valueOf(Math.round(map.getCongestionValue()*100)), 
-        		String.valueOf(Math.round(map.getAvgWaitingTime()/10)), String.valueOf(Math.round(map.getAvgEmWaitingTime()/10)));
+//        csv.appendRow(String.valueOf(map.getVehicleCount()), 
+//        		String.valueOf(Math.round(map.getAverageSpeed())), String.valueOf(Math.round(map.getCongestionValue()*100)), 
+//        		String.valueOf(Math.round(map.getAvgWaitingTime()/10)), String.valueOf(Math.round(map.getAvgEmWaitingTime()/10)));
         
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);

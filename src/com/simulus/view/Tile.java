@@ -2,11 +2,9 @@ package com.simulus.view;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
 import com.simulus.controller.SimulationController;
-import com.simulus.util.ResourceBuilder;
 import com.simulus.view.map.Lane;
 import com.simulus.view.vehicles.Vehicle;
 
@@ -14,9 +12,10 @@ public class Tile extends Group {
 
 	private int gridPosX;
 	private int gridPosY;
-	private boolean isOccupied;
 	private Vehicle occupier;
     protected Rectangle frame;
+    protected boolean isOccupied;
+    protected boolean isBlock;
     protected boolean isRedLight = false;
 
 	public Tile(double posX, double posY, double width, double height,
@@ -138,6 +137,10 @@ public class Tile extends Group {
 	
 	public boolean isRedLight(){
 		return isRedLight;
+	}
+	
+	public boolean isBlock(){
+		return isBlock;
 	}
 	
 	@Override
