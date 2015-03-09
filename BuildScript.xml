@@ -2,7 +2,26 @@
 <project default="create_run_jar" name="Create Runnable Jar for Project Simulus with Jar-in-Jar Loader">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar" depends="clean">
+	
+	<target name="do-compile">
+		<mkdir dir="bin"/>
+		
+		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="src" destdir="bin" encoding="UTF-8"/>
+		
+		<!-- Copy resources -->
+		<copy todir="bin/resources">
+			<fileset dir="src/resources"/>
+ 		</copy>
+		
+		<!-- Copy non-Java files -->
+		<copy todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>	
+	</target>
+	
+    <target name="create_run_jar" depends="clean,do-compile">
         <jar destfile="deploy/Simulus.jar">
             <manifest>
                 <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
@@ -16,7 +35,7 @@
  	
     		<copy todir="deploy/resources">
     			<fileset dir="src/resources">
-    				<include name="default.xml"/>
+    				<include name="default.map"/>
     				<include name="simulus.png"/>
     				<include name="logo1_small.png"/>
  				</fileset>	
@@ -25,5 +44,6 @@
 	
 	<target name="clean">
 		<delete dir="deploy"/>
+		<delete dir="bin"/>
 	</target>
 </project>
