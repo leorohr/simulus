@@ -566,19 +566,19 @@ public class EditorApp extends Application {
 								if (tNext instanceof Lane) {
 									if (dir == ((Lane) tNext).getDirection() &&
 											laneNo == ((Lane) tNext).getLaneNo()) {
-										//break;
+										// The Road continues
 									} else {
 										valid = false;
 										break;
 									}
 								} else if (tNext instanceof IntersectionTile) {
-									//break;
+									// This is OK
 								} else {
 									valid = false;
 									break;
 								}
 							}
-							
+							// Check for Road connection without Intersection
 							if (laneNo == 3) { // Get the lane across
 								if (x+1 >= this.editorMap.getTiles().length) {
 									System.out.println("x bound reached");
@@ -604,7 +604,6 @@ public class EditorApp extends Application {
 							
 
 						} else { // Direction is WESTEAST
-							
 							if (x+1 >= this.editorMap.getTiles().length) {
 								System.out.println("x bound reached");
 								break;
@@ -613,19 +612,19 @@ public class EditorApp extends Application {
 								if (tNext instanceof Lane) {
 									if (dir == ((Lane) tNext).getDirection() &&
 											laneNo == ((Lane) tNext).getLaneNo()) {
-										//break;
+										// The Road continues
 									} else {
 										valid = false;
 										break;
 									}
 								} else if (tNext instanceof IntersectionTile) {
-									//break;
+									// This is OK
 								} else {
 									valid = false;
 									break;
 								}
 							}
-							
+							// Check for Road connection without Intersection
 							if (laneNo == 3) { // Get the lane down
 								if (y+1 >= this.editorMap.getTiles().length) {
 									System.out.println("x bound reached");
@@ -639,7 +638,7 @@ public class EditorApp extends Application {
 											break;
 										}
 									} else if(tNext instanceof IntersectionTile) {
-										valid = false;
+										valid = false; // Intersection cannot be next to a Road
 										break;
 									} else {
 										break;
@@ -648,8 +647,6 @@ public class EditorApp extends Application {
 							} else {
 								break;
 							}
-							
-							
 						}
 						
 						/* Validate Intersection tiles */
@@ -665,7 +662,6 @@ public class EditorApp extends Application {
 //									valid = false;
 //									break;
 //								}
-								
 							} else {
 								System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is not an IntersectionTile");
 								valid = false;
