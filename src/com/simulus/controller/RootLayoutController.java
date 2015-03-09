@@ -103,8 +103,8 @@ public class RootLayoutController implements Initializable {
         openMapMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            fileChooser.setInitialFileName("CustomMap.xml");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
+            fileChooser.setInitialFileName("CustomMap.map");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             SimulationController.getInstance().getMap().loadMap(selectedFile);            
         });
@@ -129,8 +129,8 @@ public class RootLayoutController implements Initializable {
     	openSimMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Simulation XML...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            fileChooser.setInitialFileName("CustomMap.xml");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
+            fileChooser.setInitialFileName("CustomSim.sim");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             
             SimConfigXML sxml = new SimConfigXML();
@@ -174,8 +174,8 @@ public class RootLayoutController implements Initializable {
         saveSimMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Simulation XML...");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML File (*.xml)", "*.xml"));
-            fileChooser.setInitialFileName("CustomSim.xml");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
+            fileChooser.setInitialFileName("CustomSim.sim");
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             
             SimConfigXML sxml = new SimConfigXML();

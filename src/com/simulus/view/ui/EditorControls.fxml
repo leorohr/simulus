@@ -28,7 +28,7 @@
             <Button id="simulateButton" fx:id="simulateButton" layoutX="12.0" layoutY="208.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="168.0" style="-fx-graphic: url(&quot;resources/small_car.png&quot;);" text="Simulate Map" />
          </children>
       </Pane>
-      <Pane id="shiftLabel" fx:id="shiftLabel" layoutX="5.0" layoutY="95.0" prefHeight="304.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane id="shiftLabel" fx:id="shiftLabel" layoutX="5.0" layoutY="95.0" prefHeight="324.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <Button id="grassButton" fx:id="grassButton" layoutX="10.0" layoutY="8.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" style="-fx-background-image: url(&quot;resources/grass.png&quot;); -fx-background-size: 50 50;" text="Grass" textFill="WHITE">
                <opaqueInsets>
@@ -36,13 +36,13 @@
                </opaqueInsets>
               <tooltip><Tooltip text="SHIFT + click on empty tile to flood fill ALL with grass" /></tooltip>
                </Button>
-            <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="10.0" layoutY="127.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="roadHorizontalButton" fx:id="roadHorizontalButton" layoutX="10.0" layoutY="147.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/double_eastwest.png&quot;); -fx-background-repeat: repeat-x;" text="Horizontal Road" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="116.0" layoutY="192.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="60.0" style="-fx-background-image: url(&quot;resources/double_northsouth.png&quot;); -fx-background-repeat: repeat-y;" text="Vertical Road" textFill="WHITE" />
-            <Button id="interButton" fx:id="interButton" layoutX="10.0" layoutY="192.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/boxjunction.png&quot;); -fx-background-size: 50 50;" text="Intersection" textFill="WHITE">
+            <Button id="roadVerticalButton" fx:id="roadVerticalButton" layoutX="116.0" layoutY="212.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="60.0" style="-fx-background-image: url(&quot;resources/double_northsouth.png&quot;); -fx-background-repeat: repeat-y;" text="Vertical Road" textFill="WHITE" />
+            <Button id="interButton" fx:id="interButton" layoutX="10.0" layoutY="212.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-image: url(&quot;resources/boxjunction.png&quot;); -fx-background-size: 50 50;" text="Intersection" textFill="WHITE">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets></Button>
@@ -68,9 +68,14 @@
                </opaqueInsets>
                <tooltip><Tooltip text="SHIFT + click on empty tile to flood fill ALL with city" /></tooltip>
             </Button>
+            <Label layoutX="11.0" layoutY="113.0" text="hint: hold SHIFT to flood fill/erase" textFill="#0095c8">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
-      <Pane layoutX="5.0" layoutY="430.0" prefHeight="86.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
+      <Pane layoutX="5.0" layoutY="444.0" prefHeight="86.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <ChoiceBox id="gridSizeChoiceBox" fx:id="gridSizeChoiceBox" layoutX="10.0" layoutY="18.0" prefHeight="25.0" prefWidth="81.0" />
             <Label layoutX="10.0" layoutY="3.0" text="Grid Size:" />
@@ -80,7 +85,7 @@
             <Button id="validateMapButton" fx:id="validateMapButton" layoutX="10.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;resources/validate.png&quot;);" text="Validate" />
          </children>
       </Pane>
-      <Label layoutX="5.0" layoutY="411.0" text="Map Options">
+      <Label layoutX="5.0" layoutY="425.0" text="Map Options">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
