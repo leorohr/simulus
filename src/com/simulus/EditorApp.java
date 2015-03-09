@@ -480,7 +480,7 @@ public class EditorApp extends Application {
 	public File saveMapDialog(){
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Map XML...");
-		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
 		selectedFile = fileChooser.showSaveDialog(editorStage);
@@ -494,7 +494,7 @@ public class EditorApp extends Application {
 	public void openMapDialog(){
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Map XML...");
-		extFilter = new FileChooser.ExtensionFilter("XML Files (*.xml)", "*.xml");
+		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {

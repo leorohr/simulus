@@ -52,7 +52,7 @@ public class MainApp extends Application {
 
         //Load default map on startup
 		SimulationController.getInstance().getMap().loadMap(
-			new File(MainApp.class.getResource("/resources/default.xml").getFile()));		
+			new File(MainApp.class.getResource("/resources/default.map").getFile()));		
 	}
 
 	/**
