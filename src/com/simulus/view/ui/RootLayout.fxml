@@ -9,16 +9,26 @@
    <top>
       <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+            <Menu mnemonicParsing="false" text="File">
+              <items>
+              <MenuItem fx:id="closeMItem" mnemonicParsing="false" text="Close" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Map">
             <items>
                   <MenuItem fx:id="newMapMItem" mnemonicParsing="false" text="New Map" />
                   <MenuItem fx:id="openMapMItem" mnemonicParsing="false" text="Open Map..." />
                   <MenuItem fx:id="editMapMItem" mnemonicParsing="false" text="Edit Map..." />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem fx:id="exportStatsMItem" mnemonicParsing="false" text="Export Statistics..." />
-              <MenuItem fx:id="closeMItem" mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Simulation">
+              <items>
+                  <MenuItem fx:id="openSimMItem" mnemonicParsing="false" text="Open Simulation..." />
+                  <MenuItem fx:id="saveSimMItem" mnemonicParsing="false" text="Save Simulation..." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem fx:id="exportStatsMItem" mnemonicParsing="false" text="Export Statistics..." />
+              </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem fx:id="aboutMItem" mnemonicParsing="false" text="About" />
