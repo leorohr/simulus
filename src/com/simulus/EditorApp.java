@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javafx.animation.AnimationTimer;
@@ -550,6 +551,7 @@ public class EditorApp extends Application {
 				
 				while (valid) {
 
+					/* Validate Lane tiles */
 					if (t instanceof Lane) { // Another lane or an intersection is expected
 						Direction dir = ((Lane) t).getDirection();
 						int laneNo = ((Lane) t).getLaneNo();
@@ -564,17 +566,40 @@ public class EditorApp extends Application {
 								if (tNext instanceof Lane) {
 									if (dir == ((Lane) tNext).getDirection() &&
 											laneNo == ((Lane) tNext).getLaneNo()) {
-										break;
+										//break;
 									} else {
 										valid = false;
 										break;
 									}
 								} else if (tNext instanceof IntersectionTile) {
-									break;
+									//break;
 								} else {
 									valid = false;
 									break;
 								}
+							}
+							
+							if (laneNo == 3) { // Get the lane across
+								if (x+1 >= this.editorMap.getTiles().length) {
+									System.out.println("x bound reached");
+									break;
+								} else {
+									Tile tNext = this.editorMap.getTiles()[x+1][y];
+									if (tNext instanceof Lane) {
+										if (((Lane) tNext).getDirection() == Direction.EAST ||
+												((Lane) tNext).getDirection() == Direction.WEST) {
+											valid = false; // Road cannot start from another Road
+											break;
+										}
+									} else if(tNext instanceof IntersectionTile) {
+										valid = false; // Intersection cannot be next to a Road
+										break;
+									} else {
+										break;
+									}
+								}
+							} else {
+								break;
 							}
 							
 
@@ -588,24 +613,71 @@ public class EditorApp extends Application {
 								if (tNext instanceof Lane) {
 									if (dir == ((Lane) tNext).getDirection() &&
 											laneNo == ((Lane) tNext).getLaneNo()) {
-										break;
+										//break;
 									} else {
 										valid = false;
 										break;
 									}
 								} else if (tNext instanceof IntersectionTile) {
-									break;
+									//break;
 								} else {
 									valid = false;
 									break;
 								}
 							}
 							
+							if (laneNo == 3) { // Get the lane down
+								if (y+1 >= this.editorMap.getTiles().length) {
+									System.out.println("x bound reached");
+									break;
+								} else {
+									Tile tNext = this.editorMap.getTiles()[x][y+1];
+									if (tNext instanceof Lane) {
+										if (((Lane) tNext).getDirection() == Direction.NORTH ||
+												((Lane) tNext).getDirection() == Direction.SOUTH) {
+											valid = false; // Road cannot start from another Road
+											break;
+										}
+									} else if(tNext instanceof IntersectionTile) {
+										valid = false;
+										break;
+									} else {
+										break;
+									}
+								}
+							} else {
+								break;
+							}
+							
+							
 						}
-					} else if (t instanceof IntersectionTile) { // TODO: logic
 						
+						/* Validate Intersection tiles */
+					} else if (t instanceof IntersectionTile) { // TODO: logic
+						List<Tile> intersection =((IntersectionTile) t).getIntersection().getTiles();
+						for (Tile it : intersection) {
+							if (it instanceof IntersectionTile) {
+//								List<Tile> otherIt = ((IntersectionTile) it).getIntersection().getTiles();
+//								if (intersection.equals(otherIt)) {
+									System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is OK");
+//								} else {
+//									System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is part of another intersection");
+//									valid = false;
+//									break;
+//								}
+								
+							} else {
+								System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is not an IntersectionTile");
+								valid = false;
+								break;
+							}
+						}
+						break;
+						
+						/* Validate Land tiles */
 					} else if (t instanceof Land) { // Land tiles are automatically valid
 						break;
+						/* Validate empty tiles */
 					} else { // Tile is empty and as such it is valid
 						break;
 					}
@@ -614,9 +686,9 @@ public class EditorApp extends Application {
 					
 				} // while
 				
-				System.out.println("System valid?:" + valid);
-			}
-		}
+			} // Inner For
+		} // Outer For
+		System.out.println("System valid?:" + valid);
 	}
 
 	private void floodFill(String tFill, int xIn, int yIn){
