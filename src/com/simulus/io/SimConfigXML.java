@@ -1,7 +1,9 @@
 package com.simulus.io;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -12,11 +14,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
-import java.io.File;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class SimConfigXML {
 
@@ -32,11 +32,11 @@ public class SimConfigXML {
 	String simDescription;
 	String simAuthor;
 
-	int noCars;
-	int tickRate;
-	int spawnRate;
-	int maxSpeedCars;
-	int carTruckRatio;
+	double noCars;
+	double tickRate;
+	double spawnRate;
+	double maxSpeedCars;
+	double carTruckRatio;
 	boolean debugMode;
 	double recklessNormRatio;
 	String carColourOption;
@@ -84,18 +84,17 @@ public class SimConfigXML {
 			nNode = nList.item(0);
 			eElement = (Element) nNode;
 
-			noCars = Integer.parseInt(eElement
+			noCars = Double.parseDouble(eElement
 					.getElementsByTagName("no_of_cars").item(0)
 					.getTextContent());
-			tickRate = Integer.parseInt(eElement
+			tickRate = Double.parseDouble(eElement
 					.getElementsByTagName("tickrate").item(0).getTextContent());
-			spawnRate = Integer
-					.parseInt(eElement.getElementsByTagName("spawnrate")
+			spawnRate = Double.parseDouble(eElement.getElementsByTagName("spawnrate")
 							.item(0).getTextContent());
-			maxSpeedCars = Integer.parseInt(eElement
+			maxSpeedCars = Double.parseDouble(eElement
 					.getElementsByTagName("max_speed_cars").item(0)
 					.getTextContent());
-			carTruckRatio = Integer.parseInt(eElement
+			carTruckRatio = Double.parseDouble(eElement
 					.getElementsByTagName("car_truck_ratio").item(0)
 					.getTextContent());
 			debugMode = Boolean.parseBoolean(eElement
@@ -131,8 +130,8 @@ public class SimConfigXML {
 
 	// outputs XML file based on simulation parameters
 	public void writeXML(String outputFile, String nameIn, String dateIn,
-			String descIn, String authIn, int noCarsIn, int tickRateIn,
-			int spawnRateIn, int maxSpeedIn, int carTruckRatioIn,
+			String descIn, String authIn, double noCarsIn, double tickRateIn,
+			double spawnRateIn, double maxSpeedIn, double carTruckRatioIn,
 			boolean debugIn, double recklessNormRatioIn, String carColourOptionIn, String carColourIn, 
 			String truckColourOptionIn, String truckColourIn) {
 
@@ -196,26 +195,26 @@ public class SimConfigXML {
 			rootElement.appendChild(simSpecs);
 
 			Element eNoCars = doc.createElement("no_of_cars");
-			eNoCars.appendChild(doc.createTextNode(Integer.toString(noCars)));
+			eNoCars.appendChild(doc.createTextNode(Double.toString(noCars)));
 			simSpecs.appendChild(eNoCars);
 
 			Element eTickRate = doc.createElement("tickrate");
 			eTickRate
-					.appendChild(doc.createTextNode(Integer.toString(tickRate)));
+					.appendChild(doc.createTextNode(Double.toString(tickRate)));
 			simSpecs.appendChild(eTickRate);
 
 			Element eSpawnRate = doc.createElement("spawnrate");
-			eSpawnRate.appendChild(doc.createTextNode(Integer
+			eSpawnRate.appendChild(doc.createTextNode(Double
 					.toString(spawnRate)));
 			simSpecs.appendChild(eSpawnRate);
 
 			Element eMaxSpeedCars = doc.createElement("max_speed_cars");
-			eMaxSpeedCars.appendChild(doc.createTextNode(Integer
+			eMaxSpeedCars.appendChild(doc.createTextNode(Double
 					.toString(maxSpeedCars)));
 			simSpecs.appendChild(eMaxSpeedCars);
 
 			Element eCartruckRatio = doc.createElement("car_truck_ratio");
-			eCartruckRatio.appendChild(doc.createTextNode(Integer
+			eCartruckRatio.appendChild(doc.createTextNode(Double
 					.toString(carTruckRatio)));
 			simSpecs.appendChild(eCartruckRatio);
 
@@ -280,5 +279,71 @@ public class SimConfigXML {
 				+ "Truck Colour Option: " + truckColourOption + "\n"
 				+ "Truck Colour: " + truckColour;
 	}
+
+
+
+
+	public String getSimName() {
+		return simName;
+	}
+
+	public String getSimCreationDate() {
+		return simCreationDate;
+	}
+
+	public String getSimDescription() {
+		return simDescription;
+	}
+
+	public String getSimAuthor() {
+		return simAuthor;
+	}
+
+	public double getNoCars() {
+		return noCars;
+	}
+
+	public double getTickRate() {
+		return tickRate;
+	}
+
+	public double getSpawnRate() {
+		return spawnRate;
+	}
+
+	public double getMaxSpeedCars() {
+		return maxSpeedCars;
+	}
+
+	public double getCarTruckRatio() {
+		return carTruckRatio;
+	}
+
+	public boolean isDebugMode() {
+		return debugMode;
+	}
+
+	public double getRecklessNormRatio() {
+		return recklessNormRatio;
+	}
+
+	public String getCarColourOption() {
+		return carColourOption;
+	}
+
+	public String getCarColour() {
+		return carColour;
+	}
+
+	public String getTruckColourOption() {
+		return truckColourOption;
+	}
+
+	public String getTruckColour() {
+		return truckColour;
+	}
+	
+
+
 
 }

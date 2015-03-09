@@ -2,6 +2,9 @@ package com.simulus.controller;
 
 import java.io.File;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,6 +24,7 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,7 +32,9 @@ import javafx.stage.Stage;
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.io.FileIO;
+import com.simulus.io.SimConfigXML;
 import com.simulus.util.Configuration;
+import com.simulus.util.enums.VehicleColorOption;
 
 public class RootLayoutController implements Initializable {
 
@@ -40,6 +46,10 @@ public class RootLayoutController implements Initializable {
     MenuItem openMapMItem;
     @FXML
     MenuItem editMapMItem;
+    @FXML
+    MenuItem openSimMItem;
+    @FXML
+    MenuItem saveSimMItem;
     @FXML 
     MenuItem exportStatsMItem;
     @FXML
@@ -114,6 +124,77 @@ public class RootLayoutController implements Initializable {
 					e.printStackTrace();
 				}
     		
+        });
+        
+    	openSimMItem.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Simulation XML...");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+            fileChooser.setInitialFileName("CustomMap.xml");
+            File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
+            
+            SimConfigXML sxml = new SimConfigXML();
+            sxml.readXML(selectedFile.getPath());
+            
+    		MainApp.getInstance().getControlsController().numCarSlider.setValue(sxml.getNoCars());
+    		MainApp.getInstance().getControlsController().tickrateSlider.setValue(sxml.getTickRate()); 
+    		MainApp.getInstance().getControlsController().spawnrateSlider.setValue(sxml.getSpawnRate()); 
+    		MainApp.getInstance().getControlsController().maxcarspeedSlider.setValue(sxml.getMaxSpeedCars()); 
+    		MainApp.getInstance().getControlsController().cartruckratioSlider.setValue(sxml.getCarTruckRatio()); 
+    		MainApp.getInstance().getControlsController().debugCheckbox.setSelected(sxml.isDebugMode()); 
+    		MainApp.getInstance().getControlsController().recklessnormalSlider.setValue(sxml.getRecklessNormRatio()); 
+    		
+			if(sxml.getCarColourOption().equals("User")) {
+				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.USER);
+				MainApp.getInstance().getControlsController().carcolorPicker.setValue(Color.web(sxml.getCarColour())); 
+				MainApp.getInstance().getControlsController().carcolorPicker.setDisable(false);
+			}else if (sxml.getCarColourOption().equals("Speed")){
+				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.SPEED);
+				MainApp.getInstance().getControlsController().carcolorPicker.setDisable(true);
+			}else if (sxml.getCarColourOption().equals("Behavior")){
+				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOR);
+				MainApp.getInstance().getControlsController().carcolorPicker.setDisable(true);
+			}
+			
+			if(sxml.getTruckColourOption().equals("User")) {
+				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.USER);
+				MainApp.getInstance().getControlsController().truckcolorPicker.setValue(Color.web(sxml.getTruckColourOption())); 
+				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(false);
+			}else if (sxml.getTruckColourOption().equals("Speed")){
+				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.SPEED);
+				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(true);
+			}else if (sxml.getTruckColourOption().equals("Behavior")){
+				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOR);
+				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(true);
+			}
+
+            
+        });
+    	
+        saveSimMItem.setOnAction((event) -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Simulation XML...");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML File (*.xml)", "*.xml"));
+            fileChooser.setInitialFileName("CustomSim.xml");
+            File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
+            
+            SimConfigXML sxml = new SimConfigXML();
+    		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    		Date date = new Date();
+    		
+            sxml.writeXML(selectedFile.getPath(), "Simulation File", dateFormat.format(date), "A simulation parameter file", "Team Simulus", 
+            		MainApp.getInstance().getControlsController().numCarSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().tickrateSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().spawnrateSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().maxcarspeedSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().cartruckratioSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().debugCheckbox.isSelected(), 
+            		MainApp.getInstance().getControlsController().recklessnormalSlider.getValue(), 
+            		MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().getSelectedItem().toString(), 
+            		MainApp.getInstance().getControlsController().carcolorPicker.getValue().toString(), 
+            		MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().getSelectedItem().toString(), 
+            		MainApp.getInstance().getControlsController().truckcolorPicker.getValue().toString());
+            
         });
 
 
