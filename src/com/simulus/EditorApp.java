@@ -571,8 +571,9 @@ public class EditorApp extends Application {
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
 		//ECC.setGridSize(60);
-		editorMap.setTiles(mxml.getTileGrid());
-		editorMap.drawMap(canvas);
+		//editorMap.setTiles(mxml.getTileGrid());
+		//editorMap.drawMap(canvas);
+		editorMap.loadEditorMap(new File(fileLocation));
 	}
 
 	public void saveMap(String fileLocation){

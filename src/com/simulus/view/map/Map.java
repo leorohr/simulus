@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
+import com.simulus.controller.EditorControlsController;
 import com.simulus.controller.SimulationController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
@@ -509,13 +510,46 @@ public class Map extends Group {
 			trafficLightThreads.add(t);
 			t.start();
 		}
-	    
+
 	    drawMap(MainApp.getInstance().getCanvas());
+    }
+    
+    /**
+     * Loads a Map from an XML file and draws it onto the EditorApp's canvas
+     * @param mapFile The XML file containing the map-data.
+     */
+ public void loadEditorMap(File mapFile) {
+    	
+		MapXML loader = new MapXML();
+		loader.readXML(mapFile.toPath().toString());
+		tiles = loader.getTileGrid();
+
+		boolean[][] checked = new boolean[tiles.length][tiles[0].length];
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[0].length; j++) {
+				// Dont double-check tiles -- mainly for correct detection of
+				// intersections.
+				if (checked[i][j])
+					continue;
+				
+				if (tiles[i][j] instanceof IntersectionTile) {
+					// If an intersection is encountered, create new object and
+					// set all related tiles to checked
+					addGroup(new Intersection(i, j));
+					for (int m = i; m < i + 4; m++) {
+						for (int n = j; n < j + 4; n++)
+							checked[m][n] = true;
+					}
+				}
+			}
+		}
+		
+	    drawMap(EditorApp.getInstance().getCanvas());
     }
 
 	/**
 	 * Removes a vehicle from the screen. To prevent
-	 * ConcurrentModification-Exceptions, the vehicles that shold be removed are
+	 * ConcurrentModification-Exceptions, the vehicles that should be removed are
 	 * temporarily stored in <code>toBeRemoved</code> and then removed in the
 	 * main simulation loop.
 	 * 
