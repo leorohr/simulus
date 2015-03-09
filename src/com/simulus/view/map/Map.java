@@ -441,7 +441,7 @@ public class Map extends Group {
      * @param mapFile The XML file containing the map-data.
      */
     public void loadMap(File mapFile) {
-		    	
+    	
 		entryPoints = new ArrayList<Lane>();
 		intersections = new ArrayList<Intersection>();
 		stopChildThreads();

@@ -42,7 +42,7 @@ public class MainApp extends Application {
 	
 	@Override
 	public void start(final Stage primaryStage) {
-
+	
 		this.setPrimaryStage(primaryStage);
 		this.getPrimaryStage().setTitle("Simulus");
 		this.getPrimaryStage().setResizable(false);
@@ -50,10 +50,10 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 
-        SimulationController.init();
         //Load default map on startup
 		SimulationController.getInstance().getMap().loadMap(
-				new File(MainApp.class.getResource("/resources/default.xml").getFile()));	}
+			new File(MainApp.class.getResource("/resources/default.xml").getFile()));		
+	}
 
 	/**
 	 * Initialise the root layout

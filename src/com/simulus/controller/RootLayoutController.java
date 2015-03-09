@@ -75,6 +75,9 @@ public class RootLayoutController implements Initializable {
             editor.start(editorStage);
         });
 
+        /*
+         * Opens the current map in the map editor. Shuts down the simulator.
+         */
         editMapMItem.setOnAction((event) -> {
         	
         	Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -109,6 +112,9 @@ public class RootLayoutController implements Initializable {
             SimulationController.getInstance().getMap().loadMap(selectedFile);            
         });
         
+        /*
+         * Exports the current simulation's statistics to a user-defined csv file. 
+         */
         exportStatsMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Map XML...");
@@ -126,6 +132,9 @@ public class RootLayoutController implements Initializable {
     		
         });
         
+        /*
+         * Reads and applies a simulation configuration file.
+         */
     	openSimMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Simulation XML...");
@@ -171,6 +180,9 @@ public class RootLayoutController implements Initializable {
             
         });
     	
+    	/*
+    	 * Stores the current simulation configuration in a user-defined file.
+    	 */
         saveSimMItem.setOnAction((event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Simulation XML...");
@@ -196,7 +208,6 @@ public class RootLayoutController implements Initializable {
             		MainApp.getInstance().getControlsController().truckcolorPicker.getValue().toString());
             
         });
-
 
         aboutMItem.setOnAction((event) -> {
             final Stage dialog = new Stage();

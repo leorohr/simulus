@@ -1,7 +1,6 @@
 package com.simulus.util;
 
 import java.io.File;
-import java.io.IOException;
 
 public class Configuration {
 	
@@ -11,14 +10,11 @@ public class Configuration {
 	public static int tileSize = CANVAS_SIZE/gridSize; //size of one tile in px
 	
 	//Temporary file for statistics
-	private static File tmpStats;
-	static {
-		tmpStats = new File("bin/resources/tmpStats.csv");
-		try {
-			tmpStats.createNewFile();
-		} catch (IOException e) {e.printStackTrace();}
-	}
+	private static File tmpStats = null;
 	public static File getTempStatsFile() {
+		if(tmpStats == null) {
+			tmpStats = new File("simulusTempStats.csv");
+		}
 		return tmpStats;
 	}
 	
