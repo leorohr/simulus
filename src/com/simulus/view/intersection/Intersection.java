@@ -155,9 +155,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		for (int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles.length; j++) {
 				IntersectionTile t1 = tiles[i][j];
-				for(Path p : t1.getTurningPaths()) {
-					turningPaths.addAll(t1.getTurningPaths());
-				}
+				turningPaths.addAll(t1.getTurningPaths());
 			}
 		}
 	}

@@ -4,7 +4,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Random;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -301,8 +300,6 @@ public class EditorApp extends Application {
 		 */
 		AnimationTimer timer = new AnimationTimer() {
 			// When the timer is started, this method loops endlessly
-			int frameNo = 0;
-			Random rand = new Random();
 
 			public void handle(long now) { // Increment the frame number
 				getCanvas().getChildren().clear();

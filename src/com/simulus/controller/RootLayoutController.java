@@ -1,15 +1,7 @@
 package com.simulus.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -36,7 +28,6 @@ import javafx.stage.Stage;
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.io.FileIO;
-import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
 
 public class RootLayoutController implements Initializable {

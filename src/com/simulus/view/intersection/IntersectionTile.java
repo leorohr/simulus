@@ -2,7 +2,6 @@ package com.simulus.view.intersection;
 
 import java.util.ArrayList;
 
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 
 import com.simulus.util.ResourceBuilder;

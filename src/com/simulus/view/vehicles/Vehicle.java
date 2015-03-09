@@ -1,4 +1,4 @@
-package com.simulus.view.vehicles;
+	package com.simulus.view.vehicles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,6 @@ import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
-import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
 /**

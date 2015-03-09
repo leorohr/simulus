@@ -153,4 +153,8 @@ public class ResourceBuilder {
 	public static Image getLogoSmall() {
 		return logoSmall;
 	}  
+	
+	public static Image getSimulateIcon() {
+		return simulateIcon;
+	}
 }
