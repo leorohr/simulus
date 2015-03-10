@@ -2,6 +2,7 @@
 \title{7CCSMGPR Intermediate Report}
 \date{26/03/2015}
 \documentclass[11pt,a4paper]{article}
+
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
@@ -10,6 +11,33 @@
 \usepackage{fancyhdr}
 \usepackage{wrapfig}
 \usepackage{enumitem}
+
+%--- Settings for Java code snippets ---
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+%--- Page style ---
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{7CCSMGPR Final Report}
@@ -17,17 +45,16 @@
 \fancyfoot[C]{\thepage}
 
 \begin{document}
-
-\include{introduction}
-\include{review}
-\include{requirements}
-\include{implementation}
-\include{team_work}
-\include{evaluation}
-\include{peer_assessment}
-\include{appendices}
+	\include{introduction}
+	\include{review}
+	\include{requirements}
+	\include{implementation}
+	\include{team_work}
+	\include{evaluation}
+	\include{peer_assessment}
+	\include{appendices}
 	
-\fancyfoot[C]{\thepage}
-\bibliographystyle{plainnat}
-\bibliography{literature}
+	\fancyfoot[C]{\thepage}
+	\bibliographystyle{plainnat}
+	\bibliography{literature}
 \end{document}
