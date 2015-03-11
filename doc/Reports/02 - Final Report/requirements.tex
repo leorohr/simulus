@@ -1,1 +1,46 @@
-\section{Requirements}
+\section{Requirements \& Design}
+%TODO reference for MoSCoW scheme?
+Below we want to elaborate the requirements we put on this project and the design choices we made to meet them. To work out the initial set of requirements we followed the MoSCoW requirements scheme, yielding the following four priority-classes:
+\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
+	\item{Must have}
+		\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
+			\item{Individual Vehicle Simulation}
+			\item{Vehicle Entrance \& Exit}
+			\item{Diverse Vehicle Behaviours}
+			\item{Statistics}
+			\item{Traffic Management Policies}
+		\end{enumerate}
+	\item{Should have}
+		\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
+			\item{Emergency Services}
+			\item{User-defined Maps}
+		\end{enumerate}
+	\item{Could have}
+		\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
+			\item{Import/Export of Maps and Settings}
+			\item{External Map Source, e.g. Google Maps}
+		\end{enumerate}
+	\item{Won't have}
+		\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
+			\item{Pre-exisiting Traffic Simulators or Third-Party Libraries}
+		\end{enumerate}
+\end{enumerate}
+
+The delivered application is split in a map editor application and a simulator application. We will explain the requirements put on the simulator before introducing the map editing functionality in \ref{ss_req_editor}
+
+\subsection{Simulator}
+Requirement 1a, the simulation of individual vehicles, means that the simulation has to evaluate the behaviour of each car individually and draw conclusions for the traffic systems based on these observations. In simulation terms, we derive macroscopic statistics of a traffic network based on the aggregation of microscopic data.
+During the simulation, vehicles enter the traffic network at one point, make their way through it, and exit it at an arbitrary touching-point of a road and the border of the map. (1b) On their way through the network, they exhibit different driving behaviours (1c), that is cautious drivers do not overtake and adjust their speed to surrounding cars while reckless drivers want to maximise their speed and overtake whenever possible.
+%TODO tbc.
+
+\bigskip
+
+* first: discrete prototype, but problems, then continuous space model
+
+* aimed for MVC but in the end turned out impractical, hence model and view 'verschmolzen', cf. cars being extension to rectangle class etc.
+
+* Einheitenumrechnung
+
+* Statstics: Formeln, screenshot?, Export
+
+\subsection{Editor}\label{ss_req_editor}

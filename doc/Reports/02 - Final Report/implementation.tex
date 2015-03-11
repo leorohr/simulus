@@ -11,7 +11,7 @@ Behind the user interface of the simulator a continuously running thread is mand
 	\end{center}
 \end{figure}
 
-With the multithreaded execution described above came concurrency related issues. The class Map contains a list to all vehicles currently present in the simulation. Whenever a vehicle is leaving the map, it notifies the SimulationController, which in turn removes the vehicle from the simulation. As the map's \textit{updateMap()} is constantly iterating through its list of vehicles, removing a vehicle from anywhere else than within this loop results in concurrency exceptions. t
+With the multithreaded execution described above came concurrency related issues. The class Map contains a list to all vehicles currently present in the simulation. Whenever a vehicle is leaving the map, it notifies the SimulationController, which in turn removes the vehicle from the simulation. As the map's \textit{updateMap()} is constantly iterating through its list of vehicles, removing a vehicle from anywhere else than within this loop results in concurrency exceptions.
 
 \begin{wrapfigure}{r}{0.45\textwidth}
 	\begin{minipage}{0.45\textwidth}
@@ -25,11 +25,8 @@ if(toBeRemoved.contains(v)){
 	\end{minipage}
 \end{wrapfigure}
 
-In order to overcome this issue we considered both the traditional reader-writer-locking as well as the more advanced read-copy-update pattern, but eventually come to the conclusion but using either of them will introduce an additional scheduling (and implementation) overhead and hence only yield imperceptible performance improvements over the solution we employed (listing \ref{lst_carRem}). As mentioned earlier, the \textit{updateMap()} method loops through all existing cars with each tick, we create a list of cars that are about to move the map within the next tick. As soon as the iterator (\textit{iter}) points to a car that is on the \textit{toBeRemoved} list, it the car is removed and the loop skips one iteration.  
+In order to overcome this issue we considered both the traditional reader-writer-locking as well as the more advanced read-copy-update pattern, but eventually come to the conclusion but using either of them will introduce an additional scheduling (and implementation) overhead and hence only yield imperceptible performance improvements over the solution we employed (listing \ref{lst_carRem}). As mentioned earlier, the \textit{updateMap()} method loops through all existing vehicles with each tick, we create a list of vehicles that are about to move the map within the next tick. As soon as the iterator (\textit{iter}) points to a vehicle \textit{v} that is on the \textit{toBeRemoved} list, it is removed and the loop skips one iteration.  
 
-\bigskip
+In order to ease the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple communication flows.
 
-* Performance Issues: Map evaluation with each tick
-
-* Singleton pattern in SimCon, and App-classes
 %TODO Testing: Jerry?
