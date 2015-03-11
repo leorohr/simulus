@@ -1,14 +1,13 @@
-package com.simulus;
+package com.simulus.test;
 
 import java.util.ArrayList;
 
+import com.simulus.Startup;
 import com.simulus.controller.SimulationController;
-import com.simulus.view.vehicles.Ambulance;
 import com.simulus.view.vehicles.Car;
 import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
-import com.sun.j3d.utils.scenegraph.io.retained.Controller;
 
 import javafx.application.Application;
 import javafx.application.Platform;

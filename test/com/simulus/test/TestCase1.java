@@ -1,20 +1,9 @@
-package com.simulus;
-
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+package com.simulus.test;
 
 import javafx.application.Platform;
-import javafx.scene.control.Button;
-
 import org.jemmy.fx.SceneDock;
-import org.jemmy.fx.control.LabeledDock;
-import org.jemmy.resources.StringComparePolicy;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 
