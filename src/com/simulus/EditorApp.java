@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -168,7 +169,7 @@ public class EditorApp extends Application {
 							if (eraserSelected) {
 								if(t instanceof Land && !(t instanceof Block) ) {
 									if (event.isShiftDown()){
-										floodFillRemove(i,p);
+										floodFill("eraser", i,p);
 									}else{
 									editorMap.removeSingle(editorMap.getTiles()[i][p]);	
 									}
@@ -599,56 +600,208 @@ public class EditorApp extends Application {
 		}
 	}
 
-	private void floodFill(String tFill, int xIn, int yIn){
+//TODO: this needs looking at to be condensed.
+	private void floodFill(String tFill, int xIn, int yIn) {
+
 		Tile[][] mapTiles = this.editorMap.getTiles();
-		
-		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
-			
-			Tile t = this.editorMap.getTiles()[xIn][yIn];
-			
-			if (t instanceof Lane || t instanceof Land  || t instanceof IntersectionTile){
-				return;
-			} else {
-				switch(tFill){
+		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
+
+		Tile t = this.editorMap.getTiles()[xIn][yIn];
+		LinkedList<Tile> queue = new LinkedList<Tile>();
+		queue.add(t);
+
+		while (!queue.isEmpty()) {
+			t = queue.getLast();
+			queue.removeLast();
+			xIn = t.getGridPosX();
+			yIn = t.getGridPosY();
+
+			if (t instanceof Land && tFill.equals("eraser")) {
+				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);
+				visited[xIn][yIn] = true;
+
+				if (xIn - 1 >= 0) {
+					if (visited[xIn - 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn - 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (xIn + 1 < mapTiles.length) {
+					if (visited[xIn + 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn + 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (yIn - 1 >= 0) {
+					if (visited[xIn][yIn - 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn - 1];
+						queue.add(t);
+					}
+				}
+				if (yIn + 1 < mapTiles.length) {
+					if (visited[xIn][yIn + 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn + 1];
+						queue.add(t);
+					}
+				}
+			}
+
+			else if (!(t instanceof Lane || t instanceof Land || t instanceof IntersectionTile)) {
+
+				switch (tFill) {
 				case "grass":
-					editorMap.addSingle(new Grass(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					editorMap.addSingle(new Grass(xIn * tileSize, yIn
+							* tileSize, tileSize, tileSize, xIn, yIn));
 					break;
 				case "dirt":
-					editorMap.addSingle(new Dirt(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					editorMap.addSingle(new Dirt(xIn * tileSize,
+							yIn * tileSize, tileSize, tileSize, xIn, yIn));
 					break;
 				case "water":
-					editorMap.addSingle(new Water(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+					editorMap.addSingle(new Water(xIn * tileSize, yIn
+							* tileSize, tileSize, tileSize, xIn, yIn));
 					break;
 				}
-				floodFill(tFill, xIn + 1, yIn);
-				floodFill(tFill, xIn - 1, yIn);
-				floodFill(tFill, xIn, yIn + 1);
-				floodFill(tFill, xIn, yIn - 1);
+
+				visited[xIn][yIn] = true;
+
+				if (xIn - 1 >= 0) {
+					if (visited[xIn - 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn - 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (xIn + 1 < mapTiles.length) {
+					if (visited[xIn + 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn + 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (yIn - 1 >= 0) {
+					if (visited[xIn][yIn - 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn - 1];
+						queue.add(t);
+					}
+				}
+				if (yIn + 1 < mapTiles.length) {
+					if (visited[xIn][yIn + 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn + 1];
+						queue.add(t);
+					}
+				}
+
 			}
 		}
-
 	}
-	
-	private void floodFillRemove(int xIn, int yIn){
-		Tile[][] mapTiles = this.editorMap.getTiles();
-		
-		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
-			
-			Tile t = this.editorMap.getTiles()[xIn][yIn];
-			
-			if (t instanceof Lane || t instanceof IntersectionTile){
-				return;
-			} else if (t instanceof Land){
-				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
-				floodFillRemove(xIn + 1, yIn);
-				floodFillRemove(xIn - 1, yIn);
-				floodFillRemove(xIn, yIn + 1);
-				floodFillRemove(xIn, yIn - 1);
-			} else{}
-		}
 
-	}
 	
+//	private void floodFillRemove(int xIn, int yIn){
+//		
+//		Tile[][] mapTiles = this.editorMap.getTiles();
+//		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
+//		
+//		Tile t = this.editorMap.getTiles()[xIn][yIn];
+//		LinkedList<Tile> queue = new LinkedList<Tile>();
+//		queue.add(t);
+//
+//		while (!queue.isEmpty()) {
+//			t = queue.getLast();
+//			queue.removeLast();
+//			xIn = t.getGridPosX();
+//			yIn = t.getGridPosY();
+//
+//			if (t instanceof Land) {
+//				
+//				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
+//				visited[xIn][yIn] = true;
+//
+//				if (xIn - 1 >= 0) {
+//					if (visited[xIn - 1][yIn] == false) {
+//						t = this.editorMap.getTiles()[xIn - 1][yIn];
+//						queue.add(t);
+//					}
+//				}
+//				if (xIn + 1 < mapTiles.length) {
+//					if (visited[xIn + 1][yIn] == false) {
+//						t = this.editorMap.getTiles()[xIn + 1][yIn];
+//						queue.add(t);
+//					}
+//				}
+//				if (yIn - 1 >= 0) {
+//					if (visited[xIn][yIn - 1] == false) {
+//						t = this.editorMap.getTiles()[xIn][yIn - 1];
+//						queue.add(t);
+//					}
+//				}
+//				if (yIn + 1 < mapTiles.length) {
+//					if (visited[xIn][yIn + 1] == false) {
+//						t = this.editorMap.getTiles()[xIn][yIn + 1];
+//						queue.add(t);
+//					}
+//				}
+//				
+//			}
+//		}
+//	}
+	
+//	deprecated.  leave here for reference and then will remove
+//	private void floodFill(String tFill, int xIn, int yIn) {
+//		Tile[][] mapTiles = this.editorMap.getTiles();
+//
+//		if (xIn >= 0 && xIn < mapTiles.length && yIn >= 0
+//				&& yIn < mapTiles.length) {
+//
+//			Tile t = this.editorMap.getTiles()[xIn][yIn];
+//
+//			if (t instanceof Lane || t instanceof Land
+//					|| t instanceof IntersectionTile) {
+//				return;
+//			} else {
+//				switch (tFill) {
+//				case "grass":
+//					editorMap.addSingle(new Grass(xIn * tileSize, yIn
+//							* tileSize, tileSize, tileSize, xIn, yIn));
+//					break;
+//				case "dirt":
+//					editorMap.addSingle(new Dirt(xIn * tileSize,
+//							yIn * tileSize, tileSize, tileSize, xIn, yIn));
+//					break;
+//				case "water":
+//					editorMap.addSingle(new Water(xIn * tileSize,
+//							yIn * tileSize, tileSize, tileSize, xIn, yIn));
+//					break;
+//				}
+//				floodFill(tFill, xIn + 1, yIn);
+//				floodFill(tFill, xIn - 1, yIn);
+//				floodFill(tFill, xIn, yIn + 1);
+//				floodFill(tFill, xIn, yIn - 1);
+//			}
+//		}
+//
+//	}
+	
+	
+//deprecated.  leave here for reference and then will remove
+//	private void floodFillRemove2(int xIn, int yIn){
+//		Tile[][] mapTiles = this.editorMap.getTiles();
+//		
+//		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
+//			
+//			Tile t = this.editorMap.getTiles()[xIn][yIn];
+//			
+//			if (t instanceof Lane || t instanceof IntersectionTile){
+//				return;
+//			} else if (t instanceof Land){
+//				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
+//				floodFillRemove(xIn + 1, yIn);
+//				floodFillRemove(xIn - 1, yIn);
+//				floodFillRemove(xIn, yIn + 1);
+//				floodFillRemove(xIn, yIn - 1);
+//			} else{}
+//		}
+//
+//	}
+//	
 
 	public Stage getPrimaryStage() {
 		return editorStage;
