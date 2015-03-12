@@ -44,7 +44,7 @@ public class Lane extends Tile{
 		return laneNo;
 	}
 
-	/*
+	/**
 	 * Sets the Lane's texture to the correct image. Used in debug-mode to redraw tiles.
 	 */
 	public void redraw() {

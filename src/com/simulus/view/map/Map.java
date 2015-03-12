@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
-import com.simulus.controller.EditorControlsController;
 import com.simulus.controller.SimulationController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
@@ -105,10 +104,10 @@ public class Map extends Group {
 	 * Spawns a car at a randomly selected entrypoint of the map.
 	 * @param b The desired behavior of the spawning car.
 	 */
-	public void spawnRandomCar(Behavior b) {
+	public Car spawnRandomCar(Behavior b) {
 		Lane l;
 		if ((l = selectRandomEntryPoint()) == null)
-			return;
+			return null;
 
 		// Car adds itself to the canvas
 		Car c = null;
@@ -130,6 +129,8 @@ public class Map extends Group {
 		synchronized (vehicles) {
 			vehicles.add(c);
 		}
+		
+		return c;
 	}
 
 	/**

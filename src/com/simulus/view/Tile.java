@@ -82,16 +82,12 @@ public class Tile extends Group {
 
 		if (isOccupied()) {
 			frame.setFill(Color.GREEN);
-			if (isRedLight)
-				frame.setFill(Color.RED);
 		} else {
 			if (this instanceof Lane)
 				((Lane) this).redraw();
 			else
 				frame.setFill(Color.TRANSPARENT); // keep intersections
 													// transparent
-			if (isRedLight)
-				frame.setFill(Color.RED); // redraw trafficlights
 		}
 	}
 
