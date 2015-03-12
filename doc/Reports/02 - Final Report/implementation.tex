@@ -35,7 +35,7 @@ In order to ease the communication between model classes and the \textit{Simulat
 \subsection{Testing}
 In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviewing were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
 
-As the software becomes mature, unit testings were added to the project. We conducted unit testings in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}).
+As the software becomes mature, unit testings were added to the project. We conducted unit testings in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
 
 
 \begin{minipage}{0.9\textwidth}
@@ -50,8 +50,7 @@ LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePo
 	\end{lstlisting}
 \end{minipage}
 
-Using ScenicView helped to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. find the properties of a JavaFX button (fig.~\ref{fig:scenicview}). 
-
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provide tree structure and highlight the item upon it is selected. In the case of unable identify an elements within the source code, this has been particularly helpful.  
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
