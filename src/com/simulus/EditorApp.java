@@ -538,7 +538,7 @@ public class EditorApp extends Application {
 
 	}
 
-	//TODO implement some validation checks based on tiles
+	//TODO javadoc
 	private void validateMap(){
 		Boolean valid = true;
 
@@ -555,7 +555,7 @@ public class EditorApp extends Application {
 						break;
 
 						/* Validate Intersection tiles */
-					} else if (t instanceof IntersectionTile) { // TODO: logic
+					} else if (t instanceof IntersectionTile) { // Check for a complete intersection with exits
 						valid = validateIntersection(t);
 						break;
 
@@ -573,7 +573,7 @@ public class EditorApp extends Application {
 		System.out.println("System valid?:" + valid);
 	}
 
-
+	//TODO javadoc
 	private boolean validateLane(Tile t) {
 		boolean valid = true;
 
@@ -682,7 +682,7 @@ public class EditorApp extends Application {
 		return valid;
 	}
 
-
+	//TODO javadoc
 	private boolean validateIntersection(Tile t) {
 		boolean valid = true;
 		int exitCount = 0;
