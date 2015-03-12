@@ -300,6 +300,7 @@ public class ControlsController implements Initializable {
     	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size());
     	congestionSeries.getData().remove(0, congestionSeries.getData().size());
     	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
+    	emWaitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size());
     }
     
     /**
