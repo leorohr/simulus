@@ -27,5 +27,5 @@
 package com.simulus.util.enums;
 
 public enum LandType {
-	GRASS, DIRT, CITY, BLOCK, EMPTY
+	GRASS, DIRT, WATER, BLOCK, EMPTY
 }

@@ -63,9 +63,8 @@ public class Land extends Tile {
 		case DIRT :
 			image = ResourceBuilder.getDirtTexture();
 			break;
-		case CITY :
-			// TODO Replace CITY image
-			image = ResourceBuilder.getCityTexture();
+		case WATER :
+			image = ResourceBuilder.getWaterTexture();
 		break;
 		case BLOCK :
 			image = ResourceBuilder.getBlockTexture();

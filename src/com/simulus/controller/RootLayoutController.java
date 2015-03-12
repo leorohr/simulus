@@ -216,7 +216,8 @@ public class RootLayoutController implements Initializable {
             ImageView img = new ImageView(RootLayoutController.class.getResource("/resources/simulus.png").toString());
             img.setPreserveRatio(true);
             img.setFitHeight(75.0d);
-            Label infoPanel = new Label("Simulus Traffic Simulation\nVer. 0.1");
+            Label infoPanel = new Label("Simulus Traffic Simulation Ver. 0.1");
+            Label tileInfo = new Label("Textures thanks to Kenney Vleugels (www.kenney.nl) - CC0");
             Hyperlink link = new Hyperlink("http://github.com/leorohr/simulus");
             Button okayBtn = new Button("Okay");
             okayBtn.setOnAction((btnEvent) -> dialog.close());
@@ -225,7 +226,7 @@ public class RootLayoutController implements Initializable {
             vbox.setAlignment(Pos.CENTER);
             vbox.setSpacing(5.0d);
             vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
-            vbox.getChildren().addAll(img, infoPanel, link, okayBtn);
+            vbox.getChildren().addAll(img, infoPanel, link, tileInfo, okayBtn);
 
             dialog.setScene(new Scene(vbox));
             dialog.show();

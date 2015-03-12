@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.IntersectionTile;
-import com.simulus.view.map.City;
+import com.simulus.view.map.Water;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
 import com.simulus.view.map.Land;
@@ -153,8 +153,8 @@ public class MapXML {
 								fullGrid[xPos][yPos] = new Dirt(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
-								case "CITY":  //add city tile
-								fullGrid[xPos][yPos] = new City(xPos * tileSize, yPos * tileSize, tileSize,
+								case "WATER":  //add water tile
+								fullGrid[xPos][yPos] = new Water(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
 //								case "BLOCK":  // TODO: add block tile

@@ -33,7 +33,7 @@ import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Block;
-import com.simulus.view.map.City;
+import com.simulus.view.map.Water;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
 import com.simulus.view.map.Land;
@@ -56,14 +56,14 @@ public class EditorApp extends Application {
 	private Image csrRoadNS = ResourceBuilder.getNSLaneCursor();
 	private Image csrGrass = ResourceBuilder.getGrassCursor();
 	private Image csrDirt = ResourceBuilder.getDirtCursor();
-	private Image csrCity = ResourceBuilder.getCityCursor();
+	private Image csrWater = ResourceBuilder.getWaterCursor();
 	private Image csrBlock = ResourceBuilder.getBlockCursor();
 	private Image csrIntersection = ResourceBuilder.getBoxjunctionCursor();
 	private Image csrErase = ResourceBuilder.getEraseCursor();
 
 	private boolean grassSelected = false;
 	private boolean dirtSelected = false;
-	private boolean citySelected = false;
+	private boolean waterSelected = false;
 	private boolean blockSelected = false;
 	private boolean eraserSelected = false;
 	private boolean roadVerticalSelected = false;
@@ -145,11 +145,11 @@ public class EditorApp extends Application {
 										editorMap.addSingle(new 
 												Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
-								} else if (citySelected) {
+								} else if (waterSelected) {
 									if (event.isShiftDown()){
-										floodFill("city", i, p);
+										floodFill("water", i, p);
 									}else{
-										editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+										editorMap.addSingle(new Water(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
 								}else if (interSelected) {
 									editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
@@ -217,8 +217,8 @@ public class EditorApp extends Application {
 									editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								} else if (dirtSelected) {
 									editorMap.addSingle(new Dirt(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
-								} else if (citySelected) {
-									editorMap.addSingle(new City(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
+								} else if (waterSelected) {
+									editorMap.addSingle(new Water(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								}else if (roadVerticalSelected) {
 									if(firstDrag == true){
 										xFixed = i;
@@ -378,7 +378,7 @@ public class EditorApp extends Application {
 		case "grassButton":
 			grassSelected = true;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			blockSelected = false;
 			eraserSelected = false;
 			roadVerticalSelected = false;
@@ -389,7 +389,7 @@ public class EditorApp extends Application {
 		case "dirtButton":
 			grassSelected = false;
 			dirtSelected = true;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -397,21 +397,21 @@ public class EditorApp extends Application {
 			interSelected = false;
 			canvas.setCursor(new ImageCursor(csrDirt));
 			break;
-		case "cityButton":
+		case "waterButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = true;
+			waterSelected = true;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
 			roadHorizontalSelected = false;
 			interSelected = false;
-			canvas.setCursor(new ImageCursor(csrCity));
+			canvas.setCursor(new ImageCursor(csrWater));
 			break;
 		case "blockButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = false;
 			blockSelected = true;
 			roadVerticalSelected = false;
@@ -422,7 +422,7 @@ public class EditorApp extends Application {
 		case "eraserButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = true;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -433,7 +433,7 @@ public class EditorApp extends Application {
 		case "roadVerticalButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = true;
@@ -444,7 +444,7 @@ public class EditorApp extends Application {
 		case "roadHorizontalButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -455,7 +455,7 @@ public class EditorApp extends Application {
 		case "interButton":
 			grassSelected = false;
 			dirtSelected = false;
-			citySelected = false;
+			waterSelected = false;
 			eraserSelected = false;
 			blockSelected = false;
 			roadVerticalSelected = false;
@@ -616,8 +616,8 @@ public class EditorApp extends Application {
 				case "dirt":
 					editorMap.addSingle(new Dirt(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
 					break;
-				case "city":
-					editorMap.addSingle(new City(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
+				case "water":
+					editorMap.addSingle(new Water(xIn*tileSize, yIn*tileSize, tileSize, tileSize, xIn, yIn));
 					break;
 				}
 				floodFill(tFill, xIn + 1, yIn);

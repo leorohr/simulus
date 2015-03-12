@@ -13,11 +13,11 @@ public class ResourceBuilder {
     private static Image grassTexture = new Image(ResourceBuilder.class.getResource("/resources/grass.png").toString());
     private static Image blockTexture = new Image(ResourceBuilder.class.getResource("/resources/block.png").toString());
     private static Image boxjunctionTexture = new Image(ResourceBuilder.class.getResource("/resources/boxjunction.png").toString());
-    private static Image cityTexture = new Image(ResourceBuilder.class.getResource("/resources/city.png").toString());
+    private static Image waterTexture = new Image(ResourceBuilder.class.getResource("/resources/water.png").toString());
     
     private static Image blockCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_block.png").toString());
     private static Image boxjunctionCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_boxjunction.png").toString());
-    private static Image cityCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_city.png").toString());
+    private static Image waterCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_water.png").toString());
     private static Image dirtCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_dirt.png").toString());
     private static Image EWLaneCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_eastwest.png").toString());
     private static Image NSLaneCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_northsouth.png").toString());
@@ -74,8 +74,8 @@ public class ResourceBuilder {
 		return boxjunctionTexture;
 	}
 
-	public static Image getCityTexture() {
-		return cityTexture;
+	public static Image getWaterTexture() {
+		return waterTexture;
 	}
 
 	public static Image getBlockCursor() {
@@ -86,8 +86,8 @@ public class ResourceBuilder {
 		return boxjunctionCursor;
 	}
 
-	public static Image getCityCursor() {
-		return cityCursor;
+	public static Image getWaterCursor() {
+		return waterCursor;
 	}
 
 	public static Image getDirtCursor() {
