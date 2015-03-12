@@ -558,6 +558,24 @@ public class EditorApp extends Application {
 
 						if (dir == Direction.NORTH || dir == Direction.SOUTH) {
 							
+							if (!(y-1 < 0)) {
+								Tile tPrev = this.editorMap.getTiles()[x][y-1];
+								if (tPrev instanceof Lane) {
+									if (dir == ((Lane) tPrev).getDirection() &&
+											laneNo == ((Lane) tPrev).getLaneNo()) {
+										// The Road continues
+									} else {
+										valid = false;
+										break;
+									}
+								} else if (tPrev instanceof IntersectionTile) {
+									// This is OK
+								} else {
+									valid = false;
+									break;
+								}
+							}
+							
 							if (y+1 >= this.editorMap.getTiles()[0].length) {
 								System.out.println("y bound reached");
 								break;
@@ -604,6 +622,25 @@ public class EditorApp extends Application {
 							
 
 						} else { // Direction is WESTEAST
+							/* Check previous tile */
+							if (!(x-1 < 0)) {
+								Tile tPrev = this.editorMap.getTiles()[x-1][y];
+								if (tPrev instanceof Lane) {
+									if (dir == ((Lane) tPrev).getDirection() &&
+											laneNo == ((Lane) tPrev).getLaneNo()) {
+										// The Road continues
+									} else {
+										valid = false;
+										break;
+									}
+								} else if (tPrev instanceof IntersectionTile) {
+									// This is OK
+								} else {
+									valid = false;
+									break;
+								}
+							}
+							/* Check next tile */
 							if (x+1 >= this.editorMap.getTiles().length) {
 								System.out.println("x bound reached");
 								break;
@@ -649,25 +686,110 @@ public class EditorApp extends Application {
 							}
 						}
 						
+						
+						
 						/* Validate Intersection tiles */
 					} else if (t instanceof IntersectionTile) { // TODO: logic
+						
+						int exitCount = 0;
+
+						// X Across Y Down
 						List<Tile> intersection =((IntersectionTile) t).getIntersection().getTiles();
+						
+						for (int i = 0; i < 4; i++) {
+							int newX = intersection.get(i).getGridPosX();
+							int newY = intersection.get(i).getGridPosY();
+							
+							Tile iExit = mapTiles[newX][(newY-1)];
+							
+							if (iExit instanceof Lane) {
+								if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+										(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+										|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+										(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+									System.out.println("Exits 0-3 OK");
+									exitCount++;
+									}
+								}
+							}
+						
+						for (int i = 12; i < 16; i++) {
+							int newX = intersection.get(i).getGridPosX();
+							int newY = intersection.get(i).getGridPosY();
+							
+							Tile iExit = mapTiles[newX][(newY+1)];
+							
+							if (iExit instanceof Lane) {
+								if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+										(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+										|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+										(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+									System.out.println("Exits 12-15 OK");
+									exitCount++;
+									}
+								}
+						}
+						
+						for (int i = 0; i < 13; i += 4) {
+							int newX = intersection.get(i).getGridPosX();
+							int newY = intersection.get(i).getGridPosY();
+							
+							Tile iExit = mapTiles[newX-1][(newY)];
+							
+							if (iExit instanceof Lane) {
+								if ((((Lane) iExit).getDirection() == Direction.EAST &&
+										(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+										|| (((Lane) iExit).getDirection() == Direction.WEST &&
+										(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+									System.out.println("Exits 0,4,8,12 OK");
+									exitCount++;
+									}
+								}
+						}
+						
+						for (int i = 3; i < 16; i += 4) {
+							int newX = intersection.get(i).getGridPosX();
+							int newY = intersection.get(i).getGridPosY();
+							
+							Tile iExit = mapTiles[newX+1][(newY)];
+							
+							if (iExit instanceof Lane) {
+								if ((((Lane) iExit).getDirection() == Direction.EAST &&
+										(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+										|| (((Lane) iExit).getDirection() == Direction.WEST &&
+										(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+									System.out.println("Exits 0,4,8,12 OK");
+									exitCount++;
+									}
+								}
+						}
+						
+						if (exitCount < 2) {
+							valid = false;
+							break;
+						}
+						
+						
 						for (Tile it : intersection) {
 							if (it instanceof IntersectionTile) {
 //								List<Tile> otherIt = ((IntersectionTile) it).getIntersection().getTiles();
 //								if (intersection.equals(otherIt)) {
-									System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is OK");
+									//System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is OK");
 //								} else {
 //									System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is part of another intersection");
 //									valid = false;
 //									break;
 //								}
 							} else {
-								System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is not an IntersectionTile");
+								//System.out.println("interTile " +it.getGridPosX() + " " + it.getGridPosY() + " is not an IntersectionTile");
 								valid = false;
 								break;
 							}
 						}
+						
+						
+						System.out.println(exitCount);
+						
 						break;
 						
 						/* Validate Land tiles */
