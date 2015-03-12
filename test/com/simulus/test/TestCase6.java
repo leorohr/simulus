@@ -1,28 +1,22 @@
-package com.simulus;
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-
+package com.simulus.test;
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
-import com.simulus.view.vehicles.Vehicle;
 
 /**
- * This TestCase tests the Controller settings on Max.no. of cars spawned on map
- * 
+ * This TestCase tests the Controller settings on Tick Rate and Spawn Delay
  *
  */
 
-public class TestCase5 extends TestCaseBaseCode {
+public class TestCase6 extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
-	private boolean test3Pass = false;
-	
+
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -31,7 +25,7 @@ public class TestCase5 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase5.txt", true);
+		writeToFile("test/com/simulus/result/TestCase6.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -62,8 +56,7 @@ public class TestCase5 extends TestCaseBaseCode {
 
 				scene = new SceneDock();
 
-				SimulationController.getInstance().setTickTime(20);
-				SimulationController.getInstance().setMaxCarSpeed(120);
+
 
 				clickButton("Start"); 
 
@@ -82,19 +75,27 @@ public class TestCase5 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				int carCount; 
-				int maxCar; 
-				carCount = SimulationController.getInstance().getMap().getVehicleCount();
-				maxCar = SimulationController.getInstance().getMaxCars();
-				
-				writeToLog("Current no of cars on the map: " + carCount);
-				writeToLog("Max no of car on the map: " + maxCar);
-				
-				if(carCount < maxCar){
+				double time = SimulationController.getInstance().getTickTime();
+
+				double spawnRate = SimulationController.getInstance().getSpawnRate();
+
+				writeToLog("The current Tick time is: "+ time );
+
+
+				writeToLog("The current Spawn rate is: "+ spawnRate );
+
+				writeToLog("Test 1 completed!");
+
+
+
+				if(time == 50.0 && spawnRate == 5.0){
 					test1Pass = true;
 				}
-				
-				writeToLog("Test 1 completed!");
+				else{
+					test1Pass = false;
+					writeToLog("The default Tick time is not equal to 25. OR");
+					writeToLog("The default Spawn rate is not equal to 5. Test Fail!");
+				}
 
 			}
 		});
@@ -103,9 +104,9 @@ public class TestCase5 extends TestCaseBaseCode {
 		isTestPassed(test1Pass, 1);
 	}
 
-	
+
 	/**
-	 * Adjust the no of cars on the map and then compare
+	 * Run comparison of tick rate and spawn rate against the Controller
 	 * @throws InterruptedException
 	 */
 	@Test
@@ -117,22 +118,21 @@ public class TestCase5 extends TestCaseBaseCode {
 			public void run() {
 				writeToLog("Initialising Test2...");
 
-				int newMax = 40;
-				SimulationController.getInstance().setMaxCars(newMax);
-				writeToLog("Increased a number of cars on the map to: " + newMax);
-				
-				int carCount; 
-				int maxCar; 
-				carCount = SimulationController.getInstance().getMap().getVehicleCount();
-				maxCar = SimulationController.getInstance().getMaxCars();
-				
-				writeToLog("Current no of cars on the map: " + carCount);
-				writeToLog("Max no of car on the map: " + maxCar);
-				
-				if(carCount < maxCar){
-					test2Pass= true;
+				SimulationController.getInstance().setTickTime(10);
+				SimulationController.getInstance().setSpawnRate(1);
+
+				double time = SimulationController.getInstance().getTickTime();
+
+				double spawnRate = SimulationController.getInstance().getSpawnRate();
+
+				if (time != 10 || spawnRate !=1){
+					writeToLog(" Tick time has not been changed correctly to 10. OR");
+					writeToLog("Spawn rate has not been changed correctly to 1. Test Fail!");
 				}
-				
+				else{
+					test2Pass = true;
+				}
+
 				writeToLog("Test 2 completed!");
 			}
 		});

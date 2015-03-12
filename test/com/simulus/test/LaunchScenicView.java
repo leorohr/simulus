@@ -19,7 +19,7 @@
  */
 
 
-package com.simulus;
+package com.simulus.test;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +33,9 @@ import javafx.stage.Stage;
 
 import org.scenicview.ScenicView;
 
+import com.simulus.EditorApp;
 import com.simulus.MainApp;
+import com.simulus.Startup;
 import com.simulus.controller.SimulationController;
 
 /**

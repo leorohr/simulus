@@ -1,22 +1,22 @@
-package com.simulus;
+package com.simulus.test;
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
 
 /**
- * This TestCase tests the Controller settings on Max car speed
+ * This TestCase tests the UI of spawning a Ambuslance car
+ * 
  *
  */
 
-public class TestCase7 extends TestCaseBaseCode {
+public class TestCase3 extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
-
+	private boolean test3Pass = false;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -26,7 +26,7 @@ public class TestCase7 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase7.txt", true);
+		writeToFile("test/com/simulus/result/TestCase3.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -38,18 +38,15 @@ public class TestCase7 extends TestCaseBaseCode {
 
 			}
 		});
+
+
 	}
 
 
-	@Before
-	public void setUp() throws Exception {
-		Thread.sleep(4000); 
-
-	}
 
 	@After
 	public void tearDown() throws Exception {
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 	}
 
 
@@ -62,7 +59,6 @@ public class TestCase7 extends TestCaseBaseCode {
 			public void run() {
 
 				scene = new SceneDock();
-
 				clickButton("Start"); 
 
 			}
@@ -71,57 +67,77 @@ public class TestCase7 extends TestCaseBaseCode {
 	}
 
 
+
 	@Test
-	public void test1() throws InterruptedException {
+	public void test1() throws InterruptedException{
 		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
 
 				writeToLog("Initialising Test1...");
-
-				appThread.measureVihecleSpeed();
-
+				clickButton("Spawn Ambulance");
 				test1Pass = true;
-
 				writeToLog("Test 1 completed!");
-
 			}
 		});
 
-		Thread.sleep(5000);
+		Thread.sleep(2000);
 		isTestPassed(test1Pass, 1);
 	}
 
 	@Test
 	public void test2() throws InterruptedException{
+
 		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
-				
 				writeToLog("Initialising Test2...");
 
-				for (int i = 0; i< appThread.vihecleSpeed.size(); i++){
-					writeToLog("Vihecle " + i + " speed is: " + appThread.vihecleSpeed.get(i));
-
-					if (appThread.vihecleSpeed.get(i) > 
-					SimulationController.getInstance().getMaxCarSpeed()){
-						test2Pass = false;
-					}
-					else{
-						test2Pass = true;
-					}
+				if(appThread.AmbulanceIsSpawnedOnMap()){
+					test2Pass = true;
 				}
-				writeToLog("Test2 completed!");
-
+				writeToLog("Test 2 completed!");
 
 			}
 		});
-		
-		Thread.sleep(5000);
+		Thread.sleep(1000);
 		isTestPassed(test2Pass, 2);
 	}
 
 
+
+
+	@Test
+	public void test3() throws InterruptedException {
+
+		executor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				writeToLog("Initialising Test3...");
+				int count;
+
+				count = SimulationController.getInstance().getAmbulanceCount();
+
+				if (count == 1){
+					appThread.removeEmergencyCar();
+					count--;
+
+				}
+				if (count == 0){
+					test3Pass = true;
+				}
+
+				writeToLog("count is " + count);
+				writeToLog("Test 3 completed!");
+			}
+		});
+		Thread.sleep(2000);
+		isTestPassed(test3Pass, 3);
+	}
+
+	
+	
 }

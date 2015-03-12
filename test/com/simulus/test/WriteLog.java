@@ -1,4 +1,4 @@
-package com.simulus;
+package com.simulus.test;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;

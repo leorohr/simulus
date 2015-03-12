@@ -1,4 +1,4 @@
-package com.simulus;
+package com.simulus.test;
 
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
@@ -10,16 +10,16 @@ import com.simulus.controller.SimulationController;
 
 
 /**
- * This testcase tests on car truck ratio
+ * This TestCase tests on car truck ratio
  * 
  * 
  */
-public class TestCase8 extends TestCaseBaseCode{
+public class TestCase9 extends TestCaseBaseCode{
 
 	private boolean test1Pass = false;
 
-	private double car;
-	private double truck;
+	private double recklessCount;
+	private double normalCarCount;
 	private double vihecleCount;
 
 	private double ratio ;
@@ -33,7 +33,7 @@ public class TestCase8 extends TestCaseBaseCode{
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase8.txt", true);
+		writeToFile("test/com/simulus/result/TestCase9.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -48,7 +48,7 @@ public class TestCase8 extends TestCaseBaseCode{
 	}
 	@Before
 	public void setUp() throws Exception {
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 
 	}
 
@@ -85,23 +85,23 @@ public class TestCase8 extends TestCaseBaseCode{
 
 				writeToLog("Initialising Test1...");
 
-				ratio = SimulationController.getInstance().getCarTruckRatio();
+				SimulationController.getInstance().setRecklessNormalRatio(0.45);
+				SimulationController.getInstance().setSpawnRate(1);
 				
-				writeToLog("Map Car/Truck Ratio: " + ratio);
-				
-				truck = SimulationController.getInstance().getTruckCount();
+				ratio = SimulationController.getInstance().getRecklessNormalRatio();
+				writeToLog("Map reckless/Normal Ratio: " + ratio);
+	
+				recklessCount = SimulationController.getInstance().getRecklessCount();
 
 				vihecleCount = SimulationController.getInstance().getMap().getVehicleCount();
 
-				car = vihecleCount - truck;
+				normalCarCount = vihecleCount - recklessCount;
 
-				myRatio = car/vihecleCount;
+				myRatio = recklessCount/vihecleCount;
 
-				writeToLog("Trucks on map: " + truck);
-				writeToLog("Cars on map: " + car);
-				writeToLog("Current Car/Truck Ratio " + myRatio);
-		
-
+				writeToLog("Reckless cars on map: " + recklessCount);
+				writeToLog("Normal Cars on map: " + normalCarCount);
+				writeToLog("Current reckless/normal Ratio " + myRatio);
 
 				if(myRatio< ratio){
 					test1Pass = true;

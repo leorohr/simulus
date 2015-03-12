@@ -30,7 +30,7 @@ public class EditorControlsController implements Initializable {
 	@FXML
 	Button dirtButton;
 	@FXML
-	Button cityButton;
+	Button waterButton;
 	@FXML
 	Button blockButton;
 	@FXML
@@ -76,7 +76,7 @@ public class EditorControlsController implements Initializable {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
-		cityButton.setOnAction((event) -> {
+		waterButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		

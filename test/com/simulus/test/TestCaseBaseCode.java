@@ -1,4 +1,4 @@
-package com.simulus;
+package com.simulus.test;
 
 import static org.junit.Assert.*;
 
@@ -6,21 +6,13 @@ import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ScrollBar;
-
 import org.jemmy.fx.SceneDock;
 import org.jemmy.fx.control.LabeledDock;
 import org.jemmy.resources.StringComparePolicy;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
-import com.simulus.controller.SimulationController;
-import com.simulus.view.vehicles.Truck;
-import com.simulus.view.vehicles.Vehicle;
+import com.simulus.test.WriteLog;
 
 
 public class TestCaseBaseCode {
