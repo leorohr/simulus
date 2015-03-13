@@ -201,7 +201,8 @@ public class EditorControlsController implements Initializable {
         	alert.setHeaderText("The current map will be lost!");
         	alert.setContentText("Continue?");
         	Optional<ButtonType> result = alert.showAndWait();
-        	if(result.get() == ButtonType.OK)
+        	if(result.get() == ButtonType.OK && mapListCB.getSelectionModel().getSelectedIndex() < matchingFiles.length
+        			&& mapListCB.getSelectionModel().getSelectedIndex() >= 0)
         		
         		try{
         			String filePath = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()].getPath();
@@ -260,7 +261,7 @@ public class EditorControlsController implements Initializable {
 		});
 
 		for(File files : matchingFiles){
-			
+			System.out.println(files.getName());
 			mapListCB.getItems().add(files.getName().substring(0,files.getName().length() - ".map".length()));
 		}
 
