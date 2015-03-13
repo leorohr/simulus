@@ -16,7 +16,7 @@ public class EmergencyCar extends Car {
 
 		setFill(COLOUR);
 		
-		//4.64m/s^2; 1m=tilesize/5; 1 tick = 1/10s
+		//3.48m/s^2; 1m=tilesize/5; 1 tick = 1/10s
 		acceleration = (4.64 * Configuration.tileSize/5)/10;
 		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
 		maxSpeed = speedInMps * (Configuration.tileSize/5)/10;
