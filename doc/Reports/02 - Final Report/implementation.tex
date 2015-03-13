@@ -29,9 +29,6 @@ In order to overcome this issue we considered both the traditional reader-writer
 
 In order to ease the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple communication flows.
 
-%TODO Testing: Jerry?
-
-
 \subsection{Testing}
 In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviewing were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
 

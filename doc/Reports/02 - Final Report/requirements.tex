@@ -64,10 +64,8 @@ The observations of the traffic network mentioned above are captured in live sta
 
 When simulating the flow of cars in a traffic network it is of utmost importance to be able to alter the traffic management policies that are brought into effect (requirement 1e). Traffic management policies that are tangible in real-life situations include speed limits and the duration of red-light-phases of traffic lights. Besides these two, the Simulus simulation suite allows adjustment of the following simulation-specific policies: the maximum number of cars in the network, the tickrate of the simulation in milliseconds, the spawn delay, i.e. after how many ticks a new vehicle appears on the map, the ratio of cars to trucks (a value of 1 restricts trucks from spawning, 0 analogous), and lastly the ratio of reckless drivers to cautious drivers. All of the aforementioned but the traffic light duration are adjustable via sliders on the right side of the interface. Traffic light duration can be randomised for all traffic lights at once via a button, assigning a phase duration between 2000 and 5000 milliseconds.
 
-The requirements discussed above comprised the \textit{Must have} category of our goals. The next requirement to mention is the implementation of emergency services (2a).
-% emergency vehicles: ignore red lights, make other cars slow down and force them to give way
-% always aim for max speed, double the acceleration of a normal car, 
-% AoE
+The requirements discussed above comprised the \textit{Must have} category of our goals. The next requirement to mention is the implementation of emergency services (2a). Just like in real-life traffic emergency vehicles enjoy privileges in our simulation. In order to simulate the special attention that other drivers pay to approaching emergency vehicles, we introduce an "Area of Effect". This area, implemented as a circle, surrounds the moving ambulance. Any normal vehicle that intersects said circle will slow down to 10km/h and merge to an adjacent lane if it is in the same lane with the ambulance. If the vehicle intersects the area of effect but is currently in a lane adjacent to the ambulance it will slow down and keep a 3 tile (i.e. 15m) distance to cars in the front in order to allow other cars to merge into its lane. Emergency vehicles ignore red lights and have one and a half times the acceleration of a normal car, i.e. $3.48m/s^2$ or from 0 to 100km/h in roughly 9 seconds.
+%TODO change acceleration?
 
 
 \subsection{Editor}\label{ss:req-editor}
