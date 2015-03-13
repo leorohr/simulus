@@ -80,7 +80,6 @@ public class EditorApp extends Application {
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
 	File selectedFile;
-	File userDirectory = new File(System.getProperty("user.home") + "/Desktop");
 
 
 	private static EditorApp instance;
@@ -484,6 +483,7 @@ public class EditorApp extends Application {
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
+		fileChooser.setInitialDirectory(new File("C:\\Users\\Administrator\\git\\simulus\\src\\resources\\maps"));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());
@@ -497,6 +497,7 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Open Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
+		fileChooser.setInitialDirectory(new File("C:\\Users\\Administrator\\git\\simulus\\src\\resources\\maps"));
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {
 			loadMap(selectedFile.getPath());
@@ -583,7 +584,7 @@ public class EditorApp extends Application {
 		Date date = new Date();
 
 		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
-				ECC.getMapDesc(), ECC.getMapAuthor(), 800, ECC.getGridSize(), mapValidated);
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, mapValidated);
 
 	}
 

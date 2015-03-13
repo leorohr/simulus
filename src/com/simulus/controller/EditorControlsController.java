@@ -3,6 +3,7 @@ package com.simulus.controller;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -16,12 +17,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
+import com.simulus.Startup;
 
 public class EditorControlsController implements Initializable {
 
@@ -57,10 +60,14 @@ public class EditorControlsController implements Initializable {
 	TextField descTextField;
 	@FXML
 	TextField authorTextField;
+//	@FXML
+//	ChoiceBox<String> gridSizeChoiceBox = new ChoiceBox<String>();
 	@FXML
-	ChoiceBox<String> gridSizeChoiceBox = new ChoiceBox<String>();
+	ComboBox<String> mapListCB;
 	@FXML 
 	Hyperlink simulusLink;
+	
+	File[] matchingFiles;
 
 
 	// TODO
@@ -117,6 +124,7 @@ public class EditorControlsController implements Initializable {
 	        		return;
 			}else {
 				EditorApp.getInstance().selectButton((Button) event.getSource());
+				populateMapList();
 			}
 				
 		});
@@ -152,7 +160,6 @@ public class EditorControlsController implements Initializable {
 		simulateButton.setOnAction((event) -> {
 			
 			//validate map then save and open simulator
-	        //save current map as a temp file in maps folder and open in mainapp
 			Alert alert = new Alert(AlertType.CONFIRMATION);
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
         	alert.setTitle("Opening Simulator");
@@ -177,16 +184,38 @@ public class EditorControlsController implements Initializable {
             try {
             	EditorApp.getInstance().getPrimaryStage().close();
 				EditorApp.getInstance().stop();
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 		});
 		
-		gridSizeChoiceBox.getItems().add("40");
-		gridSizeChoiceBox.getItems().add("60");
-		gridSizeChoiceBox.getItems().add("80");
-		gridSizeChoiceBox.getSelectionModel().select(0);
+		populateMapList();
+
+		mapListCB.setOnAction((event) -> {
+		     
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+        	alert.setTitle("Change Map");
+        	alert.setHeaderText("The current map will be lost!");
+        	alert.setContentText("Continue?");
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if(result.get() == ButtonType.OK)
+        		
+        		try{
+        			String filePath = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()].getPath();
+        			EditorApp.getInstance().loadMap(filePath); 
+        				
+        		} catch (Exception e) {
+        			e.printStackTrace();
+        		}
+		});
+		
+//		gridSizeChoiceBox.getItems().add("40");
+//		gridSizeChoiceBox.getItems().add("60");
+//		gridSizeChoiceBox.getItems().add("80");
+//		gridSizeChoiceBox.getSelectionModel().select(0);
 
 //		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 //			@Override
@@ -220,7 +249,23 @@ public class EditorControlsController implements Initializable {
     
 	}
 	
+	private void populateMapList(){
+		
+		mapListCB.getItems().clear();
+		File f = new File(EditorControlsController.class.getResource("/resources/maps").getPath());
+		matchingFiles = f.listFiles(new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		        return name.endsWith("map");
+		    }
+		});
 
+		for(File files : matchingFiles){
+			
+			mapListCB.getItems().add(files.getName().substring(0,files.getName().length() - ".map".length()));
+		}
+
+	}
+	
 	public static void openWebpage(String urlString) {
 	    try {
 	        Desktop.getDesktop().browse(new URL(urlString).toURI());
@@ -262,25 +307,25 @@ public class EditorControlsController implements Initializable {
 		return authorTextField.getText();
 	}
 	
-	public void setGridSize(int size) {
-		switch(size){
-			case 40:
-				gridSizeChoiceBox.getSelectionModel().select(0);
-			break;
-			case 60:
-				gridSizeChoiceBox.getSelectionModel().select(1);
-			break;
-			case 80:
-				gridSizeChoiceBox.getSelectionModel().select(2);
-			break;
-		}
-		
-    }
+//	public void setGridSize(int size) {
+//		switch(size){
+//			case 40:
+//				gridSizeChoiceBox.getSelectionModel().select(0);
+//			break;
+//			case 60:
+//				gridSizeChoiceBox.getSelectionModel().select(1);
+//			break;
+//			case 80:
+//				gridSizeChoiceBox.getSelectionModel().select(2);
+//			break;
+//		}
+//		
+//    }
 	
-	public int getGridSize(){
-		
-		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
-		
-	}
+//	public int getGridSize(){
+//		
+//		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
+//		
+//	}
 
 }

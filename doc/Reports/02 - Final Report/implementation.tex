@@ -30,3 +30,32 @@ In order to overcome this issue we considered both the traditional reader-writer
 In order to ease the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple communication flows.
 
 %TODO Testing: Jerry?
+
+
+\subsection{Testing}
+In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviewing were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
+
+As the software becomes mature, unit testings were added to the project. We conducted unit testings in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
+
+
+\begin{minipage}{0.9\textwidth}
+	\begin{lstlisting}[caption={Use JemmyFX syntax to find a checkBox element}, label={lst:checkBox}]
+
+//Identifying the input checkBox element exist
+assertEquals(CheckBox.class, new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT).wrap().getControl().getClass());
+
+//Find the label of the checkBox 
+LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT);
+
+	\end{lstlisting}
+\end{minipage}
+
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provide tree structure and highlight the item upon it is selected. In the case of unable identify an elements within the source code, this has been particularly helpful.  
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/scenicView.png}
+		\caption[Identifying properties of Start button with ScenicView]{Identifying properties of Start button with ScenicView}
+		\label{fig:scenicview}
+	\end{center}
+\end{figure}
+
