@@ -273,9 +273,7 @@ public class Map extends Group {
 			if (g instanceof Intersection) {
 				((IntersectionTile) tiles[t.getGridPosX()][t.getGridPosY()])
 						.setIntersection((Intersection) g);
-			}
-
-			if (g instanceof Road) {
+			} else if (g instanceof Road) {
 				if (t.getGridPosX() == tiles.length - 1
 						&& ((Road) g).getOrientation() == Orientation.WESTEAST
 						&& ((Lane) t).getDirection() == Direction.WEST) {

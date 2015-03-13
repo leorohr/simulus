@@ -171,7 +171,7 @@ public class EditorControlsController implements Initializable {
             MainApp app = MainApp.getInstance(); 
     		if(app == null)
     			app = new MainApp();
-    		app.start(new Stage());
+    		app.start(new Stage(), false);
     		SimulationController.getInstance().getMap().loadMap(mapFile);
 
             try {

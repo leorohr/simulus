@@ -48,11 +48,24 @@ public class MainApp extends Application {
 		this.getPrimaryStage().setResizable(false);
 		
 		initRootLayout();
-		showControls();
-
-        //Load default map on startup
-		SimulationController.getInstance().getMap().loadMap(
-			new File(MainApp.class.getResource("/resources/default.map").getFile()));		
+		showControls();		
+	}
+	
+	/**
+	 * Overloades the MainApp's default start method to prevent it from loading the default map
+	 * if that is not necessary, e.g. when the app is started from the editor with user-defined map.
+	 * @param primaryStage The stage to start the app on.
+	 * @param defaultMap Whether the default map should be loaded or not.
+	 */
+	public void start(final Stage primaryStage, boolean defaultMap) {
+		start(primaryStage);
+		
+		//Load default map
+		if(defaultMap) {
+			SimulationController.getInstance().getMap().loadMap(
+				new File(MainApp.class.getResource("/resources/default.map").getFile()));
+		}
+		
 	}
 
 	/**
