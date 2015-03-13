@@ -111,7 +111,6 @@ public class TestCase4 extends TestCaseBaseCode {
 				ActualCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();
 
 				if (!ExpectedCarRemoveList.equals(ActualCarRemoveList)){
-					writeToLog("Hahahah!!!");
 					test2Pass = true;
 				}
 

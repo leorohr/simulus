@@ -33,9 +33,9 @@ In order to ease the communication between model classes and the \textit{Simulat
 
 
 \subsection{Testing}
-In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviewing were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
+In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviews were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
 
-As the software becomes mature, unit testings were added to the project. We conducted unit testings in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
+As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
 
 
 \begin{minipage}{0.9\textwidth}
@@ -50,7 +50,7 @@ LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePo
 	\end{lstlisting}
 \end{minipage}
 
-Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provide tree structure and highlight the item upon it is selected. In the case of unable identify an elements within the source code, this has been particularly helpful.  
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provides a tree structure and highlight the item upon it is selected. In the case of unable identifying an elements within the source code, this has been particularly helpful.  
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
@@ -58,4 +58,23 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 		\label{fig:scenicview}
 	\end{center}
 \end{figure}
+
+Since we were trying to achieve a multithreaded application, we reached a point where it was impossible to test every functionality due to the level of nesting and threading was too deep for us to comprehend. Therefore we focused our unit testing mainly on the major components (i.e. vehicles, map and the model), in order to ensure features within them work correctly - in return that the application would behave accordingly. With such approach, this gives us the confidence that our code works as we expect it to work. 
+
+It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of testing cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
+
+We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testingCase}. 
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/testingCase.png}
+		\caption{A log is produced after a testing execution}
+		\label{fig:testingCase}
+	\end{center}
+\end{figure}
+
+Furthermore, we also used a commercial tool to analyse the architecture of our software.  
+
+
+
 

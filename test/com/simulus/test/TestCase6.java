@@ -81,12 +81,7 @@ public class TestCase6 extends TestCaseBaseCode {
 
 				writeToLog("The current Tick time is: "+ time );
 
-
 				writeToLog("The current Spawn rate is: "+ spawnRate );
-
-				writeToLog("Test 1 completed!");
-
-
 
 				if(time == 50.0 && spawnRate == 5.0){
 					test1Pass = true;
@@ -96,10 +91,11 @@ public class TestCase6 extends TestCaseBaseCode {
 					writeToLog("The default Tick time is not equal to 25. OR");
 					writeToLog("The default Spawn rate is not equal to 5. Test Fail!");
 				}
+				writeToLog("Test 1 completed!");
 
 			}
 		});
-
+		
 		Thread.sleep(3000);
 		isTestPassed(test1Pass, 1);
 	}
