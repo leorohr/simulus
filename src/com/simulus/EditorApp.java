@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -19,7 +20,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -34,13 +34,13 @@ import com.simulus.view.Tile;
 import com.simulus.view.intersection.Intersection;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Block;
-import com.simulus.view.map.Water;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
 import com.simulus.view.map.Land;
 import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
+import com.simulus.view.map.Water;
 
 public class EditorApp extends Application {
 
@@ -71,8 +71,6 @@ public class EditorApp extends Application {
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
 
-
-	private Tile hoverTile;
 	int xFixed;
 	int yFixed;
 	boolean firstDrag = true;
@@ -80,6 +78,7 @@ public class EditorApp extends Application {
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
 	File selectedFile;
+	File userDirectory = new File(System.getProperty("user.home") + "/Desktop");
 
 
 	private static EditorApp instance;
@@ -130,7 +129,7 @@ public class EditorApp extends Application {
 
 							if (t instanceof Lane || t instanceof IntersectionTile){
 
-							} else{
+							} else {
 								if (grassSelected) {
 									if (event.isShiftDown()){
 										floodFill("grass", i, p);
@@ -170,7 +169,7 @@ public class EditorApp extends Application {
 									if (event.isShiftDown()){
 										floodFill("eraser", i,p);
 									}else{
-									editorMap.removeSingle(editorMap.getTiles()[i][p]);	
+										editorMap.removeSingle(editorMap.getTiles()[i][p]);	
 									}
 								} else if (t instanceof Lane || t instanceof IntersectionTile || t instanceof Block){
 									groupErase(t);
@@ -212,7 +211,7 @@ public class EditorApp extends Application {
 
 							if (t instanceof Lane || t instanceof IntersectionTile){
 
-							} else{
+							} else {
 								if (grassSelected) {
 									editorMap.addSingle(new Grass(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								} else if (dirtSelected) {
@@ -256,42 +255,6 @@ public class EditorApp extends Application {
 				}
 			}
 		});
-
-
-
-		/**
-		 * Mouse hover for each tile in the EditorMap
-		 */
-		Tile[][] mapTiles = this.editorMap.getTiles();
-		for (int x = 0 ;  x < mapTiles.length; x++) {
-			for(int y = 0; y < mapTiles[x].length; y++) {
-
-				Tile t = this.editorMap.getTiles()[x][y];
-
-				// Get the currently hovered tile
-				t.setOnMouseEntered(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						hoverTile = t;
-						t.setMouseTransparent(true);
-						ghostDraw(t);
-
-					}
-				});
-
-				// TODO : resolve insta-remove issue
-				// Forget the tile when no longer hovered
-				t.setOnMouseExited(new EventHandler<MouseEvent>() {
-					@Override
-					public void handle(MouseEvent event) {
-						//hoverTile.setMouseTransparent(false);
-						ghostRemove(hoverTile);
-					}
-				});
-			}
-		}
-
-
 
 
 		/**
@@ -471,6 +434,9 @@ public class EditorApp extends Application {
 		case "clearMapButton":
 			this.editorMap = new Map();
 			break;
+		case "validateMapButton":
+			validateMap();
+			break;
 		default:
 			break;
 		}
@@ -487,7 +453,7 @@ public class EditorApp extends Application {
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());
 		}
-	
+
 		return selectedFile;
 	}
 
@@ -501,23 +467,6 @@ public class EditorApp extends Application {
 		if (selectedFile != null) {
 			loadMap(selectedFile.getPath());
 		}
-	}
-
-
-	/**
-	 * hover function
-	 */
-	private void ghostDraw(Tile tile) {
-		if (grassSelected) {
-			tile.getFrame().setFill(Color.GREEN);
-		} else if (dirtSelected){
-			tile.getFrame().setFill(Color.YELLOW);
-		}
-	}
-
-	private void ghostRemove(Tile tile) {
-		// TODO 
-		tile.getFrame().setFill(Color.TRANSPARENT);
 	}
 
 	/**
@@ -587,8 +536,9 @@ public class EditorApp extends Application {
 
 	}
 
-	//TODO implment some validation checks based on tiles
+	//TODO javadoc
 	private void validateMap(){
+		Boolean valid = true;
 
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		for (int x = 0 ;  x < mapTiles.length; x++) {
@@ -596,13 +546,240 @@ public class EditorApp extends Application {
 
 				Tile t = this.editorMap.getTiles()[x][y];
 
-			}
-		}
+				while (valid) {
+					/* Validate Lane tiles */
+					if (t instanceof Lane) { // Another lane or an intersection is expected
+						valid = validateLane(t);
+						break;
+
+						/* Validate Intersection tiles */
+					} else if (t instanceof IntersectionTile) { // Check for a complete intersection with exits
+						valid = validateIntersection(t);
+						break;
+
+						/* Validate Land tiles */
+					} else if (t instanceof Land) { // Land tiles are automatically valid
+						break;
+
+						/* Validate empty tiles */
+					} else { // Tile is empty and as such it is valid
+						break;
+					}
+				} // while
+			} // Inner For
+		} // Outer For
+		System.out.println("System valid?:" + valid);
 	}
 
-//TODO: this needs looking at to be condensed.
-	private void floodFill(String tFill, int xIn, int yIn) {
+	//TODO javadoc
+	private boolean validateLane(Tile t) {
+		boolean valid = true;
 
+		int x = t.getGridPosX();
+		int y = t.getGridPosY();
+
+		Direction dir = ((Lane) t).getDirection();
+		int laneNo = ((Lane) t).getLaneNo();
+
+		if (dir == Direction.NORTH || dir == Direction.SOUTH) {
+			/* Check previous tile */
+			if (!(y-1 < 0)) {
+				Tile tPrev = this.editorMap.getTiles()[x][y-1];
+				if (tPrev instanceof Lane) {
+					if (dir == ((Lane) tPrev).getDirection() &&
+							laneNo == ((Lane) tPrev).getLaneNo()) {
+						// The Road continues
+					} else {
+						valid = false;
+					}
+				} else if (tPrev instanceof IntersectionTile) {
+					// This is OK
+				} else {
+					valid = false;
+				}
+			}
+			/* Check next tile */
+			if (!(y+1 >= this.editorMap.getTiles()[0].length)) {
+				Tile tNext = this.editorMap.getTiles()[x][y+1];
+				if (tNext instanceof Lane) {
+					if (dir == ((Lane) tNext).getDirection() &&
+							laneNo == ((Lane) tNext).getLaneNo()) {
+						// The Road continues
+					} else {
+						valid = false;
+					}
+				} else if (tNext instanceof IntersectionTile) {
+					// This is OK
+				} else {
+					valid = false;
+				}
+			}
+			// Check for Road connection without Intersection
+			if (laneNo == 3) { // Get the lane across
+				if (!(x+1 >= this.editorMap.getTiles().length)) {
+					Tile tNext = this.editorMap.getTiles()[x+1][y];
+					if (tNext instanceof Lane) {
+						if (((Lane) tNext).getDirection() == Direction.EAST ||
+								((Lane) tNext).getDirection() == Direction.WEST) {
+							valid = false; // Road cannot start from another Road
+						}
+					} else if(tNext instanceof IntersectionTile) {
+						valid = false; // Intersection cannot be next to a Road
+					}
+				}
+			}
+
+		} else { // Direction is WESTEAST
+			/* Check previous tile */
+			if (!(x-1 < 0)) {
+				Tile tPrev = this.editorMap.getTiles()[x-1][y];
+				if (tPrev instanceof Lane) {
+					if (dir == ((Lane) tPrev).getDirection() &&
+							laneNo == ((Lane) tPrev).getLaneNo()) {
+						// The Road continues
+					} else {
+						valid = false;
+					}
+				} else if (tPrev instanceof IntersectionTile) {
+					// This is OK
+				} else {
+					valid = false;
+				}
+			}
+			/* Check next tile */
+			if (!(x+1 >= this.editorMap.getTiles().length)) {
+				Tile tNext = this.editorMap.getTiles()[x+1][y];
+				if (tNext instanceof Lane) {
+					if (dir == ((Lane) tNext).getDirection() &&
+							laneNo == ((Lane) tNext).getLaneNo()) {
+						// The Road continues
+					} else {
+						valid = false;
+					}
+				} else if (tNext instanceof IntersectionTile) {
+					// This is OK
+				} else {
+					valid = false;
+				}
+			}
+			// Check for Road connection without Intersection
+			if (laneNo == 3) { // Get the lane down
+				if (!(y+1 >= this.editorMap.getTiles().length)) {
+					Tile tNext = this.editorMap.getTiles()[x][y+1];
+					if (tNext instanceof Lane) {
+						if (((Lane) tNext).getDirection() == Direction.NORTH ||
+								((Lane) tNext).getDirection() == Direction.SOUTH) {
+							valid = false; // Road cannot start from another Road
+						}
+					} else if(tNext instanceof IntersectionTile) {
+						valid = false; // Intersection cannot be next to a Road
+					}
+				}
+			}
+		}
+		return valid;
+	}
+
+	//TODO javadoc
+	private boolean validateIntersection(Tile t) {
+		boolean valid = true;
+		int exitCount = 0;
+
+		// X Across Y Down
+		List<Tile> intersection =((IntersectionTile) t).getIntersection().getTiles();
+
+		/* check for a complete intersection */
+		for (Tile it : intersection) {
+			if (it instanceof IntersectionTile) {
+				// Valid
+			} else {
+				valid = false;
+				break;
+			}
+		}
+
+		/* Check intersection exits */
+		for (int i = 0; i < 4; i++) { // North side of intersection
+			int newX = intersection.get(i).getGridPosX();
+			int newY = intersection.get(i).getGridPosY();
+
+			Tile iExit = this.editorMap.getTiles()[newX][(newY-1)];
+
+			if (iExit instanceof Lane) {
+				if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+					System.out.println("Exits 0-3 OK");
+					exitCount++;
+				}
+			}
+		}
+
+		for (int i = 12; i < 16; i++) { // South side of intersection
+			int newX = intersection.get(i).getGridPosX();
+			int newY = intersection.get(i).getGridPosY();
+
+			Tile iExit = this.editorMap.getTiles()[newX][(newY+1)];
+
+			if (iExit instanceof Lane) {
+				if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+					System.out.println("Exits 12-15 OK");
+					exitCount++;
+				}
+			}
+		}
+
+		for (int i = 0; i < 13; i += 4) { // West side of intersection
+			int newX = intersection.get(i).getGridPosX();
+			int newY = intersection.get(i).getGridPosY();
+
+			Tile iExit = this.editorMap.getTiles()[newX-1][(newY)];
+
+			if (iExit instanceof Lane) {
+				if ((((Lane) iExit).getDirection() == Direction.EAST &&
+						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+						|| (((Lane) iExit).getDirection() == Direction.WEST &&
+						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+					System.out.println("Exits 0,4,8,12 OK");
+					exitCount++;
+				}
+			}
+		}
+
+		for (int i = 3; i < 16; i += 4) { // East side of intersection
+			int newX = intersection.get(i).getGridPosX();
+			int newY = intersection.get(i).getGridPosY();
+
+			Tile iExit = this.editorMap.getTiles()[newX+1][(newY)];
+
+			if (iExit instanceof Lane) {
+				if ((((Lane) iExit).getDirection() == Direction.EAST &&
+						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+						|| (((Lane) iExit).getDirection() == Direction.WEST &&
+						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+					System.out.println("Exits 0,4,8,12 OK");
+					exitCount++;
+				}
+			}
+		}
+
+		if (exitCount < 2) {
+			valid = false;
+		}
+
+		System.out.println(exitCount);
+		return valid;
+
+	}
+
+
+
+
+	private void floodFill(String tFill, int xIn, int yIn){
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
 
@@ -806,7 +983,7 @@ public class EditorApp extends Application {
 	public Stage getPrimaryStage() {
 		return editorStage;
 	}
-	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
