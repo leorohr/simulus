@@ -141,7 +141,6 @@ public class MapXML {
 						case "": //add empty tile
 						fullGrid[xPos][yPos] = new Tile(xPos * tileSize, yPos * tileSize, tileSize,
 									 tileSize, xPos, yPos);
-						System.out.println(xPos + ":" + yPos + " " + "Empty");
 						break;
 						case "land":	
 							switch(subType){
@@ -162,7 +161,6 @@ public class MapXML {
 //											 tileSize, xPos, yPos, Direction.NONE, Integer.parseInt(attribute2));
 //								break;
 							}
-							System.out.println(xPos + ":" + yPos + " " + subType);
 						break;
 						case "lane":  //add lane tile
 							switch(direction){
@@ -183,12 +181,10 @@ public class MapXML {
 											 tileSize, xPos, yPos, Direction.SOUTH, Integer.parseInt(laneNo), Boolean.parseBoolean(isBlock));
 								break;
 							}
-							System.out.println(xPos + ":" + yPos + " " + direction + " Lane: " + laneNo + " isBlock: " + isBlock);
 						break;
 						case "intersection":
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);
-							System.out.println(xPos + ":" + yPos + " " + type);
 						break;
 					}
  
@@ -197,10 +193,8 @@ public class MapXML {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Error reading map file!" + "\n" +
+			System.err.println("Error reading map file!" + "\n" +
 					"Check that the input file exists and that it matches XML map schema.");
-			//System.out.println("Error reported:");
-			//e.printStackTrace();
 		}
 
 
@@ -353,10 +347,10 @@ public class MapXML {
 
 		} catch (ParserConfigurationException pce) {
 			//pce.printStackTrace();
-			System.out.println("Error writing map file!");
+			System.err.println("Error writing map file!");
 		} catch (TransformerException tfe) {
 			//tfe.printStackTrace();
-			System.out.println("Error writing map file!");
+			System.err.println("Error writing map file!");
 		}
 
 	}

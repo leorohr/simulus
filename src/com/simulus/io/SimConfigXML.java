@@ -120,9 +120,9 @@ public class SimConfigXML {
 					.getTextContent();
 			
 		} catch (Exception e) {
-			System.out
+			System.err
 					.println("Check that the input file exisits and that it matches XML simulation schema.");
-			System.out.println("Error reported:");
+			System.err.println("Error reported:");
 			e.printStackTrace();
 		}
 

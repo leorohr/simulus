@@ -48,15 +48,11 @@ public class MainApp extends Application {
 		this.getPrimaryStage().setResizable(false);
 		
 		initRootLayout();
-		showControls();		
-		
-		//Load default map
-		SimulationController.getInstance().getMap().loadMap(
-			new File(MainApp.class.getResource("/resources/maps/default.map").getFile()));
+		showControls();
 	}
 	
 	/**
-	 * Overloades the MainApp's default start method to prevent it from loading the default map
+	 * Overloads the MainApp's default start method to prevent it from loading the default map
 	 * if that is not necessary, e.g. when the app is started from the editor with user-defined map.
 	 * @param primaryStage The stage to start the app on.
 	 * @param defaultMap Whether the default map should be loaded or not.
@@ -121,7 +117,7 @@ public class MainApp extends Application {
 	}
 
     public void resetCanvas() {
-        canvas = new Pane();
+    	canvas = new Pane();
         canvas.setMinSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
         canvas.setPrefSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
         canvas.setMaxSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);

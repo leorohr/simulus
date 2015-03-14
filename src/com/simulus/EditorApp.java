@@ -273,7 +273,6 @@ public class EditorApp extends Application {
 					@Override
 					public void handle(MouseEvent event) {
 						hoverTile = t;
-						//System.out.println(t.toString());
 						t.setMouseTransparent(true);
 						ghostDraw(t);
 

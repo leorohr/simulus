@@ -173,7 +173,6 @@ public class Tile extends Group {
 			
 			redLight.setStroke(Color.RED);
 			redLight.getStrokeDashArray().add(5d);
-			redLight.setFill(Color.ALICEBLUE);
 			redLight.setStrokeWidth(2d);
 			getChildren().add(redLight);
 		}

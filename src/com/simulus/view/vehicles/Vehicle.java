@@ -411,7 +411,6 @@ public abstract class Vehicle extends Rectangle {
 			}
 		});
         transition.setRate(50/SimulationController.getInstance().getTickTime());
-        //System.out.println(50/SimulationController.getInstance().getTickTime());
         currentTransition = transition;
         
         transition.play();
