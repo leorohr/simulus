@@ -47,7 +47,7 @@ LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePo
 	\end{lstlisting}
 \end{minipage}
 
-Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provides a tree structure and highlight the item upon it is selected. In the case of unable identifying an elements within the source code, this has been particularly helpful.  
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provides a tree structure and highlights the item upon it is selected. In the case of unable identifying an elements within the source code, this has been particularly helpful.  
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
@@ -56,21 +56,41 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 	\end{center}
 \end{figure}
 
-Since we were trying to achieve a multithreaded application, we reached a point where it was impossible to test every functionality due to the level of nesting and threading was too deep for us to comprehend. Therefore we focused our unit testing mainly on the major components (i.e. vehicles, map and the model), in order to ensure features within them work correctly - in return that the application would behave accordingly. With such approach, this gives us the confidence that our code works as we expect it to work. 
+Since we were trying to achieve a multithreaded application, we reached a point where it was impossible to test every functionality due to the level of nesting and threading was too deep for us to comprehend. Therefore we focused our unit testing mainly on major components (i.e. vehicles, map and the model), in order to ensure features within them work correctly - in return that the application would behave accordingly. With such approach, this gives us the confidence that our code works as we expect it to work. 
 
-It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of testing cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
+It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
 
-We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testingCase}. 
+We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[width=\textwidth]{img/testingCase.png}
-		\caption{A log is produced after a testing execution}
-		\label{fig:testingCase}
+		\includegraphics[width=\textwidth]{img/testCase.png}
+		\caption{A log is produced after a test execution}
+		\label{fig:testCase}
 	\end{center}
 \end{figure}
 
-Furthermore, we also used a commercial tool to analyse the architecture of our software.  
+In addition, we also looked at the orgnisation of our code base to further assess the code quality of our software.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual cue on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape it is the more lines of codes there have been written for a class. The colour depth of a shape indicates the density of its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car.class} is 58, we were able to reduce it to 21 for the final version.     
+
+\begin{figure}[h]
+\begin{minipage}{\textwidth}
+	\begin{center}
+			\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
+		\caption{Heat Map for the final version of the software}
+		\label{fig:heatmap}
+	\end{center}
+	\end{minipage}
+\end{figure}
+
+Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for our final product. We were assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most case, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described more or less as clean, as shown in the figure. 
+
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[width=\textwidth]{img/archIntDependency.png}
+		\caption{Architecture Internal Dependency}
+		\label{fig:archIntDependency}
+	\end{center}
+\end{figure}
 
 
 
