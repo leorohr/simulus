@@ -72,6 +72,81 @@ We wrote our test cases in an automated fashion. This allowed us to reduce the w
 
 Furthermore, we also used a commercial tool to analyse the architecture of our software.  
 
+\subsection{Map Editor}
 
+The basis of any map editor is the ability to tag defined areas of desktop real-estate representing a real world instance e.g. land mass. We began by constructing an X*Y cell grid, where X and Y are the number of cells horizontally and vertically and where X=Y. The smallest instance of a map was to be a 40x40 grid yielding 1,600 tiles each needing to be individually tagged. Clearly it was not realistic to expect the user to tag each cell individually. Even when removing the number of tiles that would be tagged using the road and intersection tools, large swathes of the map are left unfilled.  
+A method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. That is only fill empty cells within in a certain boundary so as not replace existing ones.  This is is better known as a flood fill algorithm or boundary fill in relation to photo-editing applications.
+
+There are several techniques for implementing flood fill (cite) of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property.  The appropriate psudocode is as follows:
+
+% probably need a new listing for psudocode?
+\begin{minipage}{0.9\textwidth}
+	\begin{lstlisting}[caption={4-way stack based recursive flood fill}, label={lst:stackFloodFill}]
+Flood-fill (node, target-tile, replacement-tile):
+1. If target-tile is equal to replacement-tile, return.
+2. If the tile of node is not equal to target-tile, return.
+3. Set the tile of node to replacement-tile.
+4. Flood-fill (west of node, target-tile, replacement-tile).
+   Flood-fill (east of node, target-tile, replacement-tile).
+   Flood-fill (north of node, target-tile, replacement-tile).
+   Flood-fill (south of node, target-tile, replacement-tile).
+5. Return.
+	\end{lstlisting}
+\end{minipage}
+
+This procedure was extended with bounds checking in our multidimensional array to give the observable results.
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale=0.8]{img/floodFill.png}
+		\caption[Flood Fill]{Before and after the use of flood fill}
+		\label{fig:animthread}
+	\end{center}
+\end{figure}
+
+Upon initial testing (ref. jerry's editor testing) the recursive approach performed exactly as expected with no functional issues  to report.  However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 65x65, a stack overflow would occur thus only partially filling the grid and causing the application to no longer respond.  Although the ability to alter grid sizes was not a requirement, it was seen as a likely extension of our work thus warranting further investigation.  
+
+Approaching the literature, the stack over flow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana (2010, p.275) state:
+
+ \begin{quotation}
+A quick glance on the recursive variant of FloodFill function reveals that the recursive function makes four calls to itself at each step (for 4N connected region). Stack Overflow is the most common exception encountered while dealing with the recursive programs. Each time we call a function recursively, the function parameters, local variables and the return address of code (where to return when we are done with the recursion) are pushed to the stack. If the recursion is too deep, there may be overflowing of stack, wherefrom there is no recovery.
+ \end{quotation}
+ 
+Possibly the simplest but least favoured approach was to alter the JVM's configuration parameters and increase the memory reserved for the stack.  Although this would be the simplest 'fix' it was not seen as a suitable solution given the many hardware and JVM configurations and further still, it was not a solution to the fundamental problem.
+
+In the end the the recursive approach was deprecated while a 4-way queue based approach was implemented.  In contrast to the recursive implementation the queue based method is Breadth First Search (BFS) and uses a queue to store each new encountered tile.  The addition of two checks:
+
+\begin{itemize}
+  \item if the adjacent tile in question has not been already visited and
+  \item if the tile is not of the target type
+\end{itemize}
+
+allowed for a tile to be added to the queue, replaced and dequeued in subsequent iterations. The relevant psudocode for the queue based approach is:
+
+% probably need a new listing for psudocode?
+\begin{minipage}{0.9\textwidth}
+	\begin{lstlisting}[caption={4-way queue based flood fill}, label={lst:queueFloodFill}]
+Flood-fill (node, target-tile, replacement-tile):
+ 1. If target-tile is equal to replacement-tile, return.
+ 2. Set Q to the empty queue.
+ 3. Add node to the end of Q.
+ 4. While Q is not empty: 
+ 5.     Set n equal to the last element of Q.
+ 6.     Remove last element from Q.
+ 7.     If the tile of n is equal to target-tile:
+ 8.         Set the tile of n to replacement-tile and mark 
+ 9			"n" as processed.
+ 10.        Add west node to end of Q if not yet processed.
+ 11.        Add east node to end of Q if not yet processed.
+ 12.        Add north node to end of Q if not yet processed.
+ 13.        Add south node to end of Q if not yet processed.
+ 14. Return.
+	\end{lstlisting}
+\end{minipage}
+
+With this new revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.  It must be noted that the new method is no longer as concise as a definition compared to the original but it was a subtle sacrifice for the benefits it yielded.
+
+%TODO recreation of intersection tiles
+%TODO map validation
 
 
