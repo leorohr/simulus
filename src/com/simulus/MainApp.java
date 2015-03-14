@@ -49,6 +49,10 @@ public class MainApp extends Application {
 		
 		initRootLayout();
 		showControls();		
+		
+		//Load default map
+		SimulationController.getInstance().getMap().loadMap(
+			new File(MainApp.class.getResource("/resources/maps/default.map").getFile()));
 	}
 	
 	/**
