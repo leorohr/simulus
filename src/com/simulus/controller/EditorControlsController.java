@@ -117,14 +117,7 @@ public class EditorControlsController implements Initializable {
 		saveMapButton.setOnAction((event) -> {
 			
 			if ("".equals(getMapName())){
-				
-	        	Alert alert = new Alert(AlertType.WARNING);
-	        	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
-	        	alert.setTitle("Map Name");
-	        	alert.setHeaderText("A map name is required!");
-	        	Optional<ButtonType> result = alert.showAndWait();
-	        	if(result.get() != ButtonType.OK)
-	        		return;
+				mapNameDialog();
 			}else {
 				EditorApp.getInstance().selectButton((Button) event.getSource());
 				populateMapList();
@@ -168,29 +161,40 @@ public class EditorControlsController implements Initializable {
         	alert.setHeaderText("Opening the Simulator will close the Editor.");
         	alert.setContentText("Save current map and continue?");
         	Optional<ButtonType> result = alert.showAndWait();
-        	if(result.get() != ButtonType.OK)
-        		return;
-            
-        	//Save map to file
-        	File mapFile = EditorApp.getInstance().saveMapDialog();
-        	if(mapFile == null)
-        		return;
-        	
-        	//Open map in simulator
-            MainApp app = MainApp.getInstance(); 
-    		if(app == null)
-    			app = new MainApp();
-    		app.start(new Stage(), false);
-    		SimulationController.getInstance().getMap().loadMap(mapFile);
+        	if(result.get() == ButtonType.OK){
+        		
+        		if(EditorApp.getInstance().validateMap() == true && "".equals(getMapName()) == false){
+                	//Save map to file
+                	File mapFile = EditorApp.getInstance().saveMapDialog();
+                	if(mapFile == null)
+                		return;
+                	
+                	//Open map in simulator
+                    MainApp app = MainApp.getInstance(); 
+            		if(app == null)
+            			app = new MainApp();
+            		app.start(new Stage(), false);
+            		SimulationController.getInstance().getMap().loadMap(mapFile);
 
-            try {
-            	EditorApp.getInstance().getPrimaryStage().close();
-				EditorApp.getInstance().stop();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+                    try {
+                    	EditorApp.getInstance().getPrimaryStage().close();
+        				EditorApp.getInstance().stop();
+        				
+        			} catch (Exception e) {
+        				e.printStackTrace();
+        			}
+        		}else{
+        			if ("".equals(getMapName())){
+        				mapNameDialog();
+        			}else{
+        				EditorApp.getInstance().saveMapDialog();
+        			}
+        			
+        		}
+                
+        	} else{
+        		return;
+        	}
 		});
 		
 		populateMapList();
@@ -308,6 +312,17 @@ public class EditorControlsController implements Initializable {
 	public String getMapAuthor() {
 		return authorTextField.getText();
 	}
+	
+	private void mapNameDialog(){
+    	Alert alert = new Alert(AlertType.WARNING);
+    	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+    	alert.setTitle("Map Name");
+    	alert.setHeaderText("A map name is required!");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if(result.get() != ButtonType.OK)
+    		return;
+	}
+	
 	
 //	public void setGridSize(int size) {
 //		switch(size){

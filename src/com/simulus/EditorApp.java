@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -14,7 +15,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -78,7 +82,6 @@ public class EditorApp extends Application {
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
 	File selectedFile;
-	File userDirectory = new File(System.getProperty("user.home") + "/Desktop");
 
 
 	private static EditorApp instance;
@@ -433,6 +436,10 @@ public class EditorApp extends Application {
 			break;
 		case "clearMapButton":
 			this.editorMap = new Map();
+			ECC.setMapName("");
+			ECC.setMapDate("");
+			ECC.setMapDesc("");
+			ECC.setMapAuthor("");
 			break;
 		case "validateMapButton":
 			validateMap();
@@ -441,8 +448,20 @@ public class EditorApp extends Application {
 			break;
 		}
 	}
+	
+	public void validationDialog(){
+    	Alert alert = new Alert(AlertType.WARNING);
+    	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+    	alert.setTitle("Map Validation Failed");
+    	alert.setHeaderText("This map has not passed validation! \n It can be saved but cannot be used in the simulator.");
+    	Optional<ButtonType> result = alert.showAndWait();
+	}
 
 	public File saveMapDialog(){
+		
+		if(validateMap() == false){
+			validationDialog();
+		} 
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
@@ -451,9 +470,8 @@ public class EditorApp extends Application {
 		fileChooser.setInitialDirectory(new File(EditorApp.class.getResource("/resources/maps").getPath()));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
-			saveMap(selectedFile.getPath());
+			saveMap(selectedFile.getPath());	
 		}
-
 		return selectedFile;
 	}
 
@@ -530,14 +548,14 @@ public class EditorApp extends Application {
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-
+	
 		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
-				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, mapValidated);
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, validateMap());
 
 	}
 
 	//TODO javadoc
-	private void validateMap(){
+	public boolean validateMap(){
 		Boolean valid = true;
 
 		Tile[][] mapTiles = this.editorMap.getTiles();
@@ -569,6 +587,7 @@ public class EditorApp extends Application {
 			} // Inner For
 		} // Outer For
 		System.out.println("System valid?:" + valid);
+		return valid;
 	}
 
 	//TODO javadoc
@@ -776,9 +795,6 @@ public class EditorApp extends Application {
 
 	}
 
-
-
-
 	private void floodFill(String tFill, int xIn, int yIn){
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
@@ -870,115 +886,6 @@ public class EditorApp extends Application {
 			}
 		}
 	}
-
-	
-//	private void floodFillRemove(int xIn, int yIn){
-//		
-//		Tile[][] mapTiles = this.editorMap.getTiles();
-//		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
-//		
-//		Tile t = this.editorMap.getTiles()[xIn][yIn];
-//		LinkedList<Tile> queue = new LinkedList<Tile>();
-//		queue.add(t);
-//
-//		while (!queue.isEmpty()) {
-//			t = queue.getLast();
-//			queue.removeLast();
-//			xIn = t.getGridPosX();
-//			yIn = t.getGridPosY();
-//
-//			if (t instanceof Land) {
-//				
-//				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
-//				visited[xIn][yIn] = true;
-//
-//				if (xIn - 1 >= 0) {
-//					if (visited[xIn - 1][yIn] == false) {
-//						t = this.editorMap.getTiles()[xIn - 1][yIn];
-//						queue.add(t);
-//					}
-//				}
-//				if (xIn + 1 < mapTiles.length) {
-//					if (visited[xIn + 1][yIn] == false) {
-//						t = this.editorMap.getTiles()[xIn + 1][yIn];
-//						queue.add(t);
-//					}
-//				}
-//				if (yIn - 1 >= 0) {
-//					if (visited[xIn][yIn - 1] == false) {
-//						t = this.editorMap.getTiles()[xIn][yIn - 1];
-//						queue.add(t);
-//					}
-//				}
-//				if (yIn + 1 < mapTiles.length) {
-//					if (visited[xIn][yIn + 1] == false) {
-//						t = this.editorMap.getTiles()[xIn][yIn + 1];
-//						queue.add(t);
-//					}
-//				}
-//				
-//			}
-//		}
-//	}
-	
-//	deprecated.  leave here for reference and then will remove
-//	private void floodFill(String tFill, int xIn, int yIn) {
-//		Tile[][] mapTiles = this.editorMap.getTiles();
-//
-//		if (xIn >= 0 && xIn < mapTiles.length && yIn >= 0
-//				&& yIn < mapTiles.length) {
-//
-//			Tile t = this.editorMap.getTiles()[xIn][yIn];
-//
-//			if (t instanceof Lane || t instanceof Land
-//					|| t instanceof IntersectionTile) {
-//				return;
-//			} else {
-//				switch (tFill) {
-//				case "grass":
-//					editorMap.addSingle(new Grass(xIn * tileSize, yIn
-//							* tileSize, tileSize, tileSize, xIn, yIn));
-//					break;
-//				case "dirt":
-//					editorMap.addSingle(new Dirt(xIn * tileSize,
-//							yIn * tileSize, tileSize, tileSize, xIn, yIn));
-//					break;
-//				case "water":
-//					editorMap.addSingle(new Water(xIn * tileSize,
-//							yIn * tileSize, tileSize, tileSize, xIn, yIn));
-//					break;
-//				}
-//				floodFill(tFill, xIn + 1, yIn);
-//				floodFill(tFill, xIn - 1, yIn);
-//				floodFill(tFill, xIn, yIn + 1);
-//				floodFill(tFill, xIn, yIn - 1);
-//			}
-//		}
-//
-//	}
-	
-	
-//deprecated.  leave here for reference and then will remove
-//	private void floodFillRemove2(int xIn, int yIn){
-//		Tile[][] mapTiles = this.editorMap.getTiles();
-//		
-//		if (xIn >=0 && xIn < mapTiles.length && yIn >= 0 && yIn < mapTiles.length){
-//			
-//			Tile t = this.editorMap.getTiles()[xIn][yIn];
-//			
-//			if (t instanceof Lane || t instanceof IntersectionTile){
-//				return;
-//			} else if (t instanceof Land){
-//				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);	
-//				floodFillRemove(xIn + 1, yIn);
-//				floodFillRemove(xIn - 1, yIn);
-//				floodFillRemove(xIn, yIn + 1);
-//				floodFillRemove(xIn, yIn - 1);
-//			} else{}
-//		}
-//
-//	}
-//	
 
 	public Stage getPrimaryStage() {
 		return editorStage;
