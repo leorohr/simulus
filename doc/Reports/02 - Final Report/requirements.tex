@@ -35,7 +35,6 @@ All roads in our model contain four lanes - two in each direction. A road that l
 
 Our collision avoidance policy is based on tiles being either occupied or free. As a vehicle moves through the map, it will always occupy the tiles it currently intersects. With every simulation step each vehicle checks the tile front of it, if the tile is not occupied, it will move forward and occupy the tile or stop moving otherwise. If a car is blocked by a vehicle in front of it, it will also check tiles further ahead and to the sides. If the tiles are free, the blocked car will attempt to overtake. If the tile in front is occupied due to an obstacle other than a vehicle, a car will pass it whenever the adjacent lane is free.
 
-
 The provided simulator allows the simulation of different types of vehicles. We differentiate between cars, trucks and emergency vehicles. To translate the metrics of the different vehicles' movements we employed the unit conversions. One simulation step is set to simulate $\frac{1}{10}$ of a real-time second. Each tile on the map depicts a 5m by 5m square. Given these measurements, a desired acceleration $a_r$ in $m/s^2$ and the edge length of a tile $l_t$ in pixel we can specify the acceleration of vehicles as follows:
 	\begin{equation}\label{for:acceleration}	
 		a_s = \frac{a_r * l_t}{5 * 10}
@@ -81,5 +80,8 @@ When simulating the flow of cars in a traffic network it is of utmost importance
 
 The requirements discussed above comprised the \textit{Must have} category of our goals. The next requirement to mention is the implementation of emergency services (2a). Just like in real-life traffic emergency vehicles enjoy privileges in our simulation. In order to simulate the special attention that other drivers pay to approaching emergency vehicles, we introduce an "Area of Effect". This area, implemented as a circle, surrounds the moving ambulance. Any normal vehicle that intersects said circle will slow down to 10km/h and merge to an adjacent lane if it is in the same lane with the ambulance. If the vehicle intersects the area of effect but is currently in a lane adjacent to the ambulance it will slow down and keep a 3 tile (i.e. 15m) distance to cars in the front in order to allow other cars to merge into its lane. Emergency vehicles ignore red lights whenever the intersection is clear.
 
+Why and how we accommodate user-defined maps (2b) will be discussed in length in section ~\ref{ss:req-editor}. The import and export of maps and settings (3a) is an optional requirement. We envisioned allowing users to define maps and store them in XML files to reuse or share them. Similarly, exporting and importing the simulation settings and policies used in a simulation session would allow recreating the exact session at a later point in time. Using external map sources to create maps, e.g. base a map on the the Google Maps representation online, enables users to simulate real-life traffic networks without the necessity of recreating them.
+
+The last mentioned requirement, is stating what the software will not have: reused code or third-party libraries. We want to design and implement car's behaviours and the logic behind the simulation on our own and not rely on external libraries.
 
 \subsection{Editor}\label{ss:req-editor}
