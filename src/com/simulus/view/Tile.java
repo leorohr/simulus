@@ -50,15 +50,14 @@ public class Tile extends Group {
 	 * @param occupier
 	 */
 	public void setOccupied(boolean isOccupied, Vehicle occupier) {
-		if (isOccupied) {
+		if (!this.isOccupied && isOccupied) {
 			this.occupier = occupier;
 			this.isOccupied = true;
-			redrawTile();
-		} else if (occupier.equals(getOccupier())) {
+		} else if (occupier.equals(getOccupier()) && !isOccupied) {
 			this.occupier = null;
 			this.isOccupied = false;
-			redrawTile();
 		}
+		redrawTile();
 	}
 
 	/**

@@ -56,22 +56,12 @@ public class Truck extends Vehicle {
 			
 		if(isTransitioning()){
 			checkTransitionBlockage();
-			updateTransitionTiles();
 			return;
 		}
-		
-		Direction temp = getDirection();
-		Behavior tempBehavior = behavior;
-		
-		if(tempBehavior == Behavior.SEMI)
-			if(Math.random()>0.5)
-				tempBehavior = Behavior.RECKLESS;
-			else tempBehavior = Behavior.CAUTIOUS;
-
 
 		try {
             Tile nextTile = null;
-			switch (getDirection()) {
+			switch (dir) {
 			case NORTH:
                 if(currentTile.getGridPosY()-1 < 0) {
                     SimulationController.getInstance().removeVehicle(this);
@@ -120,23 +110,14 @@ public class Truck extends Vehicle {
 				 	if(p.getActive()){
 				 		followPath(p);
 				 		return;
-				 	}else tempDir = getDirection();
+				 	} else tempDir = dir;
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {
             SimulationController.getInstance().removeVehicle(this);
-		}
-
-		//Accelerate
-		if(temp != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
-			vehicleSpeed += acceleration;
-		else if(temp == Direction.NONE)
-			vehicleSpeed = 0;  
+		}  
 		
 		//Moves the car in the direction it should go.
-		move(temp);
+		move(dir);
 	}
-
-	
-
 }

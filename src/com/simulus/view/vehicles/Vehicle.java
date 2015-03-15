@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 import javafx.util.Duration;
 
 import com.simulus.MainApp;
@@ -81,7 +80,7 @@ public abstract class Vehicle extends Rectangle {
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		
-		try { //TODO this is not correct, is it?
+		try {
 			currentTile = map[(int) (posX / mapSize)][(int) (posY / mapSize)];
 		} catch (ArrayIndexOutOfBoundsException e) {
 			currentTile = null;
@@ -96,10 +95,6 @@ public abstract class Vehicle extends Rectangle {
 	public abstract void moveVehicle();
 
 	public void move(Direction d) {
-		Translate trans = new Translate();
-
-		final double dx;
-		final double dy;
 		
 		//Accelerate
 		if(tempDir != Direction.NONE && vehicleSpeed+acceleration < maxSpeed)
@@ -110,51 +105,20 @@ public abstract class Vehicle extends Rectangle {
 		// Moves the car in the direction it should go.
 		switch (d) {
 		case NORTH:
-
-			dx = 0;
-			dy = -getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
+			setY(getY() - vehicleSpeed);
 			break;
 		case SOUTH:
-			dx = 0;
-			dy = getVehicleSpeed();
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
+			setY(getY() + vehicleSpeed);			
 			break;
 		case EAST:
-			dx = getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
+			setX(getX() + vehicleSpeed);
 			break;
 		case WEST:
-			dx = -getVehicleSpeed();
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
-
+			setX(getX() - vehicleSpeed);
 			break;
 		case NONE:
 			//Increase the waitingcounter to keep track of how often cars have to stop.
 			waitedCounter++;
-			
-			dx = 0;
-			dy = 0;
-
-			trans.setX(dx);
-			trans.setY(dy);
-			getTransforms().add(trans);
 			break;
 		}
 	}
@@ -304,24 +268,14 @@ public abstract class Vehicle extends Rectangle {
 		if(!frontTilesFree)
 			vehicleSpeed = 0.0d;
 	}
-	
-	public void updateTransitionTiles(){
-		//Check if the vehicle occupies tiles throughout the transition
-		if(currentIntersection != null)
-		for(int i = 0; i < currentIntersection.tiles.length; i++)
-			for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-				if(currentIntersection.tiles[i][j].getFrame().getBoundsInParent().intersects(this.getBoundsInParent()))
-					currentIntersection.tiles[i][j].setOccupied(true, this);
-				else currentIntersection.tiles[i][j].setOccupied(false, this);
-	}
-	
+
 	public void checkTransitionBlockage(){
-		if(currentIntersection != null && isTransitioning())
-			for(int i = 0; i < currentIntersection.tiles.length; i++)
-				for(int j = 0; j< currentIntersection.tiles[0].length;j++)
-					if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this && currentIntersection.tiles[i][j].getOccupier().isTransitioning())
-						if(currentPath.getBoundsInParent().intersects(currentIntersection.tiles[i][j].getBoundsInParent()))
-							if(currentTransition.getCurrentTime().lessThan(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition().getCurrentTime())){
+		if(currentIntersection != null && isTransitioning()) {
+			for(int i = 0; i < currentIntersection.tiles.length ; i++) {
+				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+					if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this && currentIntersection.tiles[i][j].getOccupier().isTransitioning()) {
+						if(currentPath.getBoundsInParent().intersects(currentIntersection.tiles[i][j].getBoundsInParent())) {
+							if(currentTransition.getCurrentTime().lessThan(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition().getCurrentTime())) {
 								currentTransition.setRate(0);
 								return;
 							}else if(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition() == null){
@@ -330,6 +284,17 @@ public abstract class Vehicle extends Rectangle {
 							}else if(currentPath.getEndTile().isOccupied()){
 								currentTransition.setRate(0);
 							}
+						}
+					}
+					
+					//Occupy correct tiles while transitioning
+					if(currentIntersection.tiles[i][j].getFrame().getBoundsInParent().intersects(this.getBoundsInParent())) {
+						currentIntersection.tiles[i][j].setOccupied(true, this);
+					}
+					else currentIntersection.tiles[i][j].setOccupied(false, this);
+				}
+			}
+		}
 		currentTransition.setRate(50/SimulationController.getInstance().getTickTime());
 	}
 	
@@ -339,32 +304,33 @@ public abstract class Vehicle extends Rectangle {
 		
 		getTransforms().clear();
 		currentPath = p;
-		ParallelTransition transition;
-		RotateTransition rt = new RotateTransition(Duration.millis(100*(p.getDistance()/getVehicleSpeed())), this);
-		double duration = 1000;
 		
-		if(p.getTurn() == "right"){
-			rt.setToAngle(90);
-			duration = 1250;
-		}
-			
-		if(p.getTurn() == "left"){
-			rt.setToAngle(-90);
-			duration = 750;
-		}
-		rt.setDuration(Duration.millis(duration));
-		        
-		pathTransition = new PathTransition(Duration.millis(duration), p, this);
+		pathTransition = new PathTransition(Duration.millis(1250), p, this);
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setOrientation(OrientationType.NONE);
-
-        transition = new ParallelTransition(this, rt, pathTransition);
+		
+		Transition transition;
+		RotateTransition rt = new RotateTransition(Duration.UNKNOWN, this);
+		if(p.getTurn().equals("right")){
+			rt.setToAngle(getRotate() + 90);
+			rt.setDuration(Duration.millis(1250));
+			pathTransition.setDuration(Duration.millis(1250));
+			transition = new ParallelTransition(this, rt, pathTransition);
+		} else if(p.getTurn().equals("left")){
+			rt.setToAngle(getRotate() - 90);
+			rt.setDuration(Duration.millis(750));
+			pathTransition.setDuration(Duration.millis(750));			
+			transition = new ParallelTransition(this, rt, pathTransition);
+		} else transition = pathTransition;
+		        
         transition.setOnFinished(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
 				
-				Vehicle v = null;
+				for(Tile t : occupiedTiles)
+					t.setOccupied(false);
+				
 				if(SimulationController.getInstance().getAnimationThread().isAlive()){
 					 //Manually unoccupy the final tile leaving the transition, to ensure that paths are cleared
 	                switch(p.getEndDirection()){
@@ -383,36 +349,16 @@ public abstract class Vehicle extends Rectangle {
 					default:
 						break;
 	                }
-	                
-					if(Vehicle.this instanceof Car){
-	                v = new Car(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
-	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
-	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
-					}else {
-						v = new Truck(p.getEndTile().getGridPosX() * tileWidth + tileWidth / 2
-	    					- Car.CARWIDTH / 2, p.getEndTile().getGridPosY() * tileWidth
-	    					+ tileWidth - Car.CARLENGTH, p.getEndDirection());
-						//the truck count is reduced when the truck is removed later on
-						SimulationController.getInstance().incTruckCount(); 
-					}
-	                v.setCurrentTile(p.getEndTile());
-	                p.getEndTile().setOccupied(true, v);
-	                v.setVehicleSpeed(getVehicleSpeed());
-	                v.setBehavior(getBehavior());
-	                v.setFill(getFill());
-	                v.setMap(SimulationController.getInstance().getMap().getTiles());
-	                v.setWaitedCounter(waitedCounter);
-	                SimulationController.getInstance().getMap().getVehicles().add(v);
+	               
+	                setCurrentTile(p.getEndTile());
+	                p.getEndTile().setOccupied(true, Vehicle.this);
+	                dir = p.getEndDirection();
 				}
-                
-                
-               
-                SimulationController.getInstance().removeVehicle(Vehicle.this);
 			}
 		});
+        
         transition.setRate(50/SimulationController.getInstance().getTickTime());
         currentTransition = transition;
-        
         transition.play();
 	}
 	

@@ -74,7 +74,6 @@ public class Car extends Vehicle {
 		
 		if(isTransitioning()){
 			checkTransitionBlockage();
-			updateTransitionTiles();
 			return;
 		}
 		
@@ -142,8 +141,7 @@ public class Car extends Vehicle {
 				 	if(p.getActive()){
 				 		followPath(p);
 				 		return;
-				 	}else tempDir = getDirection();
-//	          		isTransitioning = true;
+				 	} else tempDir = getDirection();
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 			
