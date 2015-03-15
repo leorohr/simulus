@@ -359,6 +359,10 @@ public class MapXML {
 		return fullGrid;
 	}
 	
+	public boolean isValidated() {
+		return validated;
+	}
+	
 	public String toString() {
 
 		return "Map Name: " + mapName + "\n" + "Date: " + mapCreationDate + "\n"

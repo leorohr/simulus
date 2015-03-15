@@ -15,8 +15,8 @@ import com.simulus.view.map.Lane;
  */
 public class Car extends Vehicle {
 
-	public static final int CARWIDTH = 10;
-	public static final int CARLENGTH = 15;	
+	public static final int CARWIDTH = 10 / (Configuration.getGridSize()/40);
+	public static final int CARLENGTH = 15 / (Configuration.getGridSize()/40);	
 
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 10;
@@ -60,9 +60,9 @@ public class Car extends Vehicle {
 		 
 		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
 		//2.32m/s^2; 1m=tilesize/5; 1 tick = 1/10s
-		acceleration = (2.32d * Configuration.tileSize/5)/10;
+		acceleration = (2.32d * Configuration.getTileSize()/5)/10;
 		//Any speed within the maxspeed range, at least 10km/h (i.e. 1.111px per tick)
-		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.tileSize/5))/10 -1.111d) + 1.111d;
+		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.getTileSize()/5))/10 -1.111d) + 1.111d;
 		addToCanvas();
 	}
 	

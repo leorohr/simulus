@@ -25,7 +25,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public IntersectionTile[][] tiles = new IntersectionTile[4][4];
 	private long switchTime;
-	private int tileSize = Configuration.tileSize;
+	private int tileSize = Configuration.getTileSize();
 	private ArrayList<CustomPath> turningPaths;
 	
 	/**

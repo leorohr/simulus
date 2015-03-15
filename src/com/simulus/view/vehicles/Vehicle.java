@@ -76,7 +76,7 @@ public abstract class Vehicle extends Rectangle {
 		this.parent = MainApp.getInstance();
 		this.dir = dir;
 		map = SimulationController.getInstance().getMap().getTiles();
-		tileWidth = Configuration.tileSize;
+		tileWidth = Configuration.getTileSize();
 		mapSize = map.length;
 		occupiedTiles = new ArrayList<>();
 		

@@ -152,7 +152,7 @@ public class Tile extends Group {
 		isRedLight = b;
 		if(isRedLight) {
 			
-			int tileSize = Configuration.tileSize;
+			int tileSize = Configuration.getTileSize();
 			switch(dir) {
 			case NORTH:
 				redLight = new Line(frame.getX(), frame.getY(), frame.getX()+tileSize, frame.getY());

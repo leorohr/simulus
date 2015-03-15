@@ -16,9 +16,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -52,8 +52,8 @@ public class EditorApp extends Application {
 	private BorderPane rootLayout;
 	private Pane canvas;
 	private Map editorMap;
-	private int gridSize = Configuration.gridSize;
-	private int tileSize = Configuration.tileSize;
+	private int gridSize = Configuration.getGridSize();
+	private int tileSize = Configuration.getTileSize();
 	private boolean mapValidated;
 	private Scene scene;
 

@@ -27,7 +27,7 @@ public class Road extends Group implements TileGroup{
 	 */
 	public Road(int gridPosX, int gridPosY, Orientation orientation){
 		
-		int tileSize = Configuration.tileSize;
+		int tileSize = Configuration.getTileSize();
 		this.orientation = orientation;
 		
 		switch(orientation){

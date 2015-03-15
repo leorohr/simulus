@@ -14,8 +14,8 @@ import com.simulus.view.map.Lane;
 
 public class Truck extends Vehicle {
 
-	public static final int TRUCKWIDTH = 12;
-	public static final int TRUCKLENGTH = 20;
+	public static final int TRUCKWIDTH = 12 / (Configuration.getGridSize()/40);
+	public static final int TRUCKLENGTH = 20 / (Configuration.getGridSize()/40);
 	
 	private static final Color COLOUR = Color.LIGHTSALMON;
 	
@@ -43,9 +43,9 @@ public class Truck extends Vehicle {
 		Random rand = new Random();
 		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
 		//0.5m/s^2; 1m=tilesize/5; 1 tick = 1/10s; 0-80
-		acceleration = (0.5d * Configuration.tileSize/5)/10;
+		acceleration = (0.5d * Configuration.getTileSize()/5)/10;
 		//Any speed within the maxspeed range, at least 10km/h (i.e. 1.111px per tick)
-		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.tileSize/5))/10 -1.111d) + 1.111d;
+		maxSpeed = rand.nextDouble()*((speedInMps * (Configuration.getTileSize()/5))/10 -1.111d) + 1.111d;
 
 		addToCanvas();
 	}

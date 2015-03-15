@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
@@ -32,8 +34,8 @@ import com.simulus.view.vehicles.Vehicle;
 
 public class Map extends Group {
 
-	private int tileSize = Configuration.tileSize;
-	private Tile[][] tiles = new Tile[Configuration.gridSize][Configuration.gridSize];
+	private int tileSize = Configuration.getTileSize();
+	private Tile[][] tiles = new Tile[Configuration.getGridSize()][Configuration.getGridSize()];
 	private ArrayList<Intersection> intersections = new ArrayList<>();
 	private ArrayList<Thread> trafficLightThreads = new ArrayList<>(); //the threads that switch the lights of trafficlights
 	private ArrayList<Lane> entryPoints = new ArrayList<>();	//stores all those lanes, that are suitable to spawn a car on
@@ -453,7 +455,22 @@ public class Map extends Group {
 
 		MapXML loader = new MapXML();
 		loader.readXML(mapFile.toPath().toString());
+		
+		//Decline maps that were not validated by the editor
+		if(!loader.isValidated()) {
+			Alert alert = new Alert(AlertType.WARNING);
+	    	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+	    	alert.setTitle("Map is not validated");
+	    	alert.setHeaderText("This map has not passed validation!\nPlease edit the map to make it valid or choose a different map.");
+	    	alert.showAndWait();
+	    	return;
+		}
+
+		//Update grid and tilesize
+		Configuration.setGridSize(loader.numOfTiles);
+		tileSize = Configuration.getTileSize();
 		tiles = loader.getTileGrid();
+		
 
 		boolean[][] checked = new boolean[tiles.length][tiles[0].length];
 		for (int i = 0; i < tiles.length; i++) {
@@ -586,7 +603,7 @@ public class Map extends Group {
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
 				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
-				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.getTileSize()/5))/10);
 				v.setFill(Color.hsb(120.0d * (speedfraction > 1 ? 1 : speedfraction), 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
@@ -606,7 +623,7 @@ public class Map extends Group {
 				break;
 			case SPEED:
 				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
-				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.tileSize/5))/10);
+				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.getTileSize()/5))/10);
 				v.setFill(Color.hsb(120.0d * speedfraction, 1.0d, 1.0d)); //Hue degree 120 is bright green, 0 is red
 				break;
 			case USER:
@@ -646,7 +663,7 @@ public class Map extends Group {
 
 		double avg = 0.0d;
 		for (Vehicle v : vehicles)
-			avg += v.getVehicleSpeed() * (50 / Configuration.tileSize) * 3.6;
+			avg += v.getVehicleSpeed() * (50 / Configuration.getTileSize()) * 3.6;
 
 		return avg / vehicles.size();
 	}

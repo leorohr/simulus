@@ -9,7 +9,7 @@
   <map_specs>
     <canvas_size>800</canvas_size>
     <number_of_tiles>40</number_of_tiles>
-    <validated>false</validated>
+    <validated>true</validated>
   </map_specs>
   <grid>
     <tile>
