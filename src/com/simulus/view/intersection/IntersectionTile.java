@@ -1,6 +1,8 @@
 package com.simulus.view.intersection;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Vector;
 
 import javafx.scene.paint.ImagePattern;
 
@@ -19,6 +21,18 @@ public class IntersectionTile extends Tile {
 		frame.setFill(new ImagePattern((ResourceBuilder.getBoxjunctionTexture())));
 		
 		turningPaths = new ArrayList<>();
+	}
+	
+	/**
+	 * @return A randomly chosen active path contained by this tile.
+	 */
+	public CustomPath getRandomPath() {
+		Vector<CustomPath> v = new Vector<>();
+		for(CustomPath p : turningPaths)
+			if(p.getActive())
+				v.add(p);
+		
+		return v.get(new Random().nextInt(v.size()));
 	}
 	
 	/**

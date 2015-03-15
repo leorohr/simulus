@@ -299,8 +299,6 @@ public abstract class Vehicle extends Rectangle {
 	}
 	
 	public void followPath(CustomPath p){
-		if(p.getEndTile().isOccupied())
-			return;
 		
 		getTransforms().clear();
 		currentPath = p;

@@ -500,7 +500,7 @@ public class Map extends Group {
 			// If the path has a lane at the end of it, set it to active
 			// This allows the creation intersections without 4 connected roads
 			for (CustomPath p : i.getTurningPaths()) {
-				if (p.getEndTile() instanceof Lane)
+				if (p.getEndTile() instanceof Lane && p.getStartTile() instanceof Lane)
 					p.setActive(true);
 			}
 			Thread t = new Thread(i, "Intersection <"

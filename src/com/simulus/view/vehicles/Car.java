@@ -7,7 +7,6 @@ import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
-import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
@@ -137,11 +136,7 @@ public class Car extends Vehicle {
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
-				 	CustomPath p = t.getTurningPaths().get(rand.nextInt(t.getTurningPaths().size()));
-				 	if(p.getActive()){
-				 		followPath(p);
-				 		return;
-				 	} else tempDir = getDirection();
+				 	followPath(t.getRandomPath());
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 			
