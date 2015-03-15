@@ -449,18 +449,26 @@ public class EditorApp extends Application {
 		}
 	}
 	
-	public void validationDialog(){
+	public void validationFailDialog(){
     	Alert alert = new Alert(AlertType.WARNING);
     	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
     	alert.setTitle("Map Validation Failed");
     	alert.setHeaderText("This map has not passed validation! \n It can be saved but cannot be used in the simulator.");
     	Optional<ButtonType> result = alert.showAndWait();
 	}
+	
+	public void validationPassDialog(){
+    	Alert alert = new Alert(AlertType.INFORMATION);
+    	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+    	alert.setTitle("Map Validation Passed");
+    	alert.setHeaderText("This map has passed validation! \n It can be saved and used in the simulator.");
+    	Optional<ButtonType> result = alert.showAndWait();
+	}
 
 	public File saveMapDialog(){
 		
 		if(validateMap() == false){
-			validationDialog();
+			validationFailDialog();
 		} 
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Map XML...");

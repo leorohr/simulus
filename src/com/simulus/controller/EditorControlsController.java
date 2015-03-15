@@ -114,7 +114,16 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		validateMapButton.setOnAction((event) -> {
-			EditorApp.getInstance().selectButton((Button) event.getSource());
+			//EditorApp.getInstance().selectButton((Button) event.getSource());
+			
+			if(EditorApp.getInstance().validateMap() == true){
+				EditorApp.getInstance();
+				EditorApp.getInstance().validationPassDialog();
+			}else{
+				EditorApp.getInstance();
+				EditorApp.getInstance().validationFailDialog();
+			}
+			
 		});
 
 		saveMapButton.setOnAction((event) -> {
