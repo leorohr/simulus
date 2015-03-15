@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -65,6 +66,8 @@ public class EditorControlsController implements Initializable {
 	ComboBox<String> mapListCB;
 	@FXML 
 	Hyperlink simulusLink;
+	@FXML
+	Button helpButton;
 	
 	File[] matchingFiles;
 
@@ -217,6 +220,16 @@ public class EditorControlsController implements Initializable {
         		} catch (Exception e) {
         			e.printStackTrace();
         		}
+		});
+		
+		helpButton.setOnAction((event) -> {
+			File file = new File(EditorControlsController.class.getResource("/resources/editorTutorial.pdf").getPath());
+            try {
+				Desktop.getDesktop().open(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		});
 		
 //		gridSizeChoiceBox.getItems().add("40");

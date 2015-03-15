@@ -104,5 +104,6 @@
             <Font size="10.0" />
          </font>
       </Label>
+      <Button id="helpButton" fx:id="helpButton" layoutX="164.0" layoutY="58.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" style="-fx-graphic: url(&quot;resources/help.png&quot;);" />
    </children>
 </AnchorPane>
