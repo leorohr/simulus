@@ -1,18 +1,19 @@
-package com.simulus.test;
+package com.simulus.test.model;
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.test.TestCaseBaseCode;
 
 /**
- * This TestCase tests the UI of spawning a Ambuslance car
+ *Test Case: tests the UI of spawning a Ambulance car
  * 
  *
  */
 
-public class TestCase3 extends TestCaseBaseCode {
+public class SpawningAmbulance extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
@@ -26,7 +27,7 @@ public class TestCase3 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase3.txt", true);
+		writeToFile("test/com/simulus/result/SpawningAmbulance.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 

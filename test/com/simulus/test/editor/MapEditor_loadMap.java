@@ -1,4 +1,4 @@
-package com.simulus.test;
+package com.simulus.test.editor;
 
 import static org.junit.Assert.*;
 
@@ -17,6 +17,7 @@ import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.controller.EditorControlsController;
 import com.simulus.controller.SimulationController;
+import com.simulus.test.TestCaseBaseCode;
 
 public class MapEditor_loadMap extends TestCaseBaseCode {
 

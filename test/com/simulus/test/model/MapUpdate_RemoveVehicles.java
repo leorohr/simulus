@@ -1,21 +1,26 @@
-package com.simulus.test;
+package com.simulus.test.model;
+import java.util.ArrayList;
+
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.test.TestCaseBaseCode;
+import com.simulus.view.vehicles.Vehicle;
 
 /**
- * This TestCase tests the Controller settings on Max car speed
+ * Test case: MapUpdate on Remove Vehicles
  *
  */
 
-public class TestCase7 extends TestCaseBaseCode {
+public class MapUpdate_RemoveVehicles extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
+	private ArrayList<Vehicle> ExpectedCarRemoveList = new ArrayList<>();
+	private ArrayList<Vehicle> ActualCarRemoveList = new ArrayList<>();
 
 
 	@BeforeClass
@@ -26,7 +31,7 @@ public class TestCase7 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase7.txt", true);
+		writeToFile("test/com/simulus/result/MapUpdate_RemoveVehicles.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -41,15 +46,9 @@ public class TestCase7 extends TestCaseBaseCode {
 	}
 
 
-	@Before
-	public void setUp() throws Exception {
-		Thread.sleep(4000); 
-
-	}
-
 	@After
 	public void tearDown() throws Exception {
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 	}
 
 
@@ -62,6 +61,8 @@ public class TestCase7 extends TestCaseBaseCode {
 			public void run() {
 
 				scene = new SceneDock();
+				SimulationController.getInstance().setTickTime(20);
+				SimulationController.getInstance().setMaxCarSpeed(120);
 
 				clickButton("Start"); 
 
@@ -80,46 +81,38 @@ public class TestCase7 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				appThread.measureVihecleSpeed();
+				ExpectedCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();				
 
-				test1Pass = true;
-
+				test1Pass= true;
 				writeToLog("Test 1 completed!");
 
 			}
 		});
 
-		Thread.sleep(5000);
+		Thread.sleep(2000);
 		isTestPassed(test1Pass, 1);
 	}
 
+
 	@Test
 	public void test2() throws InterruptedException{
+
 		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
-				
 				writeToLog("Initialising Test2...");
 
-				for (int i = 0; i< appThread.vihecleSpeed.size(); i++){
-					writeToLog("Vihecle " + i + " speed is: " + appThread.vihecleSpeed.get(i));
+				ActualCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();
 
-					if (appThread.vihecleSpeed.get(i) > 
-					SimulationController.getInstance().getMaxCarSpeed()){
-						test2Pass = false;
-					}
-					else{
-						test2Pass = true;
-					}
+				if (!ExpectedCarRemoveList.equals(ActualCarRemoveList)){
+					test2Pass = true;
 				}
-				writeToLog("Test2 completed!");
 
-
+				writeToLog("Test 2 completed!");
 			}
 		});
-		
-		Thread.sleep(5000);
+		Thread.sleep(4000);
 		isTestPassed(test2Pass, 2);
 	}
 

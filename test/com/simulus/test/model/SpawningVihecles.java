@@ -1,17 +1,21 @@
-package com.simulus.test;
+package com.simulus.test.model;
 
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.simulus.test.TestCaseBaseCode;
 
-public class TestCase2 extends TestCaseBaseCode  {
+/**
+ * Test case: Check if there are vehicles spawned on the map
+ *
+ *
+ */
+public class SpawningVihecles extends TestCaseBaseCode  {
 
 	private boolean test1Pass;
 	private	boolean test2Pass;
-	private	boolean test3Pass;
-
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -20,7 +24,7 @@ public class TestCase2 extends TestCaseBaseCode  {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase2.txt", true);
+		writeToFile("test/com/simulus/result/SpawningVihecles.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -60,9 +64,6 @@ public class TestCase2 extends TestCaseBaseCode  {
 	}
 
 	
-
-	
-	
 	@Test 
 	public void test1() throws InterruptedException {
 
@@ -82,7 +83,6 @@ public class TestCase2 extends TestCaseBaseCode  {
 				}
 				writeToLog("Test1 completed!");
 			}
-
 
 		});
 
@@ -128,32 +128,7 @@ public class TestCase2 extends TestCaseBaseCode  {
 
 	}
 
-	@Test
-	public void test3() throws InterruptedException{
-
-		executor.execute(new Runnable() {
-
-
-			@Override
-			public void run() {
-
-				writeToLog("Initialising Test3...");
-
-				selectCheckBox("Debug");
-
-				if (appThread.debugBoxSelected()){
-					test3Pass = true;
-					
-				}
-				writeToLog("Test3 completed!");
-			}
-		});
-
-		Thread.sleep(2000);
-		isTestPassed(test3Pass, 3);
-	}
-
-
+	
 
 }
 

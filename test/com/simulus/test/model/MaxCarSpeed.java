@@ -1,27 +1,22 @@
-package com.simulus.test;
-import java.util.ArrayList;
-
+package com.simulus.test.model;
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
-import com.simulus.view.vehicles.Vehicle;
+import com.simulus.test.TestCaseBaseCode;
 
 /**
- * This TestCase tests the MapUpdate on Removing Vihecles
- * 
+ * Test case: tests the Controller settings on Max car speed
  *
  */
 
-public class TestCase4 extends TestCaseBaseCode {
+public class MaxCarSpeed extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
-	private boolean test3Pass = false;
-	private ArrayList<Vehicle> ExpectedCarRemoveList = new ArrayList<>();
-	private ArrayList<Vehicle> ActualCarRemoveList = new ArrayList<>();
 
 
 	@BeforeClass
@@ -32,7 +27,7 @@ public class TestCase4 extends TestCaseBaseCode {
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase4.txt", true);
+		writeToFile("test/com/simulus/result/MaxCarSpeed.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -44,14 +39,18 @@ public class TestCase4 extends TestCaseBaseCode {
 
 			}
 		});
-
-
 	}
 
 
+	@Before
+	public void setUp() throws Exception {
+		Thread.sleep(4000); 
+
+	}
+
 	@After
 	public void tearDown() throws Exception {
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 	}
 
 
@@ -65,16 +64,12 @@ public class TestCase4 extends TestCaseBaseCode {
 
 				scene = new SceneDock();
 
-				SimulationController.getInstance().setTickTime(20);
-				SimulationController.getInstance().setMaxCarSpeed(120);
-
 				clickButton("Start"); 
 
 			}
 		});
 
 	}
-
 
 
 	@Test
@@ -86,38 +81,46 @@ public class TestCase4 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				ExpectedCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();				
+				appThread.measureVihecleSpeed();
 
-				test1Pass= true;
+				test1Pass = true;
+
 				writeToLog("Test 1 completed!");
 
 			}
 		});
 
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		isTestPassed(test1Pass, 1);
 	}
 
-
 	@Test
 	public void test2() throws InterruptedException{
-
 		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
+				
 				writeToLog("Initialising Test2...");
 
-				ActualCarRemoveList = SimulationController.getInstance().getMap().getToBeRemovedList();
+				for (int i = 0; i< appThread.getVehicleSpeed().size(); i++){
+					writeToLog("Vihecle " + i + " speed is: " + appThread.getVehicleSpeed().get(i));
 
-				if (!ExpectedCarRemoveList.equals(ActualCarRemoveList)){
-					test2Pass = true;
+					if (appThread.getVehicleSpeed().get(i) > 
+					SimulationController.getInstance().getMaxCarSpeed()){
+						test2Pass = false;
+					}
+					else{
+						test2Pass = true;
+					}
 				}
+				writeToLog("Test2 completed!");
 
-				writeToLog("Test 2 completed!");
+
 			}
 		});
-		Thread.sleep(4000);
+		
+		Thread.sleep(5000);
 		isTestPassed(test2Pass, 2);
 	}
 

@@ -10,17 +10,17 @@ Start Button Clicked: true
 
 Initialising Test1...
  
-The current Tick time is: 50.0
+ Cars detected on the map: true
  
-The current Spawn rate is: 5.0
- 
-Test 1 completed!
+Test1 completed!
  
 Test scenario 1 passed: true
  
 Initialising Test2...
  
-Test 2 completed!
+ Trucks detected on Map: true
+ 
+Test2 completed!
  
 Test scenario 2 passed: true
  
