@@ -22,13 +22,15 @@ import com.simulus.test.TestCaseBaseCode;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
 
-public class Validation extends TestCaseBaseCode {
+public class Validation_FailScenario extends TestCaseBaseCode {
 
 	private boolean test1Pass;
 	private boolean test2Pass;
+
+
 	private int tileSize = Configuration.getTileSize();
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
-
+	
 	private Tile[][] tiles = new Tile[Configuration.getGridSize()][Configuration.getGridSize()];
 
 
@@ -39,7 +41,7 @@ public class Validation extends TestCaseBaseCode {
 		appThread.launchApp();
 		Thread.sleep(1000);
 		scene = new SceneDock();
-		writeToFile("test/com/simulus/result/Validation.txt", true);
+		writeToFile("test/com/simulus/result/Validation_FailScenario.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -98,7 +100,7 @@ public class Validation extends TestCaseBaseCode {
 			}
 		}
 
-		for (int i = 0; i < tiles.length; i++) {
+		for (int i = 4; i < tiles.length; i++) {
 			addGroup(new Road(i, 7, Orientation.WESTEAST));
 			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
 
@@ -158,7 +160,7 @@ public class Validation extends TestCaseBaseCode {
 
 				boolean valid = EditorApp.getInstance().validateMap();
 
-				if (valid == true){
+				if (valid == false){
 					test2Pass = true;
 				}
 				writeToLog("Test 2 Completed");
@@ -170,8 +172,8 @@ public class Validation extends TestCaseBaseCode {
 		isTestPassed(test2Pass, 2);
 
 	}
-
-
+	
+	
 
 
 }
