@@ -299,7 +299,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		//if not, it does not need trafficlights
 		boolean needsLights = false;
 		for(CustomPath p : turningPaths) {
-			if(p.getActive() && p.getTurn().equals("straight"))
+			if(p.getActive() && p.getTurn() == TurningDirection.STRAIGHT)
 				needsLights = true;
 		}
 		if(!needsLights)

@@ -6,6 +6,8 @@ import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.IntersectionTile;
+import com.simulus.view.map.Lane;
 
 /**
  * An extension to {@link com.simulus.view.vehicles.Car}
@@ -87,6 +89,14 @@ public class EmergencyCar extends Car {
 			
 			if (nextTile != null && nextTile.isOccupied() && nextTile.getOccupier() != null) {
 				tempDir = Direction.NONE;
+				if(nextTile.isBlock())
+					changeLane();
+			} else if(nextTile instanceof IntersectionTile) { 
+				if(currentTile instanceof Lane) {
+					IntersectionTile t = (IntersectionTile) nextTile;
+				 	currentIntersection = t.getIntersection();
+				 	followPath(t.getRandomPath());
+				 }
 			} else
 				tempDir = getDirection();
 			

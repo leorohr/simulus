@@ -24,6 +24,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
+import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
@@ -328,12 +329,12 @@ public abstract class Vehicle extends Rectangle {
 		
 		Transition transition;
 		RotateTransition rt = new RotateTransition(Duration.UNKNOWN, this);
-		if(p.getTurn().equals("right")){
+		if(p.getTurn() == TurningDirection.RIGHT){
 			rt.setToAngle(getRotate() + 90);
 			rt.setDuration(Duration.millis(1250));
 			pathTransition.setDuration(Duration.millis(1250));
 			transition = new ParallelTransition(this, rt, pathTransition);
-		} else if(p.getTurn().equals("left")){
+		} else if(p.getTurn() == TurningDirection.LEFT){
 			rt.setToAngle(getRotate() - 90);
 			rt.setDuration(Duration.millis(750));
 			pathTransition.setDuration(Duration.millis(750));			
