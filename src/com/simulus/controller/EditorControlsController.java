@@ -67,8 +67,6 @@ public class EditorControlsController implements Initializable {
 	TextField descTextField;
 	@FXML
 	TextField authorTextField;
-//	@FXML
-//	ChoiceBox<String> gridSizeChoiceBox = new ChoiceBox<String>();
 	@FXML
 	ComboBox<String> mapListCB;
 	@FXML 
@@ -187,15 +185,12 @@ public class EditorControlsController implements Initializable {
     			switch(getGridSize()){
     			case 40:
     				setGridSize(60);
-    				Configuration.setGridSize(60);
     			break;
     			case 60:
     				setGridSize(80);
-    				Configuration.setGridSize(80);
     			break;
     			case 80:
     				setGridSize(40);
-    				Configuration.setGridSize(40);
     			break;
     			}
     			populateMapList();
@@ -279,41 +274,6 @@ public class EditorControlsController implements Initializable {
 			
 		});
 		
-//		gridSizeChoiceBox.getItems().add("40");
-//		gridSizeChoiceBox.getItems().add("60");
-//		gridSizeChoiceBox.getItems().add("80");
-//		gridSizeChoiceBox.getSelectionModel().select(0);
-
-//		gridSizeChoiceBox.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
-//			@Override
-//		    public void changed(ObservableValue<? extends Number> arg0, Number num1, Number num2) {
-//				final Stage dialog = new Stage();
-//		        dialog.initModality(Modality.APPLICATION_MODAL);
-//		        dialog.setResizable(false);
-//
-//		        Label text = new Label("The following action will clear the current map!\n"
-//		        		+ "Are you sure?");
-//		        Button yesBtn = new Button("Yes");
-//		        yesBtn.setOnAction((btnEvent) -> {
-//		        	//new map of size grid
-//		        	dialog.close();});
-//		        Button cancelBtn = new Button("Cancel");
-//		        cancelBtn.setOnAction((btnEvent) -> {
-//		        	gridSizeChoiceBox.getSelectionModel().select(num1.intValue());
-//		        	dialog.close();});
-//		 
-//		        VBox vbox = new VBox();
-//		        vbox.setAlignment(Pos.CENTER);
-//		        vbox.setSpacing(5.0d);
-//		        vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
-//		        vbox.getChildren().addAll(text, new HBox(yesBtn, cancelBtn));
-//
-//		        dialog.setScene(new Scene(vbox));
-//		        dialog.show();
-//			}
-//		});
-		
-    
 	}
 	
 	private void populateMapList(){
@@ -404,36 +364,17 @@ public class EditorControlsController implements Initializable {
 		switch(size){
 		case 40:
 			gridSizeLabel.setText("40 x 40");
+			Configuration.setGridSize(40);
 		break;
 		case 60:
 			gridSizeLabel.setText("60 x 60");
+			Configuration.setGridSize(60);
 		break;
 		case 80:
 			gridSizeLabel.setText("80 x 80");
+			Configuration.setGridSize(80);
 		break;
 		}
 	}
-	
-	
-//	public void setGridSize(int size) {
-//		switch(size){
-//			case 40:
-//				gridSizeChoiceBox.getSelectionModel().select(0);
-//			break;
-//			case 60:
-//				gridSizeChoiceBox.getSelectionModel().select(1);
-//			break;
-//			case 80:
-//				gridSizeChoiceBox.getSelectionModel().select(2);
-//			break;
-//		}
-//		
-//    }
-	
-//	public int getGridSize(){
-//		
-//		return Integer.parseInt(gridSizeChoiceBox.getValue().toString());
-//		
-//	}
 
 }

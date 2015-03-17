@@ -444,6 +444,8 @@ public class EditorApp extends Application {
 	}
 	
 	public void clearMap(){
+		gridSize = Configuration.getGridSize();
+		tileSize = Configuration.getTileSize();
 		this.editorMap = new Map();
 		ECC.setMapName("");
 		ECC.setMapDate("");
@@ -549,8 +551,8 @@ public class EditorApp extends Application {
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
 		ECC.setGridSize(mxml.numOfTiles);
-		//editorMap.setTiles(mxml.getTileGrid());
-		//editorMap.drawMap(canvas);
+		gridSize = Configuration.getGridSize();
+		tileSize = Configuration.getTileSize();
 		editorMap.loadEditorMap(new File(fileLocation));
 	}
 
