@@ -1,8 +1,6 @@
 package com.simulus;
 
 
-import com.simulus.util.ResourceBuilder;
-
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +10,10 @@ import javafx.scene.control.Control;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import com.simulus.util.ResourceBuilder;
 
 /**
  * The {@code Startup} class functions as a splash screen, providing users with the choice
@@ -37,6 +38,8 @@ public class Startup extends Application {
 		simBtn.setPrefSize(100.0d, 50.0d);
 		simBtn.setOnAction((event) -> {
 			MainApp app = new MainApp();
+			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 900)/2);
+			primaryStage.setY((Screen.getPrimary().getBounds().getHeight()-800)/2);
 			app.start(primaryStage, true);
 		});
 		

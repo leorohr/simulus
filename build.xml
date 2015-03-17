@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project Simulus with Jar-in-Jar Loader">
-	<target name="do-compile">
-		<mkdir dir="bin" />
+<project default="complete" name="Simulus" xmlns:fx="javafx:com.sun.javafx.tools.ant">
 
+
+	<target name="compile" depends="clean">
+		<mkdir dir="bin" />
 		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="src" destdir="bin" encoding="UTF-8" />
 
 		<!-- Copy resources -->
@@ -17,32 +18,29 @@
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="clean">
+		<delete dir="build" />
+		<delete dir="bin" />
+	</target>
 
-	<target name="create_run_jar" depends="clean,do-compile" description="Builds the project and creates a runnable jar in the deploy folder.">
-		<jar destfile="deploy/Simulus.jar">
-			<manifest>
-				<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader" />
-				<attribute name="Rsrc-Main-Class" value="com.simulus.Startup" />
-				<attribute name="Class-Path" value="." />
-				<attribute name="Rsrc-Class-Path" value="./" />
-			</manifest>
-			<zipfileset src="jar-in-jar-loader.zip" />
+	<target name="jar" depends="compile" description="Builds the project and creates a runnable jar in the build folder.">
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant"
+				classpath=".:${java.home}/../lib/ant-javafx.jar" />
+		<fx:jar destfile="build/Simulus.jar" verbose="true">
+			<fx:platform javafx="2.1+" j2se="8.0" />
+			<fx:application mainClass="com.simulus.Startup" />
 			<fileset dir="bin" />
-		</jar>
-
-		<copy todir="deploy/maps">
+		</fx:jar>
+		<copy todir="build/resources/maps">
 			<fileset dir="resources/maps" />
 		</copy>
 	</target>
 
-	<target name="clean">
-		<delete dir="deploy" />
-		<delete dir="bin" />
-	</target>
 
 	<!-- Generate JavaDoc -->
-	<target name="javadoc" description="Generates the projects JavaDoc files in deploy/doc.">
-		<javadoc destdir="deploy/doc" author="false" version="true" use="true" windowtitle="Simulus Traffic Simulation - API">
+	<target name="javadoc" description="Generates the projects JavaDoc files in build/doc.">
+		<javadoc destdir="build" author="false" version="true" use="true" windowtitle="Simulus Traffic Simulation - API">
 
 			<packageset dir="src" defaultexcludes="yes" />
 
@@ -51,10 +49,10 @@
 	</javadoc>
 </target>
 
-<target name="full_build" description="Executes both the javadoc and the create_run_jar target">
-	<antcall target="create_run_jar"/>
-	<antcall target="javadoc"/>
+<target name="complete" description="Executes both the javadoc and the create_run_jar target">
+	<antcall target="create_run_jar" />
+	<antcall target="javadoc" />
 </target>
-	
+
 
 </project>
