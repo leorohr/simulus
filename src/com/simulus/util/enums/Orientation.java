@@ -1,5 +1,5 @@
 /*
- * @(#) Seed.java 
+ * @(#) Orientation.java 
  * 
  * Copyright (c) 2015 Team Simulus at King's College London. All Rights Reserved. 
  * 
@@ -21,6 +21,9 @@
 
 package com.simulus.util.enums;
 
+/**
+ * The orientation of a road-tile.
+ */
 public enum Orientation {
 	
 	EMPTY, NORTHSOUTH, WESTEAST, INTERSECTION;

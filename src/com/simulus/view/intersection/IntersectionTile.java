@@ -9,11 +9,25 @@ import javafx.scene.paint.ImagePattern;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.view.Tile;
 
+/**
+ * An extension of {@link com.simulus.view.Tile}
+ * Allows storing of {@link com.simulus.view.intersection.CustomPath} and 
+ * provides a reference to the intersection this tile belongs to.
+ */
 public class IntersectionTile extends Tile {
 	
 	private ArrayList<CustomPath> turningPaths;
 	private Intersection intersection;
 
+	/**
+	 * @param posX {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @param posY {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @param width {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @param height {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @param gridPosX {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @param gridPosY {@link Tile#Tile(double, double, double, double, int, int)}
+	 * @see com.simulus.view.Tile#Tile(double, double, double, double, int, int)
+	 */
 	public IntersectionTile(double posX, double posY, double width,
 			double height, int gridPosX, int gridPosY) {
 		
@@ -22,6 +36,11 @@ public class IntersectionTile extends Tile {
 		
 		turningPaths = new ArrayList<>();
 	}
+	
+	
+	/*
+	 * Getters & Setters
+	 */
 	
 	/**
 	 * @return A randomly chosen active path contained by this tile.

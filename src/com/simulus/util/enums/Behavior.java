@@ -2,6 +2,9 @@ package com.simulus.util.enums;
 
 import java.util.Random;
 
+/**
+ * The behaviour types for cars.
+ */
 public enum Behavior {
 	CAUTIOUS, RECKLESS, SEMI;
 	

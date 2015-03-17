@@ -20,6 +20,8 @@ public class Block extends Land {
 	 * @param height Height of the Land tile
 	 * @param gridPosX X Position in the Map array
 	 * @param gridPosY Y Position in the Map array
+	 * @param dir The direction of the tile. {@link com.simulus.view.map.Lane#Lane(double, double, double, double, int, int, Direction, int, boolean)}
+	 * @param laneNo The number of the blocked lane. {@link com.simulus.view.map.Lane#Lane(double, double, double, double, int, int, Direction, int, boolean)}
 	 */
 	public Block(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY, Direction dir, int laneNo) {

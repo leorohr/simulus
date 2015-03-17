@@ -2,11 +2,17 @@ package com.simulus.util;
 
 import java.io.File;
 
+/**
+ * Central configuration-class for the application.
+ */
 public class Configuration {
 	
-	public static final int CANVAS_SIZE = 800; //Size of the canvas in px
-	private static int gridSize = 40; //Number of rows/columns; default 40
-	private static int tileSize = CANVAS_SIZE/gridSize; //size of one tile in px
+	/**	Size of the canvas in px */
+	public static final int CANVAS_SIZE = 800;
+	/** Number of rows/columns; default 40 */
+	private static int gridSize = 40; 
+	/** Size of one tile in pixel */
+	private static int tileSize = CANVAS_SIZE/gridSize;
 	
 	//Temporary file for statistics
 	private static File tmpStats = null;

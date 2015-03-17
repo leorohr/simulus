@@ -11,7 +11,8 @@ import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
 /**
- * Describes a car object on the GUI
+ * Is an extension to {@link com.simulus.view.vehicles.Vehicle}
+ * Describes a car object on the GUI.
  */
 public class Car extends Vehicle {
 
@@ -25,13 +26,12 @@ public class Car extends Vehicle {
 
 	/**
 	 * Sets the appearance, position and direction of the car.
+	 * Cars have an acceleration of 2.32m/s^2 and a random max. speed within the maxspeed range
+	 * set by the simulation, at least 10km/h (i.e. 1.111px per tick).
 	 * 
-	 * @param posX
-	 *            the X position of the car on the scene
-	 * @param posY
-	 *            the Y position of the car on the scene
-	 * @param dir
-	 *            the direction the car should start moving in
+	 * @param posX The X position of the car on the scene
+	 * @param posY The Y position of the car on the scene
+	 * @param dir The direction the car should start moving in
 	 */
 	public Car(double posX, double posY, Direction dir) {
 		super(posX, posY, CARWIDTH, CARLENGTH, dir);
@@ -56,8 +56,6 @@ public class Car extends Vehicle {
 		setArcWidth(ARCWIDTH);
 		setFill(COLOUR);
 		
-	
-		 
 		double speedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
 		//2.32m/s^2; 1m=tilesize/5; 1 tick = 1/10s
 		acceleration = (2.32d * Configuration.getTileSize()/5)/10;
@@ -67,8 +65,13 @@ public class Car extends Vehicle {
 	}
 	
 	/**
-	 * Translates the vehicle according to the current direction
+	 * Translates the car according to the current direction.
+	 * Cars with {@link Behavior}.RECKLESS will try to overtake every car in front of them,
+	 * those with cautious behavior will adjust their speed to slower vehicles in front of them.
+	 * Cars with  {@link Behavior}.SEMI will drive cautiously or recklessly with a chance of 50%.
+	 * @see Vehicle#move(Direction)
 	 */
+	@Override
 	public void moveVehicle() {
 		
 		if(isTransitioning()){

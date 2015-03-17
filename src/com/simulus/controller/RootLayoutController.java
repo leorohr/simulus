@@ -36,6 +36,11 @@ import com.simulus.io.SimConfigXML;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.VehicleColorOption;
 
+/**
+ * The JavaFX controller for the root layout of the simulator. 
+ * Manages the menubar with its items and contains the borderpane 
+ * for the general layout of the application.
+ */
 public class RootLayoutController implements Initializable {
 
     @FXML

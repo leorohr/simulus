@@ -7,6 +7,11 @@ import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 
+/**
+ * An extension to {@link com.simulus.view.vehicles.Car}
+ * EmergencyCars have an {@link AreaOfEffect} associated with them. They will always try 
+ * to drive with the max. allowed speed and do not obey red lights.
+ */
 public class EmergencyCar extends Car {
 
 	private static final Color COLOUR = Color.YELLOW;
@@ -25,6 +30,9 @@ public class EmergencyCar extends Car {
 		setArcWidth(0);
 	}
 
+	/**
+	 * @see com.simulus.view.vehicles.Car#moveVehicle()
+	 */
 	@Override
 	public void moveVehicle() {
 		
@@ -90,6 +98,10 @@ public class EmergencyCar extends Car {
 		((Ambulance) getParent()).updateAoE();
 	}
 
+	/**
+	 * @see com.simulus.view.vehicles.Vehicle#removeFromCanvas()
+	 */
+	@Override
 	public void removeFromCanvas() {
 		((Ambulance) getParent()).remove();
 	}

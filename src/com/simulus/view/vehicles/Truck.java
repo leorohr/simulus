@@ -12,6 +12,10 @@ import com.simulus.view.Tile;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
+/**
+ * An extension to {@link com.simulus.view.vehicles.Vehicle}.
+ * Describes a car object on the GUI.
+ */
 public class Truck extends Vehicle {
 
 	public static final int TRUCKWIDTH = 12 / (Configuration.getGridSize()/40);
@@ -19,6 +23,15 @@ public class Truck extends Vehicle {
 	
 	private static final Color COLOUR = Color.LIGHTSALMON;
 	
+	/**
+	 * Sets the appearance, position and direction of the truck.
+	 * Cars have an acceleration of 0.5m/s^2 and a random max. speed within the maxspeed range
+	 * set by the simulation, at least 10km/h (i.e. 1.111px per tick).
+	 * 
+	 * @param posX The X position of the truck on the scene
+	 * @param posY The Y position of the truck on the scene
+	 * @param dir The direction the truck should start moving in
+	 */
 	public Truck(double posX, double posY, Direction dir) {
 		super(posX, posY, TRUCKWIDTH, TRUCKLENGTH, dir);
 
@@ -50,6 +63,9 @@ public class Truck extends Vehicle {
 		addToCanvas();
 	}
 
+	/**
+	 * @see com.simulus.view.vehicles.Vehicle#moveVehicle()
+	 */
 	@Override
 	public void moveVehicle() {
 			

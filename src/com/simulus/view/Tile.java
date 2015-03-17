@@ -12,6 +12,10 @@ import com.simulus.util.enums.Direction;
 import com.simulus.view.map.Lane;
 import com.simulus.view.vehicles.Vehicle;
 
+/**
+ * The base class for all types of tiles. The {@link com.simulus.view.map.Map} is composed of
+ * Tile objects.
+ */
 public class Tile extends Group {
 
 	private int gridPosX;
@@ -23,6 +27,14 @@ public class Tile extends Group {
     protected boolean isBlock;
     protected boolean isRedLight = false;
 
+    /**
+     * @param posX The x-coordinate of the top left corner
+     * @param posY The y-coordinate of the top left corner
+     * @param width The tile's width in px
+     * @param height The tile's height in px
+     * @param gridPosX The x position of the tile in the grid
+     * @param gridPosY The y position of the tile in the grid
+     */
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
 		// super(posX, posY, width, height);
@@ -46,8 +58,8 @@ public class Tile extends Group {
 	 * Sets the tile to occupied or free. Passing in the vehicle makes sure that
 	 * only the current occupier can set the tile's occupation status.
 	 * 
-	 * @param isOccupied
-	 * @param occupier
+	 * @param isOccupied Whether the is occupied or not
+	 * @param occupier The vehicle that calls this method
 	 */
 	public void setOccupied(boolean isOccupied, Vehicle occupier) {
 		if (!this.isOccupied && isOccupied) {
@@ -64,7 +76,7 @@ public class Tile extends Group {
 	 * Sets the tile to occupied or free without checking whether the caller is
 	 * the currently occupying car.
 	 * 
-	 * @param isOccupied
+	 * @param isOccupied Whether the tile is occupied or not.
 	 */
 	public void setOccupied(boolean isOccupied) {
 		this.isOccupied = isOccupied;
@@ -89,21 +101,10 @@ public class Tile extends Group {
 													// transparent
 		}
 	}
-
-	/**
-	 * @return The x-coordinate of the top left corner of the tile.
+	
+	/*
+	 * Getter & Setter
 	 */
-	public double getX() {
-		return frame.getX();
-	}
-
-	/**
-	 * @return The y-coordinate of the top left corner of the tile.
-	 */
-	public double getY() {
-		return frame.getY();
-	}
-
 	public double getWidth() {
 		return frame.getWidth();
 	}
@@ -147,7 +148,27 @@ public class Tile extends Group {
 	public boolean isRedLight() {
 		return isRedLight;
 	}
-	
+
+	/**
+	 * @return The x-coordinate of the top left corner of the tile.
+	 */
+	public double getX() {
+		return frame.getX();
+	}
+
+	/**
+	 * @return The y-coordinate of the top left corner of the tile.
+	 */
+	public double getY() {
+		return frame.getY();
+	}
+
+	/**
+	 * Makes this tile a redlight, i.e. draws a red line on one of the sides of the the frame,
+	 * according to {@code dir}
+	 * @param b Whether the tile should be a redlight or not.
+	 * @param dir The traffic direction that should be blocked by the red light 
+	 */
 	public void setIsRedLight(boolean b, Direction dir) {
 		isRedLight = b;
 		if(isRedLight) {

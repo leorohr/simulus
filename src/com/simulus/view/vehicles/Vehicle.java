@@ -30,7 +30,8 @@ import com.simulus.view.intersection.Intersection;
 import com.simulus.view.map.Lane;
 
 /**
- * Describes a vehicle on the GUI
+ * The base class for all vehicles represented in the simulation.
+ * Vehicles are an extension to {@link javafx.scene.shape.Rectangle}.
  */
 public abstract class Vehicle extends Rectangle {
 
@@ -69,6 +70,7 @@ public abstract class Vehicle extends Rectangle {
 	 *            The width of the vehicle
 	 * @param height
 	 *            The height of the vehicle
+	 * @param dir The direction the vehicle should move in
 	 */
 	public Vehicle(double posX, double posY, double width, double height,
 			Direction dir) {
@@ -94,6 +96,12 @@ public abstract class Vehicle extends Rectangle {
 	 */
 	public abstract void moveVehicle();
 
+	/**
+	 * Moves the vehicle, i.e. the rectangle in its current direction.
+	 * The vehicle accelerates with each call of this method and is then moved according 
+	 * to the resulting speed.
+	 * @param d The direction the vehicle is moving in. 
+	 */
 	public void move(Direction d) {
 		
 		//Accelerate
@@ -269,6 +277,11 @@ public abstract class Vehicle extends Rectangle {
 			vehicleSpeed = 0.0d;
 	}
 
+	/**
+	 * Checks the intersection this vehicle is currently in for occupied tiles and occupies the tiles
+	 * that this vehicle currently intersects. If the vehicle touches on a tile that is occupied 
+	 * by another vehicle, the transition is paused.
+	 */
 	public void checkTransitionBlockage(){
 		if(currentIntersection != null && isTransitioning()) {
 			for(int i = 0; i < currentIntersection.tiles.length ; i++) {
@@ -298,6 +311,12 @@ public abstract class Vehicle extends Rectangle {
 		currentTransition.setRate(50/SimulationController.getInstance().getTickTime());
 	}
 	
+	/**
+	 * Makes the vehicle follow a provided {@link com.simulus.view.intersection.CustomPath}.
+	 * Is used to make vehicles move through intersections as soon as they encounter an
+	 * {@link com.simulus.view.intersection.IntersectionTile} with active paths.
+	 * @param p The path to follow
+	 */
 	public void followPath(CustomPath p){
 		
 		getTransforms().clear();
@@ -360,6 +379,10 @@ public abstract class Vehicle extends Rectangle {
         transition.play();
 	}
 	
+	/**
+	 * Checks whether it is save to overtake the vehicle / blockage in front of this vehicle.
+	 * If so, {@link Vehicle#overtake(Tile)} will be executed. 
+	 */
 	protected void attemptOvertake(){
 		try {
 			switch(getDirection()){
@@ -478,6 +501,27 @@ public abstract class Vehicle extends Rectangle {
 		}
 	}
 
+	/**
+	 * Removes this car from the canvas it is drawn on.
+	 */
+	public void removeFromCanvas() {
+        if (parent.getCanvas().getChildren().contains(this))
+            parent.getCanvas().getChildren().remove(this);
+	}
+	
+	/**
+	 * Adds this vehicle to the canvas that is set as its parent.
+	 * @see Rectangle#parentProperty() 
+	 */
+	public void addToCanvas() {
+		if (!parent.getCanvas().getChildren().contains(this))
+			parent.getCanvas().getChildren().add(this);
+	}
+	
+	/*
+	 * Getters & Setters
+	 */
+	
 	public Direction getDirection() {
 		return dir;
 	}
@@ -493,22 +537,16 @@ public abstract class Vehicle extends Rectangle {
 	public void setCurrentTile(Tile t) {
         currentTile = t;
         addTile(t); //add current tile to list of occupied tiles
-    }
-
-	public void removeFromCanvas() {
-        if (parent.getCanvas().getChildren().contains(this))
-            parent.getCanvas().getChildren().remove(this);
 	}
 
 	public Tile getCurrentTile() {
 		return currentTile;
 	}
-
-	public void addToCanvas() {
-		if (!parent.getCanvas().getChildren().contains(this))
-			parent.getCanvas().getChildren().add(this);
-	}
-
+	
+	/**
+	 * Adds a tile to the set of tiles occupied by this vehicle. 
+	 * @param t The tile to be added.
+	 */
 	private void addTile(Tile t){
         synchronized(this) {
             if (!occupiedTiles.contains(t))
@@ -516,13 +554,20 @@ public abstract class Vehicle extends Rectangle {
         }
 	}
 	
+	/**
+	 * Removes a tile from the set of tiles occupied by this vehicle. 
+	 * @param t The tile to be removed.
+	 */
 	public void removeTile(Tile t){
         synchronized (this) {
             if (occupiedTiles.contains(t))
                 occupiedTiles.remove(t);
         }
 	}
-
+	
+	/**
+	 * @return A list of the tiles that this vehicle currently occupies.
+	 */
 	public List<Tile> getOccupiedTiles(){
         synchronized (this) {
             return occupiedTiles;
@@ -549,10 +594,9 @@ public abstract class Vehicle extends Rectangle {
 		return waitedCounter;
 	}
 	
-	public void setWaitedCounter(int waitedCounter) {
-		this.waitedCounter = waitedCounter;
-	}
-	
+	/**
+	 * @return {@code true} if this vehicle is currently executing a transition, {@code false} otherwise.
+	 */
 	public boolean isTransitioning() {
 		if(currentTransition != null && currentTransition.getStatus() == Animation.Status.RUNNING)
 			return true;

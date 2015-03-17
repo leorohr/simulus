@@ -17,6 +17,11 @@ import com.simulus.controller.ControlsController;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 
+/**
+ * {@code MainApp} represents the Simulator of the Simulus suite.
+ * 
+ * It should not be used as a run-target but only be started through the {@link com.simulus.Startup} application.
+ */
 public class MainApp extends Application {
 
 	private Stage primaryStage;
@@ -104,6 +109,9 @@ public class MainApp extends Application {
 
 	}
 	
+	/**
+	 * Loads the right side control panel
+	 */
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
@@ -116,6 +124,9 @@ public class MainApp extends Application {
 		}
 	}
 
+	/**
+	 * Recreate and resize the canvas according to the size in {@code Configuration}
+	 */
     public void resetCanvas() {
     	canvas = new Pane();
         canvas.setMinSize(Configuration.CANVAS_SIZE, Configuration.CANVAS_SIZE);
@@ -124,6 +135,10 @@ public class MainApp extends Application {
         rootLayout.setCenter(canvas);
     }
 
+    /*
+     * Getters and Setters
+     */
+    
 	public Pane getCanvas() {
 		return canvas;
 	}

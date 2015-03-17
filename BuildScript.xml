@@ -21,7 +21,7 @@
 		</copy>	
 	</target>
 	
-    <target name="create_run_jar" depends="clean,do-compile">
+    <target name="create_run_jar" depends="clean,do-compile,javadoc">
         <jar destfile="deploy/Simulus.jar">
             <manifest>
                 <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
@@ -45,5 +45,20 @@
 	<target name="clean">
 		<delete dir="deploy"/>
 		<delete dir="bin"/>
+	</target>
+	
+	<!-- Generate JavaDoc -->
+	<target name="javadoc">	
+		<javadoc
+		     destdir="deploy/doc"
+		     author="false"
+		     version="true"
+		     use="true"
+		     windowtitle="Simulus Traffic Simulation - API">
+
+		    <packageset dir="src" defaultexcludes="yes"/>
+		     
+		    <doctitle><![CDATA[<h1>Simulus Traffic Simulation - API</h1>]]></doctitle>
+		  </javadoc>
 	</target>
 </project>

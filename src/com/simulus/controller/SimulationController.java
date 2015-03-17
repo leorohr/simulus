@@ -15,7 +15,10 @@ import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
 
 /**
- * TODO
+ * A controller managing the simulation. Changes in simulation parameters,
+ * starting and stopping the simulation are done here.
+ * The class implements the singleton-pattern and can hence be used as central entry
+ * point to reach out to the current instance of the map or the UI controllers. 
  */
 public class SimulationController {
 
@@ -48,6 +51,9 @@ public class SimulationController {
         animationThread = new AnimationThread();
     }
 
+    /**
+     * Starts a new simulation
+     */
     public void startSimulation() {
         if(animationThread.isInterrupted() || !animationThread.isAlive())
             animationThread = new AnimationThread();
@@ -57,6 +63,11 @@ public class SimulationController {
     	
     }
 
+    /**
+     * Stops the current simulation, reloads the map depending on {@code reloadMap},
+     * and resets the canvas, statistcs and settings to the default.
+     * @param reloadMap Whether or not the current map should be reloaded from its file.
+     */
     public void resetSimulation(boolean reloadMap) {
     	
     	if(reloadMap) {
@@ -78,6 +89,9 @@ public class SimulationController {
         	map.showAllIntersectionPaths();
     }
 
+    /**
+     * The central thread responsible for running the simulation. 
+     */
     private class AnimationThread extends Thread {
 
         @Override
@@ -121,10 +135,6 @@ public class SimulationController {
             super("AnimationThread");
         }
     }
-    
-    public Thread getAnimationThread(){
-    	return animationThread;
-    }
 
     /**
      * Offers a clean way to initialise the controller without calling getInstance()
@@ -165,7 +175,13 @@ public class SimulationController {
     public boolean isDebug() {
         return debugFlag;
     }
-
+    
+    /**
+     * Enables/disbales debug mode. In debug-mode, paths on intersections are visualised,
+     * occupied tiles are coloured in green and the {@link com.simulus.view.vehicles.AreaOfEffect} of ambulances
+     * are shown as a red circle surrounding them. 
+     * @param debugFlag Whether debug mode should be enabled or not
+     */
     public void setDebugFlag(boolean debugFlag) {
         this.debugFlag = debugFlag;
         if(debugFlag) {
@@ -277,6 +293,7 @@ public class SimulationController {
     	return recklessCount;
     }
     
+    public Thread getAnimationThread(){
+    	return animationThread;
+    } 
 }
-
-

@@ -32,6 +32,11 @@ import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
 
+/**
+ * This class is the central management facility for a map's storage and management.
+ * It stores references to all of the map's intersections (and their threads for trafficlights),
+ * its entrypoints, and manages all currently present vehicles.
+ */
 public class Map extends Group {
 
 	private int tileSize = Configuration.getTileSize();
@@ -81,6 +86,10 @@ public class Map extends Group {
 		}
 	}
 
+	/**
+	 * Create a map with a specific set of tiles.
+	 * @param tiles The set of tiles
+	 */
 	public Map(Tile[][] tiles) {
 		this();
 
@@ -90,6 +99,7 @@ public class Map extends Group {
 	/**
 	 * Draws the current state of the map on either the editor's or the
 	 * mainApp's canvas.
+	 * @param canvasPane The canvas this map should be drawn on
 	 */
 	public void drawMap(Pane canvasPane) {
 		
@@ -105,6 +115,7 @@ public class Map extends Group {
 	/**
 	 * Spawns a car at a randomly selected entrypoint of the map.
 	 * @param b The desired behavior of the spawning car.
+	 * @return The spawned car
 	 */
 	public Car spawnRandomCar(Behavior b) {
 		Lane l;
@@ -204,7 +215,7 @@ public class Map extends Group {
 		return l;
 	}
 
-	//for testing
+	//for testing TODO remove
 	public void spawnTesterCar(double speed) {
 
 		Lane a = entryPoints.get(0);
@@ -300,11 +311,22 @@ public class Map extends Group {
 			intersections.add((Intersection) g);
 	}
 
+	/**
+	 * Makes a specific tile a red light.
+	 * @param tileX The grid x-coordinate of the tile. 
+	 * @param tileY The grid y-coordinate of the tile.
+	 * @param dir The direction that should be stopped by the red light.
+	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
 		tiles[tileX][tileY].setOccupied(true);
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
+	/**
+	 * Sets a currently red-light-tile to be green.
+	 * @param tileX The grid x-coordinate of the tile. 
+	 * @param tileY The grid y-coordinate of the tile.
+	 */
 	public void setGreenTrafficLight(int tileX, int tileY) {
 		tiles[tileX][tileY].setOccupied(false);
 		tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
@@ -391,6 +413,11 @@ public class Map extends Group {
 		}
 	}
 
+	/**
+	 * Stops all vehiclesthat are currently in a transition.
+	 * Vehicles are in transitions when they go through an intersection or when
+	 * they overtake/pass an obstacle.
+	 */
 	public void pauseTransitions() {
 		Vehicle v;
 		Iterator<Vehicle> iter = vehicles.iterator();
@@ -402,8 +429,7 @@ public class Map extends Group {
 	}
 
 	/*
-	 * TODO: shrink method, remove redundant/repeat code have a remove method
-	 * that handles single square and groups
+	 * TODO: javadoc
 	 */
 	public void removeGroup(TileGroup g) {
 
@@ -534,7 +560,7 @@ public class Map extends Group {
      * Loads a Map from an XML file and draws it onto the EditorApp's canvas
      * @param mapFile The XML file containing the map-data.
      */
- public void loadEditorMap(File mapFile) {
+    public void loadEditorMap(File mapFile) {
     	
 		MapXML loader = new MapXML();
 		loader.readXML(mapFile.toPath().toString());
@@ -645,11 +671,17 @@ public class Map extends Group {
 		}
 	}
 
+	/**
+	 * @see com.simulus.view.intersection.Intersection#showAllPaths()
+	 */
 	public void showAllIntersectionPaths() {
 		for (Intersection is : intersections)
 			is.showAllPaths();
 	}
 
+	/**
+	 * @see com.simulus.view.intersection.Intersection#hideAllPaths()
+	 */
 	public void hideAllIntersectionsPaths() {
 		for (Intersection is : intersections) {
 			is.hideAllPaths();
@@ -729,6 +761,10 @@ public class Map extends Group {
 			t.interrupt();
 		}
 	}
+	
+	/*
+	 * Getters & Setters
+	 */
 
 	public Tile[][] getTiles() {
 		return tiles;
@@ -761,8 +797,4 @@ public class Map extends Group {
 	public ArrayList<Vehicle> getToBeRemovedList(){
 		return toBeRemoved;
 	}
-	
-	
-	
-	
 }

@@ -12,6 +12,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * The {@code Startup} class functions as a splash screen, providing users with the choice
+ * between the Simulator ({@link MainApp}) and the Editor ({@link EditorApp}).
+ * 
+ * This is the application class that should be set as run-target, as it is the only one that
+ * ensures smooth startup of both apps. 
+ */
 public class Startup extends Application {
 	
 	private Stage primaryStage;

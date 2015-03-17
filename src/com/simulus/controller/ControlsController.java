@@ -27,6 +27,9 @@ import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.map.Map;
 
+/**
+ * The JavaFX controller for the right side control panel of the simulator.
+ */
 public class ControlsController implements Initializable {
 
 	@FXML
@@ -231,7 +234,10 @@ public class ControlsController implements Initializable {
 		});
 	}
 
-	
+	/**
+	 * Retrieves new datapoints from the map and ensures that only {@code MAX_DATA_POINTS}-many
+	 * points are showing in the charts.
+	 */
 	void updateCharts() {
 		
 		Map map = SimulationController.getInstance().getMap();
@@ -280,19 +286,7 @@ public class ControlsController implements Initializable {
         }   
 	}
 	
-    public Color getCarColor() {
-    	return carcolorPicker.getValue();
-    }
-    
-    public Color getTruckColor() {
-    	return truckcolorPicker.getValue();
-    }
-    
-    public void setAmbulanceButtonDisabled(boolean b) {
-    	spawnAmbulanceButton.disableProperty().setValue(b);
-    }
-    
-    /**
+	/**
      * Resets all chart data.
      */
     public void resetCharts() {
@@ -317,5 +311,21 @@ public class ControlsController implements Initializable {
     	cartruckratioSlider.setValue(0.7d);
     	recklessnormalSlider.setValue(0.3d);
     }
-
+    
+	
+	/*
+	 * Getter & Setter
+	 */
+	
+    public Color getCarColor() {
+    	return carcolorPicker.getValue();
+    }
+    
+    public Color getTruckColor() {
+    	return truckcolorPicker.getValue();
+    }
+    
+    public void setAmbulanceButtonDisabled(boolean b) {
+    	spawnAmbulanceButton.disableProperty().setValue(b);
+    }
 }

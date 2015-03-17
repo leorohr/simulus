@@ -2,6 +2,9 @@ package com.simulus.util;
 
 import javafx.scene.image.Image;
 
+/**
+ * Provides a central access point to all resources used when rendering the simulation or the editor.
+ */
 public class ResourceBuilder {
 
     private static Image EWLaneTexture = new Image(ResourceBuilder.class.getResource("/resources/roadtile_eastwest.png").toString());

@@ -11,6 +11,10 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.enums.Direction;
 
+/**
+ * A composition of an {@link com.simulus.view.vehicles.AreaOfEffect}
+ * and an {@link com.simulus.view.vehicles.EmergencyCar}. 
+ */
 public class Ambulance extends Group {
 	
 	private boolean isColoured = false;
@@ -19,6 +23,12 @@ public class Ambulance extends Group {
 	
 	public static double AoERadius = 100;
 
+	/**
+	 * @param posX {@link Car#Car(double, double, Direction)}
+	 * @param posY {@link Car#Car(double, double, Direction)}
+	 * @param dir {@link Car#Car(double, double, Direction)}
+	 * @see com.simulus.view.vehicles.Car#Car(double, double, Direction)
+	 */
 	public Ambulance(double posX, double posY, Direction dir) {
 		frame = new EmergencyCar(posX, posY, dir);
 		AoE = new AreaOfEffect(frame.getX() + frame.getWidth()/2, frame.getY() + frame.getHeight()/2, AoERadius, this);
@@ -45,6 +55,9 @@ public class Ambulance extends Group {
 		
 	}
 	
+	/**
+	 * Runs a transition to make the colour of the ambulance pulsate blue and yellow.
+	 */
 	public void changeColour(){
 		FillTransition fill = new FillTransition(Duration.millis(300));
 		ParallelTransition transition;
@@ -60,6 +73,17 @@ public class Ambulance extends Group {
 			isColoured = false;
 		}
 	}
+
+	/**
+	 * Removes the ambulance from the simulation
+	 */
+	public void remove(){
+		MainApp.getInstance().getCanvas().getChildren().remove(this);
+	}
+	
+	/*
+	 * Getters & Setters
+	 */
 	
 	public void updateAoE(){
 		AoE.updatePosition();
@@ -72,7 +96,5 @@ public class Ambulance extends Group {
 	public Circle getAoE(){
 		return AoE;
 	}
-	public void remove(){
-		MainApp.getInstance().getCanvas().getChildren().remove(this);
-	}
+
 }
