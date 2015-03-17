@@ -10,15 +10,9 @@ Start Button Clicked: true
 
 Initialising Test1...
  
-The current Tick time is: 50.0
- 
-The current Spawn rate is: 5.0
- 
 Test 1 completed!
  
 Test scenario 1 passed: true
- 
-
  
 Initialising Test2...
  

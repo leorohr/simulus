@@ -1,18 +1,17 @@
-package com.simulus.test;
+package com.simulus.test.model;
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.test.TestCaseBaseCode;
 
 /**
- * This TestCase tests the Controller settings on Max car speed
+ * Test case: tests the Controller settings on Tick Rate and Spawn Delay
  *
  */
-
-public class TestCase7 extends TestCaseBaseCode {
+public class SetNewSpawnDelay extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;
 	private boolean test2Pass = false;
@@ -21,12 +20,11 @@ public class TestCase7 extends TestCaseBaseCode {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-
 		appThread.launchApp();
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase7.txt", true);
+		writeToFile("test/com/simulus/result/SetNewSpawnDelay.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 
@@ -41,15 +39,9 @@ public class TestCase7 extends TestCaseBaseCode {
 	}
 
 
-	@Before
-	public void setUp() throws Exception {
-		Thread.sleep(4000); 
-
-	}
-
 	@After
 	public void tearDown() throws Exception {
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 	}
 
 
@@ -62,6 +54,8 @@ public class TestCase7 extends TestCaseBaseCode {
 			public void run() {
 
 				scene = new SceneDock();
+
+
 
 				clickButton("Start"); 
 
@@ -80,46 +74,54 @@ public class TestCase7 extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				appThread.measureVihecleSpeed();
+				double spawnRate = SimulationController.getInstance().getSpawnRate();
 
-				test1Pass = true;
+				writeToLog("The current Spawn rate is: "+ spawnRate );
 
+				if(spawnRate == 5.0){
+					test1Pass = true;
+				}
+				else{
+					test1Pass = false;
+					writeToLog("The default Spawn rate is not equal to 5. Test Fail!");
+				}
 				writeToLog("Test 1 completed!");
 
 			}
 		});
-
-		Thread.sleep(5000);
+		
+		Thread.sleep(3000);
 		isTestPassed(test1Pass, 1);
 	}
 
+
+	/**
+	 * Run comparison of spawn rate against the Controller
+	 * @throws InterruptedException
+	 */
 	@Test
 	public void test2() throws InterruptedException{
+
 		executor.execute(new Runnable() {
 
 			@Override
 			public void run() {
-				
 				writeToLog("Initialising Test2...");
 
-				for (int i = 0; i< appThread.vihecleSpeed.size(); i++){
-					writeToLog("Vihecle " + i + " speed is: " + appThread.vihecleSpeed.get(i));
+				SimulationController.getInstance().setSpawnRate(1);
 
-					if (appThread.vihecleSpeed.get(i) > 
-					SimulationController.getInstance().getMaxCarSpeed()){
-						test2Pass = false;
-					}
-					else{
-						test2Pass = true;
-					}
+				double spawnRate = SimulationController.getInstance().getSpawnRate();
+
+				if (spawnRate !=1){
+					writeToLog("Spawn rate has not been changed correctly to 1. Test Fail!");
 				}
-				writeToLog("Test2 completed!");
-
-
+				else{
+					test2Pass = true;
+				}
+				writeToLog("Test 2 completed!");
 			}
 		});
-		
-		Thread.sleep(5000);
+		Thread.sleep(4000);
 		isTestPassed(test2Pass, 2);
 	}
 

@@ -46,8 +46,12 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				tiles[i][j] = new IntersectionTile((xPos+i)*tileSize, (yPos+j)*tileSize, tileSize, tileSize, xPos+i, yPos+j);
 				tiles[i][j].getFrame().setFill(new ImagePattern(ResourceBuilder.getBoxjunctionTexture()));
 				
+				((IntersectionTile) tiles[i][j]).setIntersection(this);
+				
 				this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}
+			
+			
 		}
 		
 	}

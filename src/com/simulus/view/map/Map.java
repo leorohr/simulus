@@ -564,6 +564,10 @@ public class Map extends Group {
     	
 		MapXML loader = new MapXML();
 		loader.readXML(mapFile.toPath().toString());
+		
+		//Update grid and tilesize
+		Configuration.setGridSize(loader.numOfTiles);
+		tileSize = Configuration.getTileSize();
 		tiles = loader.getTileGrid();
 
 		boolean[][] checked = new boolean[tiles.length][tiles[0].length];

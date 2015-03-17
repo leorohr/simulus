@@ -12,6 +12,11 @@ import com.simulus.view.vehicles.Vehicle;
 import javafx.application.Application;
 import javafx.application.Platform;
 
+
+/**
+ * This Class launches the Startup class in a thread
+ *
+ */
 public class LaunchApp {
 
 	private Thread appThread;
@@ -20,8 +25,6 @@ public class LaunchApp {
 	boolean isAlive = false;
 	boolean isInterrupted = false;
 	ArrayList<Double> vihecleSpeed = new ArrayList<>();
-
-
 
 	public void launchApp(){
 
@@ -36,7 +39,8 @@ public class LaunchApp {
 		appThread.start();
 	}
 
-
+	
+	
 	public Thread threadStatus(String threadName) {
 
 		for(Thread allThread : Thread.getAllStackTraces().keySet()){
@@ -144,6 +148,13 @@ public class LaunchApp {
 
 	}
 
+	public ArrayList<Double> getVehicleSpeed(){
+		return vihecleSpeed;
+	}
 
+	public boolean getIsAlive(){
+		return isAlive;
+	}
+	
 
 }

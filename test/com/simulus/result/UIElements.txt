@@ -18,6 +18,22 @@ Test 1 completed!
  
 Test scenario 1 passed: true
  
+Initialising Test2...
+ 
+Debug CheckBox Detected 
+
+Debug CheckBox Clicked: true
+
+Debug CheckBox Detected 
+
+Debug CheckBox Clicked: true
+
+Debug mode is cleared
+ 
+Test2` completed!
+ 
+Test scenario 2 passed: true
+ 
 Initialising Test3...
  
 Reset Button Detected 

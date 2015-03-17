@@ -54,7 +54,7 @@ public class EditorApp extends Application {
 	private Map editorMap;
 	private int gridSize = Configuration.getGridSize();
 	private int tileSize = Configuration.getTileSize();
-	private boolean mapValidated;
+	//private boolean mapValidated;
 	private Scene scene;
 
 	private Image csrRoadEW = ResourceBuilder.getEWLaneCursor();
@@ -75,9 +75,9 @@ public class EditorApp extends Application {
 	private boolean roadHorizontalSelected = false;
 	private boolean interSelected = false;
 
-	int xFixed;
-	int yFixed;
-	boolean firstDrag = true;
+	private int xFixed;
+	private int yFixed;
+	private boolean firstDrag = true;
 
 	FileChooser fileChooser = new FileChooser();
 	FileChooser.ExtensionFilter extFilter;
@@ -435,11 +435,7 @@ public class EditorApp extends Application {
 			saveMapDialog();
 			break;
 		case "clearMapButton":
-			this.editorMap = new Map();
-			ECC.setMapName("");
-			ECC.setMapDate("");
-			ECC.setMapDesc("");
-			ECC.setMapAuthor("");
+			clearMap();
 			break;
 		case "validateMapButton":
 			validateMap();
@@ -447,6 +443,14 @@ public class EditorApp extends Application {
 		default:
 			break;
 		}
+	}
+	
+	public void clearMap(){
+		this.editorMap = new Map();
+		ECC.setMapName("");
+		ECC.setMapDate("");
+		ECC.setMapDesc("");
+		ECC.setMapAuthor("");
 	}
 	
 	public void validationFailDialog(){
@@ -546,7 +550,7 @@ public class EditorApp extends Application {
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
 		ECC.setMapAuthor(mxml.mapAuthor);
-		//ECC.setGridSize(60);
+		ECC.setGridSize(mxml.numOfTiles);
 		//editorMap.setTiles(mxml.getTileGrid());
 		//editorMap.drawMap(canvas);
 		editorMap.loadEditorMap(new File(fileLocation));
@@ -558,7 +562,7 @@ public class EditorApp extends Application {
 		Date date = new Date();
 	
 		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
-				ECC.getMapDesc(), ECC.getMapAuthor(), 800, 40, validateMap());
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, Configuration.getGridSize(), validateMap());
 
 	}
 
@@ -897,6 +901,10 @@ public class EditorApp extends Application {
 
 	public Stage getPrimaryStage() {
 		return editorStage;
+	}
+	
+	public BorderPane getRootLayout(){
+		return rootLayout;
 	}
 
 	public static void main(String[] args) {

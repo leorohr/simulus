@@ -9,8 +9,8 @@ public class Configuration {
 	
 	/**	Size of the canvas in px */
 	public static final int CANVAS_SIZE = 800;
-	/** Number of rows/columns; default 40 */
-	private static int gridSize = 40; 
+	/** Number of rows/columns; default 60 */
+	private static int gridSize = 60; 
 	/** Size of one tile in pixel */
 	private static int tileSize = CANVAS_SIZE/gridSize;
 	

@@ -1,4 +1,4 @@
-package com.simulus.test;
+package com.simulus.test.model;
 
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
@@ -7,14 +7,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.simulus.controller.SimulationController;
+import com.simulus.test.TestCaseBaseCode;
 
 
 /**
- * This TestCase tests on car truck ratio
+ * Test case: tests on Normal Reckless Cars ratio
  * 
  * 
  */
-public class TestCase9 extends TestCaseBaseCode{
+public class NormalRecklessRatio extends TestCaseBaseCode{
 
 	private boolean test1Pass = false;
 
@@ -33,7 +34,7 @@ public class TestCase9 extends TestCaseBaseCode{
 		Thread.sleep(1000);
 		scene = new SceneDock();
 
-		writeToFile("test/com/simulus/result/TestCase9.txt", true);
+		writeToFile("test/com/simulus/result/NormalRecklessRatio.txt", true);
 		writeLog.flush();
 		writeLog.WriteToLog("FX App thread started \n");
 

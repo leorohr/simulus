@@ -1,24 +1,3 @@
-/*
- * @(#) LanuchScenicView.java 
- * 
- * Copyright (c) 2015 Team Simulus at King's College London. All Rights Reserved. 
- * 
- * This software is the confidential and proprietary of Team Simulus 
- * 7CCSMGPR Group Project(14~15 SEM2 1) at King's College London. 
- * You shall not disclose such confidential information and shall use it only in accordance 
- * with the agreement and regulation set by Simulus and the Department of Informatics at King's College London . 
- * 
- * The software is set to be reviewed by module coordinator of 7CCSMGPR Group Project(14~15 SEM2)
- * 
- */
-
-/* 
- * VERSION HISTORY:
- * 
- * 1.00 01/03/2015 Initial Version  
- */
-
-
 package com.simulus.test;
 
 import javafx.geometry.Insets;
@@ -62,7 +41,6 @@ public class LaunchScenicView extends Startup {
 		simBtn.setOnAction((event) -> {
 			MainApp app = new MainApp();
 			app.start(primaryStage);
-			ScenicView.show(app.getInstance().getRootLayout());  
 		});
 		
 		Button editorBtn = new Button("Editor");
@@ -70,6 +48,7 @@ public class LaunchScenicView extends Startup {
 		editorBtn.setOnAction((event) -> {
 			EditorApp app = new EditorApp();
 			app.start(primaryStage);
+			ScenicView.show(EditorApp.getInstance().getRootLayout());
 		});
 		
 		HBox btnBox = new HBox(simBtn, editorBtn);

@@ -18,11 +18,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
+import com.simulus.util.Configuration;
 
 public class EditorControlsController implements Initializable {
 
@@ -52,6 +54,10 @@ public class EditorControlsController implements Initializable {
 	Button validateMapButton;
 	@FXML
 	Button simulateButton;
+	@FXML
+	Button gridIncButton;
+	@FXML
+	Label gridSizeLabel;
 	@FXML
 	TextField nameTextField;
 	@FXML
@@ -111,6 +117,7 @@ public class EditorControlsController implements Initializable {
 
 		openMapButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
+			populateMapList();
 		});
 		
 		validateMapButton.setOnAction((event) -> {
@@ -147,8 +154,8 @@ public class EditorControlsController implements Initializable {
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() != ButtonType.OK)
         		return;
-        
 			try {
+				populateMapList();
 				EditorApp.getInstance().selectButton((Button) event.getSource());
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -163,6 +170,34 @@ public class EditorControlsController implements Initializable {
                 openWebpage("http://github.com/leorohr/simulus");
             }
         });
+		
+		gridIncButton.setOnAction((event) -> {
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+        	alert.setTitle("Grid Size");
+        	alert.setHeaderText("Altering grid size will clear the current map!");
+        	alert.setContentText("Continue?");
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if(result.get() == ButtonType.OK){
+    			switch(getGridSize()){
+    			case 40:
+    				setGridSize(60);
+    				Configuration.setGridSize(60);
+    			break;
+    			case 60:
+    				setGridSize(80);
+    				Configuration.setGridSize(80);
+    			break;
+    			case 80:
+    				setGridSize(40);
+    				Configuration.setGridSize(40);
+    			break;
+    			}
+    			populateMapList();
+    			EditorApp.getInstance().clearMap();
+        	}
+		});
 		
 		simulateButton.setOnAction((event) -> {
 			
@@ -221,7 +256,6 @@ public class EditorControlsController implements Initializable {
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() == ButtonType.OK && mapListCB.getSelectionModel().getSelectedIndex() < matchingFiles.length
         			&& mapListCB.getSelectionModel().getSelectedIndex() >= 0)
-        		
         		try{
         			String filePath = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()].getPath();
         			EditorApp.getInstance().loadMap(filePath); 
@@ -343,6 +377,36 @@ public class EditorControlsController implements Initializable {
     	Optional<ButtonType> result = alert.showAndWait();
     	if(result.get() != ButtonType.OK)
     		return;
+	}
+	
+	public int getGridSize(){
+		int value = 60;
+		switch(gridSizeLabel.getText()){
+		case "40 x 40":
+			value = 40;
+			break;
+		case "60 x 60":
+			value = 60;
+			break;
+		case "80 x 80":
+			value = 80;
+			break;
+		}
+		return value;
+	}
+	
+	public void setGridSize(int size){
+		switch(size){
+		case 40:
+			gridSizeLabel.setText("40 x 40");
+		break;
+		case 60:
+			gridSizeLabel.setText("60 x 60");
+		break;
+		case 80:
+			gridSizeLabel.setText("80 x 80");
+		break;
+		}
 	}
 	
 	
