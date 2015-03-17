@@ -1,6 +1,8 @@
 package com.simulus;
 
 
+import com.simulus.util.ResourceBuilder;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,7 +32,7 @@ public class Startup extends Application {
 		this.primaryStage.setTitle("Simulus");
 		this.primaryStage.setResizable(false);
 		
-		ImageView img = new ImageView(Startup.class.getResource("/resources/simulus.png").toString());
+		ImageView img = new ImageView(ResourceBuilder.getLogoSmall());
 		Button simBtn = new Button("Simulator");
 		simBtn.setPrefSize(100.0d, 50.0d);
 		simBtn.setOnAction((event) -> {

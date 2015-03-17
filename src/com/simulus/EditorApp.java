@@ -479,7 +479,7 @@ public class EditorApp extends Application {
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
-		fileChooser.setInitialDirectory(new File(EditorApp.class.getResource("/resources/maps").getPath()));
+		fileChooser.setInitialDirectory(new File("resources/maps"));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());	
@@ -598,7 +598,6 @@ public class EditorApp extends Application {
 				} // while
 			} // Inner For
 		} // Outer For
-		System.out.println("System valid?:" + valid);
 		return valid;
 	}
 
@@ -741,7 +740,6 @@ public class EditorApp extends Application {
 						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
 						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
 						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					System.out.println("Exits 0-3 OK");
 					exitCount++;
 				}
 			}
@@ -758,7 +756,6 @@ public class EditorApp extends Application {
 						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
 						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
 						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					System.out.println("Exits 12-15 OK");
 					exitCount++;
 				}
 			}
@@ -775,7 +772,6 @@ public class EditorApp extends Application {
 						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
 						|| (((Lane) iExit).getDirection() == Direction.WEST &&
 						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					System.out.println("Exits 0,4,8,12 OK");
 					exitCount++;
 				}
 			}
@@ -792,7 +788,6 @@ public class EditorApp extends Application {
 						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
 						|| (((Lane) iExit).getDirection() == Direction.WEST &&
 						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					System.out.println("Exits 0,4,8,12 OK");
 					exitCount++;
 				}
 			}
@@ -802,7 +797,6 @@ public class EditorApp extends Application {
 			valid = false;
 		}
 
-		System.out.println(exitCount);
 		return valid;
 
 	}

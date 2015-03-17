@@ -7,39 +7,39 @@ import javafx.scene.image.Image;
  */
 public class ResourceBuilder {
 
-    private static Image EWLaneTexture = new Image(ResourceBuilder.class.getResource("/resources/roadtile_eastwest.png").toString());
-    private static Image NSLaneTexture = new Image(ResourceBuilder.class.getResource("/resources/roadtile_northsouth.png").toString());
-    private static Image doubleNSLaneTexture = new Image(ResourceBuilder.class.getResource("/resources/double_northsouth.png").toString());
-    private static Image doubleEWLaneTexture = new Image(ResourceBuilder.class.getResource("/resources/double_eastwest.png").toString());
-    private static Image landTexture = new Image(ResourceBuilder.class.getResource("/resources/land.png").toString());
-    private static Image dirtTexture= new Image(ResourceBuilder.class.getResource("/resources/dirt.png").toString());
-    private static Image grassTexture = new Image(ResourceBuilder.class.getResource("/resources/grass.png").toString());
-    private static Image blockTexture = new Image(ResourceBuilder.class.getResource("/resources/block.png").toString());
-    private static Image boxjunctionTexture = new Image(ResourceBuilder.class.getResource("/resources/boxjunction.png").toString());
-    private static Image waterTexture = new Image(ResourceBuilder.class.getResource("/resources/water.png").toString());
+    private static Image EWLaneTexture = new Image("/resources/roadtile_eastwest.png");
+    private static Image NSLaneTexture = new Image("/resources/roadtile_northsouth.png");
+    private static Image doubleNSLaneTexture = new Image("/resources/double_northsouth.png");
+    private static Image doubleEWLaneTexture = new Image("/resources/double_eastwest.png");
+    private static Image landTexture = new Image("/resources/land.png");
+    private static Image dirtTexture= new Image("/resources/dirt.png");
+    private static Image grassTexture = new Image("/resources/grass.png");
+    private static Image blockTexture = new Image("/resources/block.png");
+    private static Image boxjunctionTexture = new Image("/resources/boxjunction.png");
+    private static Image waterTexture = new Image("/resources/water.png");
     
-    private static Image blockCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_block.png").toString());
-    private static Image boxjunctionCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_boxjunction.png").toString());
-    private static Image waterCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_water.png").toString());
-    private static Image dirtCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_dirt.png").toString());
-    private static Image EWLaneCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_eastwest.png").toString());
-    private static Image NSLaneCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_northsouth.png").toString());
-    private static Image eraseCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_erase.png").toString());
-    private static Image grassCursor = new Image(ResourceBuilder.class.getResource("/resources/csr_grass.png").toString());
+    private static Image blockCursor = new Image("/resources/csr_block.png");
+    private static Image boxjunctionCursor = new Image("/resources/csr_boxjunction.png");
+    private static Image waterCursor = new Image("/resources/csr_water.png");
+    private static Image dirtCursor = new Image("/resources/csr_dirt.png");
+    private static Image EWLaneCursor = new Image("/resources/csr_eastwest.png");
+    private static Image NSLaneCursor = new Image("/resources/csr_northsouth.png");
+    private static Image eraseCursor = new Image("/resources/csr_erase.png");
+    private static Image grassCursor = new Image("/resources/csr_grass.png");
     
-    private static Image deleteIcon = new Image(ResourceBuilder.class.getResource("/resources/delete.png").toString());
-    private static Image disketteIcon = new Image(ResourceBuilder.class.getResource("/resources/diskette.png").toString());
-    private static Image resizeIcon = new Image(ResourceBuilder.class.getResource("/resources/resize_icon.png").toString());
-    private static Image eraseIcon = new Image(ResourceBuilder.class.getResource("/resources/erase.png").toString());
-    private static Image folderIcon = new Image(ResourceBuilder.class.getResource("/resources/folder.png").toString());
-    private static Image openIconSmall = new Image(ResourceBuilder.class.getResource("/resources/ic_open_sm.png").toString());
-    private static Image openIcon = new Image(ResourceBuilder.class.getResource("/resources/ic_open.png").toString());
-    private static Image saveIcon = new Image(ResourceBuilder.class.getResource("/resources/ic_save.png").toString());
-    private static Image saveIconSmall = new Image(ResourceBuilder.class.getResource("/resources/ic_save_sm.png").toString());
-    private static Image validateIcon = new Image(ResourceBuilder.class.getResource("/resources/validate.png").toString());
-    private static Image simulateIcon = new Image(ResourceBuilder.class.getResource("/resources/small_car.png").toString());
+    private static Image deleteIcon = new Image("/resources/delete.png");
+    private static Image disketteIcon = new Image("/resources/diskette.png");
+    private static Image resizeIcon = new Image("/resources/resize_icon.png");
+    private static Image eraseIcon = new Image("/resources/erase.png");
+    private static Image folderIcon = new Image("/resources/folder.png");
+    private static Image openIconSmall = new Image("/resources/ic_open_sm.png");
+    private static Image openIcon = new Image("/resources/ic_open.png");
+    private static Image saveIcon = new Image("/resources/ic_save.png");
+    private static Image saveIconSmall = new Image("/resources/ic_save_sm.png");
+    private static Image validateIcon = new Image("/resources/validate.png");
+    private static Image simulateIcon = new Image("/resources/small_car.png");
     
-    private static Image logoSmall = new Image(ResourceBuilder.class.getResource("/resources/logo1_small.png").toString());
+    private static Image logoSmall = new Image("/resources/logo1_small.png");
 
 	public static Image getEWLaneTexture() {
 		return EWLaneTexture;

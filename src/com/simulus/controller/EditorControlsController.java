@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -20,11 +19,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
 import com.simulus.util.Configuration;
+import com.simulus.util.ResourceBuilder;
 
 public class EditorControlsController implements Initializable {
 
@@ -74,6 +75,8 @@ public class EditorControlsController implements Initializable {
 	Hyperlink simulusLink;
 	@FXML
 	Button helpButton;
+	@FXML
+	ImageView logoImg;
 	
 	File[] matchingFiles;
 
@@ -82,6 +85,7 @@ public class EditorControlsController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		logoImg.setImage(ResourceBuilder.getLogoSmall());
 		
 		grassButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
@@ -315,7 +319,8 @@ public class EditorControlsController implements Initializable {
 	private void populateMapList(){
 		
 		mapListCB.getItems().clear();
-		File f = new File(EditorControlsController.class.getResource("/resources/maps").getPath());
+		File f = new File("resources/maps");
+
 		matchingFiles = f.listFiles(new FilenameFilter() {
 		    public boolean accept(File dir, String name) {
 		        return name.endsWith("map");
