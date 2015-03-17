@@ -1,0 +1,16 @@
+team work
+-------------
+challenges moved to evaluation?
+
+
+future work
+-------------
+*could of had interactive map editing during simulation.
+
+
+conclusion/evaluation
+---------------
+check off all the points. what was achived (most things acheived) and what wasn't
+
+
+MVC mentioned anywhere?
