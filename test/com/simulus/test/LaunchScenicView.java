@@ -41,7 +41,6 @@ public class LaunchScenicView extends Startup {
 		simBtn.setOnAction((event) -> {
 			MainApp app = new MainApp();
 			app.start(primaryStage);
-			ScenicView.show(app.getInstance().getRootLayout());  
 		});
 		
 		Button editorBtn = new Button("Editor");
@@ -49,6 +48,7 @@ public class LaunchScenicView extends Startup {
 		editorBtn.setOnAction((event) -> {
 			EditorApp app = new EditorApp();
 			app.start(primaryStage);
+			ScenicView.show(EditorApp.getInstance().getRootLayout());
 		});
 		
 		HBox btnBox = new HBox(simBtn, editorBtn);

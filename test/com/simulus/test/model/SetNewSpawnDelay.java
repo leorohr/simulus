@@ -11,7 +11,6 @@ import com.simulus.test.TestCaseBaseCode;
  * Test case: tests the Controller settings on Tick Rate and Spawn Delay
  *
  */
-
 public class SetNewSpawnDelay extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;

@@ -902,6 +902,10 @@ public class EditorApp extends Application {
 	public Stage getPrimaryStage() {
 		return editorStage;
 	}
+	
+	public BorderPane getRootLayout(){
+		return rootLayout;
+	}
 
 	public static void main(String[] args) {
 		launch(args);

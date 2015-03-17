@@ -10,7 +10,7 @@ Test scenario 1 passed: true
  
 Initialising Test2...
  
-WEST
+NORTH
  
 Test scenario 1 passed: true
  
