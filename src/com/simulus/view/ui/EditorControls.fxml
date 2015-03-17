@@ -100,9 +100,8 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <ImageView id="logoImg" fx:id="logoImg" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="logoImg" fx:id="logoImg" fitHeight="43.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../resources/logo1_small.png" />
          </image>
       </ImageView>
       <Hyperlink id="simulusLink" fx:id="simulusLink" layoutX="5.0" layoutY="37.0" text="http://github.com/leorohr/simulus">

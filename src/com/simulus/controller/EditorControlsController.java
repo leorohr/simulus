@@ -270,7 +270,7 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		helpButton.setOnAction((event) -> {
-			File file = new File(EditorControlsController.class.getResource("/resources/editorTutorial.pdf").getPath());
+			File file = new File("/resources/editorTutorial.pdf");
             try {
 				Desktop.getDesktop().open(file);
 			} catch (Exception e) {

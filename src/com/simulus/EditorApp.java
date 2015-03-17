@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -18,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -458,7 +456,7 @@ public class EditorApp extends Application {
     	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
     	alert.setTitle("Map Validation Failed");
     	alert.setHeaderText("This map has not passed validation! \n It can be saved but cannot be used in the simulator.");
-    	Optional<ButtonType> result = alert.showAndWait();
+    	alert.showAndWait();
 	}
 	
 	public void validationPassDialog(){
@@ -466,7 +464,7 @@ public class EditorApp extends Application {
     	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
     	alert.setTitle("Map Validation Passed");
     	alert.setHeaderText("This map has passed validation! \n It can be saved and used in the simulator.");
-    	Optional<ButtonType> result = alert.showAndWait();
+    	alert.showAndWait();
 	}
 
 	public File saveMapDialog(){
@@ -492,7 +490,7 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Open Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialDirectory(new File(EditorApp.class.getResource("/resources/maps").getPath()));
+		fileChooser.setInitialDirectory(new File("resources/maps"));
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {
 			loadMap(selectedFile.getPath());

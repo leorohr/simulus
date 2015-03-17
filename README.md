@@ -3,18 +3,18 @@ Simulus is a university group project, aimed towards building a Java-based traff
 To build this project run the ant-file build.xml.
 
 ```
-ant -buildfile {PROJECT_ROOT}/
+ant -buildfile {project_root}/
 ``` 
-will build the project and create a runnable jar file in {PROJECT_ROOT}/deploy.
+will build the project, create a runnable jar file in {PROJECT_ROOT}/build and create the JavaDoc in {PROJECT_ROOT}/build/doc
 
 ```
-ant -buildfile {PROJECT_ROOT}/ javadoc
+ant -buildfile {project_root}/ javadoc
 ```
-creates the JavaDoc files in {PROJECT_ROOT}/deploy/doc
+only creates the JavaDoc files.
 
 ```
-ant -buildfile {PROJECT_ROOT}/ full_build
+ant -buildfile {project_root}/ jar
 ```
-runs both of these targets.
+only creats the executable file.
 
-Compiling the project requires JDK1.8U40
+Compiling the project requires JDK1.8U40 and your Ant's `java.home` to be set to the JDK8 home folder.

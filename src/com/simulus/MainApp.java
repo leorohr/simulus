@@ -115,7 +115,7 @@ public class MainApp extends Application {
 	private void showControls() {
 		try {
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("/com/simulus/view/ui/Controls.fxml"));
+			loader.setLocation(MainApp.class.getResource("view/ui/Controls.fxml"));
 			AnchorPane controls = loader.load();
 			rootLayout.setRight(controls);
             controlsController = loader.getController();

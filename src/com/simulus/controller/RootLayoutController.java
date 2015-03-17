@@ -34,6 +34,7 @@ import com.simulus.MainApp;
 import com.simulus.io.FileIO;
 import com.simulus.io.SimConfigXML;
 import com.simulus.util.Configuration;
+import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
 
 /**
@@ -70,14 +71,27 @@ public class RootLayoutController implements Initializable {
         closeMItem.setOnAction((event) -> Platform.exit());
 
         newMapMItem.setOnAction((event) ->{
-        	Stage editorStage = new Stage();
-            EditorApp editor = null;
-			try {
-				editor = EditorApp.class.newInstance();
+        	Alert alert = new Alert(AlertType.CONFIRMATION);
+        	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+        	alert.setTitle("Opening Editor");
+        	alert.setHeaderText("Opening the Editor will close the current simulation.");
+        	alert.setContentText("Continue?");
+        	Optional<ButtonType> result = alert.showAndWait();
+        	if(result.get() != ButtonType.OK)
+        		return;
+
+        	EditorApp editor = EditorApp.getInstance(); 
+        	if(editor == null)
+        		editor = new EditorApp();
+            editor.start(new Stage());
+            
+            try {
+				MainApp.getInstance().getPrimaryStage().close();
+				MainApp.getInstance().stop();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-            editor.start(editorStage);
+
         });
 
         /*
@@ -112,8 +126,7 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
-            fileChooser.setInitialFileName("CustomMap.map");
-            fileChooser.setInitialDirectory(new File(RootLayoutController.class.getResource("/resources/maps").getPath()));
+            fileChooser.setInitialDirectory(new File("resources/maps"));
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             if (selectedFile != null){
                 SimulationController.getInstance().getMap().loadMap(selectedFile); 
@@ -128,6 +141,7 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Map XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV File (*.csv)", "*.csv"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
             fileChooser.setInitialFileName("simStatExport.csv");
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             File sourceFile = Configuration.getTempStatsFile();
@@ -225,7 +239,7 @@ public class RootLayoutController implements Initializable {
             final Stage dialog = new Stage();
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.setResizable(false);
-            ImageView img = new ImageView(RootLayoutController.class.getResource("/resources/simulus.png").toString());
+            ImageView img = new ImageView(ResourceBuilder.getLogoSmall());
             img.setPreserveRatio(true);
             img.setFitHeight(75.0d);
             Label infoPanel = new Label("Simulus Traffic Simulation Ver. 0.1");
