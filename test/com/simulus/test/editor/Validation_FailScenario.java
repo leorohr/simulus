@@ -22,6 +22,10 @@ import com.simulus.test.TestCaseBaseCode;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
 
+/**
+ * {@code Validation_FailScenario } tests the functionality of validation
+ * when a map is constructed incorrectly
+ */
 public class Validation_FailScenario extends TestCaseBaseCode {
 
 	private boolean test1Pass;
@@ -32,8 +36,6 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 	private ArrayList<Lane> entryPoints = new ArrayList<>();
 	
 	private Tile[][] tiles = new Tile[Configuration.getGridSize()][Configuration.getGridSize()];
-
-
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -58,10 +60,12 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 
 	@After
 	public void tearDown() throws Exception {
-		Thread.sleep(3000);
+		Thread.sleep(2000);
 	}
 
-
+	/*
+	 * Add all the lanes as a group
+	 */
 	private void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
@@ -90,7 +94,9 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 		}
 	}
 
-
+	/*
+	 * Create a basic hash map 
+	 */
 	private void createHashStyleMap() {
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
@@ -99,7 +105,9 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 						tileSize, i, p);
 			}
 		}
-
+		//Construct the road from i position = 4 instead of 0
+		//No road is created at a boundary 
+		//Hence an invalid map
 		for (int i = 4; i < tiles.length; i++) {
 			addGroup(new Road(i, 7, Orientation.WESTEAST));
 			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
@@ -134,7 +142,7 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 			public void run() {
 				writeToLog("Initialising Test1...");
 
-				createHashStyleMap();
+				createHashStyleMap(); //Create the map
 
 				EditorApp.getInstance().getMap().setTiles(tiles);
 				EditorApp.getInstance().getMap().drawMap(EditorApp.getInstance().getCanvas());
@@ -158,7 +166,7 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 			@Override
 			public void run() {
 
-				boolean valid = EditorApp.getInstance().validateMap();
+				boolean valid = EditorApp.getInstance().validateMap(); //Validation should fail
 
 				if (valid == false){
 					test2Pass = true;
@@ -168,7 +176,7 @@ public class Validation_FailScenario extends TestCaseBaseCode {
 		});
 
 
-		Thread.sleep(4000);
+		Thread.sleep(3000);
 		isTestPassed(test2Pass, 2);
 
 	}

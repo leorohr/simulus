@@ -18,18 +18,17 @@ import com.simulus.Startup;
 import com.simulus.controller.SimulationController;
 
 /**
- * The Class launches the MainApp with ScenicView 
- * ScenicView is a framework to query UI elements 
+ * {@code LaunchScenicView} launches the Main with ScenicView.
+ * ScenicView is a framework used to query UI elements 
  *
  */
 public class LaunchScenicView extends Startup {
 
-	
-	
+
 	private Stage primaryStage;
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
+	public void start(Stage primaryStage) throws Exception { //Override start method
 
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Simulus");
@@ -66,13 +65,9 @@ public class LaunchScenicView extends Startup {
 	 
 	}
 
-
 	public static void main(String[] args) {
 
 		launch(args);
-		
-
-
 	}
 
 

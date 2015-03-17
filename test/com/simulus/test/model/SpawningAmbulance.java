@@ -8,7 +8,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.test.TestCaseBaseCode;
 
 /**
- *Test Case: tests the UI of spawning a Ambulance car
+ *{@code SpawningAmbulance} tests the UI of spawning a Ambulance car
  * 
  *
  */
@@ -96,7 +96,7 @@ public class SpawningAmbulance extends TestCaseBaseCode {
 			public void run() {
 				writeToLog("Initialising Test2...");
 
-				if(appThread.AmbulanceIsSpawnedOnMap()){
+				if(AmbulanceIsSpawnedOnMap()){
 					test2Pass = true;
 				}
 				writeToLog("Test 2 completed!");
@@ -123,7 +123,7 @@ public class SpawningAmbulance extends TestCaseBaseCode {
 				count = SimulationController.getInstance().getAmbulanceCount();
 
 				if (count == 1){
-					appThread.removeEmergencyCar();
+					removeEmergencyCar();
 					count--;
 
 				}

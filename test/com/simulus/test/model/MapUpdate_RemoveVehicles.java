@@ -11,7 +11,7 @@ import com.simulus.test.TestCaseBaseCode;
 import com.simulus.view.vehicles.Vehicle;
 
 /**
- * Test case: MapUpdate on Remove Vehicles
+ * {@code MapUpdate_RemoveVehicles} tests map update on Remove Vehicles
  *
  */
 
@@ -60,7 +60,7 @@ public class MapUpdate_RemoveVehicles extends TestCaseBaseCode {
 			@Override
 			public void run() {
 
-				scene = new SceneDock();
+				scene = new SceneDock(); 
 				SimulationController.getInstance().setTickTime(20);
 				SimulationController.getInstance().setMaxCarSpeed(120);
 

@@ -17,7 +17,7 @@ import com.simulus.view.vehicles.Vehicle;
 
 
 /**
- * Test on the UI elements -
+ * {@code UIElements} Test on the UI elements -
  * Button: start and reset,
  * CheckBox: debug 
  */
@@ -73,7 +73,7 @@ public class UIElements extends TestCaseBaseCode {
 				clickButton("Start"); 
 				checkThreadStatus("animationThread");
 
-				if(appThread.getIsAlive() == true){
+				if(getIsAlive() == true){
 					test1Pass = true;
 					writeToLog("thread status is alive.");
 				}
@@ -134,7 +134,7 @@ public class UIElements extends TestCaseBaseCode {
 				selectCheckBox("Debug");
 				
 
-				if (appThread.debugBoxSelected() == false){
+				if (debugBoxSelected() == false){
 					writeToLog("Debug mode is cleared");
 					test2Pass = true;	
 				}
@@ -161,7 +161,7 @@ public class UIElements extends TestCaseBaseCode {
 				clickButton("Reset"); 
 				checkThreadStatus("animationThread");
 
-				if(appThread.getIsAlive() == true){
+				if(getIsAlive() == true){
 					test3Pass = true;
 					writeToLog("thread status is reseted.");
 				}

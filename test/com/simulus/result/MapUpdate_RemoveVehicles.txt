@@ -18,5 +18,7 @@ Initialising Test2...
  
 Test 2 completed!
  
-Test scenario 2 passed: true
+Test scenario 2 passed: false
+ 
+Test scenario 2 Failed.
  

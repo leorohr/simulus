@@ -22,6 +22,10 @@ import com.simulus.test.TestCaseBaseCode;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
 
+/**
+ * {@code Validation}  tests the functionality of validation
+ * when a map is constructed correctly
+ */
 public class Validation extends TestCaseBaseCode {
 
 	private boolean test1Pass;
@@ -59,7 +63,9 @@ public class Validation extends TestCaseBaseCode {
 		Thread.sleep(3000);
 	}
 
-
+	/*
+	 * Add all the lanes as a group
+	 */
 	private void addGroup(TileGroup g) {
 
 		List<Tile> l = g.getTiles();
@@ -88,7 +94,9 @@ public class Validation extends TestCaseBaseCode {
 		}
 	}
 
-
+	/*
+	 * Create a basic hash map 
+	 */
 	private void createHashStyleMap() {
 		// init all tiles
 		for (int i = 0; i < tiles.length; i++) {
@@ -97,7 +105,9 @@ public class Validation extends TestCaseBaseCode {
 						tileSize, i, p);
 			}
 		}
-
+		//Construct the road from i position = 0
+		//Road is created at a boundary 
+		//Hence an valid map
 		for (int i = 0; i < tiles.length; i++) {
 			addGroup(new Road(i, 7, Orientation.WESTEAST));
 			addGroup(new Road(7, i, Orientation.NORTHSOUTH));
@@ -139,6 +149,8 @@ public class Validation extends TestCaseBaseCode {
 
 				test1Pass = true;
 				writeToLog("Test 1 Completed");
+				EditorApp.getInstance().getMap().drawMap(EditorApp.getInstance().getCanvas());
+
 			}
 		});
 
@@ -156,7 +168,7 @@ public class Validation extends TestCaseBaseCode {
 			@Override
 			public void run() {
 
-				boolean valid = EditorApp.getInstance().validateMap();
+				boolean valid = EditorApp.getInstance().validateMap(); //Validation should pass
 
 				if (valid == true){
 					test2Pass = true;

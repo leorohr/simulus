@@ -5,6 +5,11 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
+
+/**
+ * {@code WriteLog} is a standard way to write to a file
+ * 
+ */
 public class WriteLog {
 	
 	private String filePath;
@@ -21,7 +26,7 @@ public class WriteLog {
 	/**
 	 * 
 	 * @param filePath File PATH
-	 * @param append_to_file whether to write log to existing file
+	 * @param append_to_file Boolean whether to write log to existing file
 	 */
 	public WriteLog(String filePath, boolean append_to_file){
 		this.filePath = filePath;
@@ -29,18 +34,25 @@ public class WriteLog {
 		
 	}
 	
+	/**
+	 * Write log to a file 
+	 * @param text String message to be logged
+	 * @throws IOException
+	 */
 	public void WriteToLog(String text) throws IOException {
 		FileWriter write = new FileWriter (filePath, append_to_file);
 		
-		
 		PrintWriter printLine = new PrintWriter(write);
-		
+	
 		printLine.printf("%s" + "%n", text);
 		
 		printLine.close();
 		
 	}
 	
+	/**
+	 * Clear an existing file 
+	 */
 	public void flush(){
 		PrintWriter writer;
 		try {

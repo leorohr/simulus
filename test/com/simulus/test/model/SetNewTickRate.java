@@ -8,7 +8,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.test.TestCaseBaseCode;
 
 /**
- * Test case: tests the Controller settings on Tick Rate and Spawn Delay
+ * {@code SetNewTickRate} tests the Controller settings on Tick Rate and Spawn Delay
  *
  */
 
@@ -55,9 +55,6 @@ public class SetNewTickRate extends TestCaseBaseCode {
 			public void run() {
 
 				scene = new SceneDock();
-
-
-
 				clickButton("Start"); 
 
 			}

@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.simulus.test.TestCaseBaseCode;
 
 /**
- * Test case: Check if there are vehicles spawned on the map
+ *{@code SpawningVihecles} tests on checking there are vehicles spawned on the map
  *
  *
  */
@@ -74,12 +74,12 @@ public class SpawningVihecles extends TestCaseBaseCode  {
 
 				writeToLog("Initialising Test1...");
 
-				if (appThread.carIsSpawnedOnMap()){
+				if (carIsSpawnedOnMap()){
 					test1Pass = true;
-					writeToLog(" Cars detected on the map: " + appThread.carIsSpawnedOnMap() );
+					writeToLog(" Cars detected on the map: " + carIsSpawnedOnMap() );
 				}
 				else{
-					writeToLog(" Cars detected on the Map: " + appThread.truckIsSpawnedOnMap() );
+					writeToLog(" Cars detected on the Map: " + truckIsSpawnedOnMap() );
 				}
 				writeToLog("Test1 completed!");
 			}
@@ -105,13 +105,13 @@ public class SpawningVihecles extends TestCaseBaseCode  {
 
 				writeToLog("Initialising Test2...");
 
-				if (appThread.truckIsSpawnedOnMap()){
+				if (truckIsSpawnedOnMap()){
 					test2Pass = true;
-					writeToLog(" Trucks detected on Map: " + appThread.truckIsSpawnedOnMap() );
+					writeToLog(" Trucks detected on Map: " + truckIsSpawnedOnMap() );
 
 				}
 				else{
-					writeToLog(" Trucks detected on map: " + appThread.truckIsSpawnedOnMap() );
+					writeToLog(" Trucks detected on map: " + truckIsSpawnedOnMap() );
 					test2Pass = false;
 
 				}

@@ -11,7 +11,7 @@ import com.simulus.test.TestCaseBaseCode;
 
 
 /**
- * Test case: tests on Normal Reckless Cars ratio
+ *{@code NormalRecklessRatio} tests on Normal Reckless Cars ratio
  * 
  * 
  */

@@ -11,7 +11,7 @@ import com.simulus.test.TestCaseBaseCode;
 
 
 /**
- *Test case: Car Truck Ratio
+ * {@code CarTruckRatio} tests Car Truck Ratio
  * 
  * 
  */

@@ -9,7 +9,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.test.TestCaseBaseCode;
 
 /**
- * Test case: tests the Controller settings on Max car speed
+ *{@code MaxCarSpeed} tests the Controller settings on Max car speed
  *
  */
 
@@ -81,7 +81,7 @@ public class MaxCarSpeed extends TestCaseBaseCode {
 
 				writeToLog("Initialising Test1...");
 
-				appThread.measureVihecleSpeed();
+				getAllVihecleSpeed();
 
 				test1Pass = true;
 
@@ -100,13 +100,13 @@ public class MaxCarSpeed extends TestCaseBaseCode {
 
 			@Override
 			public void run() {
-				
+
 				writeToLog("Initialising Test2...");
 
-				for (int i = 0; i< appThread.getVehicleSpeed().size(); i++){
-					writeToLog("Vihecle " + i + " speed is: " + appThread.getVehicleSpeed().get(i));
+				for (int i = 0; i< getVehicleSpeed().size(); i++){
+					writeToLog("Vihecle " + i + " speed is: " + getVehicleSpeed().get(i));
 
-					if (appThread.getVehicleSpeed().get(i) > 
+					if (getVehicleSpeed().get(i) > 
 					SimulationController.getInstance().getMaxCarSpeed()){
 						test2Pass = false;
 					}
@@ -119,7 +119,7 @@ public class MaxCarSpeed extends TestCaseBaseCode {
 
 			}
 		});
-		
+
 		Thread.sleep(5000);
 		isTestPassed(test2Pass, 2);
 	}

@@ -8,10 +8,9 @@ import com.simulus.controller.SimulationController;
 import com.simulus.test.TestCaseBaseCode;
 
 /**
- * Test case: tests the Controller settings on Max.no. of cars spawned on map
+ * {@code SetNewMaxCar} tests the Controller settings on max. no. of cars spawned on map
  *
  */
-
 public class SetNewMaxCar extends TestCaseBaseCode {
 
 	private boolean test1Pass = false;

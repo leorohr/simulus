@@ -4,9 +4,3 @@ Editor Button Detected
 
 Editor Button Clicked: true
 
-Initialising Test1...
- 
-Test 1 Completed
- 
-Test scenario 1 passed: true
- 

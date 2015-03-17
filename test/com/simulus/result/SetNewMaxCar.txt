@@ -10,7 +10,7 @@ Start Button Clicked: true
 
 Initialising Test1...
  
-Current no of cars on the map: 21
+Current no of cars on the map: 23
  
 Max no of car on the map: 25
  

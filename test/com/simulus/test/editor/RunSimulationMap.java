@@ -19,13 +19,19 @@ import com.simulus.controller.SimulationController;
 import com.simulus.test.TestCaseBaseCode;
 import com.simulus.view.Tile;
 
+/**
+ * {@code RunSimulationMap} tests running simulation after map is loaded from the map editor
+ * @author Jerry
+ *
+ */
 public class RunSimulationMap extends TestCaseBaseCode {
 	
 	private boolean test1Pass;
 	private boolean test2Pass;
 	private boolean test3Pass;
 	
-	File mapFile = new File(EditorControlsController.class.getResource("/resources/maps/Junctions.map").getPath());
+	File mapFile = new File("resources/maps/Junctions.map");
+	String file = "resources/maps/Junctions.map";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -65,8 +71,7 @@ public class RunSimulationMap extends TestCaseBaseCode {
 				writeToLog("Initialising Test1...");
 				Tile[][] mapTiles = EditorApp.getInstance().getMap().getTiles();
 				
-				
-			EditorApp.getInstance().loadMap(EditorControlsController.class.getResource("/resources/maps/Junctions.map").getPath());
+			EditorApp.getInstance().loadMap(file);
 			
 			Tile[][] newMapTiles = EditorApp.getInstance().getMap().getTiles();
 			
@@ -138,11 +143,11 @@ public class RunSimulationMap extends TestCaseBaseCode {
 			@Override
 			public void run() {
 	
-				clickButton("Start");
+				clickButton("Start"); //Check thread is running 
 				
 				checkThreadStatus("animationThread");
 
-				if(appThread.getIsAlive() == true){
+				if(getIsAlive() == true){
 					test3Pass = true;
 					writeToLog("thread status is alive.");
 				}

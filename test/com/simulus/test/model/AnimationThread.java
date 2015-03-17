@@ -1,7 +1,5 @@
 package com.simulus.test.model;
 
-import javafx.application.Platform;
-
 import org.jemmy.fx.SceneDock;
 import org.junit.After;
 import org.junit.BeforeClass;
@@ -12,7 +10,7 @@ import com.simulus.test.TestCaseBaseCode;
 
 
 /**
- * Test case: execution of AnimationThread and detect its presence 
+ * {@code AnimationThread} tests execution of AnimationThread and detect its presence 
  */
 public class AnimationThread extends TestCaseBaseCode {
 

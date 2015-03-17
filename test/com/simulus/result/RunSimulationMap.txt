@@ -4,3 +4,27 @@ Editor Button Detected
 
 Editor Button Clicked: true
 
+Initialising Test1...
+ 
+New Map loaded.
+ 
+Test 1 Completed
+ 
+Test scenario 1 passed: true
+ 
+Initialising Test2...
+ 
+Test 2 Completed
+ 
+Test scenario 2 passed: true
+ 
+Start Button Detected 
+
+Start Button Clicked: true
+
+animationThread found: true
+ 
+thread status is alive.
+ 
+Test scenario 3 passed: true
+ 

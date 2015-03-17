@@ -15,7 +15,7 @@ import com.simulus.view.vehicles.Car;
 import com.simulus.view.vehicles.Vehicle;
 
 /**
- * Test case: Vehicle's movement - move forward  
+ *{@code MoveVehicle} tests Vehicle's movement - move forward  
  */
 public class MoveVehicle extends TestCaseBaseCode {
 
@@ -64,8 +64,8 @@ public class MoveVehicle extends TestCaseBaseCode {
 			@Override
 			public void run() {
 				writeToLog("Initialising Test1...");
-
-				SimulationController.getInstance().getMap().spawnRandomCar(behaviour);
+				
+				SimulationController.getInstance().getMap().spawnRandomCar(behaviour); //Spawn a car with a behaviour
 				writeToLog("A car is spanwed.");
 				test1Pass = true;
 				writeToLog("Test 1 completed!");
@@ -131,7 +131,7 @@ public class MoveVehicle extends TestCaseBaseCode {
 					}
 				}
 
-				if(vehiclePostion != afterMovePosition){
+				if(vehiclePostion != afterMovePosition){ //Pass condition
 					test3Pass= true;
 					writeToLog("Test 3 completed!");
 				}
