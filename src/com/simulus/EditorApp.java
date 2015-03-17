@@ -900,7 +900,11 @@ public class EditorApp extends Application {
 	public BorderPane getRootLayout(){
 		return rootLayout;
 	}
-
+	
+	public void getFloodFill(String tFill, int xIn, int yIn){
+		floodFill(tFill, xIn, yIn);
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
