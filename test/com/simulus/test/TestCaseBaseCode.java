@@ -1,6 +1,7 @@
 package com.simulus.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -8,11 +9,12 @@ import java.util.concurrent.Executors;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+
+import com.simulus.test.WriteLog;
+
 import org.jemmy.fx.SceneDock;
 import org.jemmy.fx.control.LabeledDock;
 import org.jemmy.resources.StringComparePolicy;
-
-import com.simulus.test.WriteLog;
 
 
 public class TestCaseBaseCode {
