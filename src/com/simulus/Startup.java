@@ -47,6 +47,8 @@ public class Startup extends Application {
 		editorBtn.setPrefSize(100.0d, 50.0d);
 		editorBtn.setOnAction((event) -> {
 			EditorApp app = new EditorApp();
+			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 900)/2);
+			primaryStage.setY((Screen.getPrimary().getBounds().getHeight()-800)/2);
 			app.start(primaryStage);
 		});
 		
