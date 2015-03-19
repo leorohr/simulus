@@ -11,6 +11,7 @@
 \usepackage{fancyhdr}
 \usepackage{wrapfig}
 \usepackage{enumitem}
+\usepackage{pgfplots}
 
 %--- Settings for Java code snippets ---
 \usepackage{listings} 
@@ -36,6 +37,52 @@
   breakatwhitespace=true,
   tabsize=3
 }
+%--- Settings for XML code snippets ---
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{forestGreen}{RGB}{34,139,34}
+\definecolor{maroon}{rgb}{0.5, 0.0, 0.0}
+
+\lstdefinestyle{XMLStyle}{
+language=XML,
+%Formatting
+basicstyle=\scriptsize,
+sensitive=true,
+showstringspaces=false,
+numbers=left,
+numberstyle=\tiny,
+tabsize=4,
+numbersep=3pt,
+extendedchars=true,
+xleftmargin=2em,
+lineskip=1pt,
+breaklines,
+captionpos=t,
+%Coloring
+backgroundcolor=\color{lightgray},
+morekeywords={BooleanExpression},
+alsoletter={:,,?},
+morestring=[b]{"},
+morecomment=[s]{<!--}{-->},
+keywordstyle=\color{forestGreen},
+identifierstyle=\color{maroon}\ttfamily,
+stringstyle=\color{blue}\ttfamily,
+commentstyle=\color{forestGreen}\ttfamily
+}
+
+\lstdefinelanguage{xml}{
+basicstyle=\small,
+sensitive=false,
+}
+
+\lstnewenvironment{xml-code}[2]{
+\lstset{caption=#1,label=#2,style=XMLStyle}
+}{}
+
+%-- Plots ---
+\pgfplotsset{width=10cm,compat=1.9}
+\usepgfplotslibrary{external}
+\tikzexternalize
 
 %--- Page style ---
 \pagestyle{fancy}
