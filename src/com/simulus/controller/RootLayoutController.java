@@ -86,6 +86,7 @@ public class RootLayoutController implements Initializable {
             editor.start(new Stage());
             
             try {
+            	SimulationController.getInstance().getAnimationThread().interrupt();
 				MainApp.getInstance().getPrimaryStage().close();
 				MainApp.getInstance().stop();
 			} catch (Exception e) {
@@ -112,10 +113,11 @@ public class RootLayoutController implements Initializable {
         	if(editor == null)
         		editor = new EditorApp();
             editor.start(new Stage());
-            editor.loadMap(SimulationController.getInstance().getLastLoadedMap().toPath().toString());
+            editor.loadMap(SimulationController.getInstance().getLastLoadedMap());
             
             try {
-				MainApp.getInstance().getPrimaryStage().close();
+            	SimulationController.getInstance().getAnimationThread().interrupt();
+            	MainApp.getInstance().getPrimaryStage().close();
 				MainApp.getInstance().stop();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -123,10 +125,11 @@ public class RootLayoutController implements Initializable {
         });
 
         openMapMItem.setOnAction((event) -> {
-            FileChooser fileChooser = new FileChooser();
+        	SimulationController.getInstance().getAnimationThread().interrupt();
+        	FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
-            fileChooser.setInitialDirectory(new File("resources/maps"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             if (selectedFile != null){
                 SimulationController.getInstance().getMap().loadMap(selectedFile); 

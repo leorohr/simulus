@@ -79,7 +79,7 @@ public class EditorControlsController implements Initializable {
 	File[] matchingFiles;
 
 
-	// TODO
+	// TODO javadoc
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
@@ -219,7 +219,7 @@ public class EditorControlsController implements Initializable {
                     MainApp app = MainApp.getInstance(); 
             		if(app == null)
             			app = new MainApp();
-            		app.start(new Stage(), false);
+            		app.start(new Stage());
             		SimulationController.getInstance().getMap().loadMap(mapFile);
 
                     try {
@@ -243,7 +243,7 @@ public class EditorControlsController implements Initializable {
         	}
 		});
 		
-		populateMapList();
+//		populateMapList(); TODO remove combobox completely 
 
 		mapListCB.setOnAction((event) -> {
 		     
@@ -256,8 +256,8 @@ public class EditorControlsController implements Initializable {
         	if(result.get() == ButtonType.OK && mapListCB.getSelectionModel().getSelectedIndex() < matchingFiles.length
         			&& mapListCB.getSelectionModel().getSelectedIndex() >= 0)
         		try{
-        			String filePath = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()].getPath();
-        			EditorApp.getInstance().loadMap(filePath); 
+        			File file = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()];
+        			EditorApp.getInstance().loadMap(file); 
         				
         		} catch (Exception e) {
         			e.printStackTrace();
@@ -279,7 +279,7 @@ public class EditorControlsController implements Initializable {
 	private void populateMapList(){
 		
 		mapListCB.getItems().clear();
-		File f = new File("resources/maps");
+		File f = new File(getClass().getResource("/resources/maps/").getFile());
 
 		matchingFiles = f.listFiles(new FilenameFilter() {
 		    public boolean accept(File dir, String name) {

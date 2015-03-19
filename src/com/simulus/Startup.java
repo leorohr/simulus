@@ -37,15 +37,21 @@ public class Startup extends Application {
 		Button simBtn = new Button("Simulator");
 		simBtn.setPrefSize(100.0d, 50.0d);
 		simBtn.setOnAction((event) -> {
+			//Center on screen
+			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 1000)/2);
+			primaryStage.setY((Screen.getPrimary().getBounds().getHeight() - 800)/2);
+			
 			MainApp app = new MainApp();
-			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 900)/2);
-			primaryStage.setY((Screen.getPrimary().getBounds().getHeight()-800)/2);
-			app.start(primaryStage, true);
+			app.start(primaryStage);
 		});
 		
 		Button editorBtn = new Button("Editor");
 		editorBtn.setPrefSize(100.0d, 50.0d);
 		editorBtn.setOnAction((event) -> {
+			//Center on screen
+			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 1000)/2);
+			primaryStage.setY((Screen.getPrimary().getBounds().getHeight() - 800)/2);
+			
 			EditorApp app = new EditorApp();
 			app.start(primaryStage);
 		});

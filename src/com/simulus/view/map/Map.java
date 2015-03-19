@@ -233,7 +233,6 @@ public class Map extends Group {
 		synchronized (vehicles) {
 			vehicles.add(c);
 		}
-
 	}
 
 	/**
@@ -480,7 +479,7 @@ public class Map extends Group {
 		SimulationController.getInstance().setLastLoadedMap(mapFile);
 
 		MapXML loader = new MapXML();
-		loader.readXML(mapFile.toPath().toString());
+		loader.readXML(mapFile);
 		
 		//Decline maps that were not validated by the editor
 		if(!loader.isValidated()) {

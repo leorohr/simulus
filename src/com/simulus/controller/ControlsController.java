@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
@@ -290,11 +291,18 @@ public class ControlsController implements Initializable {
      * Resets all chart data.
      */
     public void resetCharts() {
-    	numVehiclesSeries.getData().clear();
-    	avgSpeedSeries.getData().clear();
-    	congestionSeries.getData().clear();
-    	waitingTimeSeries.getData().clear();
-    	emWaitingTimeSeries.getData().clear();
+    	numVehiclesSeries.getData().remove(0, numVehiclesSeries.getData().size()-1);
+    	avgSpeedSeries.getData().remove(0, avgSpeedSeries.getData().size()-1);
+    	congestionSeries.getData().remove(0, congestionSeries.getData().size()-1);
+    	waitingTimeSeries.getData().remove(0, waitingTimeSeries.getData().size()-1);
+    	emWaitingTimeSeries.getData().remove(0, emWaitingTimeSeries.getData().size()-1);
+    	
+    	//Series to start at [0,0]
+    	numVehiclesSeries.getData().add(new Data<>(0d, 0d));
+    	avgSpeedSeries.getData().add(new Data<>(0d, 0d));
+    	congestionSeries.getData().add(new Data<>(0d, 0d));
+    	waitingTimeSeries.getData().add(new Data<>(0d, 0d));
+    	emWaitingTimeSeries.getData().add(new Data<>(0d, 0d)); 
     }
     
     /**

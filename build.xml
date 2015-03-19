@@ -18,29 +18,36 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="clean">
 		<delete dir="build" />
 		<delete dir="bin" />
 	</target>
 
 	<target name="jar" depends="compile" description="Builds the project and creates a runnable jar in the build folder.">
-		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant"
-				classpath=".:${java.home}/../lib/ant-javafx.jar" />
+		<mkdir dir="build" />
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${java.home}/../lib/ant-javafx.jar" />
 		<fx:jar destfile="build/Simulus.jar" verbose="true">
 			<fx:platform javafx="2.1+" j2se="8.0" />
 			<fx:application mainClass="com.simulus.Startup" />
-			<fileset dir="bin" />
+			<fx:fileset dir="bin" />
 		</fx:jar>
-		<copy todir="build/resources/maps">
-			<fileset dir="resources/maps" />
+
+		<!-- Copy resources -->
+		<copy todir="build">
+			<fileset dir="src/resources">
+				<include name="editorTutorial.pdf" />
+			</fileset>
+		</copy>
+		<copy todir="build/maps">
+			<fileset dir="src/resources/maps" />
 		</copy>
 	</target>
 
 
 	<!-- Generate JavaDoc -->
-	<target name="javadoc" description="Generates the projects JavaDoc files in build/doc.">
-		<javadoc destdir="build" author="false" version="true" use="true" windowtitle="Simulus Traffic Simulation - API">
+	<target name="javadoc" description="Generates the projects JavaDoc files in /javadoc.">
+		<javadoc destdir="javadoc" author="false" version="true" use="true" windowtitle="Simulus Traffic Simulation - API">
 
 			<packageset dir="src" defaultexcludes="yes" />
 
@@ -50,7 +57,7 @@
 </target>
 
 <target name="complete" description="Executes both the javadoc and the create_run_jar target">
-	<antcall target="create_run_jar" />
+	<antcall target="jar" />
 	<antcall target="javadoc" />
 </target>
 

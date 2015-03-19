@@ -21,12 +21,12 @@ import org.w3c.dom.NodeList;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.IntersectionTile;
-import com.simulus.view.map.Water;
 import com.simulus.view.map.Dirt;
 import com.simulus.view.map.Grass;
 import com.simulus.view.map.Land;
 import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
+import com.simulus.view.map.Water;
 
 public class MapXML {
 
@@ -61,24 +61,22 @@ public class MapXML {
 
 	}
 
+
 	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
 	// nodes do not match metadata i.e. grid size matching height x width
-	public void readXML(String inputFile) {
+	public void readXML(File inputFile) {
 
 		try {
-
-			File inputXmlFile = new File(inputFile);
-			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputXmlFile);
+			Document doc = dBuilder.parse(inputFile);
 
 			// optional, but recommended
 			// read this -
 			// http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
 			doc.getDocumentElement().normalize();
-
+			
 			nList = doc.getElementsByTagName("map_details");
 			nNode = nList.item(0);
 			eElement = (Element) nNode;
@@ -196,8 +194,10 @@ public class MapXML {
 			System.err.println("Error reading map file!" + "\n" +
 					"Check that the input file exists and that it matches XML map schema.");
 		}
-
-
+	}
+	
+	public void readXML(String filePath) {
+		readXML(new File(filePath));
 	}
 
 	// outputs XML file based on given 2D array of type tile plus metadata

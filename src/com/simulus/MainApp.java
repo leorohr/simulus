@@ -1,7 +1,5 @@
 package com.simulus;
 
-import java.io.File;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -14,7 +12,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.controller.ControlsController;
-import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 
 /**
@@ -54,25 +51,11 @@ public class MainApp extends Application {
 		
 		initRootLayout();
 		showControls();
+		
+		//for testing TODO remove
+//		SimulationController.getInstance().getMap().loadMap(new File(getClass().getResource("/resources/maps/default.map").getFile()));
 	}
 	
-	/**
-	 * Overloads the MainApp's default start method to prevent it from loading the default map
-	 * if that is not necessary, e.g. when the app is started from the editor with user-defined map.
-	 * @param primaryStage The stage to start the app on.
-	 * @param defaultMap Whether the default map should be loaded or not.
-	 */
-	public void start(final Stage primaryStage, boolean defaultMap) {
-		start(primaryStage);
-		
-		//Load default map
-		if(defaultMap) {
-			SimulationController.getInstance().getMap().loadMap(
-				new File("resources/maps/default.map"));
-		}
-		
-	}
-
 	/**
 	 * Initialise the root layout
 	 */
@@ -171,6 +154,7 @@ public class MainApp extends Application {
     
 	public static void main(String[] args) {
 		launch(args);
+		
 	}
 
 	

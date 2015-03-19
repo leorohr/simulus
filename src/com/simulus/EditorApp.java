@@ -479,7 +479,7 @@ public class EditorApp extends Application {
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
-		fileChooser.setInitialDirectory(new File("resources/maps"));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());	
@@ -492,10 +492,10 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Open Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialDirectory(new File("resources/maps"));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {
-			loadMap(selectedFile.getPath());
+			loadMap(selectedFile);
 		}
 	}
 
@@ -542,10 +542,10 @@ public class EditorApp extends Application {
 		}
 	}
 
-	public void loadMap(String fileLocation){
+	public void loadMap(File file){
 
 		MapXML mxml = new MapXML();
-		mxml.readXML(fileLocation);
+		mxml.readXML(file);
 		ECC.setMapName(mxml.mapName);
 		ECC.setMapDate(mxml.mapCreationDate);
 		ECC.setMapDesc(mxml.mapDescription);
@@ -553,7 +553,7 @@ public class EditorApp extends Application {
 		ECC.setGridSize(mxml.numOfTiles);
 		gridSize = Configuration.getGridSize();
 		tileSize = Configuration.getTileSize();
-		editorMap.loadEditorMap(new File(fileLocation));
+		editorMap.loadEditorMap(file);
 	}
 
 	public void saveMap(String fileLocation){

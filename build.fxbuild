@@ -5,4 +5,5 @@
     <info title="Simulus" vendor="Team Simulus"/>
   </deploy>
   <signjar/>
+  <manifestEntries name="Class-Path" value="resources"/>
 </anttasks:AntTask>
