@@ -152,16 +152,20 @@ public class EditorApp extends Application {
 										editorMap.addSingle(new Water(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
 								}else if (interSelected) {
-									editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
-											editorMap.getTiles()[i][p].getGridPosY()));
+									if (! ((i+3 >= editorMap.getTiles().length) || (p+3 >= editorMap.getTiles().length))) {
+										editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
+												editorMap.getTiles()[i][p].getGridPosY()));
+									}
 								} else if (roadVerticalSelected) {
-									editorMap.removeGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(), 
-											editorMap.getTiles()[i][p].getGridPosY(), Orientation.NORTHSOUTH));
-									editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
-											editorMap.getTiles()[i][p].getGridPosY(), Orientation.NORTHSOUTH));
+									if (!(i+3 >= editorMap.getTiles().length)) {
+										editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
+												editorMap.getTiles()[i][p].getGridPosY(), Orientation.NORTHSOUTH));										
+									}
 								} else if (roadHorizontalSelected) {
-									editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
-											editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));
+									if (!(p+3 >= editorMap.getTiles().length)) {
+										editorMap.addGroup(new Road(editorMap.getTiles()[i][p].getGridPosX(),
+												editorMap.getTiles()[i][p].getGridPosY(), Orientation.WESTEAST));										
+									}
 								}
 							}
 
@@ -220,23 +224,27 @@ public class EditorApp extends Application {
 								} else if (waterSelected) {
 									editorMap.addSingle(new Water(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 								}else if (roadVerticalSelected) {
-									if(firstDrag == true){
-										xFixed = i;
-										firstDrag = false;}
-									else{
-
+									if (!(i+3 >= editorMap.getTiles().length)) {
+										if(firstDrag == true){
+											xFixed = i;
+											firstDrag = false;}
+										else{
+											
+										}										
+										editorMap.addGroup(new Road(editorMap.getTiles()[xFixed][p].getGridPosX(),
+												editorMap.getTiles()[xFixed][p].getGridPosY(), Orientation.NORTHSOUTH));
 									}
-									editorMap.addGroup(new Road(editorMap.getTiles()[xFixed][p].getGridPosX(),
-											editorMap.getTiles()[xFixed][p].getGridPosY(), Orientation.NORTHSOUTH));
 								} else if (roadHorizontalSelected) {
-									if(firstDrag == true){
-										yFixed = p;
-										firstDrag = false;}
-									else{
-
+									if (!(p+3 >= editorMap.getTiles().length)) {
+										if(firstDrag == true){
+											yFixed = p;
+											firstDrag = false;}
+										else{
+											
+										}
+										editorMap.addGroup(new Road(editorMap.getTiles()[i][yFixed].getGridPosX(),
+												editorMap.getTiles()[i][yFixed].getGridPosY(), Orientation.WESTEAST));										
 									}
-									editorMap.addGroup(new Road(editorMap.getTiles()[i][yFixed].getGridPosX(),
-											editorMap.getTiles()[i][yFixed].getGridPosY(), Orientation.WESTEAST));
 								}
 							}
 
@@ -247,7 +255,6 @@ public class EditorApp extends Application {
 									groupErase(t);									
 								}
 							} else if (blockSelected && t instanceof Lane) {
-								// TODO: Blockage
 								editorMap.removeSingle(t);
 								editorMap.addSingle(new Lane(i*tileSize, p*tileSize, tileSize, tileSize, i, p, ((Lane) t).getDirection(), ((Lane) t).getLaneNo(), true));
 							}
@@ -569,6 +576,7 @@ public class EditorApp extends Application {
 	//TODO javadoc
 	public boolean validateMap(){
 		Boolean valid = true;
+		Boolean emptyMap = true;
 
 		Tile[][] mapTiles = this.editorMap.getTiles();
 		for (int x = 0 ;  x < mapTiles.length; x++) {
@@ -580,11 +588,13 @@ public class EditorApp extends Application {
 					/* Validate Lane tiles */
 					if (t instanceof Lane) { // Another lane or an intersection is expected
 						valid = validateLane(t);
+						emptyMap = false;
 						break;
 
 						/* Validate Intersection tiles */
 					} else if (t instanceof IntersectionTile) { // Check for a complete intersection with exits
 						valid = validateIntersection(t);
+						emptyMap = false;
 						break;
 
 						/* Validate Land tiles */
@@ -598,6 +608,9 @@ public class EditorApp extends Application {
 				} // while
 			} // Inner For
 		} // Outer For
+		if (emptyMap) {
+			valid = false;
+		}
 		return valid;
 	}
 
@@ -733,15 +746,18 @@ public class EditorApp extends Application {
 			int newX = intersection.get(i).getGridPosX();
 			int newY = intersection.get(i).getGridPosY();
 
-			Tile iExit = this.editorMap.getTiles()[newX][(newY-1)];
-
-			if (iExit instanceof Lane) {
-				if ((((Lane) iExit).getDirection() == Direction.NORTH &&
-						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
-						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					exitCount++;
+			if (!(newY-1 < 0)) {
+				Tile iExit = this.editorMap.getTiles()[newX][(newY-1)];
+				
+				if (iExit instanceof Lane) {
+					if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+							|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+						exitCount++;
+					}
 				}
+				
 			}
 		}
 
@@ -749,14 +765,16 @@ public class EditorApp extends Application {
 			int newX = intersection.get(i).getGridPosX();
 			int newY = intersection.get(i).getGridPosY();
 
-			Tile iExit = this.editorMap.getTiles()[newX][(newY+1)];
-
-			if (iExit instanceof Lane) {
-				if ((((Lane) iExit).getDirection() == Direction.NORTH &&
-						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-						|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
-						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					exitCount++;
+			if (!(newY+1 >= this.editorMap.getTiles()[0].length)) {
+				Tile iExit = this.editorMap.getTiles()[newX][(newY+1)];
+				
+				if (iExit instanceof Lane) {
+					if ((((Lane) iExit).getDirection() == Direction.NORTH &&
+							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+							|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
+							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+						exitCount++;
+					}
 				}
 			}
 		}
@@ -765,14 +783,16 @@ public class EditorApp extends Application {
 			int newX = intersection.get(i).getGridPosX();
 			int newY = intersection.get(i).getGridPosY();
 
-			Tile iExit = this.editorMap.getTiles()[newX-1][(newY)];
-
-			if (iExit instanceof Lane) {
-				if ((((Lane) iExit).getDirection() == Direction.EAST &&
-						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-						|| (((Lane) iExit).getDirection() == Direction.WEST &&
-						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					exitCount++;
+			if (!(newX-1 < 0)) {
+				Tile iExit = this.editorMap.getTiles()[newX-1][(newY)];
+				
+				if (iExit instanceof Lane) {
+					if ((((Lane) iExit).getDirection() == Direction.EAST &&
+							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+							|| (((Lane) iExit).getDirection() == Direction.WEST &&
+							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+						exitCount++;
+					}
 				}
 			}
 		}
@@ -781,15 +801,17 @@ public class EditorApp extends Application {
 			int newX = intersection.get(i).getGridPosX();
 			int newY = intersection.get(i).getGridPosY();
 
-			Tile iExit = this.editorMap.getTiles()[newX+1][(newY)];
-
-			if (iExit instanceof Lane) {
-				if ((((Lane) iExit).getDirection() == Direction.EAST &&
-						(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-						|| (((Lane) iExit).getDirection() == Direction.WEST &&
-						(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-					exitCount++;
-				}
+			if (!(newX+1 >= this.editorMap.getTiles().length)) {
+				Tile iExit = this.editorMap.getTiles()[newX+1][(newY)];
+				
+				if (iExit instanceof Lane) {
+					if ((((Lane) iExit).getDirection() == Direction.EAST &&
+							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
+							|| (((Lane) iExit).getDirection() == Direction.WEST &&
+							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
+						exitCount++;
+					}
+				}				
 			}
 		}
 
