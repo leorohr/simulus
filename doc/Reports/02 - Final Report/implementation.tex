@@ -93,10 +93,23 @@ Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for ou
 	\end{center}
 \end{figure}
 
-\subsection{Map Editor}
+\section{Map Editor}
 
+\subsection{Graphical User Interface}
+The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Fig.~\ref{fig:finalMapEditor} shows the resulting design chosen which the team felt had met the requirements in whole and one we hope is apparent when using the application to create a map.
+
+
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[scale=0.45]{img/mapEditorFinal.png}
+		\caption{Resulting map editor design}
+		\label{fig:finalMapEditor}
+	\end{center}
+\end{figure}
+
+\subsection{Flood Fill}
 The basis of any map editor is the ability to tag defined areas of desktop real-estate representing a real world instance e.g. land mass. We began by constructing an X*Y cell grid, where X and Y are the number of cells horizontally and vertically and where X=Y. The smallest instance of a map was to be a 40x40 grid yielding 1,600 tiles each needing to be individually tagged. Clearly it was not realistic to expect the user to tag each cell individually. Even when removing the number of tiles that would be tagged using the road and intersection tools, large swathes of the map are left unfilled.  
-A method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. That is only fill empty cells within in a certain boundary so as not replace existing ones.  This is is better known as a flood fill algorithm or boundary fill in relation to photo-editing applications.
+A method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. That is only fill empty cells within in a certain boundary so as not replace existing ones.  This is is better known as a flood fill algorithm and is listed as requirement 2.7 and 2.8 of section \ref{ss:reqs}
 
 There are several techniques for implementing flood fill (cite) of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property.  The appropriate psudocode is as follows:
 
@@ -125,12 +138,12 @@ This procedure was extended with bounds checking in our multidimensional array t
 	\end{center}
 \end{figure}
 
-Upon initial testing (ref. jerry's editor testing) the recursive approach performed exactly as expected with no functional issues  to report.  However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 65x65, a stack overflow would occur thus only partially filling the grid and causing the application to no longer respond.  Although the ability to alter grid sizes was not a requirement, it was seen as a likely extension of our work thus warranting further investigation.  
+Upon initial testing (ref. jerry's editor testing) the recursive approach performed exactly as expected with no functional issues  to report.  However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 65x65, a stack overflow would occur thus only partially filling the grid and causing the application to no longer respond.  With the ability to alter grid sizes implemented in later reversions of the simulator and editor applications, further investigation was warranted.
 
 Approaching the literature, the stack over flow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana (2010, p.275) state:
 
  \begin{quotation}
-A quick glance on the recursive variant of FloodFill function reveals that the recursive function makes four calls to itself at each step (for 4N connected region). Stack Overflow is the most common exception encountered while dealing with the recursive programs. Each time we call a function recursively, the function parameters, local variables and the return address of code (where to return when we are done with the recursion) are pushed to the stack. If the recursion is too deep, there may be overflowing of stack, wherefrom there is no recovery.
+A quick glance on the recursive variant of FloodFill function reveals that the recursive function makes four calls to itself at each step (for 4N connected region). Stack Overflow is the most common exception encountered while dealing with the recursive programs. Each time we call a function recursively, the function parameters, local variables and the return address of code (where to return when we are done with the recursion) are pushed to the stack. If the recursion is too deep, there may be overflowing of stack, where from there is no recovery.
  \end{quotation}
  
 Possibly the simplest but least favoured approach was to alter the JVM's configuration parameters and increase the memory reserved for the stack.  Although this would be the simplest 'fix' it was not seen as a suitable solution given the many hardware and JVM configurations and further still, it was not a solution to the fundamental problem.
@@ -165,9 +178,43 @@ Flood-fill (node, target-tile, replacement-tile):
 	\end{lstlisting}
 \end{minipage}
 
-With this new revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.  It must be noted that the new method is no longer as concise as a definition compared to the original but it was a subtle sacrifice for the benefits it yielded.
+With this new revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.
+\paragraph{}
+To ensure the new approach would be indeed suitable for the set grid sizes, some simple measurements were taken.  The two algorithms were used to fill an empty grid with a 'grass' land tile, repeated three times and an average calculated.  The results shown in fig.\ref{fig:floodChart} clearly show that although the recursive stack based implementation performs on average 70\% faster, it was unable to function for grid widths greater than 60 in our set.  Although this may seem wholly a failure for the queue based implementation, it is important to point out that this equates to ~10ms difference. Not noticeable by any human operator.  Even more interesting was that the results quoted were based on First Time Run (FTR) values, immediately after launching the editor. Using the same two routines on subsequent occasions would yield repeated values as low as 10-16ms per fill.
+ 
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    xlabel={Avg. Time [ms]},
+    ylabel={Grid Width [no. of tiles]},
+    xmin=0, xmax=120,
+    ymin=0, ymax=120,
+    xtick={0,20,40,60,80,100,120},
+    ytick={0,20,40,60,80,100,120},
+    legend pos=north west,
+    ymajorgrids=true,
+    grid style=dashed,
+]
+\addplot[
+    color=red,
+    mark=triangle,
+    ]
+    coordinates {
+    (10,30)(11,40)(19,50)(21,60)
+    };
+\addplot[
+    color=blue,
+    mark=square,
+    ]
+    coordinates {
+    (20,30)(22,40)(33,50)(54,60)(80,80)(110,100)
+    };
+    \legend{Stack, Queue}
+\end{axis}
+\end{tikzpicture}
+\caption{Average execution time for flood fill}
+\label{fig:floodChart}
+\end{figure}
 
-%TODO recreation of intersection tiles
-%TODO map validation
-
-
+It must be noted that the new method is no longer as concise as a definition compared to the original but it was a subtle sacrifice for the benefits it yielded.
