@@ -78,16 +78,15 @@
       <Pane layoutX="5.0" layoutY="418.0" prefHeight="86.0" prefWidth="190.0" style="-fx-border-color: #2f4f4f;">
          <children>
             <Button id="clearMapButton" fx:id="clearMapButton" layoutX="10.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" style="-fx-graphic: url(&quot;/resources/delete.png&quot;);" text="New..." />
-            <Label layoutX="97.0" layoutY="4.0" text="Existing Maps:" />
             <Button id="validateMapButton" fx:id="validateMapButton" layoutX="97.0" layoutY="51.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-graphic: url(&quot;/resources/validate.png&quot;);" text="Validate" />
-            <ComboBox id="mapListCB" fx:id="mapListCB" layoutX="97.0" layoutY="21.0" prefHeight="25.0" prefWidth="81.0" />
             <Label layoutX="10.0" layoutY="5.0" text="Grid Size:" />
             <Label fx:id="gridSizeLabel" layoutX="11.0" layoutY="27.0" text="60 x 60">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button id="gridIncButton" fx:id="gridIncButton" layoutX="58.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="+" />
+            <Button id="gridIncButton" fx:id="gridIncButton" layoutX="143.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="+" />
+            <Button id="gridDecButton" fx:id="gridDecButton" layoutX="98.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" text="-" />
          </children>
       </Pane>
       <Label layoutX="5.0" layoutY="400.0" text="Map Options">

@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -29,6 +28,7 @@ import javafx.stage.WindowEvent;
 import com.simulus.controller.EditorControlsController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
+import com.simulus.util.MapValidator;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
@@ -52,7 +52,7 @@ public class EditorApp extends Application {
 	private Map editorMap;
 	private int gridSize = Configuration.getGridSize();
 	private int tileSize = Configuration.getTileSize();
-	//private boolean mapValidated;
+	private boolean mapValidated;
 	private Scene scene;
 
 	private Image csrRoadEW = ResourceBuilder.getEWLaneCursor();
@@ -84,6 +84,8 @@ public class EditorApp extends Application {
 
 	private static EditorApp instance;
 	EditorControlsController ECC;
+	
+	private MapValidator mv = new MapValidator();
 
 	public static EditorApp getInstance() {
 		return instance;
@@ -98,13 +100,11 @@ public class EditorApp extends Application {
 	}
 
 
-
 	@Override
 	public void start(final Stage editorStage) {
 
 		this.editorStage = editorStage;
 		this.editorStage.setTitle("Simulus - Map Editor");
-		// TODO: fix resizable issue with mouse position?
 		this.editorStage.setResizable(false);
 
 		initRootLayout();
@@ -283,22 +283,14 @@ public class EditorApp extends Application {
 	 * Initialise the root layout
 	 */
 	private void initRootLayout() {
-
 		try {
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(EditorApp.class
 					.getResource("view/ui/EditorRootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
 
 			canvas = new Pane();
-			/*canvas.setMinSize(canvasWidth, canvasHeight);
-			canvas.setPrefSize(canvasWidth, canvasHeight);
-			canvas.setMaxSize(canvasWidth, canvasHeight);*/
 			rootLayout.setCenter(canvas);
-
-			//not sure if needed?
-			//setGridSize(30);
 
 			scene = new Scene(rootLayout);
 			editorStage.setScene(scene);
@@ -330,18 +322,181 @@ public class EditorApp extends Application {
 		}
 	}
 
-	public int getGridSize() {
-		return gridSize;
+	/**
+	 * Checks the group membership of a tile,
+	 *  if tile is a Lane or Block then <code>removeGroup()</code> is called on LaneNo 0
+	 *  if the tile is an IntersectionTile then removeGroup() is called on the Intersection 
+	 * 
+	 * @param t - The tile whose group is to be erased
+	 */
+	private void groupErase(Tile t) {
+		if (t instanceof Lane || t instanceof Block) {
+			Direction dir = Direction.NONE;
+			int laneNo = 0;
+			if (t instanceof Lane) {
+				dir = ((Lane) t).getDirection();
+				laneNo = ((Lane) t).getLaneNo();
+			} else if (t instanceof Block) {
+				dir = ((Block) t).getDirection();
+				laneNo = ((Block) t).getLaneNo();
+			}
+			int x = t.getGridPosX();
+			int y = t.getGridPosY();
+			Orientation orientation = Orientation.EMPTY;
+
+			if (dir == Direction.NORTH || dir == Direction.SOUTH) {
+				while (laneNo > 0) {
+					x--;
+					laneNo--;
+				}
+				orientation = Orientation.NORTHSOUTH;
+			} else if (dir == Direction.WEST || dir == Direction.EAST) {
+				while (laneNo > 0) {
+					y--;
+					laneNo--;
+				}
+				orientation = Orientation.WESTEAST;
+			}
+			editorMap.removeGroup(new Road(x, y, orientation));
+
+		} else if (t instanceof IntersectionTile) {
+			editorMap.removeGroup(((IntersectionTile) t).getIntersection());
+		}
+	}
+	
+	/**
+	 * 
+	 * @param tFill
+	 * @param xIn
+	 * @param yIn
+	 */
+	private void floodFill(String tFill, int xIn, int yIn){
+		Tile[][] mapTiles = this.editorMap.getTiles();
+		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
+
+		Tile t = this.editorMap.getTiles()[xIn][yIn];
+		LinkedList<Tile> queue = new LinkedList<Tile>();
+		queue.add(t);
+
+		while (!queue.isEmpty()) {
+			t = queue.getLast();
+			queue.removeLast();
+			xIn = t.getGridPosX();
+			yIn = t.getGridPosY();
+
+			if (t instanceof Land && tFill.equals("eraser")) {
+				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);
+				visited[xIn][yIn] = true;
+
+				if (xIn - 1 >= 0) {
+					if (visited[xIn - 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn - 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (xIn + 1 < mapTiles.length) {
+					if (visited[xIn + 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn + 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (yIn - 1 >= 0) {
+					if (visited[xIn][yIn - 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn - 1];
+						queue.add(t);
+					}
+				}
+				if (yIn + 1 < mapTiles.length) {
+					if (visited[xIn][yIn + 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn + 1];
+						queue.add(t);
+					}
+				}
+			}
+
+			else if (!(t instanceof Lane || t instanceof Land || t instanceof IntersectionTile)) {
+
+				switch (tFill) {
+				case "grass":
+					editorMap.addSingle(new Grass(xIn * tileSize, yIn
+							* tileSize, tileSize, tileSize, xIn, yIn));
+					break;
+				case "dirt":
+					editorMap.addSingle(new Dirt(xIn * tileSize,
+							yIn * tileSize, tileSize, tileSize, xIn, yIn));
+					break;
+				case "water":
+					editorMap.addSingle(new Water(xIn * tileSize, yIn
+							* tileSize, tileSize, tileSize, xIn, yIn));
+					break;
+				}
+
+				visited[xIn][yIn] = true;
+
+				if (xIn - 1 >= 0) {
+					if (visited[xIn - 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn - 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (xIn + 1 < mapTiles.length) {
+					if (visited[xIn + 1][yIn] == false) {
+						t = this.editorMap.getTiles()[xIn + 1][yIn];
+						queue.add(t);
+					}
+				}
+				if (yIn - 1 >= 0) {
+					if (visited[xIn][yIn - 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn - 1];
+						queue.add(t);
+					}
+				}
+				if (yIn + 1 < mapTiles.length) {
+					if (visited[xIn][yIn + 1] == false) {
+						t = this.editorMap.getTiles()[xIn][yIn + 1];
+						queue.add(t);
+					}
+				}
+
+			}
+		}
 	}
 
-	public Pane getCanvas() {
-		return canvas;
+	public void loadMap(File file){
+
+		MapXML mxml = new MapXML();
+		mxml.readXML(file);
+		ECC.setMapName(mxml.mapName);
+		ECC.setMapDate(mxml.mapCreationDate);
+		ECC.setMapDesc(mxml.mapDescription);
+		ECC.setMapAuthor(mxml.mapAuthor);
+		ECC.setGridSize(mxml.numOfTiles);
+		gridSize = Configuration.getGridSize();
+		tileSize = Configuration.getTileSize();
+		editorMap.loadEditorMap(file);
 	}
 
-	public Map getMap() {
-		return editorMap;
-	}
+	public void saveMap(String fileLocation){
+		MapXML mxml = new MapXML();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+	
+		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
+				ECC.getMapDesc(), ECC.getMapAuthor(), 800, Configuration.getGridSize(), mapValidated);
 
+	}
+	
+	public void clearMap(){
+		gridSize = Configuration.getGridSize();
+		tileSize = Configuration.getTileSize();
+		this.editorMap = new Map();
+		ECC.setMapName("");
+		ECC.setMapDate("");
+		ECC.setMapDesc("");
+		ECC.setMapAuthor("");
+	}
+	
+	
 	public void selectButton(Button b) {
 
 		switch (b.getId()) {
@@ -443,21 +598,16 @@ public class EditorApp extends Application {
 			clearMap();
 			break;
 		case "validateMapButton":
-			validateMap();
+			mapValidated = mv.validateMap(this.editorMap.getTiles());
+			if (mapValidated) {
+				validationPassDialog();
+			} else {
+				validationFailDialog();
+			}
 			break;
 		default:
 			break;
 		}
-	}
-	
-	public void clearMap(){
-		gridSize = Configuration.getGridSize();
-		tileSize = Configuration.getTileSize();
-		this.editorMap = new Map();
-		ECC.setMapName("");
-		ECC.setMapDate("");
-		ECC.setMapDesc("");
-		ECC.setMapAuthor("");
 	}
 	
 	public void validationFailDialog(){
@@ -477,8 +627,9 @@ public class EditorApp extends Application {
 	}
 
 	public File saveMapDialog(){
+		mapValidated = mv.validateMap(this.editorMap.getTiles());
 		
-		if(validateMap() == false){
+		if(!mapValidated){
 			validationFailDialog();
 		} 
 		fileChooser = new FileChooser();
@@ -506,414 +657,6 @@ public class EditorApp extends Application {
 		}
 	}
 
-	/**
-	 * Checks the group membership of a tile,
-	 *  if tile is a Lane or Block then <code>removeGroup()</code> is called on LaneNo 0
-	 *  if the tile is an IntersectionTile then removeGroup() is called on the Intersection 
-	 * 
-	 * 
-	 * @param t - The tile whose group is to be erased
-	 */
-	private void groupErase(Tile t) {
-		if (t instanceof Lane || t instanceof Block) {
-			Direction dir = Direction.NONE;
-			int laneNo = 0;
-			if (t instanceof Lane) {
-				dir = ((Lane) t).getDirection();
-				laneNo = ((Lane) t).getLaneNo();
-			} else if (t instanceof Block) {
-				dir = ((Block) t).getDirection();
-				laneNo = ((Block) t).getLaneNo();
-			}
-			int x = t.getGridPosX();
-			int y = t.getGridPosY();
-			Orientation orientation = Orientation.EMPTY;
-
-			if (dir == Direction.NORTH || dir == Direction.SOUTH) {
-				while (laneNo > 0) {
-					x--;
-					laneNo--;
-				}
-				orientation = Orientation.NORTHSOUTH;
-			} else if (dir == Direction.WEST || dir == Direction.EAST) {
-				while (laneNo > 0) {
-					y--;
-					laneNo--;
-				}
-				orientation = Orientation.WESTEAST;
-			}
-			editorMap.removeGroup(new Road(x, y, orientation));
-
-		} else if (t instanceof IntersectionTile) {
-			editorMap.removeGroup(((IntersectionTile) t).getIntersection());
-		}
-	}
-
-	public void loadMap(File file){
-
-		MapXML mxml = new MapXML();
-		mxml.readXML(file);
-		ECC.setMapName(mxml.mapName);
-		ECC.setMapDate(mxml.mapCreationDate);
-		ECC.setMapDesc(mxml.mapDescription);
-		ECC.setMapAuthor(mxml.mapAuthor);
-		ECC.setGridSize(mxml.numOfTiles);
-		gridSize = Configuration.getGridSize();
-		tileSize = Configuration.getTileSize();
-		editorMap.loadEditorMap(file);
-	}
-
-	public void saveMap(String fileLocation){
-		MapXML mxml = new MapXML();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date date = new Date();
-	
-		mxml.writeXML(editorMap.getTiles(), fileLocation, ECC.getMapName(), dateFormat.format(date),
-				ECC.getMapDesc(), ECC.getMapAuthor(), 800, Configuration.getGridSize(), validateMap());
-
-	}
-
-	//TODO javadoc
-	public boolean validateMap(){
-		Boolean valid = true;
-		Boolean emptyMap = true;
-
-		Tile[][] mapTiles = this.editorMap.getTiles();
-		for (int x = 0 ;  x < mapTiles.length; x++) {
-			for(int y = 0; y < mapTiles[x].length; y++) {
-
-				Tile t = this.editorMap.getTiles()[x][y];
-
-				while (valid) {
-					/* Validate Lane tiles */
-					if (t instanceof Lane) { // Another lane or an intersection is expected
-						valid = validateLane(t);
-						emptyMap = false;
-						break;
-
-						/* Validate Intersection tiles */
-					} else if (t instanceof IntersectionTile) { // Check for a complete intersection with exits
-						valid = validateIntersection(t);
-						emptyMap = false;
-						break;
-
-						/* Validate Land tiles */
-					} else if (t instanceof Land) { // Land tiles are automatically valid
-						break;
-
-						/* Validate empty tiles */
-					} else { // Tile is empty and as such it is valid
-						break;
-					}
-				} // while
-			} // Inner For
-		} // Outer For
-		if (emptyMap) {
-			valid = false;
-		}
-		return valid;
-	}
-
-	//TODO javadoc
-	private boolean validateLane(Tile t) {
-		boolean valid = true;
-
-		int x = t.getGridPosX();
-		int y = t.getGridPosY();
-
-		Direction dir = ((Lane) t).getDirection();
-		int laneNo = ((Lane) t).getLaneNo();
-
-		if (dir == Direction.NORTH || dir == Direction.SOUTH) {
-			/* Check previous tile */
-			if (!(y-1 < 0)) {
-				Tile tPrev = this.editorMap.getTiles()[x][y-1];
-				if (tPrev instanceof Lane) {
-					if (dir == ((Lane) tPrev).getDirection() &&
-							laneNo == ((Lane) tPrev).getLaneNo()) {
-						// The Road continues
-					} else {
-						valid = false;
-					}
-				} else if (tPrev instanceof IntersectionTile) {
-					// This is OK
-				} else {
-					valid = false;
-				}
-			}
-			/* Check next tile */
-			if (!(y+1 >= this.editorMap.getTiles()[0].length)) {
-				Tile tNext = this.editorMap.getTiles()[x][y+1];
-				if (tNext instanceof Lane) {
-					if (dir == ((Lane) tNext).getDirection() &&
-							laneNo == ((Lane) tNext).getLaneNo()) {
-						// The Road continues
-					} else {
-						valid = false;
-					}
-				} else if (tNext instanceof IntersectionTile) {
-					// This is OK
-				} else {
-					valid = false;
-				}
-			}
-			// Check for Road connection without Intersection
-			if (laneNo == 3) { // Get the lane across
-				if (!(x+1 >= this.editorMap.getTiles().length)) {
-					Tile tNext = this.editorMap.getTiles()[x+1][y];
-					if (tNext instanceof Lane) {
-						if (((Lane) tNext).getDirection() == Direction.EAST ||
-								((Lane) tNext).getDirection() == Direction.WEST) {
-							valid = false; // Road cannot start from another Road
-						}
-					} else if(tNext instanceof IntersectionTile) {
-						valid = false; // Intersection cannot be next to a Road
-					}
-				}
-			}
-
-		} else { // Direction is WESTEAST
-			/* Check previous tile */
-			if (!(x-1 < 0)) {
-				Tile tPrev = this.editorMap.getTiles()[x-1][y];
-				if (tPrev instanceof Lane) {
-					if (dir == ((Lane) tPrev).getDirection() &&
-							laneNo == ((Lane) tPrev).getLaneNo()) {
-						// The Road continues
-					} else {
-						valid = false;
-					}
-				} else if (tPrev instanceof IntersectionTile) {
-					// This is OK
-				} else {
-					valid = false;
-				}
-			}
-			/* Check next tile */
-			if (!(x+1 >= this.editorMap.getTiles().length)) {
-				Tile tNext = this.editorMap.getTiles()[x+1][y];
-				if (tNext instanceof Lane) {
-					if (dir == ((Lane) tNext).getDirection() &&
-							laneNo == ((Lane) tNext).getLaneNo()) {
-						// The Road continues
-					} else {
-						valid = false;
-					}
-				} else if (tNext instanceof IntersectionTile) {
-					// This is OK
-				} else {
-					valid = false;
-				}
-			}
-			// Check for Road connection without Intersection
-			if (laneNo == 3) { // Get the lane down
-				if (!(y+1 >= this.editorMap.getTiles().length)) {
-					Tile tNext = this.editorMap.getTiles()[x][y+1];
-					if (tNext instanceof Lane) {
-						if (((Lane) tNext).getDirection() == Direction.NORTH ||
-								((Lane) tNext).getDirection() == Direction.SOUTH) {
-							valid = false; // Road cannot start from another Road
-						}
-					} else if(tNext instanceof IntersectionTile) {
-						valid = false; // Intersection cannot be next to a Road
-					}
-				}
-			}
-		}
-		return valid;
-	}
-
-	//TODO javadoc
-	private boolean validateIntersection(Tile t) {
-		boolean valid = true;
-		int exitCount = 0;
-
-		// X Across Y Down
-		List<Tile> intersection =((IntersectionTile) t).getIntersection().getTiles();
-
-		/* check for a complete intersection */
-		for (Tile it : intersection) {
-			if (it instanceof IntersectionTile) {
-				// Valid
-			} else {
-				valid = false;
-				break;
-			}
-		}
-
-		/* Check intersection exits */
-		for (int i = 0; i < 4; i++) { // North side of intersection
-			int newX = intersection.get(i).getGridPosX();
-			int newY = intersection.get(i).getGridPosY();
-
-			if (!(newY-1 < 0)) {
-				Tile iExit = this.editorMap.getTiles()[newX][(newY-1)];
-				
-				if (iExit instanceof Lane) {
-					if ((((Lane) iExit).getDirection() == Direction.NORTH &&
-							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-							|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
-							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-						exitCount++;
-					}
-				}
-				
-			}
-		}
-
-		for (int i = 12; i < 16; i++) { // South side of intersection
-			int newX = intersection.get(i).getGridPosX();
-			int newY = intersection.get(i).getGridPosY();
-
-			if (!(newY+1 >= this.editorMap.getTiles()[0].length)) {
-				Tile iExit = this.editorMap.getTiles()[newX][(newY+1)];
-				
-				if (iExit instanceof Lane) {
-					if ((((Lane) iExit).getDirection() == Direction.NORTH &&
-							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-							|| (((Lane) iExit).getDirection() == Direction.SOUTH &&
-							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-						exitCount++;
-					}
-				}
-			}
-		}
-
-		for (int i = 0; i < 13; i += 4) { // West side of intersection
-			int newX = intersection.get(i).getGridPosX();
-			int newY = intersection.get(i).getGridPosY();
-
-			if (!(newX-1 < 0)) {
-				Tile iExit = this.editorMap.getTiles()[newX-1][(newY)];
-				
-				if (iExit instanceof Lane) {
-					if ((((Lane) iExit).getDirection() == Direction.EAST &&
-							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-							|| (((Lane) iExit).getDirection() == Direction.WEST &&
-							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-						exitCount++;
-					}
-				}
-			}
-		}
-
-		for (int i = 3; i < 16; i += 4) { // East side of intersection
-			int newX = intersection.get(i).getGridPosX();
-			int newY = intersection.get(i).getGridPosY();
-
-			if (!(newX+1 >= this.editorMap.getTiles().length)) {
-				Tile iExit = this.editorMap.getTiles()[newX+1][(newY)];
-				
-				if (iExit instanceof Lane) {
-					if ((((Lane) iExit).getDirection() == Direction.EAST &&
-							(((Lane) iExit).getLaneNo() == 0 || ((Lane) iExit).getLaneNo() == 1))
-							|| (((Lane) iExit).getDirection() == Direction.WEST &&
-							(((Lane) iExit).getLaneNo() == 2 || ((Lane) iExit).getLaneNo() == 3))) {
-						exitCount++;
-					}
-				}				
-			}
-		}
-
-		if (exitCount < 2) {
-			valid = false;
-		}
-
-		return valid;
-
-	}
-
-	private void floodFill(String tFill, int xIn, int yIn){
-		Tile[][] mapTiles = this.editorMap.getTiles();
-		boolean[][] visited = new boolean[mapTiles.length][mapTiles.length];
-
-		Tile t = this.editorMap.getTiles()[xIn][yIn];
-		LinkedList<Tile> queue = new LinkedList<Tile>();
-		queue.add(t);
-
-		while (!queue.isEmpty()) {
-			t = queue.getLast();
-			queue.removeLast();
-			xIn = t.getGridPosX();
-			yIn = t.getGridPosY();
-
-			if (t instanceof Land && tFill.equals("eraser")) {
-				editorMap.removeSingle(editorMap.getTiles()[xIn][yIn]);
-				visited[xIn][yIn] = true;
-
-				if (xIn - 1 >= 0) {
-					if (visited[xIn - 1][yIn] == false) {
-						t = this.editorMap.getTiles()[xIn - 1][yIn];
-						queue.add(t);
-					}
-				}
-				if (xIn + 1 < mapTiles.length) {
-					if (visited[xIn + 1][yIn] == false) {
-						t = this.editorMap.getTiles()[xIn + 1][yIn];
-						queue.add(t);
-					}
-				}
-				if (yIn - 1 >= 0) {
-					if (visited[xIn][yIn - 1] == false) {
-						t = this.editorMap.getTiles()[xIn][yIn - 1];
-						queue.add(t);
-					}
-				}
-				if (yIn + 1 < mapTiles.length) {
-					if (visited[xIn][yIn + 1] == false) {
-						t = this.editorMap.getTiles()[xIn][yIn + 1];
-						queue.add(t);
-					}
-				}
-			}
-
-			else if (!(t instanceof Lane || t instanceof Land || t instanceof IntersectionTile)) {
-
-				switch (tFill) {
-				case "grass":
-					editorMap.addSingle(new Grass(xIn * tileSize, yIn
-							* tileSize, tileSize, tileSize, xIn, yIn));
-					break;
-				case "dirt":
-					editorMap.addSingle(new Dirt(xIn * tileSize,
-							yIn * tileSize, tileSize, tileSize, xIn, yIn));
-					break;
-				case "water":
-					editorMap.addSingle(new Water(xIn * tileSize, yIn
-							* tileSize, tileSize, tileSize, xIn, yIn));
-					break;
-				}
-
-				visited[xIn][yIn] = true;
-
-				if (xIn - 1 >= 0) {
-					if (visited[xIn - 1][yIn] == false) {
-						t = this.editorMap.getTiles()[xIn - 1][yIn];
-						queue.add(t);
-					}
-				}
-				if (xIn + 1 < mapTiles.length) {
-					if (visited[xIn + 1][yIn] == false) {
-						t = this.editorMap.getTiles()[xIn + 1][yIn];
-						queue.add(t);
-					}
-				}
-				if (yIn - 1 >= 0) {
-					if (visited[xIn][yIn - 1] == false) {
-						t = this.editorMap.getTiles()[xIn][yIn - 1];
-						queue.add(t);
-					}
-				}
-				if (yIn + 1 < mapTiles.length) {
-					if (visited[xIn][yIn + 1] == false) {
-						t = this.editorMap.getTiles()[xIn][yIn + 1];
-						queue.add(t);
-					}
-				}
-
-			}
-		}
-	}
 
 	public Stage getPrimaryStage() {
 		return editorStage;
@@ -929,6 +672,23 @@ public class EditorApp extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public int getGridSize() {
+		return gridSize;
+	}
+
+	public Pane getCanvas() {
+		return canvas;
+	}
+
+	public Map getMap() {
+		return editorMap;
+	}
+	
+	public boolean getMapValidated(){
+		mapValidated = mv.validateMap(this.editorMap.getTiles());
+		return mapValidated;
 	}
 
 

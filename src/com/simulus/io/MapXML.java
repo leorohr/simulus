@@ -154,10 +154,6 @@ public class MapXML {
 								fullGrid[xPos][yPos] = new Water(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
-//								case "BLOCK":  // TODO: add block tile
-//									fullGrid[xPos][yPos] = new Block(xPos * tileSize, yPos * tileSize, tileSize,
-//											 tileSize, xPos, yPos, Direction.NONE, Integer.parseInt(attribute2));
-//								break;
 							}
 						break;
 						case "lane":  //add lane tile
@@ -185,11 +181,8 @@ public class MapXML {
 											 tileSize, xPos, yPos);
 						break;
 					}
- 
 				}
-
 			}
-
 		} catch (Exception e) {
 			System.err.println("Error reading map file!" + "\n" +
 					"Check that the input file exists and that it matches XML map schema.");
@@ -346,10 +339,8 @@ public class MapXML {
 			transformer.transform(source, result);
 
 		} catch (ParserConfigurationException pce) {
-			//pce.printStackTrace();
 			System.err.println("Error writing map file!");
 		} catch (TransformerException tfe) {
-			//tfe.printStackTrace();
 			System.err.println("Error writing map file!");
 		}
 

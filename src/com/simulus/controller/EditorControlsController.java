@@ -58,6 +58,8 @@ public class EditorControlsController implements Initializable {
 	@FXML
 	Button gridIncButton;
 	@FXML
+	Button gridDecButton;
+	@FXML
 	Label gridSizeLabel;
 	@FXML
 	TextField nameTextField;
@@ -67,16 +69,12 @@ public class EditorControlsController implements Initializable {
 	TextField descTextField;
 	@FXML
 	TextField authorTextField;
-	@FXML
-	ComboBox<String> mapListCB;
 	@FXML 
 	Hyperlink simulusLink;
 	@FXML
 	Button helpButton;
 	@FXML
 	ImageView logoImg;
-	
-	File[] matchingFiles;
 
 
 	// TODO javadoc
@@ -119,35 +117,21 @@ public class EditorControlsController implements Initializable {
 
 		openMapButton.setOnAction((event) -> {
 			EditorApp.getInstance().selectButton((Button) event.getSource());
-			populateMapList();
 		});
 		
 		validateMapButton.setOnAction((event) -> {
-			//EditorApp.getInstance().selectButton((Button) event.getSource());
-			
-			if(EditorApp.getInstance().validateMap() == true){
-				EditorApp.getInstance();
-				EditorApp.getInstance().validationPassDialog();
-			}else{
-				EditorApp.getInstance();
-				EditorApp.getInstance().validationFailDialog();
-			}
-			
+			EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 
 		saveMapButton.setOnAction((event) -> {
-			
 			if ("".equals(getMapName())){
 				mapNameDialog();
 			}else {
 				EditorApp.getInstance().selectButton((Button) event.getSource());
-				populateMapList();
-			}
-				
+			}	
 		});
 		
 		clearMapButton.setOnAction((event) -> {
-			
         	Alert alert = new Alert(AlertType.CONFIRMATION);
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
         	alert.setTitle("New Map");
@@ -156,14 +140,7 @@ public class EditorControlsController implements Initializable {
         	Optional<ButtonType> result = alert.showAndWait();
         	if(result.get() != ButtonType.OK)
         		return;
-			try {
-				populateMapList();
-				EditorApp.getInstance().selectButton((Button) event.getSource());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			
+        	EditorApp.getInstance().selectButton((Button) event.getSource());
 		});
 		
 		simulusLink.setOnAction(new EventHandler<ActionEvent>() {
@@ -174,14 +151,7 @@ public class EditorControlsController implements Initializable {
         });
 		
 		gridIncButton.setOnAction((event) -> {
-			
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-        	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
-        	alert.setTitle("Grid Size");
-        	alert.setHeaderText("Altering grid size will clear the current map!");
-        	alert.setContentText("Continue?");
-        	Optional<ButtonType> result = alert.showAndWait();
-        	if(result.get() == ButtonType.OK){
+        	if(gridChangeDialog()){
     			switch(getGridSize()){
     			case 40:
     				setGridSize(60);
@@ -193,13 +163,28 @@ public class EditorControlsController implements Initializable {
     				setGridSize(40);
     			break;
     			}
-    			populateMapList();
+    			EditorApp.getInstance().clearMap();
+        	}
+		});
+		
+		gridDecButton.setOnAction((event) -> {
+        	if(gridChangeDialog()){
+    			switch(getGridSize()){
+    			case 40:
+    				setGridSize(80);
+    			break;
+    			case 60:
+    				setGridSize(40);
+    			break;
+    			case 80:
+    				setGridSize(60);
+    			break;
+    			}
     			EditorApp.getInstance().clearMap();
         	}
 		});
 		
 		simulateButton.setOnAction((event) -> {
-			
 			//validate map then save and open simulator
 			Alert alert = new Alert(AlertType.CONFIRMATION);
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
@@ -207,9 +192,8 @@ public class EditorControlsController implements Initializable {
         	alert.setHeaderText("Opening the Simulator will close the Editor.");
         	alert.setContentText("Save current map and continue?");
         	Optional<ButtonType> result = alert.showAndWait();
-        	if(result.get() == ButtonType.OK){
-        		
-        		if(EditorApp.getInstance().validateMap() == true && "".equals(getMapName()) == false){
+        	if(result.get() == ButtonType.OK){        		
+        		if(EditorApp.getInstance().getMapValidated() && "".equals(getMapName()) == false){
                 	//Save map to file
                 	File mapFile = EditorApp.getInstance().saveMapDialog();
                 	if(mapFile == null)
@@ -235,33 +219,10 @@ public class EditorControlsController implements Initializable {
         			}else{
         				EditorApp.getInstance().saveMapDialog();
         			}
-        			
         		}
-                
         	} else{
         		return;
         	}
-		});
-		
-//		populateMapList(); TODO remove combobox completely 
-
-		mapListCB.setOnAction((event) -> {
-		     
-        	Alert alert = new Alert(AlertType.CONFIRMATION);
-        	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
-        	alert.setTitle("Change Map");
-        	alert.setHeaderText("The current map will be lost!");
-        	alert.setContentText("Continue?");
-        	Optional<ButtonType> result = alert.showAndWait();
-        	if(result.get() == ButtonType.OK && mapListCB.getSelectionModel().getSelectedIndex() < matchingFiles.length
-        			&& mapListCB.getSelectionModel().getSelectedIndex() >= 0)
-        		try{
-        			File file = matchingFiles[mapListCB.getSelectionModel().getSelectedIndex()];
-        			EditorApp.getInstance().loadMap(file); 
-        				
-        		} catch (Exception e) {
-        			e.printStackTrace();
-        		}
 		});
 		
 		helpButton.setOnAction((event) -> {
@@ -271,26 +232,7 @@ public class EditorControlsController implements Initializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		});
-		
-	}
-	
-	private void populateMapList(){
-		
-		mapListCB.getItems().clear();
-		File f = new File(getClass().getResource("/resources/maps/").getFile());
-
-		matchingFiles = f.listFiles(new FilenameFilter() {
-		    public boolean accept(File dir, String name) {
-		        return name.endsWith("map");
-		    }
-		});
-
-		for(File files : matchingFiles){
-			mapListCB.getItems().add(files.getName().substring(0,files.getName().length() - ".map".length()));
-		}
-
 	}
 	
 	public static void openWebpage(String urlString) {
@@ -301,6 +243,29 @@ public class EditorControlsController implements Initializable {
 	    }
 	}
 	
+	private boolean gridChangeDialog(){
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+    	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+    	alert.setTitle("Grid Size");
+    	alert.setHeaderText("Altering grid size will clear the current map!");
+    	alert.setContentText("Continue?");
+    	Optional<ButtonType> result = alert.showAndWait();
+    	if (result.get() == ButtonType.OK) {
+    		return true;
+    	} else {
+    		return false;
+    	}
+	}
+	
+	private void mapNameDialog(){
+		Alert alert = new Alert(AlertType.WARNING);
+		alert.initOwner(EditorApp.getInstance().getPrimaryStage());
+		alert.setTitle("Map Name");
+		alert.setHeaderText("A map name is required!");
+		Optional<ButtonType> result = alert.showAndWait();
+		if(result.get() != ButtonType.OK)
+			return;
+	}
 
 	public void setMapName(String name) {
 	        nameTextField.setText(name);
@@ -334,15 +299,6 @@ public class EditorControlsController implements Initializable {
 		return authorTextField.getText();
 	}
 	
-	private void mapNameDialog(){
-    	Alert alert = new Alert(AlertType.WARNING);
-    	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
-    	alert.setTitle("Map Name");
-    	alert.setHeaderText("A map name is required!");
-    	Optional<ButtonType> result = alert.showAndWait();
-    	if(result.get() != ButtonType.OK)
-    		return;
-	}
 	
 	public int getGridSize(){
 		int value = 60;
