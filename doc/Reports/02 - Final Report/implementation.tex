@@ -1,7 +1,7 @@
 \section{Implementation}
 In the following we want to describe implementation specific details of both the simulator as well as the map editing application. We will elucidate problems we faced during the implementation and the integration of both applications and how we solved them. 
 \subsection{Simulator}
-Behind the user interface of the simulator a continuously running thread is mandated with updating the current state of the simulation with each tick, i.e. every 50ms. The thread execution is triggered by the globally governing SimulationController and its \textit{run}-method (fig.~\ref{fig:animthread}) appears refreshingly simple. Despite the apparent simplicity the design of the thread posed a range of problems. As is usual for Java UI frameworks, JavaFX also prohibits changes to UI objects by any thread other the main application thread, forcing us to submit each update that is to be escalated to the interface as a \textit{runnable} object to said application thread's execution queue. To reduce scheduling overhead we kept the AnimationThread's main loop as simple as possible, resulting in no more than four calls to the mentioned execution queue. The calls to \textit{spawnRandomTrucks()} and \textit{spawnRandomCar()} depend on the car/truck-ratio currently present on the map, i.e. either one of the method is called depending on the current deviation from the desired ratio. The \textit{updateCharts()} method of the \textit{ControlsController} retrieves the statistics of the simulation from the map and adds a new data point to each of the charts. This is done in 500 millisecond intervals.
+Behind the user interface of the simulator a continuously running thread is mandated with updating the current state of the simulation with each tick, i.e. every 50ms by default. The thread execution is triggered by the globally governing SimulationController and its \textit{run}-method appears refreshingly simple (fig.~\ref{fig:animthread}). Despite the apparent simplicity the design of the thread posed a range of problems. As is usual for Java UI frameworks, JavaFX also prohibits changes to UI objects by any thread other the main application thread, forcing us to submit each update that is to be escalated to the interface as a \textit{runnable} object to said application thread's execution queue. To reduce scheduling overhead we kept the AnimationThread's main loop as simple as possible, resulting in no more than four calls to the mentioned execution queue. The calls to \textit{spawnRandomTrucks()} and \textit{spawnRandomCar()} depend on the car/truck-ratio currently observed on the map, i.e. either one of the method is called depending on the current deviation from the desired ratio. The \textit{updateCharts()} method of the \textit{ControlsController} retrieves the statistics of the simulation from the map and adds a new data point to each of the charts. This is done in 500 millisecond intervals.
 
 \begin{figure}[h]
 	\begin{center}
@@ -9,9 +9,10 @@ Behind the user interface of the simulator a continuously running thread is mand
 		\caption[Sequence Diagram of the Animation Thread]{Sequence Diagram of the Animation Thread}
 		\label{fig:animthread}
 	\end{center}
+
 \end{figure}
 
-With the multithreaded execution described above came concurrency related issues. The class Map contains a list to all vehicles currently present in the simulation. Whenever a vehicle is leaving the map, it notifies the SimulationController, which in turn removes the vehicle from the simulation. As the map's \textit{updateMap()} is constantly iterating through its list of vehicles, removing a vehicle from anywhere else than within this loop results in concurrency exceptions.
+With the multithreaded execution described above came concurrency related issues. The class Map contains a list of all vehicles currently present in the simulation. Whenever a vehicle is leaving the map, it notifies the SimulationController, which in turn removes the vehicle from the simulation. As the map's \textit{updateMap()} is constantly iterating through its list of vehicles, removing a vehicle from anywhere else than within this loop results in concurrency exceptions.
 
 \begin{wrapfigure}{r}{0.45\textwidth}
 	\begin{minipage}{0.45\textwidth}
@@ -25,7 +26,7 @@ if(toBeRemoved.contains(v)){
 	\end{minipage}
 \end{wrapfigure}
 
-In order to overcome this issue we considered both the traditional reader-writer-locking as well as the more advanced read-copy-update pattern, but eventually come to the conclusion but using either of them will introduce an additional scheduling (and implementation) overhead and hence only yield imperceptible performance improvements over the solution we employed (listing~\ref{lst:carRem}). As mentioned earlier, the \textit{updateMap()} method loops through all existing vehicles with each tick, we create a list of vehicles that are about to move the map within the next tick. As soon as the iterator (\textit{iter}) points to a vehicle \textit{v} that is on the \textit{toBeRemoved} list, it is removed and the loop skips one iteration.  
+In order to overcome this issue we considered both the traditional reader-writer-locking as well as the more advanced read-copy-update pattern, but eventually came to the conclusion that using either of them will introduce an additional scheduling (and implementation) overhead and hence only yield imperceptible performance improvements over the solution we employed (listing~\ref{lst:carRem}). As mentioned earlier, the \textit{updateMap()} method iterates through all existing vehicles with each tick. During the animation, the map keeps track of vehicles that are about to move off the map within the next tick. As soon as the iterator (\textit{iter}) points to a vehicle \textit{v} that is on the \textit{toBeRemoved} list, it is removed and the loop skips the iteration for this vehicle.
 
 In order to ease the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple communication flows.
 
@@ -52,7 +53,7 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
 		\caption[Identifying properties of Start button with ScenicView]{Identifying properties of Start button with ScenicView}
-		\label{fig:scenicview}
+	\label{fig:scenicview}
 	\end{center}
 \end{figure}
 
@@ -66,19 +67,19 @@ We wrote our test cases in an automated fashion. This allowed us to reduce the w
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/testCase.png}
 		\caption{A log is produced after a test execution}
-		\label{fig:testCase}
+	\label{fig:testCase}
 	\end{center}
 \end{figure}
 
 In addition, we also looked at the organisation of our code base to further assess the code quality of our software.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual cue on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape it is the more lines of codes there have been written for a class. The colour depth of a shape indicates the density of its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car.class} is 58, we were able to reduce it to 21 for the final version.     
 
 \begin{figure}[h]
-\begin{minipage}{\textwidth}
-	\begin{center}
-			\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
-		\caption{Heat Map for the final version of the software}
-		\label{fig:heatmap}
-	\end{center}
+	\begin{minipage}{\textwidth}
+		\begin{center}
+				\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
+			\caption{Heat Map for the final version of the software}
+			\label{fig:heatmap}	
+		\end{center}
 	\end{minipage}
 \end{figure}
 
@@ -88,7 +89,7 @@ Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for ou
 	\begin{center}
 			\includegraphics[width=\textwidth]{img/archIntDependency.png}
 		\caption{Architecture Internal Dependency}
-		\label{fig:archIntDependency}
+	\label{fig:archIntDependency}
 	\end{center}
 \end{figure}
 
@@ -120,7 +121,7 @@ This procedure was extended with bounds checking in our multidimensional array t
 	\begin{center}
 		\includegraphics[scale=0.8]{img/floodFill.png}
 		\caption[Flood Fill]{Before and after the use of flood fill}
-		\label{fig:animthread}
+	\label{fig:floodfill}
 	\end{center}
 \end{figure}
 
