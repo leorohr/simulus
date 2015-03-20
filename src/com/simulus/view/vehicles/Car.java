@@ -16,8 +16,8 @@ import com.simulus.view.map.Lane;
  */
 public class Car extends Vehicle {
 
-	public static final int CARWIDTH = 10 / (Configuration.getGridSize()/40);
-	public static final int CARLENGTH = 15 / (Configuration.getGridSize()/40);	
+	public static final int CARWIDTH = 8 / (Configuration.getGridSize()/40);
+	public static final int CARLENGTH = 10 / (Configuration.getGridSize()/40);	
 
 	private static final int ARCHEIGHT = 10;
 	private static final int ARCWIDTH = 10;

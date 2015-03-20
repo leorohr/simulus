@@ -71,6 +71,7 @@ public class Map extends Group {
 
 		for (Intersection i : intersections) {
 			i.addTurningPaths(tiles);
+			
 
 			// If the path has a lane at the end of it, set it to active
 			// This allows the creation intersections without 4 connected roads
@@ -78,6 +79,7 @@ public class Map extends Group {
 				if (p.getEndTile() instanceof Lane)
 					p.setActive(true);
 			}
+			
 			Thread t = new Thread(i, "Intersection <"
 					+ i.getTiles().get(0).getGridPosX() + ", "
 					+ i.getTiles().get(0).getGridPosY() + ">");
@@ -538,12 +540,20 @@ public class Map extends Group {
 
 		for (Intersection i : intersections) {
 			i.addTurningPaths(tiles);
-
 			// If the path has a lane at the end of it, set it to active
 			// This allows the creation intersections without 4 connected roads
 			for (CustomPath p : i.getTurningPaths()) {
 				if (p.getEndTile() instanceof Lane && p.getStartTile() instanceof Lane)
 					p.setActive(true);
+			}
+			for(IntersectionTile[] it: i.tiles){
+				for(IntersectionTile itt: it){
+					if(itt.hasStraightPath()){
+						for(CustomPath p: itt.getTurningPaths())
+							if(p.getDistance() == Intersection.arcDistanceMedium || p.getDistance() == Intersection.arcDistanceVeryLong)
+								p.setActive(false);
+					}
+				}
 			}
 			Thread t = new Thread(i, "Intersection <"
 					+ i.getTiles().get(0).getGridPosX() + ", "

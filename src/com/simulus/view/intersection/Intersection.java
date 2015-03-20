@@ -30,8 +30,13 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public IntersectionTile[][] tiles = new IntersectionTile[4][4];
 	private long switchTime;
-	private int tileSize = Configuration.getTileSize();
+	private static int tileSize = Configuration.getTileSize();
 	private ArrayList<CustomPath> turningPaths;
+	public static final double arcDistanceShort = 90*(Math.PI/180)*(tileSize/2);
+	public static final double arcDistanceMedium = 90*(Math.PI/180)*(tileSize*1.5);
+	public static final double arcDistanceLong = 90*(Math.PI/180)*(tileSize*2.5);
+	public static final double arcDistanceVeryLong = 90*(Math.PI/180)*(tileSize*3.5);
+	public static final double straightDistance = 4*tileSize;
 	
 	/**
 	 * @param xPos x coordinate of the top left tile of the intersection in the grid
@@ -63,11 +68,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 */
 	public void addTurningPaths(Tile[][] m){
 
-		double arcDistanceShort = 90*(Math.PI/180)*(tileSize/2);
-		double arcDistanceMedium = 90*(Math.PI/180)*(tileSize*1.5);
-		double arcDistanceLong = 90*(Math.PI/180)*(tileSize*2.5);
-		double arcDistanceVeryLong = 90*(Math.PI/180)*(tileSize*3.5);
-		double straightDistance = 4*tileSize;
+		
 
 		//Left, top
 		IntersectionTile t = tiles[0][0];
@@ -179,7 +180,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 														tiles[1][0].getCenterX(), tiles[1][0].getY(),
 														false, true)));
 		
-		//Turn right
+		//Turn left
 		t.getTurningPaths().add(new CustomPath(TurningDirection.LEFT,arcDistanceMedium, m[t.getGridPosX()+1][t.getGridPosY()], m[t.getGridPosX()-1][t.getGridPosY()+2],Direction.SOUTH, new MoveTo(t.getX()+tileSize, t.getCenterY()),				
 											new ArcTo(	tileSize*1.5, tileSize*1.5,
 														0.0d,

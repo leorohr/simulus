@@ -37,6 +37,14 @@ public class IntersectionTile extends Tile {
 		turningPaths = new ArrayList<>();
 	}
 	
+	public boolean hasStraightPath(){
+		for(CustomPath p: getTurningPaths()){
+			if(p.getDistance() == Intersection.straightDistance && p.getActive())
+				return true;
+		}
+		return false;
+	}
+	
 	
 	/*
 	 * Getters & Setters

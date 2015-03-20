@@ -84,4 +84,12 @@ public class CustomPath extends Path {
 	public void setActive(boolean b) {
 		isActive = b;
 	}
+
+	@Override
+	public String toString() {
+		return "CustomPath [startTile=" + startTile + ", endTile=" + endTile
+				+ ", endDir=" + endDir + ", pathDistance=" + pathDistance
+				+ ", turn=" + turn + ", isActive=" + isActive + "]";
+	}
+	
 }

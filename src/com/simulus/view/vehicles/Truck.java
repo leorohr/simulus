@@ -18,8 +18,8 @@ import com.simulus.view.map.Lane;
  */
 public class Truck extends Vehicle {
 
-	public static final int TRUCKWIDTH = 12 / (Configuration.getGridSize()/40);
-	public static final int TRUCKLENGTH = 20 / (Configuration.getGridSize()/40);
+	public static final int TRUCKWIDTH = 8 / (Configuration.getGridSize()/40);
+	public static final int TRUCKLENGTH = 14 / (Configuration.getGridSize()/40);
 	
 	private static final Color COLOUR = Color.LIGHTSALMON;
 	

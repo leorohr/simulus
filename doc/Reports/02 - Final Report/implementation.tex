@@ -92,8 +92,8 @@ Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for ou
 	\label{fig:archIntDependency}
 	\end{center}
 \end{figure}
-
-\section{Map Editor}
+\clearpage
+\subsection{Map Editor}
 
 \subsection{Graphical User Interface}
 The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Fig.~\ref{fig:finalMapEditor} shows the resulting design chosen which the team felt had met the requirements in whole and one we hope is apparent when using the application to create a map.
@@ -111,7 +111,7 @@ The majority of the effort with the editor application was on user interaction (
 The basis of any map editor is the ability to tag defined areas of desktop real-estate representing a real world instance e.g. land mass. We began by constructing an X*Y cell grid, where X and Y are the number of cells horizontally and vertically and where X=Y. The smallest instance of a map was to be a 40x40 grid yielding 1,600 tiles each needing to be individually tagged. Clearly it was not realistic to expect the user to tag each cell individually. Even when removing the number of tiles that would be tagged using the road and intersection tools, large swathes of the map are left unfilled.  
 A method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. That is only fill empty cells within in a certain boundary so as not replace existing ones.  This is is better known as a flood fill algorithm and is listed as requirement 2.7 and 2.8 of section \ref{ss:reqs}
 
-There are several techniques for implementing flood fill (cite) of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property.  The appropriate psudocode is as follows:
+There are several techniques for implementing flood fill \cite{brennan2009} of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property.  The appropriate psudocode is as follows:
 
 % probably need a new listing for psudocode?
 \begin{minipage}{0.9\textwidth}
@@ -218,3 +218,4 @@ To ensure the new approach would be indeed suitable for the set grid sizes, some
 \end{figure}
 
 It must be noted that the new method is no longer as concise as a definition compared to the original but it was a subtle sacrifice for the benefits it yielded.
+

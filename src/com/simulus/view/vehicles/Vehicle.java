@@ -146,7 +146,6 @@ public abstract class Vehicle extends Rectangle {
                
         path.setStroke(Color.DODGERBLUE);
         path.getStrokeDashArray().setAll(5d,5d);
-        currentPath = path;
         MainApp.getInstance().getCanvas().getChildren().add(path);
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
@@ -287,19 +286,22 @@ public abstract class Vehicle extends Rectangle {
 		if(currentIntersection != null && isTransitioning()) {
 			for(int i = 0; i < currentIntersection.tiles.length ; i++) {
 				for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
-					if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this && currentIntersection.tiles[i][j].getOccupier().isTransitioning()) {
+					if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this) {
 						if(currentPath.getBoundsInParent().intersects(currentIntersection.tiles[i][j].getBoundsInParent())) {
 							if(currentTransition.getCurrentTime().lessThan(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition().getCurrentTime())) {
 								currentTransition.setRate(0);
 								return;
-							}else if(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition() == null){
-								currentTransition.setRate(0);
-								return;
-							}else if(currentPath.getEndTile().isOccupied()){
-								currentTransition.setRate(0);
 							}
 						}
-					}
+						if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this && this.getBoundsInParent().intersects(currentPath.getEndTile().getBoundsInParent())){
+							currentTransition.setRate(0);
+							return;
+							}
+						}
+						
+					
+					
+					
 					
 					//Occupy correct tiles while transitioning
 					if(currentIntersection.tiles[i][j].getFrame().getBoundsInParent().intersects(this.getBoundsInParent())) {
@@ -322,8 +324,15 @@ public abstract class Vehicle extends Rectangle {
 		
 		getTransforms().clear();
 		currentPath = p;
+		double duration;
 		
-		pathTransition = new PathTransition(Duration.millis(1250), p, this);
+		if(getVehicleSpeed() == 0)
+			setVehicleSpeed(maxSpeed);
+	
+			duration = p.getDistance()/(getVehicleSpeed()/SimulationController.getInstance().getTickTime());
+		System.out.println(duration);
+		
+		pathTransition = new PathTransition(Duration.millis(duration), p, this);
 		pathTransition.setInterpolator(Interpolator.LINEAR);
 		pathTransition.setOrientation(OrientationType.NONE);
 		
@@ -331,13 +340,13 @@ public abstract class Vehicle extends Rectangle {
 		RotateTransition rt = new RotateTransition(Duration.UNKNOWN, this);
 		if(p.getTurn() == TurningDirection.RIGHT){
 			rt.setToAngle(getRotate() + 90);
-			rt.setDuration(Duration.millis(1250));
-			pathTransition.setDuration(Duration.millis(1250));
+			rt.setDuration(Duration.millis(duration));
+			pathTransition.setDuration(Duration.millis(duration));
 			transition = new ParallelTransition(this, rt, pathTransition);
 		} else if(p.getTurn() == TurningDirection.LEFT){
 			rt.setToAngle(getRotate() - 90);
-			rt.setDuration(Duration.millis(750));
-			pathTransition.setDuration(Duration.millis(750));			
+			rt.setDuration(Duration.millis(duration));
+			pathTransition.setDuration(Duration.millis(duration));			
 			transition = new ParallelTransition(this, rt, pathTransition);
 		} else transition = pathTransition;
 		        

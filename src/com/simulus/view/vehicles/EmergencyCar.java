@@ -38,6 +38,11 @@ public class EmergencyCar extends Car {
 	@Override
 	public void moveVehicle() {
 		
+		if(isTransitioning()){
+			checkTransitionBlockage();
+			return;
+		}
+		
 		tempDir = getDirection();
 
 		try {
