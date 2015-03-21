@@ -18,6 +18,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.simulus.EditorApp;
+import com.simulus.MainApp;
+
+
+/**
+ * Used by the Simulus suite of applications, ({@link MainApp})
+ * for importing and exporting a Simulus simulation file which contains simulation parameters.  XML data format used.
+ * 
+ *
+ */
 public class SimConfigXML {
 
 	File inputXmlFile;
@@ -50,7 +60,11 @@ public class SimConfigXML {
 
 	}
 
-	// reads XML file to get simulation setting parameters
+	/**
+	 * Reads a Simulus XML simulation file. Error thrown if the file does not match expected schema
+	 * 
+	 * @param inputFile the simulation file
+	 */
 	public void readXML(String inputFile) {
 
 		try {
@@ -128,7 +142,26 @@ public class SimConfigXML {
 
 	}
 
-	// outputs XML file based on simulation parameters
+	/**
+	 * Outputs a Simulus simulation file with the passed parameters
+	 * 
+	 * @param outputFile the file path to save the output including a filename
+	 * @param nameIn a name for the simulation
+	 * @param dateIn the date and time the simulation was last saved
+	 * @param descIn a description for the simulation file
+	 * @param authIn the author of the simulation settings file
+	 * @param noCarsIn the number of cars used in the simulation
+	 * @param tickRateIn the tick rate used in the simulation
+	 * @param spawnRateIn the spawn rate used in the simulation
+	 * @param maxSpeedIn the maximum speed of cars in the simulation
+	 * @param carTruckRatioIn the ration of cars to trucks in the simulation
+	 * @param debugIn if the simulation should run in debug mode
+	 * @param recklessNormRatioIn the ratio of reckless to normal cars in the simulation
+	 * @param carColourOptionIn the source of colour for cars in the simulation
+	 * @param carColourIn the custom car colour when the user defined option us used in the simulation
+	 * @param truckColourOptionIn the source of colour for trucks in the simulation
+	 * @param truckColourIn the custom truck colour when the user defined option us used in the simulation
+	 */
 	public void writeXML(String outputFile, String nameIn, String dateIn,
 			String descIn, String authIn, double noCarsIn, double tickRateIn,
 			double spawnRateIn, double maxSpeedIn, double carTruckRatioIn,
@@ -279,9 +312,6 @@ public class SimConfigXML {
 				+ "Truck Colour Option: " + truckColourOption + "\n"
 				+ "Truck Colour: " + truckColour;
 	}
-
-
-
 
 	public String getSimName() {
 		return simName;

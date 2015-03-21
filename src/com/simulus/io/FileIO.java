@@ -7,8 +7,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.simulus.MainApp;
+
+
+/**
+ * Used by {@link MainApp} to copy/delete the temporary CSV file created in {@link CsvExport} to a new location.
+ *
+ */
 public class FileIO {
 	
+	/**
+	 * Copies a file to a destination location from the source.
+	 * @param source the full path of the source file
+	 * @param dest the full destination path including filename
+	 * @throws none
+	 */
 	public void copyFile(File source, File dest) throws IOException {
 	    InputStream is = null;
 	    OutputStream os = null;
@@ -27,6 +40,10 @@ public class FileIO {
 	}
 	
 	
+	/**
+	 * delete a file given it's full path
+	 * @param toDelete the file to be deleted
+	 */
 	public void deleteFile(File toDelete){
 			
 		try{ 

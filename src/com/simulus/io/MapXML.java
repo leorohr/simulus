@@ -18,6 +18,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.simulus.EditorApp;
+import com.simulus.MainApp;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.IntersectionTile;
@@ -28,6 +30,12 @@ import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.map.Water;
 
+
+/**
+ * Used by the Simulus suite of applications, ({@link MainApp}) and the Editor ({@link EditorApp}), 
+ * for import and export of a Simulus map file.  XML data format used.
+ *
+ */
 public class MapXML {
 
 	File inputXmlFile;
@@ -61,9 +69,12 @@ public class MapXML {
 
 	}
 
-
-	// reads XML file and returns 2D array of type tile. Error thrown if <tile>
-	// nodes do not match metadata i.e. grid size matching height x width
+	/**
+	 * Reads a Simulus XML map file and returns 2D array of type {@code Tile}. Error thrown if map file does not match
+	 * expected schema
+	 * 
+	 * @param inputFile the input map file to be read
+	 */
 	public void readXML(File inputFile) {
 
 		try {
@@ -142,7 +153,7 @@ public class MapXML {
 						break;
 						case "land":	
 							switch(subType){
-							case "GRASS":
+							case "GRASS":	//add grass tile
 								 fullGrid[xPos][yPos] = new Grass(xPos * tileSize, yPos * tileSize, tileSize,
 										 tileSize, xPos, yPos);
 								break;
@@ -176,7 +187,7 @@ public class MapXML {
 								break;
 							}
 						break;
-						case "intersection":
+						case "intersection"://add intersection tile
 							fullGrid[xPos][yPos] = new IntersectionTile(xPos * tileSize, yPos * tileSize, tileSize,
 											 tileSize, xPos, yPos);
 						break;
@@ -189,11 +200,28 @@ public class MapXML {
 		}
 	}
 	
+	
+	/**
+	 * Reads a map file using the file location
+	 * @param filePath the full path to the source map file
+	 */
 	public void readXML(String filePath) {
 		readXML(new File(filePath));
 	}
 
-	// outputs XML file based on given 2D array of type tile plus metadata
+	
+	/**
+	 * Outputs a map file based on given 2D array of type tile plus metadata.
+	 * @param gridIn the 2D array of tiles representing a grid
+	 * @param outputFile the destination file where the map will be saved
+	 * @param nameIn the map name
+	 * @param dateIn the date and time the map was last saved
+	 * @param descIn a description for the map
+	 * @param authIn the author of the map
+	 * @param canvasSizeIn the canvas size of the map (800 pixels)
+	 * @param numOfTilesIn the height of the map grid in terms of cells. Grid height = width
+	 * @param validatedIn has the map been validated i.e. passed to be used with the simulator
+	 */
 	public void writeXML(Tile[][] gridIn, String outputFile, String nameIn,
 			String dateIn, String descIn, String authIn, int canvasSizeIn, int numOfTilesIn, boolean validatedIn) {
 

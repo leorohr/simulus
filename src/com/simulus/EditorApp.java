@@ -44,6 +44,12 @@ import com.simulus.view.map.Map;
 import com.simulus.view.map.Road;
 import com.simulus.view.map.Water;
 
+
+/**
+ * {@code EditorApp} represents the map editor of the Simulus suite.
+ * 
+ * It should not be used as a run-target but only be started through the {@link com.simulus.Startup} application.
+ */
 public class EditorApp extends Application {
 
 	private Stage editorStage;
@@ -327,7 +333,7 @@ public class EditorApp extends Application {
 	 *  if tile is a Lane or Block then <code>removeGroup()</code> is called on LaneNo 0
 	 *  if the tile is an IntersectionTile then removeGroup() is called on the Intersection 
 	 * 
-	 * @param t - The tile whose group is to be erased
+	 * @param t the tile whose group is to be erased
 	 */
 	private void groupErase(Tile t) {
 		if (t instanceof Lane || t instanceof Block) {
@@ -365,10 +371,13 @@ public class EditorApp extends Application {
 	}
 	
 	/**
+	 * Flood fill used to quickly tag empty tiles on the map with the currently selected tile type.
+	 * Stops when reaching an already present land tile, lane or intersection.
+	 * Eraser tool removes any land tiles enclosed by the map edges lane or intersection.
 	 * 
-	 * @param tFill
-	 * @param xIn
-	 * @param yIn
+	 * @param tFill the land type to fill the empty area with {grass, dirt, water}
+	 * @param xIn the starting X grid coordinate
+	 * @param yIn the starting Y grid coordinate
 	 */
 	private void floodFill(String tFill, int xIn, int yIn){
 		Tile[][] mapTiles = this.editorMap.getTiles();
@@ -462,8 +471,14 @@ public class EditorApp extends Application {
 		}
 	}
 
+	
+	/**
+	 * Using {@link com.simulus.io.MapXML} class to read a Simulus map file and update the {@link com.simulus.controller.EditorControlsController}
+	 * textfields.
+	 * 
+	 * @param the source map file to load
+	 */
 	public void loadMap(File file){
-
 		MapXML mxml = new MapXML();
 		mxml.readXML(file);
 		ECC.setMapName(mxml.mapName);
@@ -476,6 +491,11 @@ public class EditorApp extends Application {
 		editorMap.loadEditorMap(file);
 	}
 
+	/**
+	 * Using {@link com.simulus.io.MapXML} class to save a map
+	 * 
+	 * @param fileLocation the destination output file
+	 */
 	public void saveMap(String fileLocation){
 		MapXML mxml = new MapXML();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -486,6 +506,10 @@ public class EditorApp extends Application {
 
 	}
 	
+	
+	/**
+	 * clears the grid and textfields on the import/export pane allowing a new map to be drawn
+	 */
 	public void clearMap(){
 		gridSize = Configuration.getGridSize();
 		tileSize = Configuration.getTileSize();
@@ -610,6 +634,10 @@ public class EditorApp extends Application {
 		}
 	}
 	
+	
+	/**
+	 * Dialog displayed when validation has failed
+	 */
 	public void validationFailDialog(){
     	Alert alert = new Alert(AlertType.WARNING);
     	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
@@ -618,6 +646,9 @@ public class EditorApp extends Application {
     	alert.showAndWait();
 	}
 	
+	/**
+	 * Dialog displayed when validation has passed
+	 */
 	public void validationPassDialog(){
     	Alert alert = new Alert(AlertType.INFORMATION);
     	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
@@ -626,6 +657,11 @@ public class EditorApp extends Application {
     	alert.showAndWait();
 	}
 
+	/**
+	 * File chooser dialog to allow the user to selecte a location to save the map file to
+	 * 
+	 * @return the output file selected
+	 */
 	public File saveMapDialog(){
 		mapValidated = mv.validateMap(this.editorMap.getTiles());
 		
@@ -645,6 +681,9 @@ public class EditorApp extends Application {
 		return selectedFile;
 	}
 
+	/**
+	 * Dialog to allow the user to select a map file to load
+	 */
 	public void openMapDialog(){
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Open Map XML...");

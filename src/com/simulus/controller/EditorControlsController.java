@@ -27,6 +27,9 @@ import com.simulus.MainApp;
 import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 
+/**
+ * The JavaFX controller for the control panel of the map editor.
+ */
 public class EditorControlsController implements Initializable {
 
 	@FXML
@@ -185,7 +188,7 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		simulateButton.setOnAction((event) -> {
-			//validate map then save and open simulator
+			//validate map
 			Alert alert = new Alert(AlertType.CONFIRMATION);
         	alert.initOwner(EditorApp.getInstance().getPrimaryStage());
         	alert.setTitle("Opening Simulator");
