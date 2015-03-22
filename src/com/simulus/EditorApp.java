@@ -117,7 +117,6 @@ public class EditorApp extends Application {
 		showControls();
 
 		this.editorMap = new Map();
-		this.editorMap.showGrid();
 
 		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
@@ -490,7 +489,6 @@ public class EditorApp extends Application {
 		gridSize = Configuration.getGridSize();
 		tileSize = Configuration.getTileSize();
 		editorMap.loadEditorMap(file);
-		editorMap.showGrid();
 	}
 
 	/**

@@ -300,7 +300,7 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-		tiles[tileX][tileY].setOccupied(true); //TODO should work without this
+		tiles[tileX][tileY].setOccupied(true); 
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
@@ -585,15 +585,6 @@ public class Map extends Group {
 			t.setOccupied(false, v);
 
 		toBeRemoved.add(v);
-	}
-
-	/**
-	 * Visualises the grid by drawing the frame of each tile in black.
-	 */
-	public void showGrid() {
-		for(Tile[] ts : tiles)
-			for(Tile t : ts)
-				t.getFrame().setStroke(Color.BLACK);
 	}
 	
 	/**
