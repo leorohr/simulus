@@ -31,9 +31,9 @@ In order to overcome this issue we considered both the traditional reader-writer
 In order to ease the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple communication flows.
 
 \subsection{Testing}
-In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is most adaptable process suited for this project. Hence we decided to test the codes iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing codes may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviews were conducted at early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we even attempt to adding more complicated features.
+In order to meet all the requirements specified at the beginning of the project, testing forms an integral part in this process. Within the Agile development framework, we felt that Feature Driven Development (FDD) is the most adaptable process suited for this project. Hence we decided to test the code iteratively at the end of each development cycle. We foresaw that writing testing code in a concurrent fashion with the development team may not be an effective way, given the fact that the testing code may not be working for the final product as incremental changes were made throughout the development. Therefore peer reviews were conducted at an early stage to ensure  code quality is kept at a standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation (i.e. the software model) before we attempt to add more complicated features.
 
-As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input, i.e. click buttons, entering data. In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
+As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX application. It is a test harness which allows the user to simulate user input (i.e. click buttons, entering data, etc.). In particular, JemmyFX defines how to get a list of scenes, nodes items, and get text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
 
 
 \begin{minipage}{0.9\textwidth}
@@ -48,7 +48,7 @@ LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePo
 	\end{lstlisting}
 \end{minipage}
 
-Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView provides a tree structure and highlights the item upon it is selected. In the case of unable identifying an elements within the source code, this has been particularly helpful.  
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, i.e. finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}) and alike. ScenicView provides a tree structure and highlights the item upon its selection. In the case of being unable to identify an elements within the source code, this has been particularly helpful.  
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
@@ -57,11 +57,9 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 	\end{center}
 \end{figure}
 
-Since we were trying to achieve a multithreaded application, we reached a point where it was impossible to test every functionality due to the level of nesting and threading was too deep for us to comprehend. Therefore we focused our unit testing mainly on major components (i.e. vehicles, map and the model), in order to ensure features within them work correctly - in return that the application would behave accordingly. With such approach, this gives us the confidence that our code works as we expect it to work. 
+Since we were trying to achieve a multithreaded application, we reached a point where it was impossible to test every functionality because the level of nesting and threading was too deep, i.e. it was practically impossible to conduct branch coverage to cover all potential scenarios. Therefore we focused our unit testing on major components (i.e. vehicles, map and the model), in order to ensure features within them work correctly - in return that the application would behave accordingly. With such approach, we are confident that our code works as we expect it to work. 
 
-It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
-
-We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
+It is arguable that there were lots of areas need that to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that the quality should not be purely depend on numbers. We want to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - within the scope of what this project aims to achieve.  We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
 
 \begin{figure}[h]
 	\begin{center}
@@ -71,7 +69,7 @@ We wrote our test cases in an automated fashion. This allowed us to reduce the w
 	\end{center}
 \end{figure}
 
-In addition, we also looked at the organisation of our code base to further assess the code quality of our software.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual cue on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape it is the more lines of codes there have been written for a class. The colour depth of a shape indicates the density of its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car.class} is 58, we were able to reduce it to 21 for the final version.     
+In addition, we also looked at the organisation of our code base to further assess the code quality.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape is the more lines of codes have been written for a class. The colour depth of a shape indicates its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car class} as 58; we were able to reduce it to 21 for the final version.     
 
 \begin{figure}[h]
 	\begin{minipage}{\textwidth}
@@ -83,7 +81,7 @@ In addition, we also looked at the organisation of our code base to further asse
 	\end{minipage}
 \end{figure}
 
-Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for our final product. We were assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most case, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described more or less as clean, as shown in the figure. 
+Fig.~\ref{fig:archIntDependency} illustrates the architectural dependency of our final product. We assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most cases, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described as clean, as shown in the figure. 
 
 \begin{figure}[h]
 	\begin{center}
@@ -92,6 +90,7 @@ Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for ou
 	\label{fig:archIntDependency}
 	\end{center}
 \end{figure}
+
 \clearpage
 \subsection{Map Editor}
 
