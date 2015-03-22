@@ -266,8 +266,9 @@ public class Intersection extends Group implements TileGroup, Runnable {
 			for (int j = 0; j < tiles.length; j++) {
 				IntersectionTile t = tiles[i][j];
                 t.getFrame().setFill(Color.TRANSPARENT);
-				for(CustomPath p : t.getTurningPaths()) {
-					if(p.getActive()) {
+				
+                for(CustomPath p : t.getTurningPaths()) {
+					if(p.getActive() && !t.getChildren().contains(p)) {
 						p.setStroke(Color.GREEN);
 						p.setFill(Color.TRANSPARENT);
 						t.getChildren().add(p);
