@@ -23,7 +23,6 @@ import com.simulus.util.enums.Orientation;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
-import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.vehicles.Ambulance;
@@ -301,7 +300,7 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-		tiles[tileX][tileY].setOccupied(true);
+		tiles[tileX][tileY].setOccupied(true); //TODO should work without this
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
@@ -520,24 +519,7 @@ public class Map extends Group {
 			}
 		}
 
-		for (Intersection i : intersections) {
-			i.addTurningPaths(tiles);
-			// If the path has a lane at the end of it, set it to active
-			// This allows the creation intersections without 4 connected roads
-			for (CustomPath p : i.getTurningPaths()) {
-				if (p.getEndTile() instanceof Lane && p.getStartTile() instanceof Lane)
-					p.setActive(true);
-			}
-			for(IntersectionTile[] it: i.tiles){
-				for(IntersectionTile itt: it){
-					if(itt.hasStraightPath()){
-						for(CustomPath p: itt.getTurningPaths())
-							if(p.getDistance() == Intersection.arcDistanceMedium || p.getDistance() == Intersection.arcDistanceVeryLong)
-								p.setActive(false);
-					}
-				}
-			}
-			
+		for(Intersection i : intersections) {
 			Thread t = new Thread(i, "Intersection <"
 					+ i.getTiles().get(0).getGridPosX() + ", "
 					+ i.getTiles().get(0).getGridPosY() + ">");
@@ -562,7 +544,27 @@ public class Map extends Group {
 		tileSize = Configuration.getTileSize();
 		tiles = loader.getTileGrid();
 		
-	    drawMap(EditorApp.getInstance().getCanvas());
+		boolean[][] checked = new boolean[tiles.length][tiles[0].length];		
+		for (int i = 0; i < tiles.length; i++) {		
+			for (int j = 0; j < tiles[0].length; j++) {		
+				// Dont double-check tiles -- mainly for correct detection of		
+				// intersections.		
+				if (checked[i][j])		
+					continue;		
+						
+				if (tiles[i][j] instanceof IntersectionTile) {		
+					// If an intersection is encountered, create new object and		
+					// set all related tiles to checked		
+					addGroup(new Intersection(i, j));		
+					for (int m = i; m < i + 4; m++) {		
+						for (int n = j; n < j + 4; n++)		
+							checked[m][n] = true;		
+					}		
+				}		
+			}		
+		}
+		
+		drawMap(EditorApp.getInstance().getCanvas());
     }
 
 	/**
