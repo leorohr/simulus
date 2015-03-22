@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
-import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
@@ -37,19 +36,12 @@ public class Tile extends Group {
      */
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
-		// super(posX, posY, width, height);
 		frame = new Rectangle(posX, posY, width, height);
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		// frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
 		frame.setFill(Color.TRANSPARENT);
-		if(MainApp.getInstance() != null){
-			frame.setStroke(Color.TRANSPARENT);
-		}else{
-			frame.setStroke(Color.BLACK);
-		}
 		frame.setStrokeWidth(0.1);
 		this.getChildren().add(frame);
 	}

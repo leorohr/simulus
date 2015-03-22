@@ -68,24 +68,6 @@ public class Map extends Group {
 				else EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
 		}
-
-		for (Intersection i : intersections) {
-			i.addTurningPaths(tiles);
-			
-
-			// If the path has a lane at the end of it, set it to active
-			// This allows the creation intersections without 4 connected roads
-			for (CustomPath p : i.getTurningPaths()) {
-				if (p.getEndTile() instanceof Lane)
-					p.setActive(true);
-			}
-			
-			Thread t = new Thread(i, "Intersection <"
-					+ i.getTiles().get(0).getGridPosX() + ", "
-					+ i.getTiles().get(0).getGridPosY() + ">");
-			trafficLightThreads.add(t);
-			t.start();
-		}
 	}
 
 	/**
@@ -579,26 +561,6 @@ public class Map extends Group {
 		Configuration.setGridSize(loader.numOfTiles);
 		tileSize = Configuration.getTileSize();
 		tiles = loader.getTileGrid();
-
-		boolean[][] checked = new boolean[tiles.length][tiles[0].length];
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[0].length; j++) {
-				// Dont double-check tiles -- mainly for correct detection of
-				// intersections.
-				if (checked[i][j])
-					continue;
-				
-				if (tiles[i][j] instanceof IntersectionTile) {
-					// If an intersection is encountered, create new object and
-					// set all related tiles to checked
-					addGroup(new Intersection(i, j));
-					for (int m = i; m < i + 4; m++) {
-						for (int n = j; n < j + 4; n++)
-							checked[m][n] = true;
-					}
-				}
-			}
-		}
 		
 	    drawMap(EditorApp.getInstance().getCanvas());
     }
@@ -623,6 +585,15 @@ public class Map extends Group {
 		toBeRemoved.add(v);
 	}
 
+	/**
+	 * Visualises the grid by drawing the frame of each tile in black.
+	 */
+	public void showGrid() {
+		for(Tile[] ts : tiles)
+			for(Tile t : ts)
+				t.getFrame().setStroke(Color.BLACK);
+	}
+	
 	/**
 	 * Changes the color of the vehicle according to the currently chosen
 	 * coloroption.
