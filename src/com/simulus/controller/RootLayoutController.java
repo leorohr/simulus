@@ -36,6 +36,7 @@ import com.simulus.io.SimConfigXML;
 import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
+import com.sun.javafx.stage.StageHelper;
 
 /**
  * The JavaFX controller for the root layout of the simulator. 
@@ -80,19 +81,20 @@ public class RootLayoutController implements Initializable {
         	if(result.get() != ButtonType.OK)
         		return;
 
+            try {
+            	SimulationController.getInstance().getAnimationThread().interrupt();
+				MainApp.getInstance().stop();
+				
+				for(Stage s : StageHelper.getStages())
+					Platform.runLater(() -> s.close());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+            
         	EditorApp editor = EditorApp.getInstance(); 
         	if(editor == null)
         		editor = new EditorApp();
             editor.start(new Stage());
-            
-            try {
-            	SimulationController.getInstance().getAnimationThread().interrupt();
-				MainApp.getInstance().getPrimaryStage().close();
-				MainApp.getInstance().stop();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
         });
 
         /*
@@ -109,19 +111,21 @@ public class RootLayoutController implements Initializable {
         	if(result.get() != ButtonType.OK)
         		return;
 
+        	try {
+            	SimulationController.getInstance().getAnimationThread().interrupt();
+				MainApp.getInstance().stop();
+				
+				for(Stage s : StageHelper.getStages())
+					Platform.runLater(() -> s.close());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+        	
         	EditorApp editor = EditorApp.getInstance(); 
         	if(editor == null)
         		editor = new EditorApp();
             editor.start(new Stage());
             editor.loadMap(SimulationController.getInstance().getLastLoadedMap());
-            
-            try {
-            	SimulationController.getInstance().getAnimationThread().interrupt();
-            	MainApp.getInstance().getPrimaryStage().close();
-				MainApp.getInstance().stop();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
         });
 
         openMapMItem.setOnAction((event) -> {
