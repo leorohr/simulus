@@ -555,6 +555,7 @@ public class Map extends Group {
 					}
 				}
 			}
+			
 			Thread t = new Thread(i, "Intersection <"
 					+ i.getTiles().get(0).getGridPosX() + ", "
 					+ i.getTiles().get(0).getGridPosY() + ">");

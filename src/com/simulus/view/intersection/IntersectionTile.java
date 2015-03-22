@@ -56,10 +56,12 @@ public class IntersectionTile extends Tile {
 	public CustomPath getRandomPath() {
 		Vector<CustomPath> v = new Vector<>();
 		for(CustomPath p : turningPaths)
-			if(p.getActive())
+			if(p.getActive() && !p.getEndTile().isOccupied())
 				v.add(p);
-		
-		return v.get(new Random().nextInt(v.size()));
+		if(!v.isEmpty())
+			return v.get(new Random().nextInt(v.size()));
+		else 
+			return null;
 	}
 	
 	/**

@@ -9,6 +9,7 @@ import com.simulus.util.Configuration;
 import com.simulus.util.enums.Behavior;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
@@ -71,6 +72,7 @@ public class Truck extends Vehicle {
 			
 		if(isTransitioning()){
 			checkTransitionBlockage();
+			updateTransitionTiles();
 			return;
 		}
 
@@ -121,7 +123,10 @@ public class Truck extends Vehicle {
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
-				 	followPath(t.getRandomPath());
+				 	CustomPath p = t.getRandomPath();
+				 	if(p != null)
+				 		followPath(t.getRandomPath());
+				 	else tempDir = Direction.NONE;
 				 }
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 		} catch (ArrayIndexOutOfBoundsException e) {

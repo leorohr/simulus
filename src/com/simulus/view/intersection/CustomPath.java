@@ -41,8 +41,9 @@ public class CustomPath extends Path {
 		this.turn = turn;
 	}
 
-	public CustomPath(PathElement... elements) {
+	public CustomPath(Tile et,PathElement... elements) {
 		super(elements);
+		endTile = et;
 	}
 
 	public void setStartTile(Tile t) {

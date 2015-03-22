@@ -118,6 +118,8 @@ public class SimulationController {
                         }
                     }
                 }    
+            	/*if(tickCount == 1)
+            		 Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));*/
             	
                 Platform.runLater(() -> map.updateMap());
                 //Increase tickCount or reset if overflown

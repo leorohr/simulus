@@ -39,7 +39,10 @@ public class EmergencyCar extends Car {
 	public void moveVehicle() {
 		
 		if(isTransitioning()){
+			
 			checkTransitionBlockage();
+			updateTransitionTiles();
+
 			return;
 		}
 		
