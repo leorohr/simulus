@@ -7,31 +7,28 @@
 \begin{document}
 
 Welcome to Simulus Map Editor v1.0
-
 What is it?
-Simply, a tool used to create, validate and save Simulus map files. 
- 
+Simply, a tool used to create, validate and save Simulus map files.  
 What's a Simulus map file?
 A simlus map file is used by the Simulus traffic simulation engine to model vehicular movement within the map.  Our aim here is to best model vehicles, their associated behaviour and the interaction between one another, using a microscopic approach. 
-
 Got it!  Now what?
 Here’s how to build a map in a few simple steps!  
 Observe the application's available tools and controls.  The 'Road Builder' pane shows the available tags for each cell in the grid.  
-
 Let’s start with the basics of creating a map – the roads and intersections.  An intersection is where roads are connected as a common shared point and so where vehicles can change direction if necessary.  Intersections are controlled by traffic lights.  These are automatically created by the simulator so you don’t have to worry about creating them. 
-
 1.	Start by clicking on the ‘Intersection’ icon so the cursor itself displays an intersection.  Place it, by clicking on a cell on the grid, anywhere on the map.  It makes sense to put it somewhere away from the edge of the map so you can add roads to it!  Add a few more intersections so that they are positioned horizontally and vertically with the first one.
 
-2.	It’s time to connect the roads.  Each road has 4 lanes; 2 either north or southbound and 2 either east or west bound.  Click on either a horizontal or vertical road from the ‘Road Builder’ pane and start from either the intersection or from the map edge.  Click and drag all the way so that an entire road is laid down.  Roads must be complete, so there should be no gaps and must start from one edge of a map to the opposing edge or to an intersection.  This is very important and it is so that vehicles have an entry and exit point.  Intersections can become a ‘T-Junction’ by not connecting a vertical or horizontal road to it.  By now you should have something like this…
+2.	It’s time to connect the roads.  Each road has 4 lanes; 2 either north or southbound and 2 either east or west bound.  Click on either a horizontal or vertical road from the ‘Road Builder’ pane and start from either the intersection or from the map edge.  Click and drag all the way so that an entire road is laid down.  Roads must be complete, so there should be no gaps and must start from one edge of a map to the opposing edge or to an intersection.  This is very important and it is so that vehicles have an entry and exit point.  Intersections can become a ‘T-Junction’ by connecting a third vertical or horizontal road to it.  You can also have one vertical and one horizontal road connected to an intersection to make a ‘turning’ junction.  By now you should have something like this…
+
+
  
 3.	Our map now has the necessary road network for use by the simulator.  We now need to decide if any of our lanes will have a ‘Block’ on them.  A block is any real world obstruction that can cause delays to vehicles.  It may be road works or perhaps a traffic calming measure, even an accident can be represented as a block of some type.  A block simply causes delay to the vehicles on the map.  Click the ‘Block’ icon and place it on any lane within your map. Blocks can only be placed on roads, not on intersections.
-
 4.	If at any point you put a tile in place that is no longer wanted, use the   tool to click on that tile to remove it.  If it’s a road or intersection tile, it will remove all the connected tiles with it to make it easier for you.
 
 5.	 We’re nearly finished and our map will soon be ready for the simulator.  All we need to do now is fill the empty grid with a land tile of our choosing.  Land tiles are for visual appearance only, not used by vehicles.  They help map an area with realistic terrain or perhaps a geographic location you are familiar with.
-Click the land type you’d like to use and then click on a cell on the grid to make it grass, dirt or 'fill' with water.  Don’t worry, you don’t need to click each and every single empty tile.  If you hold down the SHIFT key on your keyboard while you click, the map editor will intelligently fill all the empty tiles in that region.  The clever thing is, it won’t replace any roads or intersections so you can use it on larger areas safely.  Go on, try it now!  
+Click the land type you’d like to use and then click on a cell on the grid to make it grass, dirt or ‘fill’ with water.  Don’t worry, you don’t need to click each and every single empty tile.  If you hold down the SHIFT key on your keyboard while you click, the map editor will intelligently fill all the empty tiles in that region.  The clever thing is, it won’t replace any roads or intersections so you can use it on larger areas safely.  Go on, try it now!  
 Here’s a map all filled in with appropriate terrain.  What can you come with?
  
+
 6.	That’s it.  Now we just need to validate our map to make sure it meets the simulators requirements and we’re good to go.  Click the ‘Validate’ button in the ‘Map Options’ pane to find out if your map is valid.  If it is, great.  If not check for any of the following:
 i.	Do all roads start from either a map edge or an intersection?
 ii.	Do all roads end at a map edge or an intersection?
@@ -42,12 +39,16 @@ vi.	Have you put an intersection on a map edge?  Intersections should be placed 
 
 7.	Finally it’s time to save and test our map.  In the last pane ‘Import/Export’, enter a map name, description and your name and click ‘Save’.  Select a folder location and input the tile name.
 
-8.	If you’d like to test the map straight away, use the ‘Simulate Map’ button which will first get you to save the map and then load it in the simulator.
 
-9.	That’s it!  Try out different maps with different road networks and interesting looking terrain.  See how good a road designer you are and how traffic responds to your choices.
+8.	If you’d like to test the map straight away, use the ‘Simulate Map’ button which will first get you to save the map and then load it in the simulator.
+ 
+
+9.	That’s it!  Try out different maps with different road networks and interesting looking terrain.  If you want to create larger (or smaller) maps than the default size, use the buttons in ‘Map Options’ pane to do so adjust the grid size. 
+See how good a road designer you are and how traffic responds to your choices.
 ------------
 Team Simulus
 ------------
+
 
 
 \end{document}
