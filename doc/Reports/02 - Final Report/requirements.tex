@@ -87,9 +87,9 @@ The last mentioned requirement, is stating what the software will not have: reus
 \pagebreak
 
 \subsection{Editor}\label{ss:req-editor}
-According to 2(b) and 3(a) of the MoSCoW analysis, our system would include the ability to design, construct and save maps for use with our simulator.  This would then give the ability to test different traffic networks, the affect variable conditions would yield on traffic flow and more importantly, the strengths and weakness of the simulation engine itself. We begin by listing high-level functional requirements from our map editor and in the next section describe how each was to be achieved.
+According to 2(b) and 3(a) of the MoSCoW analysis, our system would include the ability to design, construct and save maps for use with our simulator. This would then give the ability to test different traffic networks, the affect variable conditions would yield on traffic flow and more importantly, the strengths and weakness of the simulation engine itself. We begin by listing high-level functional requirements from our map editor and in the next section describe how each was to be achieved.
 
-\subsubsection{Requirements}
+\subsubsection{Requirements}\label{ss:req-editor-enum}
 
 \begin{enumerate}\itemsep1pt \parskip0pt \parsep0pt
   \item Functionality
@@ -124,7 +124,7 @@ According to 2(b) and 3(a) of the MoSCoW analysis, our system would include the 
 \end{enumerate}
 
 \subsubsection{Design}
-Translating the enumerated list in the previous section to tangible functionality required an intermediate stage of design.  The map editor application did not require or have the complexity of the simulator but did have some of it's own intricacies. We expand on two of the more interesting aspects below - the construction of grouped tiles and map validation.
+Translating the enumerated list in the previous section to tangible functionality required an intermediate stage of design. The map editor application did not require or have the complexity of the simulator but did have some of it's own intricacies. We expand on two of the more interesting aspects below - the construction of grouped tiles and map validation.
 
 \begin{figure}[h]
 	\begin{center}
@@ -135,14 +135,10 @@ Translating the enumerated list in the previous section to tangible functionalit
 \end{figure}
 \pagebreak
 
-half a page on group road, intersection logic/visualisation \&
-half a page on validation
-\pagebreak
-
-\subsection{Data Storage \& Retreval}\label{ss:xml}
+\subsection{Data Storage \& Retrieval}\label{ss:xml}
 Fundamental to the interaction between the \textit{Simulator} and \textit{Map Editor} was the common data exchange that would be necessary for storing a map.
 
-The first challenge was agreeing a schema that was sufficient in representing the attributes of a map.  This would have to be based on the requirements, both visual and functional, of the simulator and the editor.  The identified list is shown in table\ref{ref:mapTable}. 
+The first challenge was agreeing a schema that was sufficient in representing the attributes of a map. This would have to be based on the requirements, both visual and functional, of the simulator and the editor. The identified list is shown in table\ref{ref:mapTable}. 
 
 \begin{table}[h]
 \centering
@@ -159,14 +155,14 @@ The first challenge was agreeing a schema that was sufficient in representing th
 \end{table}
 
 \paragraph{}
-Those attributes in the \textit{metadata} category are purely for differentiating the map file and providing some useful information to the user. Those in the \textit{specification} are indeed important to functionality; although canvas size is fixed, the grid size is not hence \textit{number\textunderscore of\textunderscore tiles} is used to indicate a grid size of 40, 60 or 80. The attributes in \textit{grid} are used for the representation of the dynamic grid.  A superset of all attributes necessary for tagging individual tiles and thus representing a map is defined in the \textit{grid} category.
+Those attributes in the \textit{metadata} category are purely for differentiating the map file and providing some useful information to the user. Those in the \textit{specification} are indeed important to functionality; although canvas size is fixed, the grid size is not hence \textit{number\textunderscore of\textunderscore tiles} is used to indicate a grid size of 40, 60 or 80. The attributes in \textit{grid} are used for the representation of the dynamic grid. A superset of all attributes necessary for tagging individual tiles and thus representing a map is defined in the \textit{grid} category.
 
-In addition to storing a map, the team felt that the retrieval of simulation parameters for reuse and the exporting of analytic information captured was necessary.  The ability to import and export simulation parameters is defined in a similar manner to that of a map but the exporting of simulation analytics is carried out through a Comma Separated Value file so that it maybe loaded directly into a suitable application for further analysis.
+In addition to storing a map, the team felt that the retrieval of simulation parameters for reuse and the exporting of analytic information captured was necessary. The ability to import and export simulation parameters is defined in a similar manner to that of a map but the exporting of simulation analytics is carried out through a Comma Separated Value file so that it maybe loaded directly into a suitable application for further analysis.
 
 \subsubsection{Format}
-Our focus turns to complaint formats for physical storage.  In the realm of lightweight mapping, XML and JSON are forerunners for text-based file formats.  Both are heavily used with JSON being the newer choice, arguably preferred for JavaScript web based applications.  XML has enjoyed a longer run and thus was adopted by mapping providers with many formats now based around XML mark-up e.g. GML, KML, etc.
+Our focus turns to complaint formats for physical storage. In the realm of lightweight mapping, XML and JSON are forerunners for text-based file formats. Both are heavily used with JSON being the newer choice, arguably preferred for JavaScript web based applications. XML has enjoyed a longer run and thus was adopted by mapping providers with many formats now based around XML mark-up e.g. GML, KML, etc.
  
-We gave some consideration of each for our requirements and coupled with the properties of both file formats came to a decision.  The XML format was chosen for it's suitable mark-up of data definition and while more verbose in structure than JSON, it suited our needs.  It has been shown the additional tags to be an overhead \cite{codeproject2013}, however as there is no data transmission involved in our system, this was not a concern for us.  Ultimately for our simple needs, either option would be an acceptable choice but the teams familiarity and previous experience with XML was preferred.  XML was also selected for the storage of the simulation parameters while the exporting of analytic data was in Comma Separated Values (CSV).
+We gave some consideration of each for our requirements and coupled with the properties of both file formats came to a decision. The XML format was chosen for it's suitable mark-up of data definition and while more verbose in structure than JSON, it suited our needs. It has been shown the additional tags to be an overhead~\cite{codeproject2013}, however as there is no data transmission involved in our system, this was not a concern for us. Ultimately for our needs, either option would be an acceptable choice but the teams familiarity and previous experience with XML was preferred. XML was also selected for the storage of the simulation parameters while the exporting of analytic data was in Comma Separated Values (CSV).
 
 \begin{xml-code}{Snippet from XML Map}{label}
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
