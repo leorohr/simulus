@@ -87,7 +87,7 @@
                                                 <Label text="Max. Num. of Cars" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider id="numCars" fx:id="numCarSlider" max="200.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
+                                                      <Slider id="numCars" fx:id="numCarSlider" max="50.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
                                                       <Label fx:id="numCarLabel" text="25" />
                                                    </children>
                                                 </HBox>
@@ -109,7 +109,7 @@
                                                 <Label text="Spawn Delay (Ticks)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="1.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
+                                                      <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="15.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
                                                       <Label fx:id="spawnrateLabel" text="25" />
                                                    </children>
                                                 </HBox>

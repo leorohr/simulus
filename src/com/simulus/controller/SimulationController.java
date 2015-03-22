@@ -24,7 +24,7 @@ public class SimulationController {
 
     //Simulation Parameters
     private double tickTime = 50; //in ms
-    private int spawnRate = 5; //a new car spawns every spawnRate'th tick
+    private int spawnDelay = 25; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
     private int maxCarSpeed = 50;
     private double carTruckRatio = 0.7d;		//the desired carCount/truckCount-fraction 
@@ -102,7 +102,7 @@ public class SimulationController {
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
             		Platform.runLater(() -> MainApp.getInstance().getControlsController().updateCharts());
 
-                if(tickCount % spawnRate == 0) {
+                if(tickCount % spawnDelay == 0) {
                     if (map.getVehicleCount() < maxCars) {
                         //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
                         if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
@@ -224,11 +224,11 @@ public class SimulationController {
     }
 
     public int getSpawnRate() {
-        return spawnRate;
+        return spawnDelay;
     }
 
     public void setSpawnRate(int spawnRate) {
-        this.spawnRate = spawnRate;
+        this.spawnDelay = spawnRate;
     }
 
     public int getMaxCars() {
