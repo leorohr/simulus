@@ -306,8 +306,10 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-		tiles[tileX][tileY].setOccupied(true); 
-		tiles[tileX][tileY].setIsRedLight(true, dir);	
+		if(tiles[tileX][tileY] instanceof Lane) {
+			tiles[tileX][tileY].setOccupied(true); 
+			tiles[tileX][tileY].setIsRedLight(true, dir);
+		}	
 	}
 
 	/**
@@ -316,8 +318,10 @@ public class Map extends Group {
 	 * @param tileY The grid y-coordinate of the tile.
 	 */
 	public void setGreenTrafficLight(int tileX, int tileY) {
-		tiles[tileX][tileY].setOccupied(false);
-		tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
+		if(tiles[tileX][tileY] instanceof Lane) {
+			tiles[tileX][tileY].setOccupied(false);
+			tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
+		}
 	}
 
 	/**
@@ -550,10 +554,10 @@ public class Map extends Group {
 		for(Intersection i : intersections) {
 			i.addTurningPaths(tiles);
 			
-			// If the path has a lane at the end of it, set it to active
+			// If the path starts and ends on lanes, set it to active
 			// This allows the creation intersections without 4 connected roads
 			for (CustomPath p : i.getTurningPaths()) {
-				if (p.getEndTile() instanceof Lane)
+				if (p.getEndTile() instanceof Lane && p.getStartTile() instanceof Lane)
 					p.setActive(true);
 			}
 			

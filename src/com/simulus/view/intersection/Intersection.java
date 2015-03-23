@@ -313,12 +313,18 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		
 		//Check whether the intersection has an active straight path
 		//if not, it does not need trafficlights
-		boolean needsLights = false;
+		
+		boolean hasStraightPath = false;
+		boolean hasCurvedPath = false;
 		for(CustomPath p : turningPaths) {
-			if(p.getActive() && p.getTurn() == TurningDirection.STRAIGHT)
-				needsLights = true;
+			if(p.getActive()) {
+				if(p.getTurn() == TurningDirection.STRAIGHT)
+					hasStraightPath = true;
+				else if(p.getTurn() == TurningDirection.LEFT || p.getTurn() == TurningDirection.RIGHT)	
+					hasCurvedPath = true;
+			}
 		}
-		if(!needsLights)
+		if(!(hasStraightPath & hasCurvedPath))
 			return;
 		
 		while(!Thread.currentThread().isInterrupted()){
