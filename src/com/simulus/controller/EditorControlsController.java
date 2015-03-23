@@ -227,7 +227,7 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		helpButton.setOnAction((event) -> {
-			File file = new File(getClass().getResource("/src/resources/editorTutorial.pdf").getFile());
+			File file = new File(System.getProperty("user.home") + "/Simulus/editorTutorial.pdf");
             try {
 				Desktop.getDesktop().open(file);
 			} catch (Exception e) {

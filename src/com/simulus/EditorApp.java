@@ -673,7 +673,7 @@ public class EditorApp extends Application {
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/maps"));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
 			saveMap(selectedFile.getPath());	
@@ -689,7 +689,7 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Open Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/maps"));
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {
 			loadMap(selectedFile);

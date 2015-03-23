@@ -17,4 +17,11 @@ ant -buildfile {project_root}/ jar
 ```
 only creates the executable file.
 
+Use
+```
+ant -buildfile {project_root}/ install
+```
+to build the jar file install Simulus to ${user.home}/Simulus.
+
+
 Compiling the project requires JDK1.8U40 and your Ant's `java.home` to be set to the JDK8 home folder.

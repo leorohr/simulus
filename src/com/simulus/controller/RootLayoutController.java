@@ -133,7 +133,8 @@ public class RootLayoutController implements Initializable {
         	FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/maps"));
+            System.out.println(fileChooser.getInitialDirectory());
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             if (selectedFile != null){
                 SimulationController.getInstance().getMap().loadMap(selectedFile); 
@@ -148,7 +149,7 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Map XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV File (*.csv)", "*.csv"));
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/stats"));
             fileChooser.setInitialFileName("simStatExport.csv");
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             File sourceFile = Configuration.getTempStatsFile();
@@ -169,6 +170,7 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Simulation XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/sim"));
             fileChooser.setInitialFileName("CustomSim.sim");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             
@@ -219,6 +221,7 @@ public class RootLayoutController implements Initializable {
             fileChooser.setTitle("Save Simulation XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
             fileChooser.setInitialFileName("CustomSim.sim");
+            fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/sim"));
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             
             if (selectedFile != null){

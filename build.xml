@@ -44,6 +44,15 @@
 		</copy>
 	</target>
 
+	<target name="install" description="Compiles the projects, builds a jar-file and copies all files to ${user.home}/Simulus" depends="jar">
+		<mkdir dir="${user.home}/Simulus" />
+		<mkdir dir="${user.home}/Simulus/stats" />
+		<mkdir dir="${user.home}/Simulus/sim" />
+		
+		<copy todir="${user.home}/Simulus">
+			<fileset dir="build"/>
+		</copy>
+	</target>
 
 	<!-- Generate JavaDoc -->
 	<target name="javadoc" description="Generates the projects JavaDoc files in /javadoc.">
