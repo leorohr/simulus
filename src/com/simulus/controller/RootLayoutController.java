@@ -134,7 +134,6 @@ public class RootLayoutController implements Initializable {
             fileChooser.setTitle("Open Map...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
             fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "/Simulus/maps"));
-            System.out.println(fileChooser.getInitialDirectory());
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             if (selectedFile != null){
                 SimulationController.getInstance().getMap().loadMap(selectedFile); 
