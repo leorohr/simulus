@@ -27,6 +27,7 @@ import com.simulus.util.enums.Orientation;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
+import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.vehicles.Ambulance;
@@ -203,6 +204,26 @@ public class Map extends Group {
 		return l;
 	}
 
+	//for testing TODO remove
+	public void spawnTesterCar(double speed) {
+
+		Lane a = entryPoints.get(0);
+
+		Car c = null;
+		// Car adds itself to the canvas
+		c = new Car(a.getGridPosX() * tileSize + Car.CARWIDTH / 4,
+				a.getGridPosY() * tileSize + Car.CARLENGTH / 8,
+				a.getDirection());
+
+		c.setCurrentTile(a);
+		c.setMap(tiles);
+		c.setVehicleSpeed(speed);
+		a.setOccupied(true, c);
+		synchronized (vehicles) {
+			vehicles.add(c);
+		}
+	}
+
 	/**
 	 * Spawns an ambulance at a random, available entrypoint.
 	 */
@@ -285,7 +306,7 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-//		tiles[tileX][tileY].setOccupied(true); //TODO should work without this 
+		tiles[tileX][tileY].setOccupied(true); 
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 
@@ -527,6 +548,25 @@ public class Map extends Group {
 		}
 
 		for(Intersection i : intersections) {
+			i.addTurningPaths(tiles);
+			
+			// If the path has a lane at the end of it, set it to active
+			// This allows the creation intersections without 4 connected roads
+			for (CustomPath p : i.getTurningPaths()) {
+				if (p.getEndTile() instanceof Lane)
+					p.setActive(true);
+			}
+			
+			for(IntersectionTile[] it: i.tiles){
+				for(IntersectionTile itt: it){
+					if(itt.hasStraightPath()){
+						for(CustomPath p: itt.getTurningPaths())
+							if(p.getDistance() == Intersection.arcDistanceMedium || p.getDistance() == Intersection.arcDistanceVeryLong)
+								p.setActive(false);
+					}
+				}
+			}
+			
 			Thread t = new Thread(i, "Intersection <"
 					+ i.getTiles().get(0).getGridPosX() + ", "
 					+ i.getTiles().get(0).getGridPosY() + ">");

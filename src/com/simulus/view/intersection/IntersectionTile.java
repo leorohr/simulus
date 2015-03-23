@@ -66,18 +66,6 @@ public class IntersectionTile extends Tile {
 	}
 	
 	/**
-	 * Returns the first available path - regardless of whether it is active or not.
-	 * Mainly used to allow EmergencyCars to cross redlights.
-	 * @return An available, not necessarily active, path
-	 */
-	public CustomPath getEmergencyPath() {
-		for(CustomPath p : turningPaths)
-			if(!p.isUnavailable())
-				return p;
-		return null;
-	}
-	
-	/**
 	 * @return The list of available paths for cars to take when they face this tile in an intersection.
 	 */
 	public ArrayList<CustomPath> getTurningPaths() {

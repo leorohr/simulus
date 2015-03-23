@@ -107,7 +107,6 @@ public class EmergencyCar extends Car {
 				 	CustomPath p = t.getRandomPath();
 				 	if(p != null)
 				 		followPath(p);
-				 	else followPath(t.getEmergencyPath());
 				 }
 			} else
 				tempDir = getDirection();

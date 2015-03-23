@@ -83,7 +83,6 @@ public class RootLayoutController implements Initializable {
 
             try {
             	SimulationController.getInstance().getAnimationThread().interrupt();
-            	SimulationController.getInstance().getMap().stopChildThreads();
 				MainApp.getInstance().stop();
 				
 				for(Stage s : StageHelper.getStages())
@@ -114,7 +113,6 @@ public class RootLayoutController implements Initializable {
 
         	try {
             	SimulationController.getInstance().getAnimationThread().interrupt();
-            	SimulationController.getInstance().getMap().stopChildThreads();
 				MainApp.getInstance().stop();
 				
 				for(Stage s : StageHelper.getStages())
