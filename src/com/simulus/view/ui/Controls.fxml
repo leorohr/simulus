@@ -98,7 +98,7 @@
                                                 <Label text="Tickrate (ms)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="20.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
+                                                      <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="50.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
                                                       <Label fx:id="tickrateLabel" text="50" />
                                                    </children>
                                                 </HBox>
