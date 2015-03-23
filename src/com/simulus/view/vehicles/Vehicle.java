@@ -92,23 +92,6 @@ public abstract class Vehicle extends Rectangle {
 		}
 		
 		rand = new Random();
-		/*switch(getDirection()){
-		case EAST:
-			sensor = new Rectangle(posX+width,posY, width, width);
-			break;
-		case NORTH:
-			sensor = new Rectangle(posX,posY-height, width, width);
-			break;
-		case SOUTH:
-			sensor = new Rectangle(posX,posY+height, width, width);
-			break;
-		case WEST:
-			sensor = new Rectangle(posX-width,posY, width, width);
-			break;
-		default:
-			break;
-		}
-		sensor.setFill(Color.BLACK);*/
 	}
 
 	/**
@@ -134,19 +117,15 @@ public abstract class Vehicle extends Rectangle {
 		switch (d) {
 		case NORTH:
 			setY(getY() - vehicleSpeed);
-			//sensor.setY(sensor.getY()-vehicleSpeed);
 			break;
 		case SOUTH:
 			setY(getY() + vehicleSpeed);	
-			//sensor.setY(sensor.getY()+vehicleSpeed);
 			break;
 		case EAST:
 			setX(getX() + vehicleSpeed);
-			//sensor.setX(sensor.getX()+vehicleSpeed);
 			break;
 		case WEST:
 			setX(getX() - vehicleSpeed);
-			//sensor.setX(sensor.getX()-vehicleSpeed);
 			break;
 		case NONE:
 			//Increase the waitingcounter to keep track of how often cars have to stop.
@@ -165,10 +144,12 @@ public abstract class Vehicle extends Rectangle {
                 		new MoveTo(getCurrentTile().getCenterX(), getCurrentTile().getCenterY()),
                         new LineTo(moveToTile.getCenterX(), moveToTile.getCenterY()));
 		
-               
-        path.setStroke(Color.DODGERBLUE);
-        path.getStrokeDashArray().setAll(5d,5d);
-        MainApp.getInstance().getCanvas().getChildren().add(path);
+		//Show the overtake-path in debug mode
+        if(SimulationController.getInstance().isDebug()) {       
+        	path.setStroke(Color.DODGERBLUE);
+        	path.getStrokeDashArray().setAll(5d,5d);
+        	MainApp.getInstance().getCanvas().getChildren().add(path);
+        }
        
         double pathDistance = Math.sqrt(Math.pow(path.getBoundsInParent().getMaxX()-path.getBoundsInParent().getMinX(), 2)
         		+Math.pow(path.getBoundsInParent().getMinY()-path.getBoundsInParent().getMaxY(), 2));
@@ -325,55 +306,55 @@ public abstract class Vehicle extends Rectangle {
 			default:
 				break;
 	        }
-		//System.out.println(t);
+
 		//Straight Travelling Cars
 		if(currentIntersection != null && isTransitioning() && currentPath.getTurn() == TurningDirection.STRAIGHT){
 
 			try{
-					switch(getDirection()){
-					/*case NONE:
-						break;*/
-					case NORTH:
-						if(map[currentTile.getGridPosX()][currentTile.getGridPosY()-1].isOccupied() && map[currentTile.getGridPosX()][currentTile.getGridPosY()-1].getOccupier() != this)
-							currentTransition.setRate(0);
-						
-						return;
-					case SOUTH:
-						if(map[currentTile.getGridPosX()][currentTile.getGridPosY()+1].isOccupied() && map[currentTile.getGridPosX()][currentTile.getGridPosY()+1].getOccupier() != this)
-							currentTransition.setRate(0);
-						return;
-					case EAST:
-						if(map[currentTile.getGridPosX()+1][currentTile.getGridPosY()].isOccupied() && map[currentTile.getGridPosX()+1][currentTile.getGridPosY()].getOccupier() != this)
-							currentTransition.setRate(0);
-						return;
-					case WEST:
-						if(map[currentTile.getGridPosX()-1][currentTile.getGridPosY()].isOccupied() && map[currentTile.getGridPosX()-1][currentTile.getGridPosY()].getOccupier() != this)
-							currentTransition.setRate(0);
-						return;
-					default:
-						break;
-					}
-					}catch(Exception e){
-						
-					}
-
+				switch(getDirection()){
+				case NORTH:
+					if(map[currentTile.getGridPosX()][currentTile.getGridPosY()-1].isOccupied() && map[currentTile.getGridPosX()][currentTile.getGridPosY()-1].getOccupier() != this)
+						currentTransition.setRate(0);
+					
+					return;
+				case SOUTH:
+					if(map[currentTile.getGridPosX()][currentTile.getGridPosY()+1].isOccupied() && map[currentTile.getGridPosX()][currentTile.getGridPosY()+1].getOccupier() != this)
+						currentTransition.setRate(0);
+					return;
+				case EAST:
+					if(map[currentTile.getGridPosX()+1][currentTile.getGridPosY()].isOccupied() && map[currentTile.getGridPosX()+1][currentTile.getGridPosY()].getOccupier() != this)
+						currentTransition.setRate(0);
+					return;
+				case WEST:
+					if(map[currentTile.getGridPosX()-1][currentTile.getGridPosY()].isOccupied() && map[currentTile.getGridPosX()-1][currentTile.getGridPosY()].getOccupier() != this)
+						currentTransition.setRate(0);
+					return;
+				default:
+					break;
+				}
+			}catch(Exception e){
+				
+			}
 		}else{
 			if(currentIntersection != null && isTransitioning()) {
 				for(int i = 0; i < currentIntersection.tiles.length ; i++) {
 					for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
+						//Check all tiles. If one of them is occupied by somethine else than this vehicle... 
 						if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this) {
 							//if(currentPath.getBoundsInParent().intersects(currentIntersection.tiles[i][j].getBoundsInParent())) {
+							//... and this vehicle's path intersects that occupied tile, make this vehicle stop.
 							if(!((Path)Shape.intersect(currentPath, currentIntersection.tiles[i][j].getFrame())).getElements().isEmpty()){
 								if(currentTransition.getCurrentTime().lessThan(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition().getCurrentTime())) {
-									currentTransition.setRate(0);
+									currentTransition.setRate(0); 
 									return;
 								}
-							}
-							if(currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this && this.getBoundsInParent().intersects(preEndTile.getFrame().getBoundsInParent())){
-								currentTransition.setRate(0);
-								return;
-								}
-							}
+							}	
+						}
+						//If the end of the current path is occupied and this vehicle is one tile away from the end, stop.
+						if(this.getBoundsInParent().intersects(preEndTile.getFrame().getBoundsInParent()) && currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this){
+							currentTransition.setRate(0);
+							return;
+						}
 					}
 				}
 			}
