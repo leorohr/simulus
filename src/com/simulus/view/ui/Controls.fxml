@@ -149,7 +149,7 @@
                                              </children>
                                           </VBox>
                                           <Button fx:id="randTrafficLightsButton" mnemonicParsing="false" text="Randomise Trafficlights" />
-                                          <Button fx:id="spawnAmbulanceButton" mnemonicParsing="false" text="Spawn Ambulance" />
+                                          <Button fx:id="spawnAmbulanceButton" disable="true" mnemonicParsing="false" text="Spawn Ambulance" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />

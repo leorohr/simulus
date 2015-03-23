@@ -60,7 +60,8 @@ public class SimulationController {
         
         if(!animationThread.isAlive())
         	animationThread.start();
-    	
+
+        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(false);
     }
 
     /**
@@ -83,7 +84,7 @@ public class SimulationController {
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
-        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(false);
+        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(true);
         animationThread = new AnimationThread();
         map.drawMap(MainApp.getInstance().getCanvas());
         if(debugFlag)
@@ -169,7 +170,7 @@ public class SimulationController {
     	if(ambulanceCount < 5) {
     		Platform.runLater(() -> map.spawnAmbulance());
 	    	ambulanceCount++;
-    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
+    	}
     }         
     
     /* * * 
