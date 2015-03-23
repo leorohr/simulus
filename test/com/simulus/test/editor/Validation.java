@@ -1,6 +1,7 @@
 package com.simulus.test.editor;
 
 import com.simulus.util.Configuration;
+import com.simulus.util.MapValidator;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
 import com.simulus.view.intersection.Intersection;
@@ -168,7 +169,8 @@ public class Validation extends TestCaseBaseCode {
 			@Override
 			public void run() {
 
-				boolean valid = EditorApp.getInstance().validateMap(); //Validation should pass
+				MapValidator map = new MapValidator();
+				boolean valid = map.validateMap(EditorApp.getInstance().getMap().getTiles()); //Validation should fail
 
 				if (valid == true){
 					test2Pass = true;

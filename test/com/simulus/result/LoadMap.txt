@@ -4,3 +4,11 @@ Editor Button Detected
 
 Editor Button Clicked: true
 
+Initialising Test1...
+ 
+New Map loaded.
+ 
+Test 1 Completed
+ 
+Test scenario 1 passed: true
+ 
