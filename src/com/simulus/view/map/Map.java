@@ -203,26 +203,6 @@ public class Map extends Group {
 		return l;
 	}
 
-	//for testing TODO remove
-	public void spawnTesterCar(double speed) {
-
-		Lane a = entryPoints.get(0);
-
-		Car c = null;
-		// Car adds itself to the canvas
-		c = new Car(a.getGridPosX() * tileSize + Car.CARWIDTH / 4,
-				a.getGridPosY() * tileSize + Car.CARLENGTH / 8,
-				a.getDirection());
-
-		c.setCurrentTile(a);
-		c.setMap(tiles);
-		c.setVehicleSpeed(speed);
-		a.setOccupied(true, c);
-		synchronized (vehicles) {
-			vehicles.add(c);
-		}
-	}
-
 	/**
 	 * Spawns an ambulance at a random, available entrypoint.
 	 */
@@ -305,7 +285,7 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-		tiles[tileX][tileY].setOccupied(true); 
+//		tiles[tileX][tileY].setOccupied(true); //TODO should work without this 
 		tiles[tileX][tileY].setIsRedLight(true, dir);	
 	}
 

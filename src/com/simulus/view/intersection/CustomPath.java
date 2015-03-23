@@ -6,6 +6,7 @@ import javafx.scene.shape.PathElement;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
+import com.simulus.view.map.Lane;
 
 /**
  * An extension to the JavaFX {@link javafx.scene.shape.Path} class. Allows storing
@@ -21,6 +22,7 @@ public class CustomPath extends Path {
 	private double pathDistance;
 	private TurningDirection turn;
 	private boolean isActive = false;
+	private boolean unavailable = false; //Used to determine if the path should be permanently inactive, e.g. in T-Junctions
 
 	/**
 	 * @param turn The direction this path turns in
@@ -81,8 +83,20 @@ public class CustomPath extends Path {
 	public boolean getActive() {
 		return isActive;
 	}
+	
+	public void setUnavailable(boolean b) {
+		unavailable = b;
+	}
+	
+	public boolean isUnavailable() {
+		return unavailable;
+	}
 
 	public void setActive(boolean b) {
+		//Ensure that a path not ending on a lane is never active
+		if(!(endTile instanceof Lane) || unavailable)
+			return;
+		
 		isActive = b;
 	}
 

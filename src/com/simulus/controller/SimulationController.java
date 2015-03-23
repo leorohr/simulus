@@ -98,7 +98,7 @@ public class SimulationController {
         public void run() {
             long tickCount = 0;
             while(!Thread.currentThread().isInterrupted()) {
-        		
+            	
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
             		Platform.runLater(() -> MainApp.getInstance().getControlsController().updateCharts());
 
@@ -118,13 +118,10 @@ public class SimulationController {
                         }
                     }
                 }    
-            	/*if(tickCount == 1)
-            		 Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));*/
             	
                 Platform.runLater(() -> map.updateMap());
                 //Increase tickCount or reset if overflown
                 tickCount = (tickCount == Long.MAX_VALUE ? 0 : ++tickCount);
-                
                 try {
                     Thread.sleep((long) tickTime);
                 } catch (InterruptedException e) {

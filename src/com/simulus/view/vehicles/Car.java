@@ -76,10 +76,8 @@ public class Car extends Vehicle {
 	public void moveVehicle() {
 		
 		if(isTransitioning()){
-			
 			checkTransitionBlockage();
 			updateTransitionTiles();
-
 			return;
 		}
 		
