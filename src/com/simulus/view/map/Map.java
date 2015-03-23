@@ -4,13 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
@@ -30,6 +34,7 @@ import com.simulus.view.vehicles.Car;
 import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
+import com.sun.javafx.stage.StageHelper;
 
 /**
  * This class is the central management facility for a map's storage and management.
@@ -467,10 +472,32 @@ public class Map extends Group {
 		//Decline maps that were not validated by the editor
 		if(!loader.isValidated()) {
 			Alert alert = new Alert(AlertType.WARNING);
-	    	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+			ButtonType edit = new ButtonType("Edit Map...");
+			alert.getButtonTypes().add(edit);
+			alert.initOwner(MainApp.getInstance().getPrimaryStage());
+	    	
 	    	alert.setTitle("Map is not validated");
 	    	alert.setHeaderText("This map has not passed validation!\nPlease edit the map to make it valid or choose a different map.");
-	    	alert.showAndWait();
+	    	Optional<ButtonType> result = alert.showAndWait();
+	    	if(result.get() == edit) { 
+	    		//close simulator, start editor and load map
+	    		try {
+	            	SimulationController.getInstance().getAnimationThread().interrupt();
+	            	SimulationController.getInstance().getMap().stopChildThreads();
+					MainApp.getInstance().stop();
+					
+					for(Stage s : StageHelper.getStages())
+						Platform.runLater(() -> s.close());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	        	
+	        	EditorApp editor = EditorApp.getInstance(); 
+	        	if(editor == null)
+	        		editor = new EditorApp();
+	            editor.start(new Stage());
+	            editor.loadMap(SimulationController.getInstance().getLastLoadedMap());
+	    	}
 	    	return;
 		}
 
