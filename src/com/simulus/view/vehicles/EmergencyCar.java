@@ -104,9 +104,7 @@ public class EmergencyCar extends Car {
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
-				 	CustomPath p = t.getRandomPath();
-				 	if(p != null)
-				 		followPath(p);
+			 		followPath(t.getRandomPath());
 				 }
 			} else
 				tempDir = getDirection();
