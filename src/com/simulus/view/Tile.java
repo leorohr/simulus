@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
+import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
@@ -42,6 +43,12 @@ public class Tile extends Group {
 		occupier = null;
 		isOccupied = false;
 		frame.setFill(Color.TRANSPARENT);
+		//TODO reload grid when editor is called from simulator
+		if(MainApp.getInstance() != null){
+			frame.setStroke(Color.TRANSPARENT);
+		}else{
+			frame.setStroke(Color.BLACK);
+		}
 		frame.setStrokeWidth(0.1);
 		this.getChildren().add(frame);
 	}
