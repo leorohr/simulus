@@ -48,6 +48,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 * @param yPos y coordinate of the top left tile of the intersection in the grid
 	 */
 	public Intersection(int xPos, int yPos) {
+		tileSize = Configuration.getTileSize();
 		switchTime = (long) (3000 + Math.random()*3000);
 		turningPaths = new ArrayList<>();
 		
@@ -62,7 +63,9 @@ public class Intersection extends Group implements TileGroup, Runnable {
 			}			
 		}
 		
-		addTurningPaths();
+		try{ 
+			addTurningPaths(); 
+		} catch (ArrayIndexOutOfBoundsException e) { }
 
 		// If the path has a lane at the end of it, set it to active
 		// This allows the creation intersections without 4 connected roads
@@ -93,7 +96,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 * The paths are added to the intersection tile they start in.
 	 * @param m The map of tiles for referencing the start and end tile
 	 */
-	private void addTurningPaths(){
+	private void addTurningPaths() {
 		Tile[][] m;
 		if(EditorApp.getInstance() != null)
 			 m = EditorApp.getInstance().getMap().getTiles();
