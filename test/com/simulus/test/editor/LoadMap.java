@@ -1,5 +1,7 @@
 package com.simulus.test.editor;
 
+import java.io.File;
+
 import javafx.application.Platform;
 
 import org.jemmy.fx.SceneDock;
@@ -19,8 +21,7 @@ import com.simulus.view.Tile;
 public class LoadMap extends TestCaseBaseCode {
 	
 	private boolean test1Pass;
-	private String mapPath = "resources/maps/Road_Works.map";
-	
+	private File mapFile = new File(EditorControlsController.class.getResource("/resources/maps/Road_Works.map").getPath());
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
@@ -53,7 +54,7 @@ public class LoadMap extends TestCaseBaseCode {
 				writeToLog("Initialising Test1...");
 				Tile[][] mapTiles = EditorApp.getInstance().getMap().getTiles();
 				
-			EditorApp.getInstance().loadMap(mapPath);
+			EditorApp.getInstance().loadMap(mapFile);
 			
 			
 			Tile[][] newMapTiles = EditorApp.getInstance().getMap().getTiles();
