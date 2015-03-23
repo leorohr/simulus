@@ -83,6 +83,7 @@ public class SimulationController {
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
+        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(false);
         animationThread = new AnimationThread();
         map.drawMap(MainApp.getInstance().getCanvas());
         if(debugFlag)

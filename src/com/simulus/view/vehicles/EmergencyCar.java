@@ -6,7 +6,6 @@ import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
-import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
@@ -96,7 +95,7 @@ public class EmergencyCar extends Car {
 				break;
 			}
 			
-			if (nextTile.isOccupied()) {
+			if (nextTile.isOccupied() &&  nextTile.getOccupier() != null) {
 				tempDir = Direction.NONE;
 				if(nextTile.isBlock())
 					changeLane();
