@@ -26,7 +26,7 @@
 
 	<target name="jar" depends="compile" description="Builds the project and creates a runnable jar in the build folder.">
 		<mkdir dir="build" />
-		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${java.home}/../lib/ant-javafx.jar" />
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${java.home}/lib/ant-javafx.jar" />
 		<fx:jar destfile="build/Simulus.jar" verbose="true">
 			<fx:platform javafx="2.1+" j2se="8.0" />
 			<fx:application mainClass="com.simulus.Startup" />
