@@ -1,5 +1,7 @@
 package com.simulus;
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -12,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import com.simulus.controller.ControlsController;
+import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 
 /**
@@ -52,8 +55,7 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 		
-		//for testing TODO remove
-//		SimulationController.getInstance().getMap().loadMap(new File(getClass().getResource("/resources/maps/default.map").getFile()));
+		SimulationController.getInstance().getMap().loadMap(new File(System.getProperty("user.home") + "/Simulus/maps/default.map"));
 	}
 	
 	/**
