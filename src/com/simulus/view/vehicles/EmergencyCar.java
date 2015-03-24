@@ -95,10 +95,11 @@ public class EmergencyCar extends Car {
 				break;
 			}
 			
-			if (nextTile.isOccupied() &&  nextTile.getOccupier() != null) {
+			if (nextTile.isOccupied() && !nextTile.isRedLight()) {
 				tempDir = Direction.NONE;
 				if(nextTile.isBlock())
 					changeLane();
+				
 			} else if(nextTile instanceof IntersectionTile) { 
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;

@@ -55,7 +55,9 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 		
-		SimulationController.getInstance().getMap().loadMap(new File(System.getProperty("user.home") + "/Simulus/maps/default.map"));
+		File map = new File(System.getProperty("user.home") + "/Simulus/maps/default.map");
+        if(map.canRead())
+        	SimulationController.getInstance().getMap().loadMap(map);
 	}
 	
 	/**
