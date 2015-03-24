@@ -22,8 +22,8 @@
                            <children>
                               <HBox spacing="10.0">
                                  <children>
-                                    <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
-                                    <Button fx:id="resetButton" mnemonicParsing="false" text="Reset" />
+                                    <Button fx:id="startButton" disable="true" mnemonicParsing="false" text="Start" />
+                                    <Button fx:id="resetButton" disable="true" mnemonicParsing="false" text="Reset" />
                                  </children>
                               </HBox>
                               <CheckBox fx:id="debugCheckbox" mnemonicParsing="false" text="Debug" />

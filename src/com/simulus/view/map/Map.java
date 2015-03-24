@@ -450,6 +450,9 @@ public class Map extends Group {
 		toBeRemoved = new ArrayList<Vehicle>();
 		SimulationController.getInstance().resetSimulation(false);
 		SimulationController.getInstance().setLastLoadedMap(mapFile);
+		MainApp.getInstance().getControlsController().setStartButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setResetButtonDisabled(false);
+		
 
 		MapXML loader = new MapXML();
 		loader.readXML(mapFile);
@@ -481,7 +484,7 @@ public class Map extends Group {
 	        	if(editor == null)
 	        		editor = new EditorApp();
 	            editor.start(new Stage());
-	            editor.loadMap(SimulationController.getInstance().getLastLoadedMap());
+	            editor.loadMap(mapFile);
 	    	}
 	    	return;
 		}
@@ -559,6 +562,8 @@ public class Map extends Group {
 		}
 
 	    drawMap(MainApp.getInstance().getCanvas());
+	    MainApp.getInstance().getControlsController().setStartButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setResetButtonDisabled(false);
     }
     
     /**

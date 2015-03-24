@@ -269,7 +269,6 @@ public class ControlsController implements Initializable {
         durationCount++;
         csv.appendRow(String.valueOf(500*durationCount/1000), String.valueOf(vehicleCount), String.valueOf(avgSpeed), String.valueOf(congestion),
     			String.valueOf(avgWait), String.valueOf(avgEmWait));
-        System.out.println(500*durationCount/1000);
      
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);
@@ -340,5 +339,13 @@ public class ControlsController implements Initializable {
     
     public void setAmbulanceButtonDisabled(boolean b) {
     	spawnAmbulanceButton.disableProperty().setValue(b);
+    }
+    
+    public void setStartButtonDisabled(boolean b) {
+    	startButton.disableProperty().setValue(b);
+    }
+
+    public void setResetButtonDisabled(boolean b) {
+    	resetButton.disableProperty().setValue(b);
     }
 }
