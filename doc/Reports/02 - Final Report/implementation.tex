@@ -195,12 +195,23 @@ As can be expected, large and complex applications require an extensive period o
         \end{center}
 \end{figure}
 
-In addition, we also looked at the organisation of our code to further assess the code quality. To do so, we used a commercial tool which helps to picture the system architecture for easy assessment. We produced diagrams such as architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the internal intricacies of the software. We then fed back the analysis to the development team in order for changes to take place accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in figure ~\ref{fig:heatmap}. The bigger the shape is, the more lines of codes have been written for a class. The colour depth of a shape indicates its maximum complexity. An example of the usefulness of this approach was that were able to identify the \textit{maxCyclomaticComplexity} for the \textit{Car} class as being 58 and were able to reduce it to 21 for the final version.     
+
+Within the framework of testing we also produced a test case table where a formal record is kept for all test cases, detailing the features that were under test. An illustration is shown in figure ~\ref{fig:testCaseTable}.  As incremental changes were made throughout the development, this helped us to define a consistency when every time a test case is executed, that is, the outcome should match the expected result as described.  Furthermore, regression test is a formal method to track the changes throughout a development. due to the constraint of this project, regression test became an impractical option, we hope that test case table would be helpful in the future serving to achieve this purpose.
+
+\begin{figure}[h]
+        \begin{center}
+                \includegraphics[width=\textwidth]{img/testCaseTable.png}
+                \caption{A snippet of test case table}
+        \label{fig:testCaseTable}
+        \end{center}
+\end{figure}
+
+In addition, we also looked at the organisation of our code to further assess the code quality. To do so, we used a commercial tool which helps to picture the system architecture for easy assessment. We produced diagrams such as architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the internal intricacies of the software. We then fed back the analysis to the development team in order for changes to take place accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in figure ~\ref{fig:heatmap}. The bigger the shape is, the more lines of codes have been written for a class. The colour depth of a shape indicates its maximum complexity. An example of the usefulness of this approach was that we were able to identify the \textit{maxCyclomaticComplexity} for the \textit{Car} class as being 58 and were able to reduce it to 21 for the final version.     
 
 \begin{figure}[h]
         \begin{minipage}{\textwidth}
                 \begin{center}
-                                \includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
+                                \includegraphics[width=80mm,keepaspectratio ]{img/heatmap.png}
                         \caption{Heat Map for the final version of the software}
                         \label{fig:heatmap}     
                 \end{center}
@@ -216,5 +227,7 @@ Figure ~\ref{fig:archIntDependency} illustrates the architectural dependency of 
         \label{fig:archIntDependency}
         \end{center}
 \end{figure}
+
+
 
 \clearpage

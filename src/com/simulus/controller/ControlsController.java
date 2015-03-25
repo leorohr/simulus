@@ -1,5 +1,6 @@
 package com.simulus.controller;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,6 +20,9 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import com.simulus.MainApp;
@@ -27,6 +31,8 @@ import com.simulus.util.Configuration;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.VehicleColorOption;
 import com.simulus.view.map.Map;
+
+
 
 /**
  * The JavaFX controller for the right side control panel of the simulator.
@@ -75,6 +81,8 @@ public class ControlsController implements Initializable {
 	ColorPicker truckcolorPicker;
 	@FXML
 	CheckBox debugCheckbox;
+	@FXML
+	Button helpButton;
 
 	@FXML
 	ImageView resizeIcon;
@@ -206,7 +214,7 @@ public class ControlsController implements Initializable {
 			simulationController.getMap().setCarColorOption(carcolorComboBox.getSelectionModel().getSelectedItem());
 		});
 		
-		truckcolorComboBox.getItems().addAll(VehicleColorOption.values());
+		truckcolorComboBox.getItems().addAll(VehicleColorOption.SPEED, VehicleColorOption.USER);
 		truckcolorComboBox.getSelectionModel().select(0);
 		truckcolorComboBox.setOnAction((event) -> { 
 			
@@ -233,6 +241,21 @@ public class ControlsController implements Initializable {
        
 		debugCheckbox.setOnAction((event) -> {
 			simulationController.setDebugFlag(debugCheckbox.isSelected());
+		});
+		
+		helpButton.setOnAction((event) -> {
+			Popup help = new Popup();
+			help.setAutoHide(true);
+			help.setHeight(400);
+			help.setWidth(300);
+			
+			WebView textView = new WebView();
+			WebEngine webEngine = textView.getEngine();
+			webEngine.load(getClass().getResource("/resources/infotext.html").toString());
+
+
+			help.getContent().add(textView);
+			help.show(MainApp.getInstance().getPrimaryStage()); //TODO close on click
 		});
 	}
 
