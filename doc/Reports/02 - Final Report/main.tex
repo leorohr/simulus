@@ -14,7 +14,7 @@
 \usepackage{pgfplots}
 \usepackage{tabu}
 \usepackage{longtable}
-\usepackage{tikz}
+\usepackage{pdfpages}
 
 %--- Settings for Java code snippets ---
 \usepackage{listings} 
@@ -102,11 +102,15 @@ sensitive=false,
 	\include{team_work}
 	\include{evaluation}
 	\include{peer_assessment}
-	
-	\include{appendices}
-	\include{gitlog}
-	
+
 	\fancyfoot[C]{\thepage}
 	\bibliographystyle{plain}
 	\bibliography{literature}
+	
+	\appendix
+	\include{appendices}
+	\include{gitlog}
+	\include{sourcecode}
+	
+	
 \end{document}

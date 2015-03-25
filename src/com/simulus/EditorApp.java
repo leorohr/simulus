@@ -284,6 +284,14 @@ public class EditorApp extends Application {
 		};
 		timer.start();
 	}
+	
+	//On application exit, set instance to null.  Used for correct operation of the Simulator
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+		
+		instance = null;
+	}
 
 	/**
 	 * Initialise the root layout
