@@ -228,13 +228,6 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		helpButton.setOnAction((event) -> {
-//		File file = new File(System.getProperty("user.home") + "/Simulus/editorTutorial.pdf");
-//		try {
-//				Desktop.getDesktop().open(file);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-	
 			Popup help = new Popup();
 			help.setAutoHide(true);
 			help.setHeight(400);
@@ -242,7 +235,7 @@ public class EditorControlsController implements Initializable {
 			
 			WebView textView = new WebView();
 			WebEngine webEngine = textView.getEngine();
-			webEngine.load(getClass().getResource("/resources/editorTutorial.html").toString());
+			webEngine.load(getClass().getResource("/resources/infofiles/editorTutorial.htm").toString());
 
 
 			help.getContent().add(textView);

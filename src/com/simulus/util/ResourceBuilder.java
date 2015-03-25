@@ -26,16 +26,11 @@ public class ResourceBuilder {
     private static Image NSLaneCursor = new Image("/resources/csr_northsouth.png");
     private static Image eraseCursor = new Image("/resources/csr_erase.png");
     private static Image grassCursor = new Image("/resources/csr_grass.png");
-    
     private static Image deleteIcon = new Image("/resources/delete.png");
     private static Image disketteIcon = new Image("/resources/diskette.png");
     private static Image resizeIcon = new Image("/resources/resize_icon.png");
     private static Image eraseIcon = new Image("/resources/erase.png");
     private static Image folderIcon = new Image("/resources/folder.png");
-    private static Image openIconSmall = new Image("/resources/ic_open_sm.png");
-    private static Image openIcon = new Image("/resources/ic_open.png");
-    private static Image saveIcon = new Image("/resources/ic_save.png");
-    private static Image saveIconSmall = new Image("/resources/ic_save_sm.png");
     private static Image validateIcon = new Image("/resources/validate.png");
     private static Image simulateIcon = new Image("/resources/small_car.png");
     
@@ -131,22 +126,6 @@ public class ResourceBuilder {
 
 	public static Image getFolderIcon() {
 		return folderIcon;
-	}
-
-	public static Image getOpenIconSmall() {
-		return openIconSmall;
-	}
-
-	public static Image getOpenIcon() {
-		return openIcon;
-	}
-
-	public static Image getSaveIcon() {
-		return saveIcon;
-	}
-
-	public static Image getSaveIconSmall() {
-		return saveIconSmall;
 	}
 
 	public static Image getValidateIcon() {

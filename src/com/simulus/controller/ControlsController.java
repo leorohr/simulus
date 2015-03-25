@@ -250,7 +250,7 @@ public class ControlsController implements Initializable {
 			
 			WebView textView = new WebView();
 			WebEngine webEngine = textView.getEngine();
-			webEngine.load(getClass().getResource("/resources/infotext.html").toString());
+			webEngine.load(getClass().getResource("/resources/infofiles/simInfo.htm").toString());
 
 
 			help.getContent().add(textView);
