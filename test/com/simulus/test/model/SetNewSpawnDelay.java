@@ -36,6 +36,8 @@ public class SetNewSpawnDelay extends TestCaseBaseCode {
 
 			}
 		});
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 
@@ -89,7 +91,7 @@ public class SetNewSpawnDelay extends TestCaseBaseCode {
 
 			}
 		});
-		
+
 		Thread.sleep(3000);
 		isTestPassed(test1Pass, 1);
 	}

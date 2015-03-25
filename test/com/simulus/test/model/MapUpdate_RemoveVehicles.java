@@ -43,6 +43,8 @@ public class MapUpdate_RemoveVehicles extends TestCaseBaseCode {
 
 			}
 		});
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 

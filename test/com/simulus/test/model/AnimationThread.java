@@ -35,6 +35,10 @@ public class AnimationThread extends TestCaseBaseCode {
 			}
 		});
 
+		Thread.sleep(2000);
+		loadDefaultMap();	
+	
+
 	}
 
 	@After
@@ -45,17 +49,17 @@ public class AnimationThread extends TestCaseBaseCode {
 	}
 
 
-	
+
 	@Test
 	public void test1() throws InterruptedException {
+
 		
-		Thread.sleep(4000);
 		executor.execute(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				writeToLog("Initialising Test1...");
-				
+
 				SimulationController.getInstance().startSimulation();
 				writeToLog("Simulation started.");
 				try {
@@ -63,22 +67,22 @@ public class AnimationThread extends TestCaseBaseCode {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				
+
 				if (SimulationController.getInstance().getAnimationThread().isAlive()){
 					test1Pass = true;
 					writeToLog("Thread status is alive.");
 				}
-				
+
 			}
 		});
-		
+
 		Thread.sleep(4000);
 		isTestPassed(test1Pass, 1);
-		
+
 	}
-	
-	
-	
+
+
+
 }
 
 

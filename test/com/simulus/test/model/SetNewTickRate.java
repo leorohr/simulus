@@ -37,6 +37,8 @@ public class SetNewTickRate extends TestCaseBaseCode {
 
 			}
 		});
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 
