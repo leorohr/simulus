@@ -1,1 +1,27 @@
 \section{Review}
+There are many variations on traffic simulation modelling. Two of the most popular classifications of simulation model that are investigated are Microscopic and Macroscopic.
+
+\paragraph{}
+Macroscopic simulations employ mathematical models to simulate the overall flow of traffic. M.J. Lighthill likened the flow of traffic to the flow of liquid through a pipe and his early work with Whitham led to the LWR model which represents traffic solely as mathematical equations \cite{Lighthill1955Kinetic,Treiber2013Flow,6042479} ignoring individual vehicle behaviour completely in favour of more overall measures of traffic behaviour, such as flow and density \cite{boxill2000evaluation,ehlert2001reactive}. 
+
+\paragraph{}
+Microscopic simulations however, focus on individual vehicles. This gives a much more realistic model of traffic as in the real world each driver is an individual with differing temperament, behaviour and destination. Each vehicle in the simulation is therefore modelled individually, allowing different types of vehicle to be present with differing personality or logic applied to each one \cite{Owen:2000:STS:510378.510542}. Behaviour is governed by a set of valid real-world traffic policies and regulations \cite{Schulze:1997:UTS:268437.268764}, such as stopping at red lights and driving on the correct side of the road.
+These individual vehicles are monitored as they interact with other vehicles and elements of the environment, such as traffic lights or stop signs.
+
+\paragraph{}
+Cellular automaton simulations are a relatively simple version of the microscopic model. Roads are comprised of a series of cells with vehicles moving from one cell to the next. One vehicle is assigned to one cell with the disadvantage being that all vehicles are assumed to occupy the same amount of space on the road \cite{Namekawa2005CellAutomaton,6737859}. These cellular simulations can be implemented, at the most basic level, by using an array equal to the number of cells, with a cell marked as either occupied or available.
+
+\paragraph{}
+Agent based systems are another method of creating microscopic models. Here the agents take the role of vehicles and are governed by a set of traffic rules and policies that dictate their actions. The agents will have a goal, usually a destination that they are required to reach, and will navigate to that goal by using sensory information that they gather from the environment and other agents, creating a very realistic depiction of individual driver behaviour \cite{948773,4621183}.
+
+\pagebreak
+Simulations can also be classified as continuous or discrete time models.
+Continuous time models use differential equations to calculate the state of the model at a given time, with variables in the model corresponding to real values such as vehicles per mile \cite{Lighthill1955Kinetic}.
+Discrete time models however may deal with time-slices or events. For time-slice models the simulation is split into constant time intervals, a vehicle's attribute values are then updated at each time slice \cite{Schulze:1997:UTS:268437.268764}. For event-orientated models a queue of events is scheduled to occur in order of time. These events represent a change of state within the model, for example a traffic light changing to red, or a car following another car would approximate the distance to the lead car and adjust its speed or acceleration appropriately \cite{Schulze:1997:UTS:268437.268764,algers1997review}.
+
+\paragraph{}
+Many traffic simulation models use 2D overhead views to give a visual representation of the simulation in action. Sewall et al. \cite{sewall2010continuum} developed a system for generating realistic 3D animations of large-scale traffic networks that is capable of simulating real-world traffic data in a believable manner. By using an extension of the continuum model of traffic flow they were able to model lane changes and merging of traffic. Comparisons on performance to the agent-based SUMO \cite{SUMO} system were favourable, showing an almost linear performance overhead with a large number of cars compared to the constant growth in overhead required by the SUMO system.
+
+\paragraph{}
+Traffic simulation does not apply only to vehicles however and various studies have looked at pedestrian traffic models. Studies have found that large groups of pedestrians will naturally form lanes when moving that increase the speed at which they may travel; similarly a circular roundabout behaviour is demonstrated at intersections in order to maintain an efficient pace. These behaviours are comparable to how road traffic is directed and as such many similarities can be shared between pedestrian and vehicular traffic models \cite{helbing2001self,lovaas1994modeling,helbing2001traffic}.
+
