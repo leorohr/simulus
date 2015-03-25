@@ -1,4 +1,4 @@
-package com.simulus.viwe.intersection;
+package com.simulus.view.intersection;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -18,6 +18,9 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
@@ -227,12 +230,26 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		helpButton.setOnAction((event) -> {
-			File file = new File(System.getProperty("user.home") + "/Simulus/editorTutorial.pdf");
-            try {
-				Desktop.getDesktop().open(file);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//		File file = new File(System.getProperty("user.home") + "/Simulus/editorTutorial.pdf");
+//		try {
+//				Desktop.getDesktop().open(file);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+	
+			Popup help = new Popup();
+			help.setAutoHide(true);
+			help.setHeight(400);
+			help.setWidth(300);
+			
+			WebView textView = new WebView();
+			WebEngine webEngine = textView.getEngine();
+			webEngine.load(getClass().getResource("/resources/editorTutorial.html").toString());
+
+
+			help.getContent().add(textView);
+			help.show(EditorApp.getInstance().getPrimaryStage()); 
+           
 		});
 	}
 	

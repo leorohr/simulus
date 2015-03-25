@@ -1,6 +1,5 @@
 package com.simulus.controller;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -255,7 +254,7 @@ public class ControlsController implements Initializable {
 
 
 			help.getContent().add(textView);
-			help.show(MainApp.getInstance().getPrimaryStage()); //TODO close on click
+			help.show(MainApp.getInstance().getPrimaryStage()); 
 		});
 	}
 

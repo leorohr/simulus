@@ -24,7 +24,6 @@ import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
 import com.simulus.view.map.Map;
-import com.simulus.viwe.intersection.IntersectionConfigDialog;
 
 /**
  * Contains all tiles belonging to the intersection.
