@@ -30,6 +30,7 @@ import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.Intersection;
+import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
 /**
@@ -338,17 +339,37 @@ public abstract class Vehicle extends Rectangle {
 		}else{
 			if(currentIntersection != null && isTransitioning()) {
 				for(int i = 0; i < currentIntersection.tiles.length ; i++) {
-					for(int j = 0; j< currentIntersection.tiles[0].length;j++) {
-						//Check all tiles. If one of them is occupied by somethine else than this vehicle... 
-						if(currentIntersection.tiles[i][j].isOccupied() && currentIntersection.tiles[i][j].getOccupier() != null && currentIntersection.tiles[i][j].getOccupier() != this) {
-							//if(currentPath.getBoundsInParent().intersects(currentIntersection.tiles[i][j].getBoundsInParent())) {
+					for(int j = 0; j< currentIntersection.tiles[0].length; j++) {
+						IntersectionTile t = currentIntersection.tiles[i][j];
+						
+						//Check all tiles. If one of them is occupied by something else than this vehicle... 
+						if(t.isOccupied() && t.getOccupier() != null && t.getOccupier() != this) {
+//							if(t.getOccupier().getCurrentPath().getTurn() == TurningDirection.RIGHT
+//									&& this.currentPath.getTurn() == TurningDirection.RIGHT
+//									&& this.currentPath != t.getOccupier().getCurrentPath())
+//								continue; //dont stop if cars are turning right in front of each other
+							//if this vehicle's path intersects the path of the other vehicle
+							if(currentPath != t.getOccupier().getCurrentPath() 
+									&& !((Path)Shape.intersect(currentPath, t.getOccupier().getCurrentPath())).getElements().isEmpty()
+									&& !((Path)Shape.intersect(currentPath, t.getOccupier())).getElements().isEmpty() 
+									&& currentTransition.getCurrentTime().lessThan(t.getOccupier().getCurrentTransition().getCurrentTime())) {
+								
+								currentTransition.setRate(0);
+								return;
+							}
+							if(currentPath == t.getOccupier().getCurrentPath()
+									&& currentTransition.getCurrentTime().lessThan(t.getOccupier().getCurrentTransition().getCurrentTime())) {
+								currentTransition.setRate(0);
+								return;
+							}
+							
 							//... and this vehicle's path intersects that occupied tile, make this vehicle stop.
-							if(!((Path)Shape.intersect(currentPath, currentIntersection.tiles[i][j].getFrame())).getElements().isEmpty()){
-								if(currentTransition.getCurrentTime().lessThan(currentIntersection.tiles[i][j].getOccupier().getCurrentTransition().getCurrentTime())) {
-									currentTransition.setRate(0); 
-									return;
-								}
-							}	
+//							if(!((Path)Shape.intersect(currentPath, t.getFrame())).getElements().isEmpty()){
+//								if(currentTransition.getCurrentTime().lessThan(t.getOccupier().getCurrentTransition().getCurrentTime())) {
+//									currentTransition.setRate(0); 
+//									return;
+//								}
+//							}	
 						}
 						//If the end of the current path is occupied and this vehicle is one tile away from the end, stop.
 						if(this.getBoundsInParent().intersects(preEndTile.getFrame().getBoundsInParent()) && currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this){

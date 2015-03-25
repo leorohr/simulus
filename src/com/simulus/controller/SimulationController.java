@@ -81,6 +81,7 @@ public class SimulationController {
         MainApp.getInstance().resetCanvas();
         MainApp.getInstance().getControlsController().resetCharts();
         MainApp.getInstance().getControlsController().resetSettings();
+        setDebugFlag(false);
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;

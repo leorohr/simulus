@@ -4,7 +4,10 @@
 
 	<target name="compile" depends="clean">		
 		<mkdir dir="bin" />
-		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="src" destdir="bin" encoding="UTF-8" />
+		<javac srcdir="src" destdir="bin"
+			source="1.8" target="1.8"
+			includeantruntime="false"
+			encoding="UTF-8" />
 
 		<!-- Copy resources -->
 		<copy todir="bin/resources">
@@ -46,7 +49,7 @@
 		</copy>
 	</target>
 
-	<target name="install" description="Compiles the projects, builds a jar-file and copies all files to ${user.home}/Simulus" depends="jar">
+	<target name="install" description="Copies all required files to ${user.home}/Simulus">
 		<mkdir dir="${user.home}/Simulus" />
 		<mkdir dir="${user.home}/Simulus/stats" />
 		<mkdir dir="${user.home}/Simulus/sim" />

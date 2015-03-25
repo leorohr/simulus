@@ -21,7 +21,7 @@ Use
 ```
 ant -buildfile {project_root}/ install
 ```
-to build the jar file install Simulus to ${user.home}/Simulus.
+to install Simulus to ${user.home}/Simulus.
 
 
 Compiling the project requires JDK1.8U40 and JAVA_HOME environment variable to be set to the JDK8 home folder.

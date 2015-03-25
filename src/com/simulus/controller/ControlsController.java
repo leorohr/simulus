@@ -348,4 +348,8 @@ public class ControlsController implements Initializable {
     public void setResetButtonDisabled(boolean b) {
     	resetButton.disableProperty().setValue(b);
     }
+    
+    public void setDebugBoxDisabled(boolean b) {
+    	debugCheckbox.disableProperty().setValue(b);
+    }
 }

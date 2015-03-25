@@ -65,6 +65,14 @@ public class IntersectionTile extends Tile {
 			return null;
 	}
 	
+	public CustomPath getEmergencyPath() {
+		for(CustomPath p : turningPaths)
+			if(!p.isUnavailable())
+				return p;
+		
+		return null;
+	}
+	
 	/**
 	 * @return The list of available paths for cars to take when they face this tile in an intersection.
 	 */

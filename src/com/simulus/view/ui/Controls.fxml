@@ -26,7 +26,7 @@
                                     <Button fx:id="resetButton" disable="true" mnemonicParsing="false" text="Reset" />
                                  </children>
                               </HBox>
-                              <CheckBox fx:id="debugCheckbox" mnemonicParsing="false" text="Debug" />
+                              <CheckBox fx:id="debugCheckbox" disable="true" mnemonicParsing="false" text="Debug" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

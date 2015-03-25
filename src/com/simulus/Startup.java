@@ -53,8 +53,6 @@ public class Startup extends Application {
 			primaryStage.setY((Screen.getPrimary().getBounds().getHeight() - 800)/2);
 			
 			EditorApp app = new EditorApp();
-			primaryStage.setX((Screen.getPrimary().getBounds().getWidth() - 900)/2);
-			primaryStage.setY((Screen.getPrimary().getBounds().getHeight()-800)/2);
 			app.start(primaryStage);
 		});
 		
