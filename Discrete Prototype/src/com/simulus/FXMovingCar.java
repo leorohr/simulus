@@ -65,7 +65,6 @@ public class FXMovingCar extends Application {
         //Initialising window
         primaryStage.setResizable(false);
         primaryStage.setScene(new Scene(root, 400,40));
-        System.out.println();
         //Let position X be roughly in the center (left side of the "road")
         posX= (int) ((primaryStage.getWidth()/2)-50);
         
@@ -125,7 +124,6 @@ public class FXMovingCar extends Application {
 	            play();
 	            //Increase frame number
                 frameNo++;
-                System.out.println("Frame: "+ frameNo);
             }
             
         };

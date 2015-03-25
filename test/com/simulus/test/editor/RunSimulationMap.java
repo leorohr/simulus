@@ -31,7 +31,7 @@ public class RunSimulationMap extends TestCaseBaseCode {
 	private boolean test3Pass;
 	
 	File mapFile = new File("resources/maps/Junctions.map");
-	String file = "resources/maps/Junctions.map";
+	//File file =new file "resources/maps/Junctions.map";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -71,7 +71,7 @@ public class RunSimulationMap extends TestCaseBaseCode {
 				writeToLog("Initialising Test1...");
 				Tile[][] mapTiles = EditorApp.getInstance().getMap().getTiles();
 				
-			EditorApp.getInstance().loadMap(file);
+			EditorApp.getInstance().loadMap(mapFile);
 			
 			Tile[][] newMapTiles = EditorApp.getInstance().getMap().getTiles();
 			
@@ -107,7 +107,7 @@ public class RunSimulationMap extends TestCaseBaseCode {
                 MainApp app = MainApp.getInstance(); 
         		if(app == null)
         			app = new MainApp();
-        		app.start(new Stage(), false);
+        		app.start(new Stage());
         		SimulationController.getInstance().getMap().loadMap(mapFile);
 
                 try {

@@ -7,6 +7,7 @@ import java.util.Vector;
 import javafx.scene.paint.ImagePattern;
 
 import com.simulus.util.ResourceBuilder;
+import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
 
 /**
@@ -18,6 +19,7 @@ public class IntersectionTile extends Tile {
 	
 	private ArrayList<CustomPath> turningPaths;
 	private Intersection intersection;
+//	private Polygon leftArrow = new Polygon(frame.getX() + 5)
 
 	/**
 	 * @param posX {@link Tile#Tile(double, double, double, double, int, int)}
@@ -39,12 +41,11 @@ public class IntersectionTile extends Tile {
 	
 	public boolean hasStraightPath(){
 		for(CustomPath p: getTurningPaths()){
-			if(p.getDistance() == Intersection.straightDistance && p.getActive())
+			if(p.getTurn() == TurningDirection.STRAIGHT && p.getActive())
 				return true;
 		}
 		return false;
-	}
-	
+	}	
 	
 	/*
 	 * Getters & Setters
@@ -62,6 +63,14 @@ public class IntersectionTile extends Tile {
 			return v.get(new Random().nextInt(v.size()));
 		else 
 			return null;
+	}
+	
+	public CustomPath getEmergencyPath() {
+		for(CustomPath p : turningPaths)
+			if(!p.isUnavailable())
+				return p;
+		
+		return null;
 	}
 	
 	/**

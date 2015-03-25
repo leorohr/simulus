@@ -133,7 +133,10 @@ public class RootLayoutController implements Initializable {
         	FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Map...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Map Files", "*.map"));
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
+            File dir = new File(System.getProperty("user.home") + "/Simulus/maps");
+            if(dir.canRead())
+            	fileChooser.setInitialDirectory(dir);
+            else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             if (selectedFile != null){
                 SimulationController.getInstance().getMap().loadMap(selectedFile); 
@@ -148,7 +151,10 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save Map XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("CSV File (*.csv)", "*.csv"));
-            fileChooser.setInitialDirectory(new File(System.getProperty("user.home").toString()));
+            File dir = new File(System.getProperty("user.home") + "/Simulus/stats");
+            if(dir.canRead())
+            	fileChooser.setInitialDirectory(dir);
+            else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             fileChooser.setInitialFileName("simStatExport.csv");
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             File sourceFile = Configuration.getTempStatsFile();
@@ -169,6 +175,10 @@ public class RootLayoutController implements Initializable {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Simulation XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
+            File dir = new File(System.getProperty("user.home") + "/Simulus/sim");
+            if(dir.canRead())
+            	fileChooser.setInitialDirectory(dir);
+            else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             fileChooser.setInitialFileName("CustomSim.sim");
             File selectedFile = fileChooser.showOpenDialog(MainApp.getInstance().getPrimaryStage());
             
@@ -219,6 +229,10 @@ public class RootLayoutController implements Initializable {
             fileChooser.setTitle("Save Simulation XML...");
             fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Simulus Sim Files", "*.sim"));
             fileChooser.setInitialFileName("CustomSim.sim");
+            File dir = new File(System.getProperty("user.home") + "/Simulus/sim");
+            if(dir.canRead())
+            	fileChooser.setInitialDirectory(dir);
+            else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
             File selectedFile = fileChooser.showSaveDialog(MainApp.getInstance().getPrimaryStage());
             
             if (selectedFile != null){
@@ -251,6 +265,7 @@ public class RootLayoutController implements Initializable {
             img.setFitHeight(75.0d);
             Label infoPanel = new Label("Simulus Traffic Simulation Ver. 0.1");
             Label tileInfo = new Label("Textures thanks to Kenney Vleugels (www.kenney.nl) - CC0");
+            Label iconInfo = new Label("Editor icons thanks to FatCow (www.fatcow.com/free-icons)");
             Hyperlink link = new Hyperlink("http://github.com/leorohr/simulus");
             Button okayBtn = new Button("Okay");
             okayBtn.setOnAction((btnEvent) -> dialog.close());
@@ -259,7 +274,7 @@ public class RootLayoutController implements Initializable {
             vbox.setAlignment(Pos.CENTER);
             vbox.setSpacing(5.0d);
             vbox.setPadding(new Insets(0.0d, 0.0d, 5.0d, 0.0d));
-            vbox.getChildren().addAll(img, infoPanel, link, tileInfo, okayBtn);
+            vbox.getChildren().addAll(img, infoPanel, link, tileInfo, iconInfo, okayBtn);
 
             dialog.setScene(new Scene(vbox));
             dialog.show();

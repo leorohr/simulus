@@ -97,6 +97,7 @@ public class ControlsController implements Initializable {
     private LineChart.Series<Number, Number> congestionSeries;
     private LineChart.Series<Number, Number> waitingTimeSeries;
     private LineChart.Series<Number, Number> emWaitingTimeSeries; //waiting time of emergency vehicles
+    private double durationCount = 0;
     private CsvExport csv;
 
 	@SuppressWarnings("unchecked")
@@ -220,7 +221,7 @@ public class ControlsController implements Initializable {
 		startButton.setOnAction((event) -> {
 			
 			csv = new CsvExport(Configuration.getTempStatsFile());
-			csv.generateCsvFile("no of vehicles", "avg speed (km/h)", "congestion %", "avg waiting time(s) - cars/trucks", "avg waiting time(s) - ambulance");
+			csv.generateCsvFile("sim duration (s)", "no of vehicles", "avg speed (km/h)", "congestion %", "avg waiting time(s) - cars/trucks", "avg waiting time(s) - ambulance");
 			
 			simulationController.startSimulation();
 
@@ -265,9 +266,10 @@ public class ControlsController implements Initializable {
         emWaitingTimeSeries.getData().add(new LineChart.Data<>(dataCount, avgEmWait));
         
         //Write stats to temp file
-        csv.appendRow(String.valueOf(vehicleCount), String.valueOf(avgSpeed), String.valueOf(congestion),
+        durationCount++;
+        csv.appendRow(String.valueOf(500*durationCount/1000), String.valueOf(vehicleCount), String.valueOf(avgSpeed), String.valueOf(congestion),
     			String.valueOf(avgWait), String.valueOf(avgEmWait));
-        
+     
         if(dataCount%MAX_DATA_POINTS == 0) {
             waitingTimeSeries.getData().remove(0, 10);
             emWaitingTimeSeries.getData().remove(0, 10);
@@ -303,6 +305,8 @@ public class ControlsController implements Initializable {
     	congestionSeries.getData().add(new Data<>(0d, 0d));
     	waitingTimeSeries.getData().add(new Data<>(0d, 0d));
     	emWaitingTimeSeries.getData().add(new Data<>(0d, 0d)); 
+    	
+    	durationCount = 0;
     }
     
     /**
@@ -335,5 +339,17 @@ public class ControlsController implements Initializable {
     
     public void setAmbulanceButtonDisabled(boolean b) {
     	spawnAmbulanceButton.disableProperty().setValue(b);
+    }
+    
+    public void setStartButtonDisabled(boolean b) {
+    	startButton.disableProperty().setValue(b);
+    }
+
+    public void setResetButtonDisabled(boolean b) {
+    	resetButton.disableProperty().setValue(b);
+    }
+    
+    public void setDebugBoxDisabled(boolean b) {
+    	debugCheckbox.disableProperty().setValue(b);
     }
 }

@@ -22,11 +22,11 @@
                            <children>
                               <HBox spacing="10.0">
                                  <children>
-                                    <Button fx:id="startButton" mnemonicParsing="false" text="Start" />
-                                    <Button fx:id="resetButton" mnemonicParsing="false" text="Reset" />
+                                    <Button fx:id="startButton" disable="true" mnemonicParsing="false" text="Start" />
+                                    <Button fx:id="resetButton" disable="true" mnemonicParsing="false" text="Reset" />
                                  </children>
                               </HBox>
-                              <CheckBox fx:id="debugCheckbox" mnemonicParsing="false" text="Debug" />
+                              <CheckBox fx:id="debugCheckbox" disable="true" mnemonicParsing="false" text="Debug" />
                            </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -87,7 +87,7 @@
                                                 <Label text="Max. Num. of Cars" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider id="numCars" fx:id="numCarSlider" max="200.0" min="10.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
+                                                      <Slider id="numCars" fx:id="numCarSlider" max="50.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
                                                       <Label fx:id="numCarLabel" text="25" />
                                                    </children>
                                                 </HBox>
@@ -98,7 +98,7 @@
                                                 <Label text="Tickrate (ms)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="20.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
+                                                      <Slider id="tickrate" fx:id="tickrateSlider" max="1000.0" min="50.0" prefHeight="16.0" prefWidth="160.0" value="50.0" />
                                                       <Label fx:id="tickrateLabel" text="50" />
                                                    </children>
                                                 </HBox>
@@ -109,7 +109,7 @@
                                                 <Label text="Spawn Delay (Ticks)" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
-                                                      <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="1.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
+                                                      <Slider fx:id="spawnrateSlider" blockIncrement="1.0" min="15.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />
                                                       <Label fx:id="spawnrateLabel" text="25" />
                                                    </children>
                                                 </HBox>
@@ -149,7 +149,7 @@
                                              </children>
                                           </VBox>
                                           <Button fx:id="randTrafficLightsButton" mnemonicParsing="false" text="Randomise Trafficlights" />
-                                          <Button fx:id="spawnAmbulanceButton" mnemonicParsing="false" text="Spawn Ambulance" />
+                                          <Button fx:id="spawnAmbulanceButton" disable="true" mnemonicParsing="false" text="Spawn Ambulance" />
                                        </children>
                                        <opaqueInsets>
                                           <Insets />

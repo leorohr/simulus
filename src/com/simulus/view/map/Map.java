@@ -4,13 +4,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import com.simulus.EditorApp;
 import com.simulus.MainApp;
@@ -31,6 +35,7 @@ import com.simulus.view.vehicles.Car;
 import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
+import com.sun.javafx.stage.StageHelper;
 
 /**
  * This class is the central management facility for a map's storage and management.
@@ -67,24 +72,6 @@ public class Map extends Group {
 					MainApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 				else EditorApp.getInstance().getCanvas().getChildren().add(tiles[i][p]);
 			}
-		}
-
-		for (Intersection i : intersections) {
-			i.addTurningPaths(tiles);
-			
-
-			// If the path has a lane at the end of it, set it to active
-			// This allows the creation intersections without 4 connected roads
-			for (CustomPath p : i.getTurningPaths()) {
-				if (p.getEndTile() instanceof Lane)
-					p.setActive(true);
-			}
-			
-			Thread t = new Thread(i, "Intersection <"
-					+ i.getTiles().get(0).getGridPosX() + ", "
-					+ i.getTiles().get(0).getGridPosY() + ">");
-			trafficLightThreads.add(t);
-			t.start();
 		}
 	}
 
@@ -217,26 +204,6 @@ public class Map extends Group {
 		return l;
 	}
 
-	//for testing TODO remove
-	public void spawnTesterCar(double speed) {
-
-		Lane a = entryPoints.get(0);
-
-		Car c = null;
-		// Car adds itself to the canvas
-		c = new Car(a.getGridPosX() * tileSize + Car.CARWIDTH / 4,
-				a.getGridPosY() * tileSize + Car.CARLENGTH / 8,
-				a.getDirection());
-
-		c.setCurrentTile(a);
-		c.setMap(tiles);
-		c.setVehicleSpeed(speed);
-		a.setOccupied(true, c);
-		synchronized (vehicles) {
-			vehicles.add(c);
-		}
-	}
-
 	/**
 	 * Spawns an ambulance at a random, available entrypoint.
 	 */
@@ -319,8 +286,10 @@ public class Map extends Group {
 	 * @param dir The direction that should be stopped by the red light.
 	 */
 	public void setRedTrafficLight(int tileX, int tileY, Direction dir) {
-		tiles[tileX][tileY].setOccupied(true);
-		tiles[tileX][tileY].setIsRedLight(true, dir);	
+		if(tiles[tileX][tileY] instanceof Lane) {
+			tiles[tileX][tileY].setOccupied(true); 
+			tiles[tileX][tileY].setIsRedLight(true, dir);
+		}	
 	}
 
 	/**
@@ -329,8 +298,10 @@ public class Map extends Group {
 	 * @param tileY The grid y-coordinate of the tile.
 	 */
 	public void setGreenTrafficLight(int tileX, int tileY) {
-		tiles[tileX][tileY].setOccupied(false);
-		tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
+		if(tiles[tileX][tileY] instanceof Lane) {
+			tiles[tileX][tileY].setOccupied(false);
+			tiles[tileX][tileY].setIsRedLight(false, Direction.NONE);
+		}
 	}
 
 	/**
@@ -479,6 +450,10 @@ public class Map extends Group {
 		toBeRemoved = new ArrayList<Vehicle>();
 		SimulationController.getInstance().resetSimulation(false);
 		SimulationController.getInstance().setLastLoadedMap(mapFile);
+		MainApp.getInstance().getControlsController().setStartButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setResetButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setDebugBoxDisabled(false);
+		
 
 		MapXML loader = new MapXML();
 		loader.readXML(mapFile);
@@ -486,10 +461,32 @@ public class Map extends Group {
 		//Decline maps that were not validated by the editor
 		if(!loader.isValidated()) {
 			Alert alert = new Alert(AlertType.WARNING);
-	    	alert.initOwner(MainApp.getInstance().getPrimaryStage());
+			ButtonType edit = new ButtonType("Edit Map...");
+			alert.getButtonTypes().add(edit);
+			alert.initOwner(MainApp.getInstance().getPrimaryStage());
+	    	
 	    	alert.setTitle("Map is not validated");
 	    	alert.setHeaderText("This map has not passed validation!\nPlease edit the map to make it valid or choose a different map.");
-	    	alert.showAndWait();
+	    	Optional<ButtonType> result = alert.showAndWait();
+	    	if(result.get() == edit) { 
+	    		//close simulator, start editor and load map
+	    		try {
+	            	SimulationController.getInstance().getAnimationThread().interrupt();
+	            	SimulationController.getInstance().getMap().stopChildThreads();
+					MainApp.getInstance().stop();
+					
+					for(Stage s : StageHelper.getStages())
+						Platform.runLater(() -> s.close());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	        	
+	        	EditorApp editor = EditorApp.getInstance(); 
+	        	if(editor == null)
+	        		editor = new EditorApp();
+	            editor.start(new Stage());
+	            editor.loadMap(mapFile);
+	    	}
 	    	return;
 		}
 
@@ -538,20 +535,27 @@ public class Map extends Group {
 			}
 		}
 
-		for (Intersection i : intersections) {
+		for(Intersection i : intersections) {
 			i.addTurningPaths(tiles);
-			// If the path has a lane at the end of it, set it to active
+			
+			// If the path starts and ends on lanes, set it to active
 			// This allows the creation intersections without 4 connected roads
 			for (CustomPath p : i.getTurningPaths()) {
 				if (p.getEndTile() instanceof Lane && p.getStartTile() instanceof Lane)
 					p.setActive(true);
+				else p.setUnavailable(true);
 			}
+			
 			for(IntersectionTile[] it: i.tiles){
 				for(IntersectionTile itt: it){
 					if(itt.hasStraightPath()){
-						for(CustomPath p: itt.getTurningPaths())
-							if(p.getDistance() == Intersection.arcDistanceMedium || p.getDistance() == Intersection.arcDistanceVeryLong)
+						for(CustomPath p: itt.getTurningPaths()) {
+							if( p.getDistance() == Intersection.arcDistanceMedium 
+							 || p.getDistance() == Intersection.arcDistanceVeryLong) {
 								p.setActive(false);
+								p.setUnavailable(true); 
+							}
+						}
 					}
 				}
 			}
@@ -564,6 +568,9 @@ public class Map extends Group {
 		}
 
 	    drawMap(MainApp.getInstance().getCanvas());
+	    MainApp.getInstance().getControlsController().setStartButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setResetButtonDisabled(false);
+	    MainApp.getInstance().getControlsController().setDebugBoxDisabled(false);
     }
     
     /**
@@ -579,28 +586,28 @@ public class Map extends Group {
 		Configuration.setGridSize(loader.numOfTiles);
 		tileSize = Configuration.getTileSize();
 		tiles = loader.getTileGrid();
-
-		boolean[][] checked = new boolean[tiles.length][tiles[0].length];
-		for (int i = 0; i < tiles.length; i++) {
-			for (int j = 0; j < tiles[0].length; j++) {
-				// Dont double-check tiles -- mainly for correct detection of
-				// intersections.
-				if (checked[i][j])
-					continue;
-				
-				if (tiles[i][j] instanceof IntersectionTile) {
-					// If an intersection is encountered, create new object and
-					// set all related tiles to checked
-					addGroup(new Intersection(i, j));
-					for (int m = i; m < i + 4; m++) {
-						for (int n = j; n < j + 4; n++)
-							checked[m][n] = true;
-					}
-				}
-			}
+		
+		boolean[][] checked = new boolean[tiles.length][tiles[0].length];		
+		for (int i = 0; i < tiles.length; i++) {		
+			for (int j = 0; j < tiles[0].length; j++) {		
+				// Dont double-check tiles -- mainly for correct detection of		
+				// intersections.		
+				if (checked[i][j])		
+					continue;		
+						
+				if (tiles[i][j] instanceof IntersectionTile) {		
+					// If an intersection is encountered, create new object and		
+					// set all related tiles to checked		
+					addGroup(new Intersection(i, j));		
+					for (int m = i; m < i + 4; m++) {		
+						for (int n = j; n < j + 4; n++)		
+							checked[m][n] = true;		
+					}		
+				}		
+			}		
 		}
 		
-	    drawMap(EditorApp.getInstance().getCanvas());
+		drawMap(EditorApp.getInstance().getCanvas());
     }
 
 	/**
@@ -622,7 +629,7 @@ public class Map extends Group {
 
 		toBeRemoved.add(v);
 	}
-
+	
 	/**
 	 * Changes the color of the vehicle according to the currently chosen
 	 * coloroption.

@@ -30,10 +30,77 @@ In order to overcome this issue we considered both the traditional reader-writer
 
 In order to channel the communication between model classes and the \textit{SimulationController} as well as the application classes \textit{MainApp} and \textit{EditorApp} we faced a design decision between the traditional observer pattern and the singleton pattern that allows static access to the required instances. We decided in favour of the singleton pattern, because the situations in which the model communicates with the \textit{SimulationController} are manifold and access to the singleton instance allows for fairly simple flow of communication.
 
+\subsection{Testing}
+ 
+
+An integral part of software development, testing aims to ensure that the original requirements are met. Due to the Agile nature of our development framework, we felt that Feature Driven Development (FDD) is the most adaptable process and well suited for the task at hand. Hence, we decided to test the code iteratively at the end of each development cycle. We came to this decision by foreseeing that the writing of testing code in a concurrent fashion with the development team may not be an effective practice since the implementation was subject to rapid change. Therefore, peer reviews were conducted at an early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation before we begin to attempt to add more complicated features.
+
+\subsubsection*{Testing Tools}
+
+As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX applications. It is a test harness which allows the user to simulate user input such as clicking buttons or entering data. In particular, JemmyFX defines how to get a list of scenes, node items, and the text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
+
+
+\begin{minipage}{0.9\textwidth}
+	\begin{lstlisting}[caption={Use JemmyFX syntax to find a checkBox element}, label={lst:checkBox}]
+
+//Identifying the input checkBox element exist
+assertEquals(CheckBox.class, new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT).wrap().getControl().getClass());
+
+//Find the label of the checkBox 
+LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT);
+
+	\end{lstlisting}
+\end{minipage}
+
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element; easily finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView also provides a tree structure and highlights the item upon selection. this has been particularly helpful in the case of an inability to identify elements within the source code.  
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/scenicView.png}
+		\caption[Identifying properties of Start button with ScenicView]{Identifying properties of Start button with ScenicView}
+	\label{fig:scenicview}
+	\end{center}
+\end{figure}
+
+\subsubsection*{Unit Testing}
+Since we were trying to achieve a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the fact that nesting and threading was deep beyond comprehension. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), in order to ensure features within them with a main focus of correct functionality. With such approach, this gives us the confidence that our code works as we expect it to work. 
+
+It is arguable that there were lots of areas need that to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that the quality should not be purely depend on numbers. We want to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - within the scope of what this project aims to achieve.  We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=\textwidth]{img/testCase.png}
+		\caption{A log is produced after a test execution}
+	\label{fig:testCase}
+	\end{center}
+\end{figure}
+
+In addition, we also looked at the organisation of our code base to further assess the code quality.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape is the more lines of codes have been written for a class. The colour depth of a shape indicates its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car class} as 58; we were able to reduce it to 21 for the final version.     
+
+\begin{figure}[h]
+	\begin{minipage}{\textwidth}
+		\begin{center}
+				\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
+			\caption{Heat Map for the final version of the software}
+			\label{fig:heatmap}	
+		\end{center}
+	\end{minipage}
+\end{figure}
+
+Fig.~\ref{fig:archIntDependency} illustrates the architectural dependency of our final product. We assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most cases, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described as clean, as shown in the figure. 
+
+\begin{figure}[h]
+	\begin{center}
+			\includegraphics[width=\textwidth]{img/archIntDependency.png}
+		\caption{Architecture Internal Dependency}
+	\label{fig:archIntDependency}
+	\end{center}
+\end{figure}
+
+\clearpage
 \subsection{Map Editor}
 
-\subsubsection{Graphical User Interface}
-The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Fig.~\ref{fig:finalMapEditor} shows the resulting design chosen which we felt had met our requirements holistically.
+\subsection{Graphical User Interface}
+The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Fig.~\ref{fig:finalMapEditor} shows the resulting design chosen which the team felt had met the requirements in whole and one we hope is apparent when using the application to create a map.
 
 
 \begin{figure}[h]
@@ -48,11 +115,11 @@ The majority of the effort with the editor application was on user interaction (
 The basis of any map editor is the ability to tag defined areas of desktop real-estate representing a real world instance e.g. land mass. We began by constructing an $x*y$ cell grid, where $x$ and $y$ are the number of cells horizontally and vertically and where $x=y$. The smallest instance of a map was to be a 40x40 grid yielding 1,600 tiles each needing to be individually tagged. Clearly, it was not realistic to expect the user to tag each cell individually. Even after accounting for the number of tiles that would be tagged using the road and intersection tools, large swathes of the map are left unfilled.  
 For this reason, a method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. In other words, the application will only fill empty cells within a certain boundary so as to not replace existing ones. This is is better known as a flood fill algorithm and is listed as requirement 2.7 and 2.8 of section \ref{ss:reqs}
 
-There are several techniques for implementing flood fill of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property. The appropriate psudocode is as follows:
+There are several techniques for implementing flood fill \cite{lodev2015} of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property. The appropriate pseudopod is as follows:
 
 % probably need a new listing for psudocode?
 \begin{minipage}{0.9\textwidth}
-	\begin{lstlisting}[caption={4-way stack based recursive flood fill}, label={lst:stackFloodFill}]
+	\begin{lstlisting}[caption={4-way stack based recursive flood fill }\cite{codecodex2015}, label={lst:stackFloodFill}]
 Flood-fill (node, target-tile, replacement-tile):
 1. If target-tile is equal to replacement-tile, return.
 2. If the tile of node is not equal to target-tile, return.
@@ -75,9 +142,9 @@ This procedure was extended with bounds checking in our multidimensional array t
 	\end{center}
 \end{figure}
 
-Upon initial testing (ref. jerry's editor testing) the recursive approach performed exactly as expected with no functional issues  to report.  However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 65x65, a Stack Overflow error would occur thus only partially filling the grid and causing the application to no longer respond.  With the ability to alter grid sizes implemented in later reversions of the simulator and editor applications, further investigation was warranted.
+The recursive approach performed exactly as expected with no functional issues  to report. However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach. It was found that for a grid size larger than 65x65, a stack overflow would occur thus only partially filling the grid and causing the application to no longer respond. With the ability to alter grid sizes implemented in later reversions of the simulator and editor applications, further investigation was warranted.
 
-Approaching the literature, the Stack Overflow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana (2010, p.275) emphasise that this error is the most common exception encountered in recursive programs. They explain that when calling a function recursively, the return address, function parameters and local variables are pushed to the stack causing an overflow at times from which there is no recovery.
+Approaching the literature, the Stack Overflow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana \cite{mukherjeJana2010} emphasise that this error is the most common exception encountered in recursive programs. They explain that when calling a function recursively, the return address, function parameters and local variables are pushed to the stack causing an overflow at times from which there is no recovery.
  
 Possibly the simplest but least favoured approach was to alter the JVM's configuration parameters and increase the memory reserved for the stack.  Although this would be the simplest 'fix', it was not seen as a suitable solution given the many hardware and JVM configurations that exist. It simply was not a solution to the fundamental problem at hand.
 
@@ -88,11 +155,11 @@ Ultimately, the the recursive approach was deprecated while a 4-way queue based 
   \item if the tile is not of the target type
 \end{itemize}
 
-allowed for a tile to be added to the queue, replaced and dequeued in subsequent iterations. The relevant psudocode for the queue based approach is:
+allowed for a tile to be added to the queue, replaced and dequeued in subsequent iterations. The relevant pseudopod for the queue based approach is:
 
 % probably need a new listing for psudocode?
 \begin{minipage}{0.9\textwidth}
-	\begin{lstlisting}[caption={4-way queue based flood fill}, label={lst:queueFloodFill}]
+	\begin{lstlisting}[caption={4-way queue based flood fill} \cite{codecodex2015}, label={lst:queueFloodFill}]
 Flood-fill (node, target-tile, replacement-tile):
  1. If target-tile is equal to replacement-tile, return.
  2. Set Q to the empty queue.
@@ -152,71 +219,5 @@ To ensure the new approach would indeed be suitable for the set grid sizes, some
 
 It must be noted that the new method is no longer as concise as a definition compared to the original but it was a subtle sacrifice for the benefits it yielded.
 
-\subsection{Testing}
 
-An integral part of software development, testing aims to ensure that the original requirements are met. Due to the Agile nature of our development framework, we felt that Feature Driven Development (FDD) is the most adaptable process and well suited for the task at hand. Hence, we decided to test the code iteratively at the end of each development cycle. We came to this decision by foreseeing that the writing of testing code in a concurrent fashion with the development team may not be an effective practice since the implementation was subject to rapid change. Therefore, peer reviews were conducted at an early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation before we begin to attempt to add more complicated features.
-
-\subsubsection*{Testing Tools}
-
-As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX applications. It is a test harness which allows the user to simulate user input such as clicking buttons or entering data. In particular, JemmyFX defines how to get a list of scenes, node items, and the text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
-
-
-\begin{minipage}{0.9\textwidth}
-	\begin{lstlisting}[caption={Use JemmyFX syntax to find a checkBox element}, label={lst:checkBox}]
-
-//Identifying the input checkBox element exist
-assertEquals(CheckBox.class, new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT).wrap().getControl().getClass());
-
-//Find the label of the checkBox 
-LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePolicy.EXACT);
-
-	\end{lstlisting}
-\end{minipage}
-
-Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element; easily finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView also provides a tree structure and highlights the item upon selection. this has been particularly helpful in the case of an inability to identify elements within the source code.  
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=\textwidth]{img/scenicView.png}
-		\caption[Identifying properties of Start button with ScenicView]{Identifying properties of Start button with ScenicView}
-	\label{fig:scenicview}
-	\end{center}
-\end{figure}
-
-\subsubsection*{Unit Testing}
-Since we were trying to achieve a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the fact that nesting and threading was deep beyond comprehension. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), in order to ensure features within them with a main focus of correct functionality. With such approach, this gives us the confidence that our code works as we expect it to work. 
-
-It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
-
-We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=\textwidth]{img/testCase.png}
-		\caption{A log is produced after a test execution}
-	\label{fig:testCase}
-	\end{center}
-\end{figure}
-
-In addition, we also looked at the organisation of our code base to further assess the code quality of our software.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual cue on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape it is the more lines of codes there have been written for a class. The colour depth of a shape indicates the density of its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car.class} is 58, we were able to reduce it to 21 for the final version.     
-
-\begin{figure}[h]
-	\begin{minipage}{\textwidth}
-		\begin{center}
-				\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
-			\caption{Heat Map for the final version of the software}
-			\label{fig:heatmap}	
-		\end{center}
-	\end{minipage}
-\end{figure}
-
-Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for our final product. We were assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most case, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described more or less as clean, as shown in the figure. 
-
-\begin{figure}[h]
-	\begin{center}
-			\includegraphics[width=\textwidth]{img/archIntDependency.png}
-		\caption{Architecture Internal Dependency}
-	\label{fig:archIntDependency}
-	\end{center}
-\end{figure}
-\clearpage
 

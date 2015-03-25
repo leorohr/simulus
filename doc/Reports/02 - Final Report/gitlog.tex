@@ -1,0 +1,518 @@
+\chapter{Gitlog}
+\begin{center}
+\begin{longtabu} to \textwidth {|
+    X[4,l]|
+    X[3,c]|
+    X[8,l]|}
+    \hline
+    \textbf{Author} & \textbf{Date} & \textbf{Message} \\ \hline"
+leorohr & 2015-01-15 & init \\ \hline
+leorohr & 2015-01-15 & Exclude mac-specific .DS\_Store file \\ \hline
+leorohr & 2015-01-25 & initial project setup .txt files in mode, view, controller package can be removed, as soon as classes are added. \\ \hline
+ebrahim & 2015-01-29 & Moving a car across the screen \\ \hline
+Alan & 2015-01-29 & Creating documents folders and files \\ \hline
+leorohr & 2015-01-30 & First UI Draft \\ \hline
+ebrahimmalek & 2015-01-30 & A node moving across a scene \\ \hline
+leorohr & 2015-01-30 & Initialise MainApp \\ \hline
+ebrahimmalek & 2015-01-30 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-01-30 & Initial Vehicle and Car objects. \\ \hline
+leorohr & 2015-01-30 & First draft of the overall mode. ModelTester is a class purely for development purposes and will be removed later. Map contains the main logic and represents the Grid cars move on. \\ \hline
+leorohr & 2015-01-30 & Small correction and added printGrid method \\ \hline
+ebrahimmalek & 2015-01-30 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-01-31 & Small tweaks and bug fixes. ModelTester does now spawn up to 4 cars in the entrypoints but stops then, since the cars are not moving anywhere yet. \\ \hline
+Alan & 2015-02-01 & Gantt Chart v2 \\ \hline
+Alan & 2015-02-01 & Gantt Chart v3 \\ \hline
+Alan & 2015-02-01 & Gantt Chart File for Wiki \\ \hline
+jerry & 2015-02-03 & Changed/Added directories \\ \hline
+jerry & 2015-02-03 & Major remodelling multi lane/road \\ \hline
+Alan & 2015-02-03 & Draft - Initial Report Section 2 r01 \\ \hline
+Alan & 2015-02-03 & Gantt Chart r03 \\ \hline
+Alan & 2015-02-03 & Draft - Initial Report Section 2 r01 Source File \\ \hline
+ebrahimmalek & 2015-02-03 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-02-03 & Our cars can now move in all specified directions on demand. \\ \hline
+leorohr & 2015-02-04 & Added class diagram for the model package \\ \hline
+leorohr & 2015-02-04 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-02-04 & Added traffic lights. They change using a thread with an endless loop. They are cool. \\ \hline
+Alan & 2015-02-04 & Gantt Chart r04 \\ \hline
+ebrahimmalek & 2015-02-04 & Traffic Lights that change using an endless loop within a thread. \\ \hline
+ebrahimmalek & 2015-02-04 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-05 & Moved enumerations to com.simulus.util.enums \\ \hline
+leorohr & 2015-02-05 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-05 & Implemented MapUpdateListener that listens to changes in the current state of the map (refers to issue \#4) \\ \hline
+leorohr & 2015-02-05 & Added SimulationController, which is in charge of the main simulation supervision Mapped Start and Stop button to the controller's methods (refers to \#12) \\ \hline
+leorohr & 2015-02-05 & Map now exhibits the singleton-pattern to make it accessible for controllers. The map's size default is set to 10x10, but can be assigned by calling Map.setSize(int). closes \#4 \\ \hline
+leorohr & 2015-02-05 & small bugfix \\ \hline
+leorohr & 2015-02-05 & Updated class diagram \\ \hline
+leorohr & 2015-02-05 & forgot to actually add the controller to list of listeners \\ \hline
+leorohr & 2015-02-05 & Changed variable name from ambigious `map' to `grid' \\ \hline
+Alan & 2015-02-05 & Draft - Initial Report Section 2 r02 \\ \hline
+ebrahimmalek & 2015-02-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-02-06 & Major modification to the package com.simulus.model \\ \hline
+jerry & 2015-02-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-06 & removed merge conflict descriptions \\ \hline
+leorohr & 2015-02-06 & Added notifySpawnCar(..) to the mapupdatelistener \\ \hline
+leorohr & 2015-02-06 & Moved Light-enum to enum package \\ \hline
+ebrahimmalek & 2015-02-06 & New look on lights. getInstance() method on MainApp \\ \hline
+ebrahimmalek & 2015-02-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-06 & passing gridsize to app \\ \hline
+leorohr & 2015-02-06 & Now allows navigation from a lane to its enclosing road object. Further navigability (to the road's tile) is not necessary, so far. closes \#6 \\ \hline
+leorohr & 2015-02-06 & doc \\ \hline
+ebrahimmalek & 2015-02-06 & Report \\ \hline
+ebrahimmalek & 2015-02-06 & Report \\ \hline
+ebrahimmalek & 2015-02-06 & Ticking in GUI \\ \hline
+Alan & 2015-02-06 & Draft - Initial Report Section 1 r01 \\ \hline
+leorohr & 2015-02-07 & passing vehicle-list to ui \\ \hline
+leorohr & 2015-02-07 & moveForward method \\ \hline
+alan-s & 2015-02-07 & Draft - Initial Report All r01 \\ \hline
+leorohr & 2015-02-07 & Intersection class Vehicles only move if no vehicle in front and, if facing an intersection, the light is green \\ \hline
+leorohr & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Paul Barella & 2015-02-07 & Collated research \\ \hline
+leorohr & 2015-02-07 & checkIntersection() is called now \\ \hline
+ebrahimmalek & 2015-02-07 & Roads \\ \hline
+ebrahimmalek & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+alan-s & 2015-02-07 & Revision 02 \\ \hline
+alan-s & 2015-02-07 & Revision 03 \\ \hline
+Paul Barella & 2015-02-07 & Fixed header problem \\ \hline
+ebrahimmalek & 2015-02-07 & Renamed classes Added SimulationController functionality Updated moveForward method \\ \hline
+ebrahimmalek & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-07 & changes \\ \hline
+ebrahimmalek & 2015-02-07 & Change \\ \hline
+ebrahimmalek & 2015-02-07 & r \\ \hline
+ebrahimmalek & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-02-07 & Moving cars \\ \hline
+alan-s & 2015-02-07 & Revision 4 \\ \hline
+alan-s & 2015-02-07 & Draft - Initial Report All r05 4 pages :) 1199 words \\ \hline
+ebrahimmalek & 2015-02-07 & Cars in correct positions\ldots{} and moving! \\ \hline
+ebrahimmalek & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-07 & require JDK8 \\ \hline
+leorohr & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-07 & removed updateSpawnedCar \\ \hline
+leorohr & 2015-02-07 & fixed out of bounds error \\ \hline
+leorohr & 2015-02-07 & cars do disappear correctly now \\ \hline
+leorohr & 2015-02-07 & asd \\ \hline
+leorohr & 2015-02-07 & switchlights \\ \hline
+leorohr & 2015-02-07 & asd \\ \hline
+Paul Barella & 2015-02-07 & Kept it clean and simple. As there's a lot of points in our report I've tried to keep it as clear as possible but while still giving prompts in case we forget what we're supposed to talk about. Any comments or suggestions? \\ \hline
+leorohr & 2015-02-07 & few typos \\ \hline
+leorohr & 2015-02-07 & few typos \\ \hline
+leorohr & 2015-02-07 & Intersection can now inform the map when the lights are switched \\ \hline
+leorohr & 2015-02-07 & Map is now drawn on call from SimulationController and based on the map stored in the model \\ \hline
+leorohr & 2015-02-07 & Cool map, cool simulation \\ \hline
+leorohr & 2015-02-07 & more, faster, better \\ \hline
+leorohr & 2015-02-07 & synchronized exception \\ \hline
+leorohr & 2015-02-07 & removed main method from FXMovingCar to avoid confusion \\ \hline
+leorohr & 2015-02-07 & next attempt to synchronize the VehicleList access \\ \hline
+jerry & 2015-02-07 & Added Minutes from previous meeting 06.02.2015 \\ \hline
+leorohr & 2015-02-07 & Removed mainView.fxml Added Controls.fxml \\ \hline
+leorohr & 2015-02-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-07 & removed scenecontroller, irrelevant. \\ \hline
+leorohr & 2015-02-08 & updated class diagram for model package \\ \hline
+Alan & 2015-02-08 & Draft - Initial Report All r06 \\ \hline
+Alan & 2015-02-08 & Draft - Initial Report All r06 \\ \hline
+Alan & 2015-02-08 & Latest Gantt Chart r05 and MS Project file \\ \hline
+Alan & 2015-02-08 & Latest Gantt Chart r05 Typo \\ \hline
+Alan & 2015-02-08 & Initial Presentation in Latex format \\ \hline
+Alan & 2015-02-08 & Incorrect slide title in Latex \\ \hline
+Paul Barella & 2015-02-08 & Amendments to grammar. Some small changes to grammar etc. \\ \hline
+Paul Barella & 2015-02-08 & Powerpoint update Updated Powerpoint presentation to mirror Latex version more closely. \\ \hline
+Alan & 2015-02-09 & Initial Report \\ \hline
+leorohr & 2015-02-09 & added timetable \\ \hline
+leorohr & 2015-02-09 & Intersection now passes itself to controller when its lights switch. Controller then passes that object to UI to allow trafficlight visualisation \\ \hline
+jerry & 2015-02-09 & Updated Preivous meeting notes \\ \hline
+jerry & 2015-02-09 & Added Simulus Project meeting 09/02/2015 \\ \hline
+ebrahimmalek & 2015-02-09 & Intersections created for View. \\ \hline
+ebrahimmalek & 2015-02-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-02-09 & Initial Report with Table \\ \hline
+leorohr & 2015-02-09 & report \\ \hline
+ebrahimmalek & 2015-02-09 & Traffic Lights are now visible. model/Road -\textgreater{} now has an ID view/VIntersection -\textgreater{} Receives that ID from the model \\ \hline
+ebrahimmalek & 2015-02-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-02-09 & Presentation Slide - Gantt \\ \hline
+ebrahimmalek & 2015-02-09 & A few grammatical issues (sorry Alan). \\ \hline
+ebrahimmalek & 2015-02-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-02-09 & Stuff that it wants me to push \\ \hline
+Alan & 2015-02-09 & Presentation Slide - Table \\ \hline
+ebrahimmalek & 2015-02-09 & Concurrent Modification Problem possibly fixed. Ran for 5 minutes. \\ \hline
+ebrahimmalek & 2015-02-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-02-09 & Presentation Slide - New Screenshot \\ \hline
+ebrahimmalek & 2015-02-09 & Now fits on 4 pages \\ \hline
+ebrahimmalek & 2015-02-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-09 & Uploaded version of the initial report \\ \hline
+leorohr & 2015-02-09 & removed logfiles \\ \hline
+leorohr & 2015-02-10 & report \\ \hline
+Paul Barella & 2015-02-10 & Grammar. Restored previously overwritten updates- using latest submitted version. \\ \hline
+leorohr & 2015-02-10 & report \\ \hline
+Alan & 2015-02-11 & Latest Presentation \\ \hline
+ebrahimmalek & 2015-02-17 & First attempt at a continuous traffic simulator. \\ \hline
+ebrahimmalek & 2015-02-17 & Sorry, didn't add the new packages with the last commit. Here they are \\ \hline
+leorohr & 2015-02-18 & moved discrete prototype to subfolder \\ \hline
+leorohr & 2015-02-18 & merge continuous and master \\ \hline
+leorohr & 2015-02-18 & added ui controller classes \\ \hline
+leorohr & 2015-02-18 & renamed packages from continuous to simulus \\ \hline
+leorohr & 2015-02-18 & added ambulance \\ \hline
+leorohr & 2015-02-18 & Removed menuBar as it is not necessary for now. Enabled controls-UI again \\ \hline
+leorohr & 2015-02-19 & moved ambulance to view package \\ \hline
+leorohr & 2015-02-19 & moved ambulance \\ \hline
+leorohr & 2015-02-19 & Renamed VIntersection to Intersection \\ \hline
+ebrahimmalek & 2015-02-19 & Lanes Added. Cars will now properly remove off screen regardless of the number of tiles. \\ \hline
+ebrahimmalek & 2015-02-19 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-02-19 & Merging stuff \\ \hline
+leorohr & 2015-02-19 & added getTileSize() \\ \hline
+leorohr & 2015-02-19 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-19 & map and stuff \\ \hline
+ebrahimmalek & 2015-02-19 & Some Map Additions \\ \hline
+ebrahimmalek & 2015-02-19 & Classes not used in editor \\ \hline
+ebrahimmalek & 2015-02-19 & Change \\ \hline
+ebrahimmalek & 2015-02-19 & Removed some stuff we dont need in editor \\ \hline
+ebrahimmalek & 2015-02-19 & Some editor changes \\ \hline
+leorohr & 2015-02-19 & stuff \\ \hline
+ebrahimmalek & 2015-02-19 & Some changes \\ \hline
+ebrahimmalek & 2015-02-19 & Some changes \\ \hline
+ebrahimmalek & 2015-02-19 & Ready to start editor \\ \hline
+ebrahimmalek & 2015-02-19 & Editor Side Buttons Working \\ \hline
+leorohr & 2015-02-19 & a lot of stuff \\ \hline
+leorohr & 2015-02-19 & removed pdfs \\ \hline
+ebrahimmalek & 2015-02-20 & Adding land works \\ \hline
+ebrahimmalek & 2015-02-20 & Stuff \\ \hline
+ebrahimmalek & 2015-02-20 & Stuff \\ \hline
+ebrahimmalek & 2015-02-20 & Can add intersections, roads and land \\ \hline
+paulbarella & 2015-02-20 & Seperated Editor from MainApp Added Road Direction buttons Drag-to-draw implemented (Land and Roads) \\ \hline
+Alan & 2015-02-20 & Mapping package consisting of XML Map class with methods for reading from and to an XML map class. Example XML map schema attached. Test class (that can be deleted) to show input/output \\ \hline
+Alan & 2015-02-20 & Rename of mapping tile class \\ \hline
+leorohr & 2015-02-21 & added paths to intersections \\ \hline
+leorohr & 2015-02-21 & reintroduced UI functionality \\ \hline
+leorohr & 2015-02-21 & app is not resizable anymore \\ \hline
+leorohr & 2015-02-21 & resized grid, 800x800px, 40x40 tiles, hash-like map \\ \hline
+leorohr & 2015-02-21 & cars are spawning exactly in the middle of a lane now \\ \hline
+ebrahimmalek & 2015-02-21 & Overtaking cars and car behaviors \\ \hline
+ebrahimmalek & 2015-02-21 & Behaviors \\ \hline
+ebrahimmalek & 2015-02-21 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-21 & added trucks and cartruck-ratio slider \\ \hline
+leorohr & 2015-02-24 & Redesign: Moved Simulation execution to SimulationController. For now simulation is run without AnimationTimer, but in a separate thread. Collision detection is working again, however, cars stop randomly in the middle of the map. \\ \hline
+leorohr & 2015-02-24 & Ensured that tiles are correctly occupied by cars/trucks on spawn \\ \hline
+leorohr & 2015-02-24 & Code was using two separate instances of Map. This caused wrong redraws of the tiles and definitely part of the overhead computation. \\ \hline
+leorohr & 2015-02-24 & Improved performance. Synchronisation issues are resolved by introducing the `toBeRemoved' list in the Map-class. For some reason, the vehicle-list did not allow removing cars immediately - even if synchronized. The Simulation executes, however, it crashes after a couple of seconds. For the time it executes, the performance is good though \textsuperscript{.} \\ \hline
+Alan & 2015-02-24 & Done: Map editor should allow exporting SimulationConfiguration \\ \hline
+Alan & 2015-02-24 & update comments \\ \hline
+alan-s & 2015-02-25 & Labels\ldots{}. \\ \hline
+leorohr & 2015-02-25 & Intersection-Paths are now shown in debug-mode closes \#45 \\ \hline
+Leo Rohr & 2015-02-25 & intersections were recoloured with the wrong colour when car's crossed them in debug mode \\ \hline
+leorohr & 2015-02-26 & Cars now clear their occupied tiles correctly. No remaining blockage in intersections and entrypoints. Application freeze is resolved; spawnRandomCar() ran into an endless loop when no entrypoint was available. resolves \#43 \#40 \\ \hline
+leorohr & 2015-02-26 & Adjusted number of max. cars as 1000 was clearly too high \\ \hline
+leorohr & 2015-02-26 & Adjusted spawnRate functionality. Cars now spawn every spawnRate'th tick \\ \hline
+leorohr & 2015-02-26 & Introduced statistics in controls-panel. First chart shows the current number of cars on the map. \\ \hline
+leorohr & 2015-02-26 & The truck count was never reduced and hence caused in incorrect number of trucks on the map \\ \hline
+leorohr & 2015-02-26 & The reset button did not clear the canvas - now it does. \\ \hline
+ebrahimmalek & 2015-02-26 & Cars can now overtake in all directions. \\ \hline
+ebrahimmalek & 2015-02-27 & Merging \\ \hline
+ebrahimmalek & 2015-02-27 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-27 & minor changes \\ \hline
+ebrahimmalek & 2015-02-27 & Traffic Lights \\ \hline
+ebrahimmalek & 2015-02-27 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-02-27 & Introduced the menuBar \\ \hline
+leorohr & 2015-02-27 & Merge remote-tracking branch `origin/master' \\ \hline
+paulbarella & 2015-02-27 & Map and cursor images \\ \hline
+leorohr & 2015-02-27 & MenuBar functionality \\ \hline
+leorohr & 2015-02-27 & Cars repainted the tiles with every move, making the movement very computation-heavy. Tiles are now only redrawn when they have to be. \\ \hline
+leorohr & 2015-02-27 & Documentation \\ \hline
+Leo Rohr & 2015-02-27 & Merge pull request \#55 from leorohr/master \\ \hline
+paulbarella & 2015-02-27 & Added images to editor. Various changes to make editorApp compatible with Map etc. \\ \hline
+jerry & 2015-02-27 & ADDED TESTING branch to the masters folders include basic metric reports, snippet of architectural flow diagram, UML diagram, HeatMap for CodeComplexity agaist CountNumberOfLines \\ \hline
+leorohr & 2015-02-28 & removed usage of deprecated classes PathBuilder and PathTransitionBuilder \\ \hline
+leorohr & 2015-02-28 & Added a slider to allow setting the fraction of reckless to normal cars. Closes \#54 \\ \hline
+leorohr & 2015-02-28 & Introduced StatisticsController to declutter SimulationController-class and centralise the code related to the statistic-charts \\ \hline
+leorohr & 2015-02-28 & Added a combobox to allow users to choose the color of cars \\ \hline
+leorohr & 2015-02-28 & A car's color is now updated based on the chosen option in the Car-Color combobox. Reckless cars appear red, cautious cars appear aquamarine. Cars with the max. speed are red and turn gradually to green when they become slower. \\ \hline
+leorohr & 2015-02-28 & updated classdiagram \\ \hline
+Leo Rohr & 2015-02-28 & Merge pull request \#57 from leorohr/ui\_features \\ \hline
+ebrahimmalek & 2015-03-01 & Ambulance Area of Effect. \\ \hline
+Alan & 2015-03-01 & Load editor with default tiles and button images \\ \hline
+Alan & 2015-03-01 & more button images and open map file chooser dialog \\ \hline
+Alan & 2015-03-01 & styling editocontrols pane \\ \hline
+Alan & 2015-03-01 & further UI tweaking, additional button and start of logic for save/load \\ \hline
+jerry & 2015-03-01 & Added TESTING package with 2 test classes Added External Testing framework library \\ \hline
+jerry & 2015-03-02 & Added previous meeting minutes \\ \hline
+paulbarella & 2015-03-02 & Added logo to control panel \\ \hline
+paulbarella & 2015-03-02 & Save and Open icons A save diskette and open folder icon, 60\emph{60px and 16}16px \\ \hline
+leorohr & 2015-03-02 & removed javafx from buildpath as it is included in JDK8 \\ \hline
+leorohr & 2015-03-02 & Added combobox to choose the truck color Renamed enum Seed to Orientation \\ \hline
+leorohr & 2015-03-02 & additional statistics \\ \hline
+paulbarella & 2015-03-02 & Editor Controls for manipulating text fields \\ \hline
+ebrahimmalek & 2015-03-02 & Ambulance and area of effect. \\ \hline
+ebrahimmalek & 2015-03-02 & Ambulance is properly removed when it leaves the map. \\ \hline
+leorohr & 2015-03-02 & final report init \\ \hline
+leorohr & 2015-03-02 & Merge branch `ui\_features' of https://github.com/leorohr/simulus into ui\_features \\ \hline
+leorohr & 2015-03-02 & Merge branch `master' into ui\_features \\ \hline
+leorohr & 2015-03-02 & merge ui\_features \\ \hline
+leorohr & 2015-03-02 & thread lifecycle adjustment \\ \hline
+paulbarella & 2015-03-02 & removeTiles() \\ \hline
+jerry & 2015-03-02 & Added today's meeting minutes with task breakdown \\ \hline
+leorohr & 2015-03-02 & Lanes are now correctly redrawn in debug mode closes \#63 closes \#58 \\ \hline
+leorohr & 2015-03-02 & Added button to randomise trafficlight-switchtimes closes \#61 Redesign of control-panel \\ \hline
+Alan & 2015-03-02 & Update to Simulation Config XML Schema and class \\ \hline
+leorohr & 2015-03-03 & Removed statisticscontroller. its functionality is completely included in the ControlsController. Added Avg. Speed, Congestion and avg. waiting time statistics. Vehicles Accelerate appropriately now. All cars have an acceleration of 2,31 m/s\^{}2, trucks of 0,62 m/s\^{}2. \\ \hline
+ebrahimmalek & 2015-03-03 & Changes to Vehicle class. Some ambulance stuff \\ \hline
+ebrahimmalek & 2015-03-03 & changes \\ \hline
+ebrahimmalek & 2015-03-03 & Area of Effect and Emergency Car. The two constituents of an Ambulance \\ \hline
+ebrahimmalek & 2015-03-03 & Merge branch `master' into model \\ \hline
+ebrahimmalek & 2015-03-03 & Changes \\ \hline
+Leo Rohr & 2015-03-03 & Merge pull request \#66 from leorohr/model \\ \hline
+ebrahimmalek & 2015-03-03 & Merge remote-tracking branch `origin/ui\_features' \\ \hline
+Leo Rohr & 2015-03-03 & Merge pull request \#68 from leorohr/master \\ \hline
+leorohr & 2015-03-03 & tidying up \\ \hline
+leorohr & 2015-03-03 & Charts are reset on simulation reset \\ \hline
+jerry & 2015-03-03 & created a testing branch \\ \hline
+leorohr & 2015-03-03 & Some more cleaning up \\ \hline
+leorohr & 2015-03-03 & Added button to allow popping out the statistics panel into a bigger window \\ \hline
+jerry & 2015-03-03 & Added Test case 1 - Stable Mirror bug fixes \\ \hline
+leorohr & 2015-03-03 & Ambulances now force cars to slow down and merge into adjacent lanes \\ \hline
+leorohr & 2015-03-03 & added spawn ambulance button \\ \hline
+Paul Barella & 2015-03-03 & Added a getTileDetails() method that currently returns a string with the tile type and, if type is lane, the direction. \\ \hline
+Paul Barella & 2015-03-03 & Created a Land tile and 3 Classes that extend it to allow the user to draw nicer maps. city.png still needed \\ \hline
+leorohr & 2015-03-03 & waiting time of emergency cars is plotted \\ \hline
+Leo Rohr & 2015-03-03 & Merge pull request \#69 from leorohr/ui\_features \\ \hline
+ebrahimmalek & 2015-03-03 & Cars can now turn at intersections with a 25\% chance. \\ \hline
+ebrahimmalek & 2015-03-03 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-03-03 & Paths that hold information on the start tile, end tile, duration , distance etc. \\ \hline
+Alan & 2015-03-04 & 1) Updated MapXML class\ldots{}now fully outputting land tiles with type and direction. \\ \hline
+Alan & 2015-03-04 & more ui additions & images ready for logic. \\ \hline
+ebrahimmalek & 2015-03-04 & Fixed a bug where vehicles would exhibit strange behaviour after a transition. Occupied tiles are now correctly computed during a transition. \\ \hline
+Alan & 2015-03-04 & Update to import/export routine to use default tile class. New map xml with new attributes. \\ \hline
+ebrahimmalek & 2015-03-04 & Evolving the Intersections and Paths to allow for dynamic road recognition. \\ \hline
+jerry & 2015-03-04 & Added 3 test cases, testing class now tests on the functionality of button start, stop and reset \\ \hline
+jerry & 2015-03-04 & Added 3 testing cases, testing class now tests on the functionality of button Start, Stop and Reset \\ \hline
+jerry & 2015-03-04 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-03-04 & Vehicles will only follow active paths. A path is considered active if its end tile is a lane. \\ \hline
+ebrahimmalek & 2015-03-04 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Paul & 2015-03-04 & Added Grass, Dirt and City tile drawing to EditorApp Added addSingle() and removeSingle() to Map to allow the creation and removal of single tile entities (Grass, Dirt, City, Blockage etc.) \\ \hline
+Alan & 2015-03-04 & Map import update + displaying map information \\ \hline
+Alan & 2015-03-04 & Editor now imports XML file and redraws the existing map (for land and lane only). Also now displaying the infomration on screen with connected textfields. \\ \hline
+Alan & 2015-03-04 & New `Block' tile class. \\ \hline
+Paul & 2015-03-04 & Work on mouse hover functionality (requires removal logic) Removed println's no longer required \\ \hline
+alan-s & 2015-03-05 & Block tiles now working correctly. \\ \hline
+leorohr & 2015-03-05 & Added intersectionTile \\ \hline
+ebrahimmalek & 2015-03-05 & Early stages of cars stopping while transitioning. Have a look at active paths logic. \\ \hline
+leorohr & 2015-03-05 & Merge branch `ui\_features' \\ \hline
+leorohr & 2015-03-05 & Resetting in debugMode caused not-pretty visualisation of paths on intersections \\ \hline
+leorohr & 2015-03-05 & TrafficLight class is not used anymore \\ \hline
+alan-s & 2015-03-05 & Grid size control added. Removed pointer error bug. \\ \hline
+leorohr & 2015-03-05 & Minor improvements to the Intersections and how cars follow paths \\ \hline
+leorohr & 2015-03-05 & Merge branch `master' into editor \\ \hline
+Leo Rohr & 2015-03-05 & Merge pull request \#85 from leorohr/editor \\ \hline
+leorohr & 2015-03-05 & Minor changes \\ \hline
+jerry & 2015-03-05 & TestCase1 stable - scripts should execute with all tests pass \\ \hline
+leorohr & 2015-03-05 & Not so minor changes \\ \hline
+leorohr & 2015-03-05 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-05 & moved jar files to lib/ \\ \hline
+leorohr & 2015-03-05 & adjusted corrupted classpath \\ \hline
+leorohr & 2015-03-05 & Added change dialogbox \\ \hline
+leorohr & 2015-03-05 & All image resources are now created and handled by the ResourceBuilder \\ \hline
+leorohr & 2015-03-05 & Newest MapXML version \\ \hline
+leorohr & 2015-03-05 & Used Configuration file for settings in MainApp Added default.xml containing a default map to load at application startup \\ \hline
+Alan & 2015-03-05 & Fixed default map loading with grass tiles and missing intersection texture. Rework of XML class to use correct attributes now. \\ \hline
+Alan & 2015-03-05 & Editor loading map correctly again. Now inlign previous to merge. \\ \hline
+leorohr & 2015-03-05 & map can now be loaded from xml file. default.xml is loaded on application startup \\ \hline
+Alan & 2015-03-05 & synching latest editor build (minor changes) \\ \hline
+leorohr & 2015-03-06 & Startup-class provides basic splashscreen \\ \hline
+leorohr & 2015-03-06 & Merge branch `master' into editor \\ \hline
+leorohr & 2015-03-06 & Merge branch `editor' \\ \hline
+leorohr & 2015-03-06 & Switching from simulator to editor now shuts down the simulator \\ \hline
+leorohr & 2015-03-06 & Used new JavaFX dialogs instead of external library \\ \hline
+leorohr & 2015-03-06 & Resetbutton does reset the simulation settings as well as the map \\ \hline
+leorohr & 2015-03-06 & Scaled the model 1 tile equals 5m in real life 1 tick equals 1/10s in real life \\ \hline
+leorohr & 2015-03-06 & Adjusted spacing for charts \\ \hline
+ebrahimmalek & 2015-03-06 & Transitions slow down/speed up with tickrate. \\ \hline
+leorohr & 2015-03-06 & debugbutton was invisible \\ \hline
+alan-s & 2015-03-06 & Code behind for EditorRootLayout etc \\ \hline
+ebrahimmalek & 2015-03-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-03-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+ebrahimmalek & 2015-03-06 & Merge remote-tracking branch `origin/editor' \\ \hline
+Alan & 2015-03-06 & Merge pull request \#99 from leorohr/master \\ \hline
+jerry & 2015-03-06 & Added TestCase2 with 3 scenarios, test case stable \\ \hline
+leorohr & 2015-03-06 & removed stopbutton \\ \hline
+leorohr & 2015-03-06 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-06 & map changes, formatting \\ \hline
+leorohr & 2015-03-07 & Resolved a problem that cause the simulator to only spawn trucks after a certain amount of time \\ \hline
+leorohr & 2015-03-07 & Minor changes to traffic light visualisation \\ \hline
+ebrahimmalek & 2015-03-07 & Changes \\ \hline
+ebrahimmalek & 2015-03-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-07 & Removed menu bar, added simulation launcher and replaced intersection tile image to standard junction. \\ \hline
+Alan & 2015-03-07 & Continued work + fill empty tiles. Synch with git. \\ \hline
+Alan & 2015-03-07 & Drawing lane tiles fixes to respective x/y axis \\ \hline
+ebrahimmalek & 2015-03-07 & First attempt at vehicles pausing during transitions. \\ \hline
+Alan & 2015-03-07 & simulate button launcher but error at the moment \\ \hline
+leorohr & 2015-03-07 & minor changes \\ \hline
+leorohr & 2015-03-07 & minor changes in MainApp's lifecycle \\ \hline
+jerry & 2015-03-07 & Added TestCase2 with 2 testing scenarios \\ \hline
+ebrahimmalek & 2015-03-07 & Active turning paths are now correctly calculated. \\ \hline
+ebrahimmalek & 2015-03-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-07 & Changes from \#105 \\ \hline
+jerry & 2015-03-07 & Removed testing scenario for stop button \\ \hline
+Alan & 2015-03-07 & Interaction between two apps almost there. Bug at present where map not loaded correctly back into simulator. \\ \hline
+Alan & 2015-03-07 & Added hyperlink for our project \\ \hline
+ebrahimmalek & 2015-03-07 & Added straight paths back into intersections. This fixes two problems: \\ \hline
+ebrahimmalek & 2015-03-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-03-07 & Added TestCase3 - Ambulance is detected, and removeVihecle method is correctly spawned. \\ \hline
+leorohr & 2015-03-07 & The map lifecycle was erroneous, hence the drawMap()-bug. This fixes \#106 \\ \hline
+jerry & 2015-03-07 & Added TestCase4 \\ \hline
+leorohr & 2015-03-07 & Merge remote-tracking branch `origin/editor' \\ \hline
+leorohr & 2015-03-07 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-03-07 & Added TestCase5 to test max no of cars on the Map \\ \hline
+Alan & 2015-03-07 & Analytics CSV export implemented. Create temp file in resources folder which user can choose to save. \\ \hline
+Alan & 2015-03-07 & Merge branch `editor' of https://github.com/leorohr/simulus.git into editor \\ \hline
+Paul & 2015-03-08 & EditorApp.java: groupErase(Tile) - removes a Road group or intersection from the map on click or click drag. Block.java: added Direction and LaneNo variables to use with lane when deleting Road blocks from map. MapXML.java: updated Block paramaters to match \\ \hline
+ebrahimmalek & 2015-03-08 & Changes \\ \hline
+ebrahimmalek & 2015-03-08 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-08 & Design update. A block tile is now an attribute of a lane. Updated Lane, Road and MapXML classes \\ \hline
+ebrahimmalek & 2015-03-08 & Vehicles will now pause transitions while the tile at the end of the transition is occupied. \\ \hline
+ebrahimmalek & 2015-03-08 & Minor Changes \\ \hline
+Alan & 2015-03-08 & Missing break statement was producing wrong output for debugging in the console. Debug information only. \\ \hline
+jerry & 2015-03-08 & Added 3 more TestCases for the model testing \\ \hline
+Alan & 2015-03-08 & New improved empty tiles fill method. Now using flood fill algorthim to only fill adjacent empty cells. \\ \hline
+jerry & 2015-03-08 & Added a testcase on reckless/normal ratio \\ \hline
+leorohr & 2015-03-08 & Traffic lights are now represented as lines instead of red tiles \\ \hline
+leorohr & 2015-03-08 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-08 & forgot to occupy redlight tiles \\ \hline
+Alan & 2015-03-08 & Updated default map with new XML format. Main app working now. \\ \hline
+Alan & 2015-03-08 & Implemented large scale remove i.e.~flood fill for delete of land tiles \\ \hline
+leorohr & 2015-03-08 & Vehicles can now avoid blocked tiles \\ \hline
+leorohr & 2015-03-08 & Edited map can now be opened in simulator and vv. \\ \hline
+Alan & 2015-03-08 & removed error stack information fro try-catch \\ \hline
+leorohr & 2015-03-08 & Merge branch `master' into editor \\ \hline
+leorohr & 2015-03-08 & Merge branch `editor' \\ \hline
+Leo Rohr & 2015-03-08 & Merge pull request \#113 from leorohr/editor \\ \hline
+Leo Rohr & 2015-03-08 & Merge pull request \#114 from leorohr/master \\ \hline
+Paul & 2015-03-08 & Validation checking started Not 100\% complete for Lanes. Intersection logic still reqiured. \\ \hline
+leorohr & 2015-03-08 & csv export of statistics \\ \hline
+leorohr & 2015-03-08 & minor changes ignore csv file \\ \hline
+Alan & 2015-03-09 & Import/Export simulation parameters \#65 \\ \hline
+leorohr & 2015-03-09 & clean up \\ \hline
+leorohr & 2015-03-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-09 & \#115 custom xml extensions for fast searching. \\ \hline
+Alan & 2015-03-09 & Alternatice tile textures. Backup available in resources folder along with another alternative. \\ \hline
+paulbarella & 2015-03-09 & Validation Further work on validation, Lane validation and basic Intersection validation implemented. \\ \hline
+paulbarella & 2015-03-09 & Validation Additional comments \\ \hline
+Alan & 2015-03-09 & Updated Gantt Chart \\ \hline
+leorohr & 2015-03-09 & added ant build script jar is now executable \\ \hline
+leorohr & 2015-03-09 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-09 & updated buildscript \\ \hline
+Alan & 2015-03-09 & intersection load in editor was not producing a intersection instance, only the tiles. fixed using loadmap function. \\ \hline
+leorohr & 2015-03-10 & report implementation-simulator \\ \hline
+Alan & 2015-03-11 & \#129 tile class stroke check \\ \hline
+leorohr & 2015-03-11 & requirements report \\ \hline
+jerry & 2015-03-11 & renamed package and fixed removed some unused imports \\ \hline
+Alan & 2015-03-12 & City tile replaced by water Refactor all code. \\ \hline
+leorohr & 2015-03-12 & Updated debug-mode code \\ \hline
+leorohr & 2015-03-12 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-12 & debug information is now removed correctly \\ \hline
+leorohr & 2015-03-12 & emergency vehicle waiting time has not been reset \\ \hline
+Alan & 2015-03-12 & linked list implementation of flood fill \\ \hline
+leorohr & 2015-03-12 & requirements and design - simulator \\ \hline
+leorohr & 2015-03-12 & Merge branch `master' of https://github.com/leorohr/simulus \\ \hline
+Alan & 2015-03-12 & Removed option for selectable grid size. Implemented existing map selection. Removed old resources folder and created a dedicated map folder as default load/save location. \\ \hline
+Paul & 2015-03-12 & Validation. Complete and working, but long method requires refactoring. \\ \hline
+Paul & 2015-03-12 & Validation. Validation broken up into separate methods for lane check and intersection check. \\ \hline
+Paul & 2015-03-12 & General comments \\ \hline
+jerry & 2015-03-12 & added subsection Testing for Implmentation Section \\ \hline
+jerry & 2015-03-12 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-03-12 & small fix on Testing subsection \\ \hline
+leorohr & 2015-03-13 & When changing from editor to simulator, the default map was loaded before the new map from the editor. This caused problems with the placement of traffic lights. fixes \#117 \\ \hline
+leorohr & 2015-03-13 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-13 & Bug in combobox selection in editor app. Fixed. \\ \hline
+Alan & 2015-03-13 & Missing validation if file exist before load/save \\ \hline
+leorohr & 2015-03-13 & Changed EmergencyCar acceleration to 3.48m/s\^{}2 \\ \hline
+leorohr & 2015-03-13 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-13 & added emergency vehicle description \\ \hline
+jerry & 2015-03-13 & further elaboration on conducting unit testing \\ \hline
+jerry & 2015-03-13 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-14 & Now the acceleration of emergency vehicles is really adjusted.. \\ \hline
+leorohr & 2015-03-14 & mainapp was not initialised with default map \\ \hline
+Alan & 2015-03-14 & implementation - editor \\ \hline
+jerry & 2015-03-14 & Complted testing subsection for Implmentation \\ \hline
+jerry & 2015-03-14 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-14 & clean up \\ \hline
+leorohr & 2015-03-14 & requirements and design - simulator \\ \hline
+leorohr & 2015-03-14 & Merge branch `master' of https://github.com/leorohr/simulus \\ \hline
+leorohr & 2015-03-14 & Merge remote-tracking branch `origin/editor' \\ \hline
+jerry & 2015-03-14 & Added a test case for Editor \\ \hline
+Alan & 2015-03-14 & Alter dialogs to warn map validation failed but still can save. Cannot launch simulator with failed map. \\ \hline
+Alan & 2015-03-15 & Pdf tutorial, launched from editor app \\ \hline
+Alan & 2015-03-15 & Informational map validation message on button press. \\ \hline
+Alan & 2015-03-15 & editor tutorial text for reference \\ \hline
+leorohr & 2015-03-15 & evaluation \\ \hline
+leorohr & 2015-03-15 & Vehicles do not have to be respawned when leaving an intersection now \\ \hline
+leorohr & 2015-03-15 & TJunction and ``turning''-junctions are now possible \\ \hline
+leorohr & 2015-03-15 & Added Junctions Map \\ \hline
+leorohr & 2015-03-15 & Flexible gridsizes are not supported \\ \hline
+jerry & 2015-03-16 & Reorganised structure for testing branch \\ \hline
+jerry & 2015-03-16 & Added Editor wireframe \\ \hline
+jerry & 2015-03-16 & Added Missing diagram \\ \hline
+Alan & 2015-03-16 & Editor now supports different grid sizes \\ \hline
+Alan & 2015-03-16 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-17 & Team Work \\ \hline
+jerry & 2015-03-17 & added test cases for map editor \\ \hline
+leorohr & 2015-03-17 & JavaDoc \\ \hline
+leorohr & 2015-03-17 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-17 & Ambulances now follow intersections paths \\ \hline
+leorohr & 2015-03-17 & The resources are now divided into internal resources placed in /src/resources. Those are all images and icons used within in the application. Map files now placed int /resources/maps, which will be external to the exported jar file to allow editing those files. \\ \hline
+leorohr & 2015-03-17 & readme update \\ \hline
+leorohr & 2015-03-17 & More readme fixes\ldots{} \\ \hline
+jerry & 2015-03-17 & Added more test for Map Editor \\ \hline
+leorohr & 2015-03-17 & Erroneous path fixed \\ \hline
+leorohr & 2015-03-17 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-17 & Import fix \\ \hline
+leorohr & 2015-03-17 & More build script updates and path corrections \\ \hline
+jerry & 2015-03-17 & Completed the documentation for test branch, all tests run passed \\ \hline
+jerry & 2015-03-17 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-03-17 & Added metric diagrams for the final product, Moved files to Doc folder \\ \hline
+Alan & 2015-03-17 & Fix for \#134 \\ \hline
+Alan & 2015-03-18 & centre editorapp on startup \\ \hline
+Paul & 2015-03-18 & EditorApp Hotfixes. An empty map or a map consisting solely of Land tiles is no longer a valid map. Maps can now be validated when Intersections are placed at the edges of the map. Roads and Intersections can no longer be drawn in a way that would cause their boundary to exceed the boundary of the map. \\ \hline
+leorohr & 2015-03-19 & Moved resources back to animationthread. Buildscript and executable jar file should work now. \\ \hline
+leorohr & 2015-03-19 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-19 & Report, minor updated files \\ \hline
+Alan & 2015-03-19 & Requirements Editor \\ \hline
+Alan & 2015-03-19 & Update Editor Implementation and Main \\ \hline
+leorohr & 2015-03-20 & typos in report \\ \hline
+leorohr & 2015-03-20 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+paulbarella & 2015-03-20 & Validation moved to its own class. General house keeping \\ \hline
+ebrahimmalek & 2015-03-20 & Some bug fixes. Car size changes \\ \hline
+ebrahimmalek & 2015-03-20 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-21 & Missing map validation class. \\ \hline
+Alan & 2015-03-21 & javadoc comments \\ \hline
+leorohr & 2015-03-22 & Switching from the simulator to the editor now closes the pop-up stats window \\ \hline
+ebrahimmalek & 2015-03-22 & Some Performance Updates. \\ \hline
+ebrahimmalek & 2015-03-22 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-22 & Grid is now drawn when changing from simulator to editor fixes \#139 \\ \hline
+leorohr & 2015-03-22 & Adjusted maximum values for simulation parameters \\ \hline
+leorohr & 2015-03-22 & Fixed issue causing duplicate children in intersection's path list when in debug mode \\ \hline
+Alan & 2015-03-22 & Fixed referencing and updated Gantt \\ \hline
+Alan & 2015-03-22 & Update to Editor Tutorial pdf \\ \hline
+leorohr & 2015-03-22 & intersection check back in loadEditorMap() \\ \hline
+leorohr & 2015-03-22 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+jerry & 2015-03-22 & minor fix for the report on Testing section \\ \hline
+Alan & 2015-03-22 & added acknowledgement for icons used in main app about box \\ \hline
+Alan & 2015-03-22 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-22 & removed showgrid method \\ \hline
+leorohr & 2015-03-22 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+Alan & 2015-03-22 & grid stroke check back into Tile class (for now) \\ \hline
+leorohr & 2015-03-23 & Can now switch to editor from `Map is not validated' dialog \\ \hline
+leorohr & 2015-03-23 & EmergencyVehicles do do now correctly avoid road blockages \\ \hline
+leorohr & 2015-03-23 & Overtake-paths are now only shown in debug mode \\ \hline
+leorohr & 2015-03-23 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-23 & Traffic lights do not occupy tiles in front of the intersection anymore but deactivate paths in intersections \\ \hline
+leorohr & 2015-03-23 & update intersection tile size \\ \hline
+leorohr & 2015-03-23 & revert intersection changes \\ \hline
+leorohr & 2015-03-23 & Tickrate minimum changed to 50ms \\ \hline
+leorohr & 2015-03-23 & Emergencys go through traffic lights again \\ \hline
+leorohr & 2015-03-23 & ambulance update \\ \hline
+leorohr & 2015-03-23 & Ambulance Button disabled at startup \\ \hline
+jerry & 2015-03-23 & minor fix \\ \hline
+leorohr & 2015-03-23 & removed old maps \\ \hline
+leorohr & 2015-03-23 & traffic light improvements \\ \hline
+leorohr & 2015-03-23 & Merge branch `master' of https://github.com/leorohr/simulus.git \\ \hline
+leorohr & 2015-03-23 & added install build-target \\ \hline
+leorohr & 2015-03-23 & clean up \\ \hline
+leorohr & 2015-03-23 & build script \\ \hline
+leorohr & 2015-03-23 & more build script \\ \hline
+\end{longtabu}
+\end{center}

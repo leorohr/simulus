@@ -2,7 +2,6 @@ package com.simulus.controller;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -15,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -229,7 +227,7 @@ public class EditorControlsController implements Initializable {
 		});
 		
 		helpButton.setOnAction((event) -> {
-			File file = new File("/resources/editorTutorial.pdf");
+			File file = new File(System.getProperty("user.home") + "/Simulus/editorTutorial.pdf");
             try {
 				Desktop.getDesktop().open(file);
 			} catch (Exception e) {

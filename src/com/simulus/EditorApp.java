@@ -284,6 +284,14 @@ public class EditorApp extends Application {
 		};
 		timer.start();
 	}
+	
+	//On application exit, set instance to null.  Used for correct operation of the Simulator
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+		
+		instance = null;
+	}
 
 	/**
 	 * Initialise the root layout
@@ -668,14 +676,20 @@ public class EditorApp extends Application {
 		if(!mapValidated){
 			validationFailDialog();
 		} 
+		
 		fileChooser = new FileChooser();
 		fileChooser.setTitle("Save Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
 		fileChooser.setInitialFileName(ECC.getMapName());
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		File dir = new File(System.getProperty("user.home") + "/Simulus/maps");
+        if(dir.canRead())
+        	fileChooser.setInitialDirectory(dir);
+        else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		selectedFile = fileChooser.showSaveDialog(editorStage);
 		if (selectedFile != null) {
+			if(!selectedFile.getName().contains(".map"))
+				selectedFile = new File(selectedFile.getAbsolutePath() + ".map");
 			saveMap(selectedFile.getPath());	
 		}
 		return selectedFile;
@@ -689,7 +703,10 @@ public class EditorApp extends Application {
 		fileChooser.setTitle("Open Map XML...");
 		extFilter = new FileChooser.ExtensionFilter("Simulus Map Files (*.map)", "*.map");
 		fileChooser.getExtensionFilters().add(extFilter);
-		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		File dir = new File(System.getProperty("user.home") + "/Simulus/maps");
+        if(dir.canRead())
+        	fileChooser.setInitialDirectory(dir);
+        else fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
 		selectedFile = fileChooser.showOpenDialog(editorStage);
 		if (selectedFile != null) {
 			loadMap(selectedFile);

@@ -22,6 +22,10 @@ import com.simulus.util.Configuration;
  * 
  * It should not be used as a run-target but only be started through the {@link com.simulus.Startup} application.
  */
+/**
+ * @author Administrator
+ *
+ */
 public class MainApp extends Application {
 
 	private Stage primaryStage;
@@ -55,8 +59,18 @@ public class MainApp extends Application {
 		initRootLayout();
 		showControls();
 		
-		//for testing TODO remove
-		SimulationController.getInstance().getMap().loadMap(new File(getClass().getResource("/resources/maps/default.map").getFile()));
+		File map = new File(System.getProperty("user.home") + "/Simulus/maps/default.map");
+        if(map.canRead())
+        	SimulationController.getInstance().getMap().loadMap(map);
+	}
+	
+	
+	//On application exit, set instance to null.  Used for correct operation of the Editor
+	@Override
+	public void stop() throws Exception {
+		super.stop();
+		
+		instance = null;
 	}
 	
 	/**

@@ -31,6 +31,7 @@ The software deliverable is split up into a map editor application and a simulat
 
 \subsection{Simulator}
 \subsubsection{Design}
+Our first development prototype was build upon a discrete time and space model. Discrete time meaning that a central clock triggers the evaluation of the map and updates all vehicles' positions. Discrete space means that cars moved through a map composed of tiles like on a chessboard. Our map is a  40 by 40 tiles map. While a discrete space model eases the implementation and allowed us to achieve quick results, it also imposes restrictions in terms of the simulation's flexibility. Relying on a central clock for results in all cars moving one or more full tiles per step. This tile-by-tile movement does not allow for the simulation of basic attributes of vehicles like acceleration and makes it very difficult to design cars with different speeds. In order to overcome these restrictions we then opted for a combination of a discrete time  with a continuous space model. That is, we kept the central clocking mechanism of the simulation, but cars do move through the network on a pixel-by-pixel instead of tile-by-tile basis. The underlying map is still tile-based, as this eases the design of new maps in the editor as well as association of cars to specific points in the map and the collision avoidance mechanism.
 
 Our first development prototype was built upon a discrete time and space model. This model is based around a central clock which dictates the time intervals that the map should update all vehicle positions. Discrete space is in reference to the notion that cars move through the map tiles whilst being fixated into those tiles. We used a 40x40 tiles map to demonstrate the functionality of the prototype. Simulating traffic in this way has brought about an ease in development whilst inhibiting the potential capabilities of the simulation.
 
@@ -116,7 +117,7 @@ The last mentioned requirement, is stating what the software will not contain: r
 \subsection{Editor}\label{ss:req-editor}
 According to 2(b) and 3(a) of the MoSCoW analysis, our system 'would' include the ability to design, construct and save maps for use with our simulator.  This would then give the ability to test different traffic networks, the affect variable conditions would yield on traffic flow and, more importantly, the strengths and weakness of the simulation engine itself. We begin by listing high-level functional requirements from our map editor and in the next section describe how each was to be achieved.
 
-\subsubsection{Requirements}
+\subsubsection{Requirements}\label{ss:req-editor-enum}
 
 \begin{enumerate}\itemsep1pt \parskip0pt \parsep0pt
   \item Functionality
@@ -162,10 +163,6 @@ Translating the enumerated list in the previous section to tangible functionalit
 \end{figure}
 \pagebreak
 
-half a page on group road, intersection logic/visualisation \&
-half a page on validation
-\pagebreak
-
 \subsection{Data Storage \& Retrieval}\label{ss:xml}
 Fundamental to the interaction between the \textit{Simulator} and \textit{Map Editor} was the common data exchange that would be necessary for storing a map.
 
@@ -175,11 +172,11 @@ The first challenge was agreeing on a schema that was sufficient in representing
 \centering
 \begin{tabular}{|c|l|}
 	\hline
-	\textbf{Catagory} & \textbf{Attribute} \\ \hline
+	\textbf{Category} & \textbf{Attribute} \\ \hline
 	metadata & name, date, author, description \\ \hline
 	specification & canvas\textunderscore size, number\textunderscore of\textunderscore tiles, validated \\ \hline
-	grid & x, y, type, subType, direction
-	& & laneNo, isBlock \\ \hline
+	grid & x, y, type, subType, direction \\
+	laneNo, isBlock \\ \hline
 \end{tabular}
 \caption{Finalised Map Schema}
 \label{ref:mapTable}

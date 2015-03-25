@@ -2,6 +2,7 @@ package com.simulus.view.vehicles;
 
 import javafx.animation.FillTransition;
 import javafx.animation.ParallelTransition;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -43,9 +44,9 @@ public class Ambulance extends Group {
 				while(!isInterrupted())
 					try{
 						sleep(600);
-						changeColour();
+						Platform.runLater(() -> changeColour());
 						sleep(600);
-						changeColour();
+						Platform.runLater(() -> changeColour());
 					}catch(Exception e){
 						e.printStackTrace();
 					}

@@ -24,7 +24,7 @@ public class SimulationController {
 
     //Simulation Parameters
     private double tickTime = 50; //in ms
-    private int spawnRate = 5; //a new car spawns every spawnRate'th tick
+    private int spawnDelay = 25; //a new car spawns every spawnRate'th tick
     private int maxCars = 25;
     private int maxCarSpeed = 50;
     private double carTruckRatio = 0.7d;		//the desired carCount/truckCount-fraction 
@@ -60,7 +60,8 @@ public class SimulationController {
         
         if(!animationThread.isAlive())
         	animationThread.start();
-    	
+
+        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(false);
     }
 
     /**
@@ -80,9 +81,11 @@ public class SimulationController {
         MainApp.getInstance().resetCanvas();
         MainApp.getInstance().getControlsController().resetCharts();
         MainApp.getInstance().getControlsController().resetSettings();
+        setDebugFlag(false);
         truckCount = 0;
         recklessCount = 0;
         ambulanceCount = 0;
+        MainApp.getInstance().getControlsController().spawnAmbulanceButton.disableProperty().set(true);
         animationThread = new AnimationThread();
         map.drawMap(MainApp.getInstance().getCanvas());
         if(debugFlag)
@@ -102,7 +105,7 @@ public class SimulationController {
             	if(tickCount * tickTime % 500 == 0) //add data every 500 ms
             		Platform.runLater(() -> MainApp.getInstance().getControlsController().updateCharts());
 
-                if(tickCount % spawnRate == 0) {
+                if(tickCount % spawnDelay == 0) {
                     if (map.getVehicleCount() < maxCars) {
                         //If the car-truck ratio is not correct, spawn a truck, otherwise a car.
                         if (truckCount < (1 - carTruckRatio) * map.getVehicleCount()) {
@@ -168,7 +171,7 @@ public class SimulationController {
     	if(ambulanceCount < 5) {
     		Platform.runLater(() -> map.spawnAmbulance());
 	    	ambulanceCount++;
-    	} else MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(true);
+    	}
     }         
     
     /* * * 
@@ -224,11 +227,11 @@ public class SimulationController {
     }
 
     public int getSpawnRate() {
-        return spawnRate;
+        return spawnDelay;
     }
 
     public void setSpawnRate(int spawnRate) {
-        this.spawnRate = spawnRate;
+        this.spawnDelay = spawnRate;
     }
 
     public int getMaxCars() {

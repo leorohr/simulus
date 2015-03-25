@@ -12,6 +12,9 @@
 \usepackage{wrapfig}
 \usepackage{enumitem}
 \usepackage{pgfplots}
+\usepackage{tabu}
+\usepackage{longtable}
+\usepackage{pdfpages}
 
 %--- Settings for Java code snippets ---
 \usepackage{listings} 
@@ -44,30 +47,30 @@
 \definecolor{maroon}{rgb}{0.5, 0.0, 0.0}
 
 \lstdefinestyle{XMLStyle}{
-language=XML,
-%Formatting
-basicstyle=\scriptsize,
-sensitive=true,
-showstringspaces=false,
-numbers=left,
-numberstyle=\tiny,
-tabsize=4,
-numbersep=3pt,
-extendedchars=true,
-xleftmargin=2em,
-lineskip=1pt,
-breaklines,
-captionpos=t,
-%Coloring
-backgroundcolor=\color{lightgray},
-morekeywords={BooleanExpression},
-alsoletter={:,,?},
-morestring=[b]{"},
-morecomment=[s]{<!--}{-->},
-keywordstyle=\color{forestGreen},
-identifierstyle=\color{maroon}\ttfamily,
-stringstyle=\color{blue}\ttfamily,
-commentstyle=\color{forestGreen}\ttfamily
+	language=XML,
+	%Formatting
+	basicstyle=\scriptsize,
+	sensitive=true,
+	showstringspaces=false,
+	numbers=left,
+	numberstyle=\tiny,
+	tabsize=4,
+	numbersep=3pt,
+	extendedchars=true,
+	xleftmargin=2em,
+	lineskip=1pt,
+	breaklines,
+	captionpos=t,
+	%Coloring
+	backgroundcolor=\color{lightgray},
+	morekeywords={BooleanExpression},
+	alsoletter={:,,?},
+	morestring=[b]{"},
+	morecomment=[s]{<!--}{-->},
+	keywordstyle=\color{forestGreen},
+	identifierstyle=\color{maroon}\ttfamily,
+	stringstyle=\color{blue}\ttfamily,
+	commentstyle=\color{forestGreen}\ttfamily
 }
 
 \lstdefinelanguage{xml}{
@@ -99,9 +102,15 @@ sensitive=false,
 	\include{team_work}
 	\include{evaluation}
 	\include{peer_assessment}
-	\include{appendices}
-	
+
 	\fancyfoot[C]{\thepage}
 	\bibliographystyle{plain}
 	\bibliography{literature}
+	
+	\appendix
+	\include{appendices}
+	\include{gitlog}
+	\include{sourcecode}
+	
+	
 \end{document}

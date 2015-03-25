@@ -37,14 +37,13 @@ public class Tile extends Group {
      */
 	public Tile(double posX, double posY, double width, double height,
 			int gridPosX, int gridPosY) {
-		// super(posX, posY, width, height);
 		frame = new Rectangle(posX, posY, width, height);
 		this.gridPosX = gridPosX;
 		this.gridPosY = gridPosY;
 		occupier = null;
 		isOccupied = false;
-		// frame.setFill(new ImagePattern(ResourceBuilder.getLandTexture()));
 		frame.setFill(Color.TRANSPARENT);
+		//TODO reload grid when editor is called from simulator
 		if(MainApp.getInstance() != null){
 			frame.setStroke(Color.TRANSPARENT);
 		}else{

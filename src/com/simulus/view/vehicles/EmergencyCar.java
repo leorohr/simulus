@@ -6,6 +6,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
@@ -54,7 +55,7 @@ public class EmergencyCar extends Car {
 			case NORTH:
 				if (currentTile.getGridPosY() - 1 < 0) {
 					SimulationController.getInstance().removeVehicle(this);
-					break;
+					return;
 				}
 
 				nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile()
@@ -65,7 +66,7 @@ public class EmergencyCar extends Car {
 			case SOUTH:
 				if (currentTile.getGridPosY() + 1 >= map.length) {
 					SimulationController.getInstance().removeVehicle(this);
-					break;
+					return;
 				}
 
 				nextTile = map[getCurrentTile().getGridPosX()][getCurrentTile()
@@ -75,7 +76,7 @@ public class EmergencyCar extends Car {
 			case EAST:
 				if (currentTile.getGridPosX() + 1 >= map.length) {
 					SimulationController.getInstance().removeVehicle(this);
-					break;
+					return;
 				}
 
 				nextTile = map[getCurrentTile().getGridPosX() + 1][getCurrentTile()
@@ -85,7 +86,7 @@ public class EmergencyCar extends Car {
 			case WEST:
 				if (currentTile.getGridPosX() - 1 < 0) {
 					SimulationController.getInstance().removeVehicle(this);
-					break;
+					return;
 				}
 				nextTile = map[getCurrentTile().getGridPosX() - 1][getCurrentTile()
 						.getGridPosY()];
@@ -95,15 +96,19 @@ public class EmergencyCar extends Car {
 				break;
 			}
 			
-			if (nextTile != null && nextTile.isOccupied() && nextTile.getOccupier() != null) {
+			if (nextTile.isOccupied() && !nextTile.isRedLight()) {
 				tempDir = Direction.NONE;
 				if(nextTile.isBlock())
 					changeLane();
+				
 			} else if(nextTile instanceof IntersectionTile) { 
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
-				 	followPath(t.getRandomPath());
+				 	CustomPath p = t.getRandomPath();
+				 	if(p == null)
+				 		p = t.getEmergencyPath();
+			 		followPath(t.getRandomPath());
 				 }
 			} else
 				tempDir = getDirection();
