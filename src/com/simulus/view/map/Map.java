@@ -571,6 +571,8 @@ public class Map extends Group {
 	    MainApp.getInstance().getControlsController().setStartButtonDisabled(false);
 	    MainApp.getInstance().getControlsController().setResetButtonDisabled(false);
 	    MainApp.getInstance().getControlsController().setDebugBoxDisabled(false);
+	    
+	    MainApp.getInstance().getPrimaryStage().setTitle("Simulus  -  Map: " + loader.mapName);
     }
     
     /**
