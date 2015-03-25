@@ -183,40 +183,38 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 \end{figure}
 
 \subsubsection*{Unit Testing}
-Since we were trying to achieve a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the fact that nesting and threading was deep beyond comprehension. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with a main focus of correct functionality. With such an approach, we were given the confidence that the software functioned as required.
+Successfully implementing a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the fact that nesting and threading was deep beyond comprehension. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with a main driver of ensuring correct functionality. With such an approach, we were given the confidence that the software functioned as required.
 
-It is arguably that there were lots of areas need to be tested. From one perspective, one could argue that the number of test cases could be used as an indication on the software quality. But we believed that unit testing is not about finding bugs. It is to prove that all the components could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable - at least within the scope of what this project aims to achieve.  
-
-We wrote our test cases in an automated fashion. This allowed us to reduce the workload on manual testing.  A log was produced at the end for every test scenario. This also allowed us to identify problems should each scenario fails. An illustration is shown in fig.~\ref{fig:testCase}. 
+As can be expected, large and complex applications require an extensive period of time for thorough testing. In the interest of time, however, achieving absolute branch and statement coverage was not of high priority. Our main concern is to test whether or not the components of the system could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable based on the requirements. Test cases were developed to be automated, allowing us to reduce the workload on manual testing and easily repeat basic functionality tests. A log was produced at the end for every test scenario enabling us to easily identify problem areas and amend them. An illustration of a testing log is shown in figure ~\ref{fig:testCase}. 
 
 \begin{figure}[h]
-	\begin{center}
-		\includegraphics[width=\textwidth]{img/testCase.png}
-		\caption{A log is produced after a test execution}
-	\label{fig:testCase}
-	\end{center}
+        \begin{center}
+                \includegraphics[width=\textwidth]{img/testCase.png}
+                \caption{A log is produced after a test execution}
+        \label{fig:testCase}
+        \end{center}
 \end{figure}
 
-In addition, we also looked at the organisation of our code base to further assess the code quality of our software.  To do so we used a commercial tool to analyse the architecture. We produced diagrams such architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual cue on the software internally. We then feed back the analysis to the development team in order to make changes accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in fig.~\ref{fig:heatmap}. The bigger the shape it is the more lines of codes there have been written for a class. The colour depth of a shape indicates the density of its max complexity. At one stage, we identified the \textit{maxCyclomaticComplexity} for the \textit{Car.class} is 58, we were able to reduce it to 21 for the final version.     
+In addition, we also looked at the organisation of our code to further assess the code quality. To do so, we used a commercial tool which helps to picture the system architecture for easy assessment. We produced diagrams such as architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the internal intricacies of the software. We then fed back the analysis to the development team in order for changes to take place accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in figure ~\ref{fig:heatmap}. The bigger the shape is, the more lines of codes have been written for a class. The colour depth of a shape indicates its maximum complexity. An example of the usefulness of this approach was that were able to identify the \textit{maxCyclomaticComplexity} for the \textit{Car} class as being 58 and were able to reduce it to 21 for the final version.     
 
 \begin{figure}[h]
-	\begin{minipage}{\textwidth}
-		\begin{center}
-				\includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
-			\caption{Heat Map for the final version of the software}
-			\label{fig:heatmap}	
-		\end{center}
-	\end{minipage}
+        \begin{minipage}{\textwidth}
+                \begin{center}
+                                \includegraphics[width=71mm,keepaspectratio ]{img/heatmap.png}
+                        \caption{Heat Map for the final version of the software}
+                        \label{fig:heatmap}     
+                \end{center}
+        \end{minipage}
 \end{figure}
 
-Fig.~\ref{fig:archIntDependency} illustrated the architectural dependency for our final product. We were assured that the outcome echoed to the requirement and design, though only a small portion of bi-directional calls were made internally. In most case, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, the architecture can be described more or less as clean, as shown in the figure. 
+Figure ~\ref{fig:archIntDependency} illustrates the architectural dependency of our final product. We assured that the outcome was representative of the requirement and design, though only a small portion of bi-directional calls were made internally. In most cases, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, and so the architecture can therefore be described as clean, depicted in the figure \ref{fig:archIntDependency}. 
 
 \begin{figure}[h]
-	\begin{center}
-			\includegraphics[width=\textwidth]{img/archIntDependency.png}
-		\caption{Architecture Internal Dependency}
-	\label{fig:archIntDependency}
-	\end{center}
+        \begin{center}
+                        \includegraphics[width=\textwidth]{img/archIntDependency.png}
+                \caption{Architecture Internal Dependency}
+        \label{fig:archIntDependency}
+        \end{center}
 \end{figure}
+
 \clearpage
-
