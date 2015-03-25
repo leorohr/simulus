@@ -120,15 +120,21 @@ public class Truck extends Vehicle {
 				if(nextTile.isBlock())
 					changeLane();
 			} else if(nextTile instanceof IntersectionTile) { 
-				if(currentTile instanceof Lane) {
+				if(currentTile instanceof Lane && !currentTile.isRedLight()) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
 				 	CustomPath p = t.getRandomPath();
 				 	if(p != null)
 				 		followPath(t.getRandomPath());
 				 	else tempDir = Direction.NONE;
-				 }
+				 } else tempDir = Direction.NONE;
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
+			
+            //Slow the car down if cautious and slow car in front
+            if(tempBehavior == Behavior.CAUTIOUS)
+                if(nextTile != null && nextTile.getOccupier()!=null && nextTile.getOccupier().maxSpeed < maxSpeed)
+                    maxSpeed = nextTile.getOccupier().maxSpeed;
+            
 		} catch (ArrayIndexOutOfBoundsException e) {
             SimulationController.getInstance().removeVehicle(this);
 		}  

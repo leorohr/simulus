@@ -23,8 +23,8 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Simulation">
               <items>
-                  <MenuItem fx:id="openSimMItem" mnemonicParsing="false" text="Open Simulation..." />
-                  <MenuItem fx:id="saveSimMItem" mnemonicParsing="false" text="Save Simulation..." />
+                  <MenuItem fx:id="openSimMItem" mnemonicParsing="false" text="Open Parameters..." />
+                  <MenuItem fx:id="saveSimMItem" mnemonicParsing="false" text="Save Parameters..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="exportStatsMItem" mnemonicParsing="false" text="Export Statistics..." />
               </items>

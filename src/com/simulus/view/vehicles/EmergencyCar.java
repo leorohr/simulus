@@ -6,6 +6,7 @@ import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
+import com.simulus.view.intersection.CustomPath;
 import com.simulus.view.intersection.IntersectionTile;
 import com.simulus.view.map.Lane;
 
@@ -104,6 +105,9 @@ public class EmergencyCar extends Car {
 				if(currentTile instanceof Lane) {
 					IntersectionTile t = (IntersectionTile) nextTile;
 				 	currentIntersection = t.getIntersection();
+				 	CustomPath p = t.getRandomPath();
+				 	if(p == null)
+				 		p = t.getEmergencyPath();
 			 		followPath(t.getRandomPath());
 				 }
 			} else

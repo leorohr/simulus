@@ -10,6 +10,7 @@ import com.simulus.view.Tile;
 import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
 import com.simulus.view.vehicles.Ambulance;
+import com.simulus.view.vehicles.Car;
 import com.simulus.view.vehicles.EmergencyCar;
 import com.simulus.view.vehicles.Truck;
 import com.simulus.view.vehicles.Vehicle;
@@ -114,7 +115,9 @@ public class SimulationController {
                         } else {
                         	//If the reckless-normal-ratio is not correct, spawn a reckless car.
                         	if(recklessCount < recklessNormalRatio * map.getVehicleCount()) {
-                        		Platform.runLater(() -> map.spawnRandomCar(Behavior.RECKLESS));
+                        		//30% of the reckless cars exhibit semi, i.e. sometimes reckless, behavior
+                        		Platform.runLater(() -> map.spawnRandomCar(
+                        				(Math.random() < 0.3 ? Behavior.SEMI : Behavior.RECKLESS)));
                         		recklessCount++;
                         	}
                         	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
@@ -160,6 +163,10 @@ public class SimulationController {
         if(v instanceof EmergencyCar) {
         	ambulanceCount--;
         	MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(false);
+        }
+        if(v instanceof Car) {
+        	if(v.getBehavior() == Behavior.SEMI || v.getBehavior() == Behavior.RECKLESS)
+        		recklessCount--;
         }
     }
 

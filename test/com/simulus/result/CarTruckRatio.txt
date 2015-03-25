@@ -12,11 +12,11 @@ Initialising Test1...
  
 Map Car/Truck Ratio: 0.7
  
-Trucks on map: 8.0
+Trucks on map: 2.0
  
-Cars on map: 17.0
+Cars on map: 4.0
  
-Current Car/Truck Ratio 0.68
+Current Car/Truck Ratio 0.6666666666666666
  
 Test 1 completed!
  

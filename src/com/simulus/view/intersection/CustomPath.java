@@ -21,6 +21,7 @@ public class CustomPath extends Path {
 	private double pathDistance;
 	private TurningDirection turn;
 	private boolean isActive = false;
+	private boolean unavailable = false;
 
 	/**
 	 * @param turn The direction this path turns in
@@ -83,7 +84,19 @@ public class CustomPath extends Path {
 	}
 
 	public void setActive(boolean b) {
+		//Dont allow setting unavailable paths being set to active
+		if(unavailable && b)
+			return;
+		
 		isActive = b;
+	}
+	
+	public void setUnavailable(boolean b) {
+		unavailable = b;
+	}
+	
+	public boolean isUnavailable() {
+		return unavailable;
 	}
 
 	@Override

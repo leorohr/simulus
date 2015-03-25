@@ -21,7 +21,7 @@ import com.simulus.view.Tile;
 public class LoadMap extends TestCaseBaseCode {
 	
 	private boolean test1Pass;
-	private File mapFile = new File(EditorControlsController.class.getResource("/resources/maps/Road_Works.map").getPath());
+	private File mapFile = new File(EditorControlsController.class.getResource("/resources/maps/RoadWorks.map").getPath());
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
