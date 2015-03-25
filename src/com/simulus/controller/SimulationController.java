@@ -5,7 +5,7 @@ import java.io.File;
 import javafx.application.Platform;
 
 import com.simulus.MainApp;
-import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Behaviour;
 import com.simulus.view.Tile;
 import com.simulus.view.map.Lane;
 import com.simulus.view.map.Map;
@@ -117,10 +117,10 @@ public class SimulationController {
                         	if(recklessCount < recklessNormalRatio * map.getVehicleCount()) {
                         		//30% of the reckless cars exhibit semi, i.e. sometimes reckless, behavior
                         		Platform.runLater(() -> map.spawnRandomCar(
-                        				(Math.random() < 0.3 ? Behavior.SEMI : Behavior.RECKLESS)));
+                        				(Math.random() < 0.3 ? Behaviour.SEMI : Behaviour.RECKLESS)));
                         		recklessCount++;
                         	}
-                        	else Platform.runLater(() -> map.spawnRandomCar(Behavior.CAUTIOUS));
+                        	else Platform.runLater(() -> map.spawnRandomCar(Behaviour.CAUTIOUS));
                         }
                     }
                 }    
@@ -165,7 +165,7 @@ public class SimulationController {
         	MainApp.getInstance().getControlsController().setAmbulanceButtonDisabled(false);
         }
         if(v instanceof Car) {
-        	if(v.getBehavior() == Behavior.SEMI || v.getBehavior() == Behavior.RECKLESS)
+        	if(v.getBehavior() == Behaviour.SEMI || v.getBehavior() == Behaviour.RECKLESS)
         		recklessCount--;
         }
     }

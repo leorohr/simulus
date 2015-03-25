@@ -5,10 +5,10 @@ import java.util.Random;
 /**
  * The behaviour types for cars.
  */
-public enum Behavior {
+public enum Behaviour {
 	CAUTIOUS, RECKLESS, SEMI;
 	
-	public static Behavior getRandomBehavior(){
+	public static Behaviour getRandomBehaviour(){
 		Random rand = new Random();
 		int choice = rand.nextInt(3);
 		if(choice == 0)

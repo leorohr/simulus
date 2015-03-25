@@ -21,7 +21,7 @@ import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.io.MapXML;
 import com.simulus.util.Configuration;
-import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Behaviour;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.Orientation;
 import com.simulus.util.enums.VehicleColorOption;
@@ -106,7 +106,7 @@ public class Map extends Group {
 	 * @param b The desired behavior of the spawning car.
 	 * @return The spawned car
 	 */
-	public Car spawnRandomCar(Behavior b) {
+	public Car spawnRandomCar(Behaviour b) {
 		Lane l;
 		if ((l = selectRandomEntryPoint()) == null)
 			return null;
@@ -643,12 +643,12 @@ public class Map extends Group {
 
 		if (v instanceof Car && !(v instanceof EmergencyCar)) {
 			switch (carColorOption) {
-			case BEHAVIOR:
-				if (v.getBehavior() == Behavior.RECKLESS)
+			case BEHAVIOUR:
+				if (v.getBehavior() == Behaviour.RECKLESS)
 					v.setFill(Color.RED);
-				else if (v.getBehavior() == Behavior.CAUTIOUS)
+				else if (v.getBehavior() == Behaviour.CAUTIOUS)
 					v.setFill(Color.AQUAMARINE);
-				else if(v.getBehavior() == Behavior.SEMI)
+				else if(v.getBehavior() == Behaviour.SEMI)
 					v.setFill(Color.ORANGE);
 				break;
 			case SPEED:

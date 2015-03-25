@@ -5,7 +5,7 @@ package com.simulus.util.enums;
  * @see com.simulus.view.map.Map#updateVehicleColor(Vehicle)
  */
 public enum VehicleColorOption {
-	SPEED("Speed"), BEHAVIOR("Behavior"), USER("User");
+	SPEED("Speed"), BEHAVIOUR("Behaviour"), USER("User");
 	
 	private String name;
 	private VehicleColorOption(String name) {

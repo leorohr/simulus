@@ -38,6 +38,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	private ArrayList<CustomPath> turningPaths;
 	private boolean nsAllowRight = Math.random() > 0.5d;
 	private boolean weAllowRight = Math.random() > 0.5d;
+	private boolean hasTrafficLights = true;
 	public static final double arcDistanceShort = 90*(Math.PI/180)*(tileSize/2);
 	public static final double arcDistanceMedium = 90*(Math.PI/180)*(tileSize*1.5);
 	public static final double arcDistanceLong = 90*(Math.PI/180)*(tileSize*2.5);
@@ -69,6 +70,9 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 * Opens the configuration dialog for this intersection.
 	 */
 	public void configureDialog() {
+		if(!hasTrafficLights)
+			return;
+		
 		IntersectionConfigDialog dialog = new IntersectionConfigDialog(toString(), nsSwitchTime, weSwitchTime); 
 		Optional<java.util.Map<String, Long>> result = dialog.showAndWait();
 		
@@ -393,18 +397,23 @@ public class Intersection extends Group implements TileGroup, Runnable {
 					hasCurvedPath = true;
 			}
 		}
-		if(!(hasStraightPath & hasCurvedPath)) {
+		//Store whether this intersections need traffic lights or not
+		hasTrafficLights = hasStraightPath && hasCurvedPath;
+		
+		if(!hasTrafficLights) {			
 			//Clear the intersections every 1.5 seconds
 			while(!Thread.currentThread().isInterrupted()){
 				try {
 					Thread.sleep(1500);
 				} catch (InterruptedException e) {
-
+					return;
 				}
 				for(Tile[] ts : tiles)
 					for(Tile t : ts)
 						t.setOccupied(false);
 			}
+			
+			return;
 		}
 		
 		while(!Thread.currentThread().isInterrupted()){

@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
-import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Behaviour;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.CustomPath;
@@ -36,7 +36,7 @@ public class Truck extends Vehicle {
 	public Truck(double posX, double posY, Direction dir) {
 		super(posX, posY, TRUCKWIDTH, TRUCKLENGTH, dir);
 
-		behavior = Behavior.getRandomBehavior();
+		behavior = Behaviour.getRandomBehaviour();
 		
 		switch (dir) {
 		case NORTH:
@@ -131,7 +131,7 @@ public class Truck extends Vehicle {
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
 			
             //Slow the car down if cautious and slow car in front
-            if(tempBehavior == Behavior.CAUTIOUS)
+            if(tempBehavior == Behaviour.CAUTIOUS)
                 if(nextTile != null && nextTile.getOccupier()!=null && nextTile.getOccupier().maxSpeed < maxSpeed)
                     maxSpeed = nextTile.getOccupier().maxSpeed;
             

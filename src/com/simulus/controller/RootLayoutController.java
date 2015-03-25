@@ -202,7 +202,7 @@ public class RootLayoutController implements Initializable {
     				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.SPEED);
     				MainApp.getInstance().getControlsController().carcolorPicker.setDisable(true);
     			}else if (sxml.getCarColourOption().equals("Behavior")){
-    				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOR);
+    				MainApp.getInstance().getControlsController().carcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOUR);
     				MainApp.getInstance().getControlsController().carcolorPicker.setDisable(true);
     			}
     			
@@ -214,7 +214,7 @@ public class RootLayoutController implements Initializable {
     				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.SPEED);
     				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(true);
     			}else if (sxml.getTruckColourOption().equals("Behavior")){
-    				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOR);
+    				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOUR);
     				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(true);
     			}
     			updateAppTitle(selectedFile.getName());
@@ -266,7 +266,7 @@ public class RootLayoutController implements Initializable {
             ImageView img = new ImageView(ResourceBuilder.getLogoSmall());
             img.setPreserveRatio(true);
             img.setFitHeight(75.0d);
-            Label infoPanel = new Label("Simulus Traffic Simulation Ver. 0.1");
+            Label infoPanel = new Label("Simulus Traffic Simulation Ver. 1.0");
             Label tileInfo = new Label("Textures thanks to Kenney Vleugels (www.kenney.nl) - CC0");
             Label iconInfo = new Label("Editor icons thanks to FatCow (www.fatcow.com/free-icons)");
             Hyperlink link = new Hyperlink("http://github.com/leorohr/simulus");

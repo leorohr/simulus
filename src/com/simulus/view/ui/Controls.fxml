@@ -29,7 +29,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="75.0">
                                  <children>
                                     <CheckBox fx:id="debugCheckbox" disable="true" mnemonicParsing="false" text="Debug" />
-                                    <Button fx:id="helpButton" alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" style="-fx-graphic: url(&quot;/resources/help.png&quot;);"/>
+                                    <Button fx:id="helpButton" alignment="CENTER_RIGHT" mnemonicParsing="false" prefHeight="25.0" prefWidth="34.0" style="-fx-graphic: url(&quot;/resources/help.png&quot;);" />
                                  </children>
                               </HBox>
                            </children>
@@ -40,7 +40,7 @@
                               <Insets />
                            </VBox.margin>
                         </VBox>
-                        <TitledPane expanded="false" text="Color Settings">
+                        <TitledPane expanded="false" text="Colour Settings">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>
@@ -48,7 +48,7 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Label text="Car Color" />
+                                                <Label text="Car Colour" />
                                                 <HBox prefHeight="28.0">
                                                    <children>
                                                       <ComboBox fx:id="carcolorComboBox" prefHeight="26.0" prefWidth="100.0" />
@@ -63,7 +63,7 @@
                                           </VBox>
                                           <VBox>
                                              <children>
-                                                <Label text="Truck Color" />
+                                                <Label text="Truck Colour" />
                                                 <HBox prefHeight="28.0" prefWidth="195.0">
                                                    <children>
                                                       <ComboBox fx:id="truckcolorComboBox" prefHeight="26.0" prefWidth="100.0" />
@@ -153,7 +153,7 @@
                                                 </HBox>
                                              </children>
                                           </VBox>
-                                          <Button fx:id="randTrafficLightsButton" mnemonicParsing="false" text="Randomise Trafficlights" />
+                                          <Button fx:id="randTrafficLightsButton" mnemonicParsing="false" text="Randomise Traffic Lights" />
                                           <Button fx:id="spawnAmbulanceButton" disable="true" mnemonicParsing="false" text="Spawn Ambulance" />
                                        </children>
                                        <opaqueInsets>

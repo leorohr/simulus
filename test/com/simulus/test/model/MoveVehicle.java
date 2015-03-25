@@ -22,7 +22,7 @@ public class MoveVehicle extends TestCaseBaseCode {
 	private boolean test1Pass;
 	private boolean test2Pass;
 	private boolean test3Pass;
-	Behavior behaviour = Behavior.CAUTIOUS;
+	Behaviour behaviour = Behaviour.CAUTIOUS;
 	Tile vehiclePostion;
 
 

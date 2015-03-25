@@ -24,7 +24,7 @@ import javafx.util.Duration;
 import com.simulus.MainApp;
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
-import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Behaviour;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
@@ -45,7 +45,7 @@ public abstract class Vehicle extends Rectangle {
 	protected MainApp parent;
 	protected Tile currentTile;
 	protected List<Tile> occupiedTiles;
-	protected Behavior behavior;
+	protected Behaviour behavior;
 	
 	protected Intersection currentIntersection;
 	protected CustomPath currentPath;
@@ -56,7 +56,7 @@ public abstract class Vehicle extends Rectangle {
 
 	protected int tileWidth;
 	protected Tile moveToTile;
-	protected Behavior tempBehavior;
+	protected Behaviour tempBehavior;
 	protected Direction tempDir;
 	protected double acceleration;
 	protected double maxSpeed;
@@ -682,11 +682,11 @@ public abstract class Vehicle extends Rectangle {
 		vehicleSpeed = d;
 	}
 	
-	public void setBehavior(Behavior b){
+	public void setBehavior(Behaviour b){
 		behavior = b;
 	}
 	
-	public Behavior getBehavior(){
+	public Behaviour getBehavior(){
 		return behavior;
 	}
 

@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 import com.simulus.controller.SimulationController;
 import com.simulus.util.Configuration;
-import com.simulus.util.enums.Behavior;
+import com.simulus.util.enums.Behaviour;
 import com.simulus.util.enums.Direction;
 import com.simulus.view.Tile;
 import com.simulus.view.intersection.CustomPath;
@@ -37,7 +37,7 @@ public class Car extends Vehicle {
 	public Car(double posX, double posY, Direction dir) {
 		super(posX, posY, CARWIDTH, CARLENGTH, dir);
 		
-		behavior = Behavior.getRandomBehavior();
+		behavior = Behaviour.getRandomBehaviour();
 		
 		switch (dir) {
 		case NORTH:
@@ -67,9 +67,9 @@ public class Car extends Vehicle {
 	
 	/**
 	 * Translates the car according to the current direction.
-	 * Cars with {@link Behavior}.RECKLESS will try to overtake every car in front of them,
+	 * Cars with {@link Behaviour}.RECKLESS will try to overtake every car in front of them,
 	 * those with cautious behavior will adjust their speed to slower vehicles in front of them.
-	 * Cars with  {@link Behavior}.SEMI will drive cautiously or recklessly with a chance of 50%.
+	 * Cars with  {@link Behaviour}.SEMI will drive cautiously or recklessly with a chance of 50%.
 	 * @see Vehicle#move(Direction)
 	 */
 	@Override
@@ -86,13 +86,13 @@ public class Car extends Vehicle {
 		tempDir = getDirection();
 		tempBehavior = behavior;
 		
-		if(tempBehavior == Behavior.SEMI)
+		if(tempBehavior == Behaviour.SEMI)
 			if(Math.random()>0.5)
-				tempBehavior = Behavior.RECKLESS;
-			else tempBehavior = Behavior.CAUTIOUS;
+				tempBehavior = Behaviour.RECKLESS;
+			else tempBehavior = Behaviour.CAUTIOUS;
 
 //		Checks if the tile 2 tiles ahead of the car is taken for overtaking.
-		if(tempBehavior == Behavior.RECKLESS){
+		if(tempBehavior == Behaviour.RECKLESS){
 			attemptOvertake();
 		}
 		
@@ -152,7 +152,7 @@ public class Car extends Vehicle {
 			
 
             //Slow the car down if cautious and slow car in front
-            if(tempBehavior == Behavior.CAUTIOUS)
+            if(tempBehavior == Behaviour.CAUTIOUS)
                 if(nextTile != null && nextTile.getOccupier()!=null && nextTile.getOccupier().maxSpeed < maxSpeed)
                     maxSpeed = nextTile.getOccupier().maxSpeed;
 
