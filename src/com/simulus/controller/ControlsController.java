@@ -245,14 +245,16 @@ public class ControlsController implements Initializable {
 		helpButton.setOnAction((event) -> {
 			Popup help = new Popup();
 			help.setAutoHide(true);
-			help.setHeight(400);
-			help.setWidth(300);
+
 			
 			WebView textView = new WebView();
+			textView.setMaxWidth(640);
+			textView.setMaxHeight(480);
 			WebEngine webEngine = textView.getEngine();
 			webEngine.load(getClass().getResource("/resources/infofiles/simInfo.htm").toString());
 
-
+			help.setX(MainApp.getInstance().getPrimaryStage().getX() + (800 - textView.getMaxWidth())/2);
+			help.setY(MainApp.getInstance().getPrimaryStage().getY() + (800 - textView.getMaxHeight())/2);
 			help.getContent().add(textView);
 			help.show(MainApp.getInstance().getPrimaryStage()); 
 		});
