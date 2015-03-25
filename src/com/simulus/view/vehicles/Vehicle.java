@@ -344,10 +344,6 @@ public abstract class Vehicle extends Rectangle {
 						
 						//Check all tiles. If one of them is occupied by something else than this vehicle... 
 						if(t.isOccupied() && t.getOccupier() != null && t.getOccupier() != this) {
-//							if(t.getOccupier().getCurrentPath().getTurn() == TurningDirection.RIGHT
-//									&& this.currentPath.getTurn() == TurningDirection.RIGHT
-//									&& this.currentPath != t.getOccupier().getCurrentPath())
-//								continue; //dont stop if cars are turning right in front of each other
 							//if this vehicle's path intersects the path of the other vehicle
 							if(currentPath != t.getOccupier().getCurrentPath() 
 									&& !((Path)Shape.intersect(currentPath, t.getOccupier().getCurrentPath())).getElements().isEmpty()
@@ -362,14 +358,6 @@ public abstract class Vehicle extends Rectangle {
 								currentTransition.setRate(0);
 								return;
 							}
-							
-							//... and this vehicle's path intersects that occupied tile, make this vehicle stop.
-//							if(!((Path)Shape.intersect(currentPath, t.getFrame())).getElements().isEmpty()){
-//								if(currentTransition.getCurrentTime().lessThan(t.getOccupier().getCurrentTransition().getCurrentTime())) {
-//									currentTransition.setRate(0); 
-//									return;
-//								}
-//							}	
 						}
 						//If the end of the current path is occupied and this vehicle is one tile away from the end, stop.
 						if(this.getBoundsInParent().intersects(preEndTile.getFrame().getBoundsInParent()) && currentPath.getEndTile().isOccupied() && currentPath.getEndTile().getOccupier() != this){
