@@ -648,6 +648,8 @@ public class Map extends Group {
 					v.setFill(Color.RED);
 				else if (v.getBehavior() == Behavior.CAUTIOUS)
 					v.setFill(Color.AQUAMARINE);
+				else if(v.getBehavior() == Behavior.SEMI)
+					v.setFill(Color.ORANGE);
 				break;
 			case SPEED:
 				//If a car is standing, color it green, if it is driving with the max. allowed speed, color it red.
@@ -664,12 +666,6 @@ public class Map extends Group {
 			}
 		} else if (v instanceof Truck) {
 			switch (truckColorOption) {
-			case BEHAVIOR:
-				if (v.getBehavior() == Behavior.RECKLESS)
-					v.setFill(Color.RED);
-				else if (v.getBehavior() == Behavior.CAUTIOUS)
-					v.setFill(Color.AQUAMARINE);
-				break;
 			case SPEED:
 				double maxSpeedInMps = ((double)SimulationController.getInstance().getMaxCarSpeed()*1000)/3600;
 				double speedfraction = v.getVehicleSpeed()/((maxSpeedInMps * (Configuration.getTileSize()/5))/10);
