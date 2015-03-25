@@ -1,5 +1,5 @@
 \section{Evaluation}
-\subsection{Simulator}\label{ss:eval_sim}
+\label{ss:eval_sim}
 In terms of the realisation of initially set requirements, we were able to meet them all except for the inclusion of external map sources (requirement 3b in section~\ref{sec:reqs}). This, however, was associated with the "could have" priority class and hence is an acceptable shortcoming. As our map model is based on fixed sized tiles, it would require intense translation to reproduce a map from sources like Google Maps or KML files due to their high resolution. 
 
 As described in section \ref{subsec:design}, we began using a discrete space model and changed to a continuous model later on. This change was a product of improved thinking, as we realised that the restrictions imposed by a discrete space representation outweigh the benefits of the easier implementation that comes with it.
@@ -8,9 +8,11 @@ At the beginning of the project, we implemented a model-view-controller pattern.
 
 The methods that compute vehicle movements require a lot of checks for the vehicle's environment. An example would be the method by which a car overtakes another. Multiple tiles of the adjacent lane must first be checked for the conditions to be met for this manoeuvre to take place. The exact tiles that need to be checked currently depend on the direction of the vehicles' movement and hence these checks come with a lot of nested conditional statements. The \textit{attemptOvertake} method in the \textit{Vehicle} class exhibits a cyclomatic complexity of 34, therewith being the most complex method in our source code (see fig.~\ref{fig:heatmap}). Reducing the complexity for this method along with others would most likely improve the scaling of simulator performance with a higher number of vehicles. Implementing these changes would require a major redesign of the simulation logic and was hence deemed as infeasible to do within the short duration of this project.
 
+Maps are persisted using the XML. Each map-file contains data for every single tile on the map. Unfortunately, the XML specification we used does not specify the grouping of tiles to an intersection, forcing us to recreate the intersections as soon as an intersection tile is encountered while reading the map. This means, that the algorithm will create an intersection at the encountered tile and hence create the tiles 3 columns to the right and 3 rows down without reading any further tile information from the XML file. To ensure that intersections are created correctly, we have to create a 2D boolean array the size of the map (i.e. 40x40, 60x60 or 80x80) to keep track of tiles that have been loaded successfully. 
+
+Our model currently only supports roads with four lanes and dual carriageways. As adding support for different lane models and road sizes will increase the capabilities and functionality of both simulator and editor, we consider this a suitable task for further development of the software. 
+
 All five group members were involved in the creation of the code. Collaboration and communication was eased through extensive use of the Git Issues feature to track problems and progress in solving them (cf. section~\ref{sec:team_work}). Working in separate branches of the repository when working on the same files or related behaviour allowed every team member to contribute to the codebase continuously.  
 
-\bigskip
-* recreation of intersections on mapLoad()
-* only fourlane roads
-* roundabouts
+\subsection{Future Work}
+%evaluation of editor?
