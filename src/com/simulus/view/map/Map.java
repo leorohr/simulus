@@ -688,7 +688,8 @@ public class Map extends Group {
 	 */
 	public void randomiseTrafficLights() {
 		for (Intersection i : intersections) {
-			i.setSwitchTime((long) (2000 + Math.random() * 3000));
+			i.setNsSwitchTime((long) (2000 + Math.random() * 3000));
+			i.setWeSwitchTime((long) (2000 + Math.random() * 3000));
 		}
 	}
 
