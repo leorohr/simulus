@@ -73,7 +73,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		IntersectionConfigDialog dialog = new IntersectionConfigDialog(toString(), nsSwitchTime, weSwitchTime); 
 		Optional<java.util.Map<String, Long>> result = dialog.showAndWait();
 		
-		if(result != null) {
+		if(result.isPresent()) {
 			nsSwitchTime = result.get().get("nsphase");
 			weSwitchTime = result.get().get("wephase");
 		}
