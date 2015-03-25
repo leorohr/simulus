@@ -80,8 +80,6 @@ public class EditorControlsController implements Initializable {
 	@FXML
 	ImageView logoImg;
 
-
-	// TODO javadoc
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 

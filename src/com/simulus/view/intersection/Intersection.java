@@ -66,7 +66,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	}
 	
 	/**
-	 * TODO
+	 * Opens the configuration dialog for this intersection.
 	 */
 	public void configureDialog() {
 		IntersectionConfigDialog dialog = new IntersectionConfigDialog(toString(), nsSwitchTime, weSwitchTime); 
@@ -267,12 +267,16 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	}
 	
 	private void flipPaths(IntersectionTile t, boolean allowRight) {
-		for(CustomPath p : t.getTurningPaths()) { //TODO make switch
-			if(p.getTurn() == TurningDirection.RIGHT)
-				p.setActive(nsAllowRight);
-			else if(p.getTurn() == TurningDirection.LEFT)
+		
+		for(CustomPath p : t.getTurningPaths()) {
+			switch(p.getTurn()) {
+			case LEFT:
 				p.setActive(true);
-			else if(p.getTurn () == TurningDirection.STRAIGHT) {
+				break;
+			case RIGHT:
+				p.setActive(nsAllowRight);
+				break;
+			case STRAIGHT:
 				boolean intersects = false;
 				for(CustomPath p2 : turningPaths) {
 					if( !((Path) Shape.intersect(p, p2)).getElements().isEmpty() 
@@ -282,11 +286,18 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				if(intersects)
 					p.setActive(!nsAllowRight);
 				else p.setActive(nsAllowRight);
+				break;
+			default:
+				break;
+			
 			}
 		}	
 	}
 	
-	//TODO
+	/*
+	 * De-/Activates paths in order to not allow cars to go straight, while the opposite
+	 * direction's cars turn right.
+	 */
 	private void flipAllowRight() {
 		nsAllowRight = !nsAllowRight;
 		weAllowRight = !weAllowRight;
@@ -326,11 +337,6 @@ public class Intersection extends Group implements TileGroup, Runnable {
 						p.setFill(Color.TRANSPARENT);
 					}
 				}
-        		//TODO remove                
-//                Shape is = Shape.intersect(turningPaths.get(i), turningPaths.get(j));
-//				is.setFill(Color.RED);
-//				is.setStroke(Color.BLACK);
-//				t.getChildren().add(is);
 			}
 		}
 					

@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 
+/**
+ * The JavaFX controller for the right side control panel of the simulator.
+ */
 public class IntersectionDialogController implements Initializable{
 
 	@FXML 

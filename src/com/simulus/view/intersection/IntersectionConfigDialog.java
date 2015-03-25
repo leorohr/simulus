@@ -12,6 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import com.simulus.MainApp;
 import com.simulus.controller.IntersectionDialogController;
 
+/**
+ * This is the configuration dialog for intersections. It provides sliders
+ * to change the duration of the phases of the light-pairs on intersections.
+ */
 public class IntersectionConfigDialog extends Dialog<Map<String, Long>> { 
 		
 	public IntersectionConfigDialog(String is, long nsPhaseTime, long wePhaseTime) {

@@ -43,7 +43,6 @@ public class Tile extends Group {
 		occupier = null;
 		isOccupied = false;
 		frame.setFill(Color.TRANSPARENT);
-		//TODO reload grid when editor is called from simulator
 		if(MainApp.getInstance() != null){
 			frame.setStroke(Color.TRANSPARENT);
 		}else{
