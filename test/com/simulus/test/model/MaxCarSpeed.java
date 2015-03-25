@@ -39,6 +39,8 @@ public class MaxCarSpeed extends TestCaseBaseCode {
 
 			}
 		});
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 

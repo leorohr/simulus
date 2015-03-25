@@ -6,11 +6,9 @@ Simulator Button Clicked: true
 
 Initialising Test1...
  
-Test scenario 1 passed: true
+Simulation started.
  
-Initialising Test2...
+Test scenario 1 passed: false
  
-NORTH
- 
-Test scenario 1 passed: true
+Test scenario 1 Failed.
  
