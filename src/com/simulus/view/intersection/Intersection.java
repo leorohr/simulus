@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -23,6 +24,7 @@ import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
 import com.simulus.view.TileGroup;
 import com.simulus.view.map.Map;
+import com.simulus.viwe.intersection.IntersectionConfigDialog;
 
 /**
  * Contains all tiles belonging to the intersection.
@@ -31,7 +33,8 @@ import com.simulus.view.map.Map;
 public class Intersection extends Group implements TileGroup, Runnable {
 	
 	public IntersectionTile[][] tiles = new IntersectionTile[4][4];
-	private long switchTime;
+	private long weSwitchTime;
+	private long nsSwitchTime;
 	private static int tileSize = Configuration.getTileSize();
 	private ArrayList<CustomPath> turningPaths;
 	private boolean nsAllowRight = Math.random() > 0.5d;
@@ -48,7 +51,8 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	 */
 	public Intersection(int xPos, int yPos) {
 		tileSize = Configuration.getTileSize();
-		switchTime = (long) (3000 + Math.random()*3000);
+		nsSwitchTime = (long) (3000 + Math.random()*3000);
+		weSwitchTime = (long) (3000 + Math.random()*3000);
 		turningPaths = new ArrayList<>();
 		
 		for (int i = 0; i < tiles.length; i++) {
@@ -57,9 +61,21 @@ public class Intersection extends Group implements TileGroup, Runnable {
 				tiles[i][j].getFrame().setFill(new ImagePattern(ResourceBuilder.getBoxjunctionTexture()));
 				
 				((IntersectionTile) tiles[i][j]).setIntersection(this);
-				
 				this.getChildren().add(SimulationController.getInstance().getMap().getTiles()[i][j]);
 			}
+		}
+	}
+	
+	/**
+	 * TODO
+	 */
+	public void configureDialog() {
+		IntersectionConfigDialog dialog = new IntersectionConfigDialog(toString(), nsSwitchTime, weSwitchTime); 
+		Optional<java.util.Map<String, Long>> result = dialog.showAndWait();
+		
+		if(result.isPresent()) {
+			nsSwitchTime = result.get().get("nsphase");
+			weSwitchTime = result.get().get("wephase");
 		}
 	}
 
@@ -406,7 +422,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 			});
 
 			//red lights overlap for 1.75seconds to allow vehicles to clear the junction
-			Thread.sleep(1250);
+			Thread.sleep(1750);
 			for(Tile[] ts : tiles)
 				for(Tile t : ts)
 					t.setOccupied(false);
@@ -426,7 +442,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
                 
 			});
 	    	
-			Thread.sleep( getSwitchTime());
+			Thread.sleep(nsSwitchTime);
 	    		
 			//Northsouth red
 	    	Platform.runLater(() ->{
@@ -457,7 +473,7 @@ public class Intersection extends Group implements TileGroup, Runnable {
 	           
 	    	});
 	    	
-	    	Thread.sleep( getSwitchTime());
+	    	Thread.sleep(weSwitchTime);
 	    	
 			}catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
@@ -486,11 +502,25 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		return turningPaths;
 	}
 	
-	public long getSwitchTime(){
-		return switchTime;
+	public long getNsSwitchTime(){
+		return nsSwitchTime;
 	}
 	
-	public void setSwitchTime(long switchTime) {
-		this.switchTime = switchTime;
+	public void setNsSwitchTime(long switchTime) {
+		this.nsSwitchTime = switchTime;
+	}
+	
+	public long getWeSwitchTime(){
+		return weSwitchTime;
+	}
+	
+	public void setWeSwitchTime(long switchTime) {
+		this.weSwitchTime = switchTime;
+	}
+	
+	@Override
+	public String toString() {
+		return "<" +  tiles[0][0].getGridPosX() + ", " + tiles[0][0].getGridPosY() + ">";
+		
 	}
 }

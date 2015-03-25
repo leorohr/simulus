@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 
 import com.simulus.util.ResourceBuilder;
@@ -19,7 +22,6 @@ public class IntersectionTile extends Tile {
 	
 	private ArrayList<CustomPath> turningPaths;
 	private Intersection intersection;
-//	private Polygon leftArrow = new Polygon(frame.getX() + 5)
 
 	/**
 	 * @param posX {@link Tile#Tile(double, double, double, double, int, int)}
@@ -37,6 +39,15 @@ public class IntersectionTile extends Tile {
 		frame.setFill(new ImagePattern((ResourceBuilder.getBoxjunctionTexture())));
 		
 		turningPaths = new ArrayList<>();
+		addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2)
+					intersection.configureDialog();
+			}
+		});
+
 	}
 	
 	public boolean hasStraightPath(){

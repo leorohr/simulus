@@ -217,6 +217,7 @@ public class RootLayoutController implements Initializable {
     				MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().select(VehicleColorOption.BEHAVIOR);
     				MainApp.getInstance().getControlsController().truckcolorPicker.setDisable(true);
     			}
+    			updateAppTitle(selectedFile.getName());
             }
             
         });
@@ -252,6 +253,8 @@ public class RootLayoutController implements Initializable {
                 		MainApp.getInstance().getControlsController().carcolorPicker.getValue().toString(), 
                 		MainApp.getInstance().getControlsController().truckcolorComboBox.getSelectionModel().getSelectedItem().toString(), 
                 		MainApp.getInstance().getControlsController().truckcolorPicker.getValue().toString());
+                
+                updateAppTitle(selectedFile.getName());
             }
             
         });
@@ -280,6 +283,22 @@ public class RootLayoutController implements Initializable {
             dialog.show();
         });
 	}
-	
+
+	/**
+	 * Updates the application title bar to display the loaded map name and/or parameter file
+	 * @param fileName the name of the parameter file loaded
+	 */
+	private void updateAppTitle(String fileName){
+		String title = MainApp.getInstance().getPrimaryStage().getTitle();
+		int index = MainApp.getInstance().getPrimaryStage().getTitle().indexOf("  -  Parameters: ");
+
+		if(index == -1){	
+		}else{
+			title = title.substring(0, index);
+		}
+		MainApp.getInstance().getPrimaryStage().setTitle(
+				title + "  -  Parameters: " +
+						fileName.replace(".sim", ""));	
+	}
 
 }

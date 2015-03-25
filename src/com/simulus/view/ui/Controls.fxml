@@ -76,7 +76,7 @@
                               <Insets />
                            </VBox.margin>
                         </TitledPane>
-                        <TitledPane prefWidth="200.0" text="Settings">
+                        <TitledPane prefWidth="200.0" text="Parameters">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="200.0">
                                  <children>

@@ -421,6 +421,7 @@ public abstract class Vehicle extends Rectangle {
 	public void followPath(CustomPath p){
 		
 		currentPath = p;
+		currentTile.setOccupied(false);
 		
 		if(getVehicleSpeed() == 0)
 			setVehicleSpeed(maxSpeed);
