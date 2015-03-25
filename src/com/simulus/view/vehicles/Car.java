@@ -153,8 +153,8 @@ public class Car extends Vehicle {
 
             //Slow the car down if cautious and slow car in front
             if(tempBehavior == Behavior.CAUTIOUS)
-                if(nextTile != null && nextTile.getOccupier()!=null)
-                    setVehicleSpeed(nextTile.getOccupier().getVehicleSpeed());
+                if(nextTile != null && nextTile.getOccupier()!=null && nextTile.getOccupier().maxSpeed < maxSpeed)
+                    maxSpeed = nextTile.getOccupier().maxSpeed;
 
 		} catch (ArrayIndexOutOfBoundsException e) {
 			SimulationController.getInstance().removeVehicle(this);

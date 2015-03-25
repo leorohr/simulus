@@ -129,6 +129,12 @@ public class Truck extends Vehicle {
 				 	else tempDir = Direction.NONE;
 				 } else tempDir = Direction.NONE;
 			} else tempDir = getDirection(); //if next tile is not occupied and not an intersection, carry on.
+			
+            //Slow the car down if cautious and slow car in front
+            if(tempBehavior == Behavior.CAUTIOUS)
+                if(nextTile != null && nextTile.getOccupier()!=null && nextTile.getOccupier().maxSpeed < maxSpeed)
+                    maxSpeed = nextTile.getOccupier().maxSpeed;
+            
 		} catch (ArrayIndexOutOfBoundsException e) {
             SimulationController.getInstance().removeVehicle(this);
 		}  
