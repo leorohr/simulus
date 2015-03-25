@@ -2,6 +2,7 @@ package com.simulus.test;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.Executor;
@@ -39,6 +40,23 @@ public class TestCaseBaseCode {
 	boolean threadFound = false;
 	boolean isAlive = false;
 	boolean isInterrupted = false;
+
+
+
+	public static void loadDefaultMap(){
+		File defaultMap = new File(SimulationController.class.getResource("/resources/maps/default.map").getPath());
+		if (defaultMap.canRead()){
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+					SimulationController.getInstance().getMap().loadMap(defaultMap);
+
+				}
+			});
+
+		}
+	}
 
 
 	/**

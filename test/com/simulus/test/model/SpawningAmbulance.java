@@ -39,8 +39,8 @@ public class SpawningAmbulance extends TestCaseBaseCode {
 
 			}
 		});
-
-
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 

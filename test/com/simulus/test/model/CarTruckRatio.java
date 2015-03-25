@@ -46,6 +46,8 @@ public class CarTruckRatio extends TestCaseBaseCode{
 
 			}
 		});
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 	@Before
 	public void setUp() throws Exception {

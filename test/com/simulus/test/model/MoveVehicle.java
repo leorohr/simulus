@@ -44,7 +44,8 @@ public class MoveVehicle extends TestCaseBaseCode {
 
 			}
 		});
-
+		Thread.sleep(2000);
+		loadDefaultMap();	
 	}
 
 	@After

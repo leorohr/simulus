@@ -46,7 +46,8 @@ public class UIElements extends TestCaseBaseCode {
 
 			}
 		});
-
+		Thread.sleep(2000);
+		loadDefaultMap();	
 
 	}
 
@@ -124,15 +125,15 @@ public class UIElements extends TestCaseBaseCode {
 
 				selectCheckBox("Debug");
 
-				
-				
+
+
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 				}
-				
+
 				selectCheckBox("Debug");
-				
+
 
 				if (debugBoxSelected() == false){
 					writeToLog("Debug mode is cleared");
