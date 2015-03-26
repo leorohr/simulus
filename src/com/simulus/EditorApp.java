@@ -157,8 +157,9 @@ public class EditorApp extends Application {
 									}else{
 										editorMap.addSingle(new Water(i*tileSize, p*tileSize, tileSize, tileSize, i, p));
 									}
-								}else if (interSelected) {
-									if (! ((i+3 >= editorMap.getTiles().length) || (p+3 >= editorMap.getTiles().length))) {
+								} else if (interSelected) {
+									if (! ((i+4 >= editorMap.getTiles().length) || (p+4 >= editorMap.getTiles().length))
+											&& (i > 0 && p > 0)) { // Intersections cannot be placed on the edge of a map
 										editorMap.addGroup(new Intersection(editorMap.getTiles()[i][p].getGridPosX(),
 												editorMap.getTiles()[i][p].getGridPosY()));
 									}
