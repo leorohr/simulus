@@ -1,7 +1,7 @@
 \section{Implementation}
 In the following section, we describe the implementation specific details of both the simulator as well as the map editing application. We will elucidate problems we faced during the implementation and the integration of both applications and how we solved them. 
 \subsection{Simulator}
-Behind the user interface of the simulator, a continuously running thread is mandated with updating the current state of the simulation with each tick; every 50ms by default. The thread execution is triggered by the globally governing SimulationController and its \textit{run}-method appears refreshingly simple (fig.~\ref{fig:animthread}). Despite the apparent simplicity, the design of the thread posed a range of problems. As is typical for Java UI frameworks, JavaFX also prohibits changes to UI objects by any thread other the main application thread, forcing us to submit each update that is to be escalated to the interface as a \textit{runnable} object to said application thread's execution queue. To reduce scheduling overhead, we kept the AnimationThread's main loop as simple as possible resulting in no more than four calls to the mentioned execution queue. The calls to \textit{spawnRandomTrucks()} and \textit{spawnRandomCar()} depend on the car/truck-ratio currently observed on the map, i.e. either one of the methods is called depending on the current deviation from the desired ratio. The \textit{updateCharts()} method of the \textit{ControlsController} retrieves the statistics of the simulation from the map and adds a new data point to each of the charts. This is done in 500 millisecond intervals.
+Behind the user interface of the simulator, a continuously running thread is mandated with updating the current state of the simulation with each tick; every 50ms by default. The thread execution is triggered by the globally governing SimulationController and its \textit{run}-method appears refreshingly simple (fig.~\ref{fig:animthread}). Despite the apparent simplicity, the design of the thread posed a range of problems. As is typical for Java UI frameworks, JavaFX also prohibits changes to UI objects by any thread other than the main application thread, forcing us to submit each update that is to be escalated to the interface as a \textit{runnable} object to said application thread's execution queue. To reduce scheduling overhead, we kept the AnimationThread's main loop as simple as possible resulting in no more than four calls to the mentioned execution queue. The calls to \textit{spawnRandomTrucks()} and \textit{spawnRandomCar()} depend on the car-to-truck percentage currently observed on the map, i.e. either one of the methods is called depending on the current deviation from the desired ratio. The \textit{updateCharts()} method of the \textit{ControlsController} retrieves the statistics of the simulation from the map and adds a new data point to each of the charts. This is done in 500 millisecond intervals.
 
 \begin{figure}[h]
 	\begin{center}
@@ -46,13 +46,13 @@ The majority of the effort with the editor application was on user interaction (
 
 \subsubsection{Flood Fill}
 The basis of any map editor is the ability to tag defined areas of desktop real-estate representing a real world instance e.g. land mass. We began by constructing an $x*y$ cell grid, where $x$ and $y$ are the number of cells horizontally and vertically and where $x=y$. The smallest instance of a map was to be a 40x40 grid yielding 1,600 tiles each needing to be individually tagged. Clearly, it was not realistic to expect the user to tag each cell individually. Even after accounting for the number of tiles that would be tagged using the road and intersection tools, large swathes of the map are left unfilled.  
-For this reason, a method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. In other words, the application will only fill empty cells within a certain boundary so as to not replace existing ones. This is is better known as a flood fill algorithm and is listed as requirement 2.7 and 2.8 of section \ref{ss:reqs}
+For this reason, a method was required that would not only fill the remaining tiles with the users choice of texture but do so intelligently. In other words, the application will only fill empty cells within a certain boundary so as to not replace existing ones. This is better known as a flood fill algorithm and is listed as requirement 2.7 and 2.8 of section \ref{ss:req-editor-enum}
 
-There are several techniques for implementing flood fill of which the 4-way stack based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property. The appropriate psudocode is as follows:
+There are several techniques for implementing flood fill~\cite{lodev2015} of which the 4-way stack-based implementation is seen as the simplest and most elegant approach due to its Depth First Search (DFS) recursive property. The appropriate pseudocode is as follows:
 
-% probably need a new listing for psudocode?
+% probably need a new listing for pseudocode?
 \begin{minipage}{0.9\textwidth}
-	\begin{lstlisting}[caption={4-way stack based recursive flood fill}, label={lst:stackFloodFill}]
+	\begin{lstlisting}[caption={4-way stack-based recursive flood fill~\cite{codecodex2015}}, label={lst:stackFloodFill}]
 Flood-fill (node, target-tile, replacement-tile):
 1. If target-tile is equal to replacement-tile, return.
 2. If the tile of node is not equal to target-tile, return.
@@ -75,24 +75,23 @@ This procedure was extended with bounds checking in our multidimensional array t
 	\end{center}
 \end{figure}
 
-Upon initial testing (ref. jerry's editor testing) the recursive approach performed exactly as expected with no functional issues  to report.  However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 65x65, a Stack Overflow error would occur thus only partially filling the grid and causing the application to no longer respond.  With the ability to alter grid sizes implemented in later reversions of the simulator and editor applications, further investigation was warranted.
+However, when the possibility of larger grid sizes was suggested, further testing revealed a fundamental flaw in this approach.  It was found that for a grid size larger than 60x60, a stack overflow error would occur thus only partially filling the grid and causing the application to no longer respond.  With the ability to alter grid sizes implemented in later revisions of the simulator and editor applications, further investigation was warranted.
 
-Approaching the literature, the Stack Overflow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana (2010, p.275) emphasise that this error is the most common exception encountered in recursive programs. They explain that when calling a function recursively, the return address, function parameters and local variables are pushed to the stack causing an overflow at times from which there is no recovery.
+Approaching the literature, the stack overflow observation was commonly experienced and almost expected when using the recursive approach.  Mukherjee and Jana~\cite{mukherjeJana2010} emphasise that this error is the most common exception encountered in recursive programs. They explain that when calling a function recursively, the return address, function parameters and local variables are pushed to the stack causing an overflow at times from which there is no recovery.
  
 Possibly the simplest but least favoured approach was to alter the JVM's configuration parameters and increase the memory reserved for the stack.  Although this would be the simplest 'fix', it was not seen as a suitable solution given the many hardware and JVM configurations that exist. It simply was not a solution to the fundamental problem at hand.
 
-Ultimately, the the recursive approach was deprecated while a 4-way queue based approach was implemented.  In contrast to the recursive implementation, the queue based method is Breadth First Search (BFS) and uses a queue to store each new encountered tile.  The addition of two checks:
+Ultimately, the recursive approach was deprecated while a 4-way queue-based approach was implemented.  In contrast to the recursive implementation, the queue-based method is Breadth First Search (BFS) and uses a queue to store each new encountered tile.  The addition of two checks:
 
 \begin{itemize}
   \item if the adjacent tile in question has not been already visited and
   \item if the tile is not of the target type
 \end{itemize}
 
-allowed for a tile to be added to the queue, replaced and dequeued in subsequent iterations. The relevant psudocode for the queue based approach is:
+allowed for a tile to be added to the queue, replaced and dequeued in subsequent iterations. The relevant pseudocode for the queue-based approach is:
 
-% probably need a new listing for psudocode?
 \begin{minipage}{0.9\textwidth}
-	\begin{lstlisting}[caption={4-way queue based flood fill}, label={lst:queueFloodFill}]
+	\begin{lstlisting}[caption={4-way queue-based flood fill~\cite{codecodex2015}}, label={lst:queueFloodFill}]
 Flood-fill (node, target-tile, replacement-tile):
  1. If target-tile is equal to replacement-tile, return.
  2. Set Q to the empty queue.
@@ -111,9 +110,9 @@ Flood-fill (node, target-tile, replacement-tile):
 	\end{lstlisting}
 \end{minipage}
 
-With this new revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.
+With this new, revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.
 \paragraph{}
-To ensure the new approach would indeed be suitable for the set grid sizes, some simple measurements were taken. The two algorithms were used to fill an empty grid with a 'grass' type land tile, repeated three times and an average execution time calculated. The results shown in fig.\ref{fig:floodChart} depict clearly that although the recursive stack based implementation performs on average 70\% faster, it was unable to function for grid widths greater than 60 in our set. Although this may seem wholly a failure for the queue based implementation, it is important to point out that this equates to a ~10ms difference; one that is not noticeable by any human operator.  Even more interestingly, the results quoted were based on First Time Run (FTR) values, immediately after launching the editor. Using the same two routines on subsequent occasions would yield repeated values as low as 10-16ms per fill.
+To ensure the new approach would indeed be suitable for the set grid sizes, some simple measurements were taken. The two algorithms were used to fill an empty grid with a 'grass' type land tile, repeated three times and an average execution time calculated. The results shown in fig.~\ref{fig:floodChart} depict clearly that although the recursive stack-based implementation performs on average 70\% faster, it was unable to function for grid widths greater than 60 in our set. Although this may seem wholly a failure for the queue-based implementation, it is important to point out that this equates to a ~10ms difference; one that is not noticeable by any human operator.  Even more interestingly, the results quoted were based on First Time Run (FTR) values, immediately after launching the editor. Using the same two routines on subsequent occasions would yield repeated values as low as 10-16ms per fill.
  
 \begin{figure}[h]
 \centering
@@ -154,11 +153,11 @@ It must be noted that the new method is no longer as concise as a definition com
 
 \subsection{Testing}
 
-An integral part of software development, testing aims to ensure that the original requirements are met. Due to the Agile nature of our development framework, we felt that Feature Driven Development (FDD) is the most adaptable process and well suited for the task at hand. Hence, we decided to test the code iteratively at the end of each development cycle. We came to this decision by foreseeing that the writing of testing code in a concurrent fashion with the development team may not be an effective practice since the implementation was subject to rapid change. Therefore, peer reviews were conducted at an early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation before we begin to attempt to add more complicated features.
+An integral part of software development, testing, aims to ensure that the original requirements are met. Due to the agile nature of our development framework, we felt that Feature Driven Development (FDD) is the most adaptable process and well suited for the task at hand. Hence, we decided to test the code iteratively at the end of each development cycle. We came to this decision by foreseeing that the writing of testing code in a concurrent fashion with the development team may not be an effective practice since the implementation was subject to rapid change. Therefore, peer reviews were conducted at an early stage to ensure  code quality is kept to standard, that is, each method should be written explicitly to address the problem that needs to be solved. In such manner, we can be assured of a rigid foundation before we begin to attempt to add more complicated features.
 
 \subsubsection*{Testing Tools}
 
-As the software becomes mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX applications. It is a test harness which allows the user to simulate user input such as clicking buttons or entering data. In particular, JemmyFX defines how to get a list of scenes, node items, and the text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
+As the software became mature, unit tests were added to the project. We conducted unit testing in JUnit with the support of JemmyFX and ScenicView. JemmyFX is a third party library for testing JavaFX applications. It is a test harness which allows the user to simulate user input such as clicking buttons or entering data. In particular, JemmyFX defines how to get a list of scenes, node items, and the text of a \textit{javafx.scene.control.Label} (listing~\ref{lst:checkBox}). We have mainly used this for UI testing. 
 
 
 \begin{minipage}{0.9\textwidth}
@@ -173,7 +172,7 @@ LabeledDock cb = new LabeledDock(scene.asParent(), checkBoxName, StringComparePo
 	\end{lstlisting}
 \end{minipage}
 
-Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element; easily finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView also provides a tree structure and highlights the item upon selection. this has been particularly helpful in the case of an inability to identify elements within the source code.  
+Using ScenicView helped us to understand what the UI was built from, allowing us and any other future developers to quickly and efficiently query the properties of a particular element, that is easily finding the properties of a JavaFX button (fig.~\ref{fig:scenicview}). ScenicView also provides a tree structure and highlights the item upon selection. This has been particularly helpful in the case of an inability to identify elements within the source code.  
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=\textwidth]{img/scenicView.png}
@@ -183,9 +182,9 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 \end{figure}
 
 \subsubsection*{Unit Testing}
-Successfully implementing a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the fact that nesting and threading was deep beyond comprehension. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with a main driver of ensuring correct functionality. With such an approach, we were given the confidence that the software functioned as required.
+Successfully implementing a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the complexity of nested and multi-threaded execution. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with a main driver of ensuring correct functionality. With such an approach, we were given the confidence that the software functioned as required.
 
-As can be expected, large and complex applications require an extensive period of time for thorough testing. In the interest of time, however, achieving absolute branch and statement coverage was not of high priority. Our main concern is to test whether or not the components of the system could work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable based on the requirements. Test cases were developed to be automated, allowing us to reduce the workload on manual testing and easily repeat basic functionality tests. A log was produced at the end for every test scenario enabling us to easily identify problem areas and amend them. An illustration of a testing log is shown in figure ~\ref{fig:testCase}. 
+As can be expected, large and complex applications require an extensive period of time for thorough testing. In the interest of time, however, achieving absolute branch and statement coverage was not of high priority. Our main concern is to test whether or not the components of the system work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable based on the requirements. Test cases were developed to be automated, allowing us to reduce the workload on manual testing and easily repeat basic functionality tests. A log was produced at the end for every test scenario enabling us to easily identify problem areas and amend them. An illustration of a testing log is shown in figure~\ref{fig:testCase}. 
 
 \begin{figure}[h]
         \begin{center}
@@ -196,7 +195,7 @@ As can be expected, large and complex applications require an extensive period o
 \end{figure}
 
 
-Within the framework of testing we also produced a test case table where a formal record is kept for all test cases, detailing the features that were under test. An illustration is shown in figure ~\ref{fig:testCaseTable}.  As incremental changes were made throughout the development, this helped us to define a consistency when every time a test case is executed, that is, the outcome should match the expected result as described.  Furthermore, regression test is a formal method to track the changes throughout a development. due to the constraint of this project, regression test became an impractical option, we hope that test case table would be helpful in the future serving to achieve this purpose.
+Within the framework of testing we also produced a test case table where a formal record is kept for all test cases, detailing the features that were under test. An illustration is shown in figure~\ref{fig:testCaseTable}.  As incremental changes were made throughout the development, this helped us to define a consistency when a test case is executed, that is, the outcome should match the expected result as described.  Furthermore, regression testing is a method to track the changes throughout a development. Due to the constraint of this project, regression testing became an impractical option, we hope that the test case table will be helpful in the future serving to achieve this purpose.
 
 \begin{figure}[h]
         \begin{center}
@@ -206,7 +205,7 @@ Within the framework of testing we also produced a test case table where a forma
         \end{center}
 \end{figure}
 
-In addition, we also looked at the organisation of our code to further assess the code quality. To do so, we used a commercial tool which helps to picture the system architecture for easy assessment. We produced diagrams such as architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the internal intricacies of the software. We then fed back the analysis to the development team in order for changes to take place accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in figure ~\ref{fig:heatmap}. The bigger the shape is, the more lines of codes have been written for a class. The colour depth of a shape indicates its maximum complexity. An example of the usefulness of this approach was that we were able to identify the \textit{maxCyclomaticComplexity} for the \textit{Car} class as being 58 and were able to reduce it to 21 for the final version.     
+In addition, we also looked at the organisation of our code to further assess the code quality. To do so, we used a commercial tool which helps to picture the system architecture for easy assessment. We produced diagrams such as architectural dependencies, heat maps, UML Class Diagrams, as well as metric reports to give us a visual representation on the internal intricacies of the software. We then fed back the analysis to the development team in order for changes to take place accordingly. For instance, the heat map gave an indication on the level of \textit{lineCount} against \textit{maxCyclomaticComplexity}, as shown in figure~\ref{fig:heatmap}. The bigger the shape is, the more lines of codes have been written for a class. The colour depth of a shape indicates its maximum complexity. An example of the usefulness of this approach was that we were able to identify the \textit{maxCyclomaticComplexity} for the \textit{Car} class as being 58 and were able to reduce it to 21 for the final version.     
 
 \begin{figure}[h]
         \begin{minipage}{\textwidth}
@@ -218,12 +217,12 @@ In addition, we also looked at the organisation of our code to further assess th
         \end{minipage}
 \end{figure}
 
-Figure ~\ref{fig:archIntDependency} illustrates the architectural dependency of our final product. We assured that the outcome was representative of the requirement and design, though only a small portion of bi-directional calls were made internally. In most cases, the architecture is preserved with uni-flow calls. There was no cluster found overall in this project, and so the architecture can therefore be described as clean, depicted in the figure \ref{fig:archIntDependency}. 
+Figure~\ref{fig:archIntDependency} illustrates the architectural dependency of our final product. We assured that the outcome was representative of the requirement and design, though only a small portion of bidirectional calls were made internally. In most cases, the architecture is preserved with unidirectional calls.
 
 \begin{figure}[h]
         \begin{center}
-                        \includegraphics[width=\textwidth]{img/archIntDependency.png}
-                \caption{Architecture Internal Dependency}
+             \includegraphics[width=\textwidth]{img/archIntDependency.png}
+        \caption{Architecture Internal Dependency}
         \label{fig:archIntDependency}
         \end{center}
 \end{figure}
