@@ -16,6 +16,7 @@
 \usepackage{longtable}
 \usepackage{pdfpages}
 \usepackage{tikz}
+\usepackage{latexsym}
 
 %--- Settings for Java code snippets ---
 \usepackage{listings} 
@@ -96,6 +97,17 @@ sensitive=false,
 \fancyfoot[C]{\thepage}
 
 \begin{document}
+\title{The Development of a Simulation for Traffic Management}
+\author{Alan\\Ebrahim\\Jerry\\Leo\\Paul\\\\
+Professor Tratt\\King's College London}
+\maketitle
+\begin{abstract}
+Traffic simulation is a dynamic representation of some part of the real world achieved by moving a constructed computer model through time \cite{drew1968traffic}. It has become a widely used tool in transportation engineering because of its plethora of applications. In this paper, we document the research, design and implementation of a traffic simulator and  map creation software developed using Java. We first present a discrete time and discrete space model used as a prototype for the simulator. We found that the logical simplicity of this model was favourable, but the limitations that came with it inhibited our ability to realistically represent the real world. We then describe the transition of this model to a discrete time and continuous space model. We found that by doing so, we were able to create a realistic and useful traffic simulation that could simulate a map created by the user with the map editor.
+\end{abstract}
+\clearpage
+\begin{tableofcontents}
+\end{tableofcontents}
+\clearpage
 	\include{introduction}
 	\include{review}
 	\include{requirements}
