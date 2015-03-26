@@ -1,5 +1,7 @@
 \section{Requirements \& Design}\label{sec:reqs}
-In this section, we highlight the requirements of the project and the design choices we made to meet them. A dynamic systems development environment may benefit greatly from a hierarchical ordering of aims expressing a priority scheme for the group to follow. In order to actualise this structuring, we followed the MoSCoW scheme~\cite{brennan2009,d2014introduction} to assign the project's goals to the following four priority classes:
+Having looked at the differences in typical traffic simulation models, we can confidently develop a specification for the requirements of our software. In this section, we highlight these requirements and the design choices we made to meet them.
+
+A dynamic systems development environment may benefit greatly from a hierarchical ordering of aims expressing a priority scheme for the group to follow. In order to actualise this structuring, we followed the MoSCoW scheme~\cite{brennan2009} to assign the project's goals to the following four priority classes based on the research:
 \begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
 	\item{Must have}
 		\begin{enumerate} \itemsep1pt \parskip0pt \parsep0pt
@@ -25,18 +27,18 @@ In this section, we highlight the requirements of the project and the design cho
 		\end{enumerate}
 \end{enumerate}
 
-The requirements classified under the heading "must have" depict the features that must be implemented for the simulation to function at a basic level. The elements contained within the next level of classification are of a high importance, but may be omitted if resource or time constraints appear. "Could have" is indicative of features that provide the system with greater functionality, but the timeliness of their implementation is not critical. The final requirements partition is related to those features that our simulation will not exhibit under any circumstances. 
+The requirements classified under the heading "must have" depict the features that must be implemented for the simulation to function at a basic level. The elements contained within the next level of classification are of a high importance, but may be omitted if resource or time constraints appear. "Could have" is indicative of features that provide the system with greater functionality, but the timeliness of their implementation is not critical. The final requirements partition is related to those features that our simulation will not exhibit under any circumstances \cite{d2014introduction}. 
 
 The software deliverable is split up into a map editor application and a simulator application. We will explain the design of and the requirements put on the simulator before introducing the map editing functionality in~\ref{ss:req-editor}.
 
 \subsection{Simulator}
 \subsubsection{Design}
 \label{subsec:design}
-Our first development prototype was built upon a discrete time and space model. This model is based around a central clock which dictates the time intervals that the map should update all vehicle positions. Discrete space is in reference to the notion that cars move through the map tiles whilst being fixated into those tiles. We used a 40x40 tiles map to demonstrate the functionality of the prototype. Simulating traffic in this way has brought about an ease in development whilst inhibiting the potential capabilities of the simulation.
+After selecting a microscopic approach to traffic simulation, we began to develop a functioning prototype to meet the basic requirements of the system. Our first development prototype was built upon a discrete time and space model. This model is based around a central clock which dictates the time intervals that the map should update all vehicle positions. Discrete space is in reference to the notion that cars move through the map tiles whilst being fixated into those tiles (cellular automata). We used a 40x40 tiles map to demonstrate the functionality of the prototype. Simulating traffic in this way has brought about an ease in development whilst inhibiting the potential capabilities of the simulation.
 
 The structure of the prototype means that it is reliant on a central clock for the computation of all cars moving one or more full tiles per step. This tile-by-tile movement does not allow for the simulation of basic attributes of vehicles, such as acceleration, and makes it very difficult to design cars with different speeds. In other words, while a discrete space model eases the overall implementation; effectively allowing us to achieve quick results, it also imposes restrictions in terms of the simulation's flexibility.
 
-After analysing the impact of these restrictions, we then opted for a combination of a discrete time with continuous space model. That is, we kept the central clocking mechanism of the simulation, but cars can move through the network on a pixel-by-pixel instead of tile-by-tile basis. The underlying map is still tile-based however, allowing for an easy framework in the design of new maps using the editor as well as an effective method of collision avoidance.
+After analysing the impact of these restrictions, we then opted for a combination of a discrete time with continuous space model. That is, we kept the central clocking mechanism of the simulation, but cars can move through the network on a pixel-by-pixel instead of tile-by-tile basis. The underlying map is still tile-based however, allowing for an easy framework in the design of new maps using the editor as well as an effective method of cellular automata based collision avoidance. 
 
 \subsubsection*{Road Network Design}
 
