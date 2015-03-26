@@ -386,7 +386,7 @@ public class Map extends Group {
 	}
 
 	/**
-	 * Stops all vehiclesthat are currently in a transition.
+	 * Stops all vehicles that are currently in a transition.
 	 * Vehicles are in transitions when they go through an intersection or when
 	 * they overtake/pass an obstacle.
 	 */
@@ -400,8 +400,9 @@ public class Map extends Group {
 		}
 	}
 
-	/*
-	 * TODO: javadoc
+	/**
+	 * Removes a group of tiles from the map, a tile group can be either a Road or Intersection.
+	 * @param g - The tile group to be removed
 	 */
 	public void removeGroup(TileGroup g) {
 

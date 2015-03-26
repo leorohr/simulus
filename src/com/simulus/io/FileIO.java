@@ -20,7 +20,6 @@ public class FileIO {
 	 * Copies a file to a destination location from the source.
 	 * @param source the full path of the source file
 	 * @param dest the full destination path including filename
-	 * @throws none
 	 */
 	public void copyFile(File source, File dest) throws IOException {
 	    InputStream is = null;
