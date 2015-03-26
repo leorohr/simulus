@@ -26,6 +26,7 @@ public class ResourceBuilder {
     private static Image NSLaneCursor = new Image("/resources/csr_northsouth.png");
     private static Image eraseCursor = new Image("/resources/csr_erase.png");
     private static Image grassCursor = new Image("/resources/csr_grass.png");
+    private static Image settingsCursor = new Image("/resources/csr_settings.png");
     private static Image deleteIcon = new Image("/resources/delete.png");
     private static Image disketteIcon = new Image("/resources/diskette.png");
     private static Image resizeIcon = new Image("/resources/resize_icon.png");
@@ -138,5 +139,13 @@ public class ResourceBuilder {
 	
 	public static Image getSimulateIcon() {
 		return simulateIcon;
+	}
+
+	public static Image getSettingsCursor() {
+		return settingsCursor;
+	}
+
+	public static void setSettingsCursor(Image settingsCursor) {
+		ResourceBuilder.settingsCursor = settingsCursor;
 	}
 }

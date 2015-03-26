@@ -532,6 +532,9 @@ public class Intersection extends Group implements TileGroup, Runnable {
 		this.weSwitchTime = switchTime;
 	}
 	
+	public boolean hasTrafficLights() {
+		return this.hasTrafficLights;
+	}
 	@Override
 	public String toString() {
 		return "<" +  tiles[0][0].getGridPosX() + ", " + tiles[0][0].getGridPosY() + ">";

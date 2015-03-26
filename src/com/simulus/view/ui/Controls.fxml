@@ -89,7 +89,7 @@
                                        <children>
                                           <VBox>
                                              <children>
-                                                <Label text="Max. Num. of Cars" />
+                                                <Label text="Max. Num. of Vehicles" />
                                                 <HBox prefWidth="200.0">
                                                    <children>
                                                       <Slider id="numCars" fx:id="numCarSlider" max="50.0" prefHeight="16.0" prefWidth="160.0" value="25.0" />

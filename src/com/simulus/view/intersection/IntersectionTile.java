@@ -5,10 +5,13 @@ import java.util.Random;
 import java.util.Vector;
 
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.ImagePattern;
 
+import com.simulus.MainApp;
 import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.TurningDirection;
 import com.simulus.view.Tile;
@@ -45,6 +48,22 @@ public class IntersectionTile extends Tile {
 			public void handle(MouseEvent mouseEvent) {
 				if(mouseEvent.getButton().equals(MouseButton.PRIMARY) && mouseEvent.getClickCount() == 2)
 					intersection.configureDialog();
+			}
+		});
+		addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(intersection.hasTrafficLights())
+					MainApp.getInstance().getCanvas().setCursor(new ImageCursor(ResourceBuilder.getSettingsCursor()));
+			}
+		});
+		addEventHandler(MouseEvent.MOUSE_EXITED, new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if(intersection.hasTrafficLights())
+					MainApp.getInstance().getCanvas().setCursor(Cursor.DEFAULT);
 			}
 		});
 
