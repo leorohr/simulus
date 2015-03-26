@@ -1,4 +1,4 @@
-\section{Evaluation}
+\section{Evaluation \& Conclusions}
 \label{ss:eval_sim}
 In terms of the realisation of initially set requirements, we were able to meet them all except for the inclusion of external map sources (requirement 3b in section~\ref{sec:reqs}). This, however, was associated with the "could have" priority class and hence is an acceptable shortcoming. As our map model is based on fixed sized tiles, it would require intense translation to reproduce a map from sources like Google Maps or KML files due to their high resolution. 
 
@@ -15,6 +15,11 @@ As described in section \ref{subsec:design}, we began using a discrete space mod
 
 Our model currently only supports roads with four lanes and dual carriageways. As adding support for different lane models and road sizes will increase the capabilities and functionality of both simulator and editor, we consider this a suitable task for further development of the software.
 
-
 \subsection*{Team Work}
 All five group members were involved in the creation of the code. Collaboration and communication was eased through extensive use of the Git Issues feature to track problems and progress in solving them (cf. section~\ref{sec:team_work}). Working in separate branches of the repository when working on the same files or related behaviour allowed every team member to contribute to the codebase continuously.  
+
+\subsection*{Conclusion}
+Implementing a sophisticated traffic simulation that allows for accurate representation of real-world phenomena is a well developed research topic in computer science; this research exposing a multitude of different approaches and models. In this project we aimed for building a traffic simulation that allows for microscopic vehicle behaviours, dynamic simulation governance and user-defined road networks. 
+
+The produced software is split into two standalone modules: a simulator and a map editor. The maps built in the editor can be stored and then loaded by the simulator. The simulation is a combination of a cellular automaton and a continuous space model. Vehicle's move through the road network independently of the underlying cell model, but while doing so they occupy all the cells that they currently intersect. This eased the implementation of collision avoidance mechanisms while keeping the vehicle's movements flexible. The evaluation of the traffic network is triggered by a central clock. That means we examine the simulation in time-slices, above referred to as tickrate. Each time-slice is one step in the simulation. This combination of cell-automata and the continuous space model makes our approach a hybrid between these two.
+

@@ -485,7 +485,7 @@ public class EditorApp extends Application {
 	 * Using {@link com.simulus.io.MapXML} class to read a Simulus map file and update the {@link com.simulus.controller.EditorControlsController}
 	 * textfields.
 	 * 
-	 * @param the source map file to load
+	 * @param file The source map file to load
 	 */
 	public void loadMap(File file){
 		MapXML mxml = new MapXML();
