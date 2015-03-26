@@ -2,6 +2,10 @@ package com.simulus.view.map;
 
 import com.simulus.util.enums.LandType;
 
+/**
+ * An extension to {@link com.simulus.view.map.Land}.
+ * Water tiles are a type of Land.
+ */
 public class Water extends Land {
 
 	/**

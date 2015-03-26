@@ -8,6 +8,12 @@ import com.simulus.util.ResourceBuilder;
 import com.simulus.util.enums.LandType;
 import com.simulus.view.Tile;
 
+/**
+ * An extension to {@link com.simulus.view.Tile}.
+ * Lands tiles cannot be driven on by vehicles.
+ * There are several types of Land tile that are distinguished by 
+ * an applied texture to give maps a better visual feel.
+ */
 public class Land extends Tile {
 
 	// Default LandType is EMPTY

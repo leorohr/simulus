@@ -3,6 +3,11 @@ package com.simulus.view.map;
 import com.simulus.util.enums.Direction;
 import com.simulus.util.enums.LandType;
 
+/**
+ * An extension to {@link com.simulus.view.map.Land}.
+ * Block tiles are a blockage such as road works that can be applied to a road Lane,
+ * As a type of Land tile they cannot be entered by vehicles.
+ */
 public class Block extends Land {
 	
 	
