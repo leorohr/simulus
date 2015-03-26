@@ -1,6 +1,8 @@
 package com.simulus;
 
 
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import com.simulus.controller.SimulationController;
 import com.simulus.util.ResourceBuilder;
 
 /**
@@ -43,6 +46,9 @@ public class Startup extends Application {
 			
 			MainApp app = new MainApp();
 			app.start(primaryStage);
+			File map = new File(System.getProperty("user.home") + "/Simulus/maps/default.map");
+	        if(map.canRead())
+	        	SimulationController.getInstance().getMap().loadMap(map);
 		});
 		
 		Button editorBtn = new Button("Editor");
