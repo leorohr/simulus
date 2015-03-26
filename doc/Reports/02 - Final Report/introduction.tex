@@ -1,36 +1,13 @@
 \section{Introduction}
-With the development and growth of cities comes an increase in traffic volume and congestion. 
-\\\\
-$Change$
-\\\\
-Traffic congestion can be explained generally as a decrease of road availability or an increase in vehicle volume that causes traffic to flow more slowly.
-\\\\
-$from$
-\\\\
-some decrease the amount of road availability such as, accidents, breakdowns or road works, while others increase the volume of traffic, for example rush hour, school-runs, sporting events and holiday traffic. 
+With the development and growth of cities comes an increase in traffic volume and congestion. Traffic congestion can be explained generally as a decrease of road availability or an increase in vehicle volume that causes traffic to flow more slowly. The effects of congestion cost the economy billions of pounds each year in delays and wasted time \cite{arnott1994economics,FinancialTimes}, with these costs on an expected rise year on year. 
 
-The effects of congestion cost the economy billions of pounds each year in delays and wasted time \cite{arnott1994economics,FinancialTimes}, with these costs on an expected rise year on year. 
-\subsection*{Policies for Traffic Management}
-$Change$
-\\\\
-A main strategy for dealing with congestion is to manage traffic by introducing road policies that spread traffic more evenly over a network of roads. The idea is that introducing a speed limit or imposing a toll in an area with high traffic congestion will effectively cause that area to be less congested over time. More often, however, new road infrastructure must be introduced to solve these problems \cite{TFLImpacts}.
-\\\\
-$from$
-\\\\\
-In order to ease congestion, traffic management policies can be put into place, for example reduced speed limits, traffic lights, low carbon emission restrictions, bus or high-occupancy vehicle lanes, or tolls such as the London congestion charge. While these methods do have an effect on the volume of traffic \cite{TFLImpacts} new road infrastructure is often required in order to reduce wasted drive time.
+A main strategy for dealing with congestion is to manage traffic by introducing road policies that spread traffic more evenly over a network of roads. The idea is that introducing a speed limit or imposing a toll in an area with high traffic congestion will effectively cause that area to be less congested over time \cite{TFLImpacts}. More often, however, new road infrastructure must be introduced to solve these problems.
+
 \subsection*{Problem Definition}
-The construction of new roads is extremely expensive \cite{BBC}, and as such, it is important to ensure that any new road systems or changes to existing infrastructure will have the desired impact on congestion. Traffic simulation software enables the modelling of road infrastructure and traffic, along with the analysis of varying levels of traffic volume and the effects of different traffic management policies on the modelled infrastructure. This type software is becoming an increasingly important tool for transport system analysis and management because it allows the modelling of a real-world scenario where a trial and error approach is simply infeasible. At the operational level, it permits a traffic engineer to evaluate and study the performance of a transport network under a plethora of alternative management options \cite{hidas2002modelling}.
+The construction of new roads is extremely expensive \cite{BBC}, and as such, it is important to ensure that any new road systems or changes to existing infrastructure will have the desired impact on congestion. Traffic simulation software enables the modelling of road infrastructure and traffic, along with the analysis of varying levels of traffic volume and the effects of different traffic management policies on the modelled infrastructure. This type of software is becoming an increasingly important tool for transport system analysis and management because it allows the modelling of a real-world scenario where a trial and error approach is simply infeasible. At the operational level, it permits a traffic engineer to evaluate and study the performance of a transport network under a plethora of alternative management options \cite{hidas2002modelling}.
 
-\paragraph{}
+\subsection*{Approach}
 In this report, we document the construction of traffic simulation software over a short period of time by a small team of five developers.
-The resulting software system is comprised of a simulator and an editor. The editor part of the system allows a user to design the road infrastructure which can then be executed and analysed in the simulator. 
-$Change$
-\\\\
-In section one, we...
-\\\\
-$from$
-\\\\
-Roads are made up of four lanes with two lanes travelling in either direction, traffic light controlled intersections can be inserted to model crossroads and T-junctions, and road works can be added to close lanes or sections of road.
+The resulting software system is comprised of a simulator and an editor. The editor part of the system allows a user to design the road infrastructure which can then be executed by, and analysed within, the simulator. 
 
-\paragraph{}
-The simulator is a microscopic discrete time model with continuous state and space that models the actions of individual vehicles. Drivers have several different behaviours: 'cautious', 'normal', or 'reckless' and the behaviour of a driver may change during their journey. The volume of traffic, the speed limit, the ratio of cars to trucks and the recklessness of drivers, as well as the overall speed that the simulator runs at, are all adjustable. Emergency vehicles can also be spawned into the simulation. Various statistics, including average speed and queue time, are recorded during simulation. These statistics are displayed to the user in real-time in the form of graphs and can also be saved and output in numerical form for in-depth analysis.
+In section 2, we review various relevant literature associated with traffic simulation as well existing related works. Section 3 is associated with the description of the requirements specification pertaining to both the editor and simulator applications based on the conducted research. We also explain the design decisions of the Graphical User Interface (GUI) as well as software architecture. In section 4, we highlight the hurdles faced in the implementation of both software artefacts and the ways in which they were overcome. We describe the extent to which the simulation was tested in section 5 and the implications this reality holds on software quality. Finally, in section 6 we evaluate the software development process and draw conclusions about the project holistically. 
