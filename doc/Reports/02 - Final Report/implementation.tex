@@ -1,5 +1,5 @@
 \section{Implementation \& Testing}
-In the following section, we describe the implementation specific details of both the simulator as well as the map editing application. We will elucidate problems we faced during the implementation and the integration of both applications and how we solved them. 
+In the following section, we describe the implementation specific details of both the simulator and the map editing application. We will elucidate problems we faced during the implementation and the integration of both applications and how we solved them. 
 \subsection{Simulator}
 Behind the user interface of the simulator, a continuously running thread is mandated with updating the current state of the simulation with each tick; every 50ms by default. The thread execution is triggered by the globally governing SimulationController and its \textit{run}-method appears refreshingly simple (fig.~\ref{fig:animthread}). Despite the apparent simplicity, the design of the thread posed a range of problems. As is typical for Java UI frameworks, JavaFX also prohibits changes to UI objects by any thread other than the main application thread, forcing us to submit each update that is to be escalated to the interface as a \textit{runnable} object to said application thread's execution queue. To reduce scheduling overhead, we kept the AnimationThread's main loop as simple as possible resulting in no more than four calls to the mentioned execution queue. The calls to \textit{spawnRandomTrucks()} and \textit{spawnRandomCar()} depend on the car-to-truck percentage currently observed on the map, i.e. either one of the methods is called depending on the current deviation from the desired ratio. The \textit{updateCharts()} method of the \textit{ControlsController} retrieves the statistics of the simulation from the map and adds a new data point to each of the charts. This is done in 500 millisecond intervals.
 
@@ -33,7 +33,7 @@ In order to channel the communication between model classes and the \textit{Simu
 \subsection{Map Editor}
 
 \subsubsection{Graphical User Interface}
-The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Fig.~\ref{fig:finalMapEditor} shows the resulting design chosen which we felt had met our requirements holistically.
+The majority of the effort with the editor application was on user interaction (UI) design and implementation. Recall the requirements from \ref{ss:req-editor} particularity those for usability (2.1-2.13). Figure ~\ref{fig:finalMapEditor} shows the resulting design chosen which we felt had met our requirements holistically.
 
 
 \begin{figure}[h]
@@ -112,7 +112,7 @@ Flood-fill (node, target-tile, replacement-tile):
 
 With this new, revised function, grid size was no longer an issue and a flood fill of an empty 200x200 grid (larger than any suggested grid size) completed successfully without any noticeable delay.
 \paragraph{}
-To ensure the new approach would indeed be suitable for the set grid sizes, some simple measurements were taken. The two algorithms were used to fill an empty grid with a 'grass' type land tile, repeated three times and an average execution time calculated. The results shown in fig.~\ref{fig:floodChart} depict clearly that although the recursive stack-based implementation performs on average 51\% faster, it was unable to function for grid widths greater than 60 in our set. Although this may seem wholly a failure for the queue-based implementation, it is important to point out that this equates to a ~10ms difference; one that is not noticeable by any human operator.  Even more interestingly, the results quoted were based on First Time Run (FTR) values, immediately after launching the editor. Using the same two routines on subsequent occasions would yield repeated values as low as 10-16ms per fill.
+To ensure the new approach would indeed be suitable for the set grid sizes, some simple measurements were taken. The two algorithms were used to fill an empty grid with a 'grass' type land tile, repeated three times and an average execution time calculated. The results shown in figure ~\ref{fig:floodChart} depict clearly that although the recursive stack-based implementation performs on average 51\% faster, it was unable to function for grid widths greater than 60 in our set. Although this may seem wholly a failure for the queue-based implementation, it is important to point out that this equates to a ~10ms difference; one that is not noticeable by any human operator.  Even more interestingly, the results quoted were based on First Time Run (FTR) values, immediately after launching the editor. Using the same two routines on subsequent occasions would yield repeated values as low as 10-16ms per fill.
  
 \begin{figure}[h]
 \centering
@@ -182,7 +182,7 @@ Using ScenicView helped us to understand what the UI was built from, allowing us
 \end{figure}
 
 \subsubsection*{Unit Testing}
-Successfully implementing a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the complexity of nested and multi-threaded execution. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with a main driver of ensuring correct functionality. With such an approach, we were given the confidence that the software functioned as required.
+Successfully implementing a multi-threaded application, we reached a point where it was very difficult to test all functionality due to the complexity of nested and multi-threaded execution. We therefore mainly focused our unit testing on major components (i.e. vehicles, map and model), and the components within them with the main objective of ensuring correct functionality. With such an approach, we were given the confidence that the software functioned as required.
 
 As can be expected, large and complex applications require an extensive period of time for thorough testing. In the interest of time, however, achieving absolute branch and statement coverage was not of high priority. Our main concern is to test whether or not the components of the system work together as a whole.  With this mentality, we carried out tests to ensure that the foundation of our code is dependable based on the requirements. Test cases were developed to be automated, allowing us to reduce the workload on manual testing and easily repeat basic functionality tests. A log was produced at the end for every test scenario enabling us to easily identify problem areas and amend them. An illustration of a testing log is shown in figure~\ref{fig:testCase}. 
 
@@ -195,7 +195,7 @@ As can be expected, large and complex applications require an extensive period o
 \end{figure}
 
 
-Within the framework of testing we also produced a test case table where a formal record is kept for all test cases, detailing the features that were under test. An illustration is shown in figure~\ref{fig:testCaseTable}.  As incremental changes were made throughout the development, this helped us to define a consistency when a test case is executed, that is, the outcome should match the expected result as described.  Furthermore, regression testing is a method to track the changes throughout a development. Due to the constraint of this project, regression testing became an impractical option, we hope that the test case table will be helpful in the future serving to achieve this purpose.
+Within the framework of testing we also produced a test case table where a formal record is kept for all test cases, detailing the features that were under test. An illustration is shown in figure~\ref{fig:testCaseTable}.  As incremental changes were made throughout the development, this helped us to define a consistency when a test case is executed, that is, the outcome should match the expected result as described.
 
 \begin{figure}[h]
         \begin{center}

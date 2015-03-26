@@ -19,7 +19,7 @@ Simulations can also be classified into continuous or discrete time models.
 Continuous time models use differential equations to calculate the state of the model at a given time, with variables in the model corresponding to real values such as vehicles per mile \cite{Lighthill1955Kinetic}.
 Discrete time models, however, may deal with time-slices or events. For time-slice models, the simulation is split into constant time intervals with vehicle attribute values updated at each time slice \cite{Schulze:1997:UTS:268437.268764}. On the other hand, event-orientated models involve a queue of events that are scheduled to occur in order of time. These events represent a change of state within the model, for example a traffic light changing to red. A car following another would approximate the distance to the lead car and adjust its speed and acceleration appropriately \cite{Schulze:1997:UTS:268437.268764,algers1997review}.
 
-\subsubsection*{Other work}
+\subsubsection*{Other Work}
 Many traffic simulation models use 2D overhead views to give a visual representation of the simulation in action. In \cite{sewall2010continuum}, Sewall et al. developed a system for generating realistic 3D animations of large-scale traffic networks that is capable of simulating real-world traffic data in a believable manner. By using an extension of the continuum model of traffic flow, they were able to model lane changes and the merging of traffic. Comparisons on performance to the agent-based Simulation of Urban Mobility (SUMO) \cite{SUMO} were favourable, showing an almost linear performance overhead with a large number of cars compared to the constant growth in overhead required by the SUMO system.
 
 \paragraph{}
