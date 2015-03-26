@@ -89,7 +89,7 @@ Requirement (1a), the simulation of individual vehicles, means that the simulati
 
 \begin{wrapfigure}{t}{0.3\textwidth}
 	\begin{center}
-		\includegraphics[scale=0.5]{img/graphs.png}
+		\includegraphics[scale=0.44]{img/graphs.png}
 		\caption[Simulation Statistics at Runtime]{Simulation Statistics at Runtime}
 		\label{fig:graphs}
 	\end{center}
@@ -112,9 +112,6 @@ The requirements discussed above comprised the \textit{Must have} category of ou
 Why and how we accommodate user-defined maps (2b) will be discussed in length in section ~\ref{ss:req-editor} below. The import and export of maps and settings (3a) is an optional requirement. We envisioned allowing users to define maps and store them in XML files to reuse or share them. Similarly, exporting and importing the simulation settings and policies used in a simulation session would allow recreating the exact session at a later point in time. Using external map sources to create maps, e.g. base a map on the the Google Maps representation online, enables users to simulate real-life traffic networks without the necessity of recreating them.
 
 The last mentioned requirement, is stating what the software will not contain: reused code or third-party libraries. We aim to design and implement vehicle behaviours and the logic of the simulation on our own and not rely on external libraries. This is justified by the opportunity to study the domain of traffic simulation and not outsource the complexities to pre-existing implementations and libraries. 
-
-\pagebreak
-
 \subsection{Editor}\label{ss:req-editor}
 According to 2(b) and 3(a) of the MoSCoW analysis, our system 'would' include the ability to design, construct and save maps for use with our simulator.  This would then give the ability to test different traffic networks, the affect variable conditions would yield on traffic flow and, more importantly, the strengths and weakness of the simulation engine itself. Below we list the high-level functional requirements for our map editor.
 
