@@ -57,7 +57,7 @@ King's College London \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 
 %------------------------------------------------
-\section{Aims Review} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+%\section{Aims Review} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
 %------------------------------------------------
 
 %\subsection{Aims} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
@@ -70,7 +70,7 @@ King's College London \\ % Your institution for the title page
 \frametitle{Motivation}
 
 \begin{itemize}
-	\item London congestion cost \$8.5bn in 2013, rising to \$14.5bn by 2030
+	\item London congestion cost \$8.5bn in 2013, rising to \$14.5bn by 2030 \textsuperscript{1}
 	\item Road construction is expensive
 	\item Simulation to the rescue!
 \end{itemize}
@@ -79,9 +79,7 @@ King's College London \\ % Your institution for the title page
 \end{frame}
 
 
-
-
-
+\section{Aims}
 
 \begin{frame}
 \frametitle{Aims }
@@ -92,7 +90,7 @@ King's College London \\ % Your institution for the title page
 		\item Individual Vehicles
 		\item Vehicle Entrance and Exit 
 		\item Vehicle Behaviour
-		\item Statistics - Delay, Average Speed, Distance Travelled
+		\item Statistics - Delay, Average Speed, Congestion
 		\item Traffic Management Policies - traffic signal timing, speed limit, etc
 \end{itemize}
 
@@ -124,14 +122,14 @@ King's College London \\ % Your institution for the title page
 \begin{itemize}
 \item \textbf{Discrete Prototype}
 	\begin{itemize}
-		\item Logical simplicity of this model was favourable 
-		\item Limitation: Discrete space 
-		\item Inhibited the ability to realistically represent the real world
+		\item Logical simplicity
+		\item Limitation: discrete space 
+		\item Unrealistic!
 	\end{itemize}
-\item \textbf{Continuous Cellular Automata}
+\item \textbf{Continuous space + Cellular Automata}
 	\begin{itemize}
-		\item Using discrete time and continuous space 
-		\item Hybrid approach, more realistic traffic simulation 
+		\item Hybrid approach: Continuous space on top of grid
+		\item More realistic traffic simulation 
 		\item Supported by additional map editor
 	\end{itemize}
 	
@@ -151,9 +149,8 @@ King's College London \\ % Your institution for the title page
 \item \textbf{Collaboration}
 	\begin{itemize}
 		\item Utilising Github facility 
+		\item Flexible Roles
 	\end{itemize}
-	
-\item \textbf{Flexible Roles}	
 	
 \item \textbf{Working Policy}
 	\begin{itemize}
@@ -162,22 +159,6 @@ King's College London \\ % Your institution for the title page
 		\item Self-organisation
 	\end{itemize}
 \end{itemize}
-\end{frame}
-
-
-%------------------------------------------------
-\section{Future Work}
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Future Work}
-	
-\begin{itemize}
-	\item System Architecture(MVC) not fully adhered to
-	\item More thorough testing 
-	\item Road expansion  
-\end{itemize}
-
 \end{frame}
 
 
@@ -191,9 +172,9 @@ King's College London \\ % Your institution for the title page
 \begin{itemize}
 \item \textbf{Use case scenarios}
 	\begin{itemize}
-		\item Town planning
-		\item Business cases i.e. road extensions to connect two villages
-		\item Ease of congestion and traffic flow
+		\item Traffic engineering 
+		\item Road maintenance planned
+		\item Simulate 
 	\end{itemize}
 \end{itemize}
 
@@ -208,6 +189,7 @@ King's College London \\ % Your institution for the title page
 \frametitle{Questions}
 
 \end{frame}
+
 
 %------------------------------------------------
 \section{Features - Map Editor}
@@ -243,6 +225,42 @@ King's College London \\ % Your institution for the title page
 	\end{itemize}
 
 \end{frame}
+
+%------------------------------------------------
+\section{Future Work}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Future Work}
+	
+\begin{itemize}
+	\item System Architecture(MVC) not fully adhered to
+	\item More thorough testing 
+	\item Road expansion  
+\end{itemize}
+
+\end{frame}
+
+
+
+
+%------------------------------------------------
+\section{References}
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{References}
+
+	\begin{itemize}
+		\item [1] Sarah Gordon and Jim Pickard. London's \$8.5bn traffic jam slows down growth. http://www.ft.com/cms/s/0/a50158ee-52de-11e4-a236- 00144feab7de.html, 2014.				
+\end{itemize}
+
+\end{frame}
+
+
+
+
+
 
 
 \end{document}
